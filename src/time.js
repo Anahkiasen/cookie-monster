@@ -27,7 +27,7 @@ CookieMonster.secondsLeft = function(e, t) {
 	if (r < 0) {
 		var s = n / i;
 		var o = r * -1 / i;
-		return o
+		return o;
 	}
 	return 0
 }
@@ -38,34 +38,36 @@ CookieMonster.sts = function(e, t) {
 		var r = 1e33;
 		for (var i = sts_type[n - 1].length - 1; i >= 0; i--) {
 			var s = (e / r % 999).toFixed(3);
-			if (s >= 1) return s + sts_type[n - 1][i];
-			r /= 1e3
+			if (s >= 1) {
+				return s + sts_type[n - 1][i];
+			}
+			r /= 1e3;
 		}
 	}
 	if (t) {
-		return Math.round(e)
+		return Math.round(e);
 	}
-	return Math.round(e * 100) / 100
+	return Math.round(e * 100) / 100;
 }
 
 CookieMonster.formatNumber = function(e) {
-	return CookieMonster.sts(e, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+	return CookieMonster.sts(e, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 CookieMonster.formatNumberB = function(e) {
-	return CookieMonster.sts(e, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+	return CookieMonster.sts(e, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 CookieMonster.formatTime = function(e, t) {
 	e = Math.round(e);
 	if (e === Infinity) {
-		return "Never"
+		return "Never";
 	}
 	if (e === 0) {
-		return "Done!"
+		return "Done!";
 	}
 	if (e / 86400 > 1e3) {
-		return "> 1,000 days"
+		return "> 1,000 days";
 	}
 	var n = parseInt(e / 86400) % 999;
 	var r = parseInt(e / 3600) % 24;
@@ -101,5 +103,5 @@ CookieMonster.formatTime = function(e, t) {
 	if (n > 0 || r > 0 || i > 0 || s > 0) {
 		u = u + s + o[3]
 	}
-	return u
+	return u;
 }

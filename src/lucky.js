@@ -16,7 +16,7 @@ CookieMonster.lucky = function(e, t) {
 		}
 	}
 
-	return r
+	return r;
 }
 
 CookieMonster.luckyReward = function(e) {

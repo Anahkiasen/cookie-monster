@@ -16,10 +16,10 @@ CookieMonster.faviconSpinner = function(e) {
 CookieMonster.toggleBar = function() {
 	if (CookieMonster.settings[5] === 0) {
 		$("#cookie_monster_bar").css("display", "none");
-		$("#game").css("bottom", "0px")
+		$("#game").css("bottom", "0px");
 	} else {
 		$("#cookie_monster_bar").css("display", "");
-		$("#game").css("bottom", "57px")
+		$("#game").css("bottom", "57px");
 	}
 }
 
@@ -67,16 +67,16 @@ CookieMonster.updateTable = function() {
 		var o = Math.round((s + CookieMonster.getUpgradeBonuses(e.name, r, s)) * 100) / 100;
 		var u = Math.round(n / o * 100) / 100;
 		var a = e.name.replace(/([^\s]+)/, "");
-		hold_item[t] = e.name.replace(a, "") + ' (<span style="color:#4bb8f0;">' + CookieMonster.formatNumber(r) + "</span>)";
-		hold_is[t] = Math.round(o * 100) / 100;
-		hold_cpi[t] = Math.round(u * 100) / 100;
-		hold_tc[t] = Math.round(CookieMonster.secondsLeft(t, "ob"))
+		CookieMonster.holdItem[t] = e.name.replace(a, "") + ' (<span style="color:#4bb8f0;">' + CookieMonster.formatNumber(r) + "</span>)";
+		CookieMonster.holdIs[t] = Math.round(o * 100) / 100;
+		CookieMonster.holdCPI[t] = Math.round(u * 100) / 100;
+		CookieMonster.holdTC[t] = Math.round(CookieMonster.secondsLeft(t, "ob"))
 	});
 	Game.ObjectsById.forEach(function (e, t) {
 		var n = new Array("FFFF00", "FFFF00");
-		var r = new Array(hold_cpi[t], hold_tc[t]);
-		var s = new Array(Math.max.apply(Math, hold_cpi), Math.max.apply(Math, hold_tc));
-		var o = new Array(Math.min.apply(Math, hold_cpi), Math.min.apply(Math, hold_tc));
+		var r = new Array(CookieMonster.holdCPI[t], CookieMonster.holdTC[t]);
+		var s = new Array(Math.max.apply(Math, CookieMonster.holdCPI), Math.max.apply(Math, CookieMonster.holdTC));
+		var o = new Array(Math.min.apply(Math, CookieMonster.holdCPI), Math.min.apply(Math, CookieMonster.holdTC));
 		for (i = 0; i < n.length; i++) {
 			if (r[i] === o[i]) {
 				n[i] = "00FF00"
@@ -86,8 +86,8 @@ CookieMonster.updateTable = function() {
 				n[i] = "FF7F00"
 			}
 		}
-		$("#cookie_monster_item_" + t).html(hold_item[t]);
-		$("#cookie_monster_is_" + t).html(CookieMonster.formatNumber(hold_is[t]));
+		$("#cookie_monster_item_" + t).html(CookieMonster.holdItem[t]);
+		$("#cookie_monster_is_" + t).html(CookieMonster.formatNumber(CookieMonster.holdIs[t]));
 		$("#cookie_monster_cpi_" + t).html('<span style="color:#' + n[0] + ';">' + CookieMonster.formatNumber(r[0]) + "</span>");
 		$("#cookie_monster_tc_" + t).html('<span style="color:#' + n[1] + ';">' + CookieMonster.formatTime(r[1], "min") + "</span>")
 	})
@@ -98,42 +98,42 @@ CookieMonster.colorize = function(e, t, n) {
 	var s = r.basePrice;
 	var o = new Array("FFFF00", "FFFF00");
 	var u = new Array(Math.round(s / e * 100) / 100, Math.round(CookieMonster.secondsLeft(t, "up")));
-	var a = new Array(Math.max.apply(Math, hold_cpi), Math.max.apply(Math, hold_tc));
-	var f = new Array(Math.min.apply(Math, hold_cpi), Math.min.apply(Math, hold_tc));
+	var a = new Array(Math.max.apply(Math, CookieMonster.holdCPI), Math.max.apply(Math, CookieMonster.holdTC));
+	var f = new Array(Math.min.apply(Math, CookieMonster.holdCPI), Math.min.apply(Math, CookieMonster.holdTC));
 	for (i = 0; i < o.length; i++) {
 		if (u[i] < f[i]) {
 			o[i] = "4BB8F0";
 			if (CookieMonster.inStore(r) && i === 0) {
-				in_store[0]++
+				CookieMonster.inStore[0]++;
 			}
 		} else if (u[i] === f[i]) {
 			o[i] = "00FF00";
 			if (CookieMonster.inStore(r) && i === 0) {
-				in_store[1]++
+				CookieMonster.inStore[1]++;
 			}
 		} else if (u[i] === a[i]) {
 			o[i] = "FF0000";
 			if (CookieMonster.inStore(r) && i === 0) {
-				in_store[4]++
+				CookieMonster.inStore[4]++;
 			}
 		} else if (u[i] > a[i]) {
 			o[i] = "FF00FF";
 			if (CookieMonster.inStore(r) && i === 0) {
-				in_store[5]++
+				CookieMonster.inStore[5]++;
 			}
 		} else if (a[i] - u[i] < u[i] - f[i]) {
 			o[i] = "FF7F00";
 			if (CookieMonster.inStore(r) && i === 0) {
-				in_store[3]++
+				CookieMonster.inStore[3]++;
 			}
 		} else {
 			if (CookieMonster.inStore(r) && i === 0) {
-				in_store[2]++
+				CookieMonster.inStore[2]++;
 			}
 		}
 	}
-	for (i = 0; i < in_store.length; i++) {
-		$("#cm_up_q" + i).text(in_store[i])
+	for (i = 0; i < CookieMonster.inStore.length; i++) {
+		$("#cm_up_q" + i).text(CookieMonster.inStore[i])
 	}
 	if (CookieMonster.settings[11] && CookieMonster.inStore(r)) {
 		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>')
@@ -194,7 +194,7 @@ CookieMonster.organizeObjectList = function() {
 			e.push(t)
 		}
 	});
-	return e
+	return e;
 }
 
 CookieMonster.emphasize = function() {

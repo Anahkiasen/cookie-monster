@@ -103,7 +103,7 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	if (Game.Has("Elder Covenant")) {
 		i *= 0.95
 	}
-	return i
+	return i;
 }
 
 CookieMonster.getHeavenlyMultiplier = function() {

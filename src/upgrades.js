@@ -4,158 +4,158 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 	switch (e) {
 	case "Cursor":
 		if (t === 0) {
-			i += _cha("Click")
+			i += CookieMonster.checkAchievement("Click");
 		}
 		if (t === 1) {
-			i += _cha("Double-click")
+			i += CookieMonster.checkAchievement("Double-click");
 		}
 		if (t === 49) {
-			i += _cha("Mouse wheel")
+			i += CookieMonster.checkAchievement("Mouse wheel");
 		}
 		if (t === 99) {
-			i += _cha("Of Mice and Men")
+			i += CookieMonster.checkAchievement("Of Mice and Men");
 		}
 		if (t === 199) {
-			i += _cha("The Digital")
+			i += CookieMonster.checkAchievement("The Digital");
 		}
 		break;
 	case "Grandma":
 		r += CookieMonster.getTotalGrandmaModifiers(t) * Game.globalCpsMult;
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += _cha("Grandma's Cookies")
+			i += CookieMonster.checkAchievement("Grandma's Cookies");
 		}
 		if (t === 49) {
-			i += _cha("Sloppy kisses")
+			i += CookieMonster.checkAchievement("Sloppy kisses");
 		}
 		if (t === 99) {
-			i += _cha("Retirement home")
+			i += CookieMonster.checkAchievement("Retirement home");
 		}
 		if (t === 149) {
-			i += _cha("Friend of the ancients")
+			i += CookieMonster.checkAchievement("Friend of the ancients");
 		}
 		if (t === 199) {
-			i += _cha("Ruler of the ancients")
+			i += CookieMonster.checkAchievement("Ruler of the ancients");
 		}
 		break;
 	case "Farm":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += _cha("My first farm")
+			i += CookieMonster.checkAchievement("My first farm");
 		}
 		if (t === 49) {
-			i += _cha("Reap what you sow")
+			i += CookieMonster.checkAchievement("Reap what you sow");
 		}
 		if (t === 99) {
-			i += _cha("Farm ill")
+			i += CookieMonster.checkAchievement("Farm ill");
 		}
 		break;
 	case "Factory":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += _cha("Production chain")
+			i += CookieMonster.checkAchievement("Production chain");
 		}
 		if (t === 49) {
-			i += _cha("Industrial revolution")
+			i += CookieMonster.checkAchievement("Industrial revolution");
 		}
 		if (t === 99) {
-			i += _cha("Global warming")
+			i += CookieMonster.checkAchievement("Global warming");
 		}
 		break;
 	case "Mine":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += _cha("You know the drill")
+			i += CookieMonster.checkAchievement("You know the drill");
 		}
 		if (t === 49) {
-			i += _cha("Excavation site")
+			i += CookieMonster.checkAchievement("Excavation site");
 		}
 		if (t === 99) {
-			i += _cha("Hollow the planet")
+			i += CookieMonster.checkAchievement("Hollow the planet");
 		}
 		break;
 	case "Shipment":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += _cha("Expedition")
+			i += CookieMonster.checkAchievement("Expedition");
 		}
 		if (t === 49) {
-			i += _cha("Galactic highway")
+			i += CookieMonster.checkAchievement("Galactic highway");
 		}
 		if (t === 99) {
-			i += _cha("Far far away")
+			i += CookieMonster.checkAchievement("Far far away");
 		}
 		break;
 	case "Alchemy lab":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += _cha("Transmutation")
+			i += CookieMonster.checkAchievement("Transmutation");
 		}
 		if (t === 49) {
-			i += _cha("Transmogrification")
+			i += CookieMonster.checkAchievement("Transmogrification");
 		}
 		if (t === 99) {
-			i += _cha("Gold member")
+			i += CookieMonster.checkAchievement("Gold member");
 		}
 		break;
 	case "Portal":
 		r += CookieMonster.getTotalPortalModifiers() * Game.globalCpsMult;
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += _cha("A whole new world")
+			i += CookieMonster.checkAchievement("A whole new world");
 		}
 		if (t === 49) {
-			i += _cha("Now you're thinking")
+			i += CookieMonster.checkAchievement("Now you're thinking");
 		}
 		if (t === 99) {
-			i += _cha("Dimensional shift")
+			i += CookieMonster.checkAchievement("Dimensional shift");
 		}
 		break;
 	case "Time machine":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += _cha("Time warp")
+			i += CookieMonster.checkAchievement("Time warp");
 		}
 		if (t === 49) {
-			i += _cha("Alternate timeline")
+			i += CookieMonster.checkAchievement("Alternate timeline");
 		}
 		if (t === 99) {
-			i += _cha("Rewriting history")
+			i += CookieMonster.checkAchievement("Rewriting history");
 		}
 		break;
 	case "Antimatter condenser":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += _cha("Antibatter")
+			i += CookieMonster.checkAchievement("Antibatter");
 		}
 		if (t === 49) {
-			i += _cha("Quirky quarks")
+			i += CookieMonster.checkAchievement("Quirky quarks");
 		}
 		if (t === 99) {
-			i += _cha("It does matter!")
+			i += CookieMonster.checkAchievement("It does matter!");
 		}
 		break;
 	}
 	if (Game.BuildingsOwned === 99) {
-		i += _cha("Builder")
+		i += CookieMonster.checkAchievement("Builder");
 	}
 	if (Game.BuildingsOwned === 399) {
-		i += _cha("Architect")
+		i += CookieMonster.checkAchievement("Architect");
 	}
 	if (Game.BuildingsOwned === 799) {
-		i += _cha("Engineer")
+		i += CookieMonster.checkAchievement("Engineer");
 	}
 	if (_owe(e)) {
-		i++
+		i++;
 	}
 	if (_mat(e)) {
-		i++
+		i++;
 	}
 	if (_bat(e)) {
-		i++
+		i++;
 	}
 	if (_cen(e)) {
-		i++
+		i++;
 	}
 	return r + CookieMonster.getAchievementWorth(i, 0, r + n, 0)
 }

@@ -17,7 +17,7 @@ CookieMonster.update = function() {
 CookieMonster.start = function() {
 	if ($("#cookie_monster_bar").length !== 0) {
 		alert("Cookie Monster " + CookieMonster.version + "\n\nCookie Monster is already loaded, silly!");
-		return false
+		return false;
 	} else {
 		$("#topBar").css("display", "none");
 		$("#tooltip").css("margin-top", "32px");
@@ -63,21 +63,21 @@ CookieMonster.mainLoop = function() {
 	}, CookieMonster.settings[3])
 }
 
-CookieMonster.version                   = "v.1.038.01";
-var emphasize                           = true;
-var tooltips                            = [];
-var CookieMonster.buildingTooltips      = [];
-var hold_item                           = [];
-var hold_is                             = [];
-var hold_cpi                            = [];
-var hold_tc                             = [];
-var CookieMonster.goldenCookieAvailable = "";
-CookieMonster.settings                  = [];
-var in_store                            = new Array(0, 0, 0, 0, 0, 0);
-CookieMonster.sellOut                   = 0;
-var upgrade_count                       = 33;
-var sts_type                            = new Array([" M", " B", " T", " Qa", " Qi", " Sx", " Sp", " Oc", " No", " Dc"], [" M", " G", " T", " P", " E", " Z", " Y", " Oc", " No", " Dc"]);
-var loops                               = 0;
+CookieMonster.version               = "v.1.038.01";
+var emphasize                       = true;
+var tooltips                        = [];
+CookieMonster.buildingTooltips      = [];
+CookieMonster.holdItem              = [];
+CookieMonster.holdIs                = [];
+CookieMonster.holdCPI               = [];
+CookieMonster.holdTC                = [];
+CookieMonster.goldenCookieAvailable = "";
+CookieMonster.settings              = [];
+var CookieMonster.inStore                        = new Array(0, 0, 0, 0, 0, 0);
+CookieMonster.sellOut               = 0;
+var upgrade_count                   = 33;
+var sts_type                        = new Array([" M", " B", " T", " Qa", " Qi", " Sx", " Sp", " Oc", " No", " Dc"], [" M", " G", " T", " P", " E", " Z", " Y", " Oc", " No", " Dc"]);
+var loops                           = 0;
 
 if (document.title.indexOf("Cookie Clicker") !== -1 && $("#game").length !== 0) {
 	CookieMonster.start()

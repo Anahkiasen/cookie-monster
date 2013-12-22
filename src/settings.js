@@ -249,7 +249,7 @@ CookieMonster.toggleOption = function(option) {
 		break;
 	}
 
-	CookieMonster.saveSettings()
+	CookieMonster.saveSettings();
 }
 
 /**
@@ -259,14 +259,14 @@ CookieMonster.toggleOption = function(option) {
  */
 CookieMonster.getShortNumbers = function() {
 	switch (CookieMonster.settings[7] * 1) {
-	case 1:
-		return "ON (A)";
-	case 2:
-		return "ON (B)";
-	case 0:
-		return "OFF";
-	default:
-		return "OFF"
+		case 1:
+			return "ON (A)";
+		case 2:
+			return "ON (B)";
+		case 0:
+			return "OFF";
+		default:
+			return "OFF";
 	}
 }
 
@@ -299,13 +299,13 @@ CookieMonster.getRefreshRate = function() {
  */
 CookieMonster.getUpgradeDisplay = function() {
 	switch (CookieMonster.settings[12] * 1) {
-	case 1:
-		return "Normal";
-	case 2:
-		return "All";
-	case 0:
-		return "None";
-	default:
-		return "Normal"
+		case 1:
+			return "Normal";
+		case 2:
+			return "All";
+		case 0:
+			return "None";
+		default:
+			return "Normal"
 	}
 }
