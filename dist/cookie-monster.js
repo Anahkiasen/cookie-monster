@@ -19,7 +19,6 @@ var CookieMonster = {
 	holdTC                : [],
 	goldenCookieAvailable : "",
 	inStore               : new Array(0, 0, 0, 0, 0, 0),
-	sellOut               : 0,
 	upgradeCount          : 33,
 	loops                 : 0,
 	stsType               : new Array(
@@ -41,125 +40,6 @@ var CookieMonster = {
 		red    : 'FF0000',
 		blue   : '4BB8F0',
 	}
-};
-/**
- * Computes the total sell out value
- *
- * @return {integer}
- */
-CookieMonster.sellOutValue = function () {
-	var e = 0;
-	var t = Game.cookies;
-	var n = [];
-	var r = 0;
-
-	Game.ObjectsById.forEach(function (e, t) {
-		n[t] = e.amount;
-		r += e.amount;
-	});
-
-	while (t >= 15 || r > 0) {
-		for (var i = n.length - 1; i >= 0; i--) {
-			var s = false;
-			var o = n[i];
-			var u = Game.ObjectsById[i];
-			for (var a = o; a > 0; a--) {
-				t += Math.floor(u.basePrice * Math.pow(1.15, a) / 2);
-				e += Math.floor(u.basePrice * Math.pow(1.15, a) / 2);
-				n[i]--;
-				r--;
-			}
-			while (t >= u.basePrice * Math.pow(1.15, n[i])) {
-				s = true;
-				t -= u.basePrice * Math.pow(1.15, n[i]);
-				n[i]++;
-				r++;
-			}
-			if (s) {
-				break;
-			}
-		}
-	}
-
-	CookieMonster.sellOut = e;
-};
-
-/**
- * Sells out all buildings
- *
- * @return {void}
- */
-CookieMonster.sellOut = function() {
-	if (confirm("*** WARNING ***\nYou will have no buildings or cookies left after this.")) {
-		Game.ObjectsById.forEach(function (building) {
-			setTimeout(function () {
-				while (building.amount > 0) {
-					building.sell();
-				}
-			});
-		});
-
-		setTimeout(function () {
-			CookieMonster.buySell();
-		});
-	}
-};
-
-/**
- * Buys and sells all building
- *
- * @return {void}
- */
-CookieMonster.buySell = function() {
-	if (Game.cookies < 1e9 && Game.BuildingsOwned < 100) {
-		this.buySellNoWait();
-		return false;
-	}
-
-	for (var e = Game.ObjectsById.length - 1; e >= 0; e--) {
-		var t = Game.ObjectsById[e];
-		if (t.price <= Game.cookies) {
-			t.buy();
-			return setTimeout(function () {
-				CookieMonster.buySell();
-			});
-		}
-		if (t.price > Game.cookies && t.amount > 0) {
-			t.sell();
-			return setTimeout(function () {
-				CookieMonster.buySell();
-			});
-		}
-	}
-
-	setTimeout(function () {
-		CookieMonster.buySell();
-	});
-};
-
-/**
- * Buys and sells all buildings (no wait)
- *
- * @return {void}
- */
-CookieMonster.buySellNoWait = function() {
-	if (Game.cookies < 15) {
-		return false;
-	}
-
-	for (var e = Game.ObjectsById.length - 1; e >= 0; e--) {
-		var t = Game.ObjectsById[e];
-		t.sell();
-
-		if (t.price <= Game.cookies) {
-			t.buy();
-			t.sell();
-			this.buySellNoWait();
-			return false;
-		}
-	}
-
-	this.buySellNoWait();
 };
 CookieMonster.getTrueCPI = function(e, t) {
 	var n = 0;
@@ -379,25 +259,17 @@ CookieMonster.heavenlyToCookies = function(chipsNumber) {
  */
 CookieMonster.getHeavenlyChip = function(context) {
 	var bakedAllTime = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
-	var n = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned + this.sellOut);
 	var r = this.cookiesToHeavenly(Game.cookiesReset);
 	var i = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned);
-	var s = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned + this.sellOut);
 
 	if (context === "max") {
 		return this.formatNumber(bakedAllTime) + " <small>(" + this.formatNumber(bakedAllTime * 2) + "%)</small>";
-	}
-	if (context === "max_sell_out") {
-		return this.formatNumber(n) + " <small>(" + this.formatNumber(n * 2) + "%)</small>";
 	}
 	if (context === "cur") {
 		return this.formatNumber(r) + " <small>(" + this.formatNumber(r * 2) + "%)</small>";
 	}
 	if (context === "next") {
 		return this.formatNumber(Math.round(i));
-	}
-	if (context === "next_sell_out") {
-		return this.formatNumber(Math.round(s));
 	}
 	if (context === "time") {
 		return this.formatTime(Math.round(i / Game.cookiesPs), "");

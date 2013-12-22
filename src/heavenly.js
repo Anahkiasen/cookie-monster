@@ -29,25 +29,17 @@ CookieMonster.heavenlyToCookies = function(chipsNumber) {
  */
 CookieMonster.getHeavenlyChip = function(context) {
 	var bakedAllTime = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
-	var n = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned + this.sellOut);
 	var r = this.cookiesToHeavenly(Game.cookiesReset);
 	var i = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned);
-	var s = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned + this.sellOut);
 
 	if (context === "max") {
 		return this.formatNumber(bakedAllTime) + " <small>(" + this.formatNumber(bakedAllTime * 2) + "%)</small>";
-	}
-	if (context === "max_sell_out") {
-		return this.formatNumber(n) + " <small>(" + this.formatNumber(n * 2) + "%)</small>";
 	}
 	if (context === "cur") {
 		return this.formatNumber(r) + " <small>(" + this.formatNumber(r * 2) + "%)</small>";
 	}
 	if (context === "next") {
 		return this.formatNumber(Math.round(i));
-	}
-	if (context === "next_sell_out") {
-		return this.formatNumber(Math.round(s));
 	}
 	if (context === "time") {
 		return this.formatTime(Math.round(i / Game.cookiesPs), "");

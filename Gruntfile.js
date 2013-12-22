@@ -57,7 +57,6 @@ module.exports = function(grunt) {
 					'<%= builds %>/cookie-monster.js': [
 						'<%= components %>/jquery/jquery.min.js',
 						'<%= src %>/cookie-monster.js',
-						'<%= src %>/buy-sell.js',
 						'<%= src %>/cpi.js',
 						'<%= src %>/golden-cookie.js',
 						'<%= src %>/heavenly.js',

@@ -12,7 +12,6 @@ var CookieMonster = {
 	holdTC                : [],
 	goldenCookieAvailable : "",
 	inStore               : new Array(0, 0, 0, 0, 0, 0),
-	sellOut               : 0,
 	upgradeCount          : 33,
 	loops                 : 0,
 	stsType               : new Array(
