@@ -62,11 +62,7 @@ CookieMonster.manageBuffs = function() {
 
 		$("#cookie_monster_timer_" + color).fadeIn(250);
 		for (var thisColor in this.colors) {
-			thisColor = this.colors[thisColor];
-
-			if ($("#cookie_monster_timer_"+thisColor).css("opacity") === "1" && color !== thisColor) {
-				$("#cookie_monster_timer_"+thisColor).fadeOut(250);
-			}
+			this.fadeOutBar(this.colors[thisColor], color);
 		}
 	} else {
 		this.fadeOutBar(color);
@@ -113,8 +109,13 @@ CookieMonster.manageBuffs = function() {
  *
  * @return {void}
  */
-CookieMonster.fadeOutBar = function(color) {
-	if ($("#cookie_monster_timer_" + color).length === 1 && $("#cookie_monster_timer_" + color).css("opacity") === "1") {
-		$("#cookie_monster_timer_" + color).fadeOut(250);
+CookieMonster.fadeOutBar = function(color, match) {
+	var $bar = $("#cookie_monster_timer_" + color);
+	if (typeof match === 'undefined') {
+		match = color;
+	}
+
+	if ($bar.length === 1 && $bar.css("opacity") === "1" && color !== match) {
+		$bar.fadeOut(250);
 	}
 };
