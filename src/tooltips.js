@@ -159,7 +159,7 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 
 CookieMonster.manageBuildingTooltip = function(e) {
 	var t = e.id;
-	var n = new Array(CM_Lucky("reg", true), CM_Lucky("frenzy", true));
+	var n = new Array(CookieMonster.lucky("reg", true), CookieMonster.lucky("frenzy", true));
 	var r = new Array("none", "none");
 	var s = new Array("", "");
 	var o = new Array(0, 0);
