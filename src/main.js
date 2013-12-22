@@ -108,7 +108,7 @@ CookieMonster.start = function() {
 		'pointer-events' : 'none',
 		'position'       : 'fixed',
 		'text-align'     : 'center',
-		'text-shadow'    : '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black !important',
+		'text-shadow'    : '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
 		'width'          : '96px',
 		'z-index'        : '1000002',
 	});
