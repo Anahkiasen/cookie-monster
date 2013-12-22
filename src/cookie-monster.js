@@ -23,4 +23,12 @@ var CookieMonster = {
 	// Selectors
 	$monsterBar           : $("#cookie_monster_bar"),
 	$goldenCookie         : $("#goldenCookie"),
+
+	// Colors
+	colors: {
+		yellow : 'FFFF00',
+		green  : '00FF00',
+		red    : 'FF0000',
+		blue   : '4BB8F0',
+	}
 };

@@ -43,7 +43,7 @@ CookieMonster.updateUpgradeDisplay = function() {
 };
 
 CookieMonster.makeTable = function() {
-	var e = '<th align=left width=130 style="color:#FFFF00;"> ' + CookieMonster.version + "</th>";
+	var e = '<th align=left width=130 style="color:#' +this.colors.yellow+ ';"> ' + CookieMonster.version + "</th>";
 	var n = "";
 	var r = "";
 	var i = "";
@@ -83,7 +83,7 @@ CookieMonster.updateTable = function() {
 		var u = Math.round(n / o * 100) / 100;
 		var a = e.name.replace(/([^\s]+)/, "");
 
-		CookieMonster.holdItem[t] = e.name.replace(a, "") + ' (<span style="color:#4bb8f0;">' + CookieMonster.formatNumber(r) + "</span>)";
+		CookieMonster.holdItem[t] = e.name.replace(a, "") + ' (<span style="color:#' +CookieMonster.colors.blue+ ';">' + CookieMonster.formatNumber(r) + "</span>)";
 		CookieMonster.holdIs[t] = Math.round(o * 100) / 100;
 		CookieMonster.holdCPI[t] = Math.round(u * 100) / 100;
 		CookieMonster.holdTC[t] = Math.round(CookieMonster.secondsLeft(t, "ob"));
@@ -91,16 +91,16 @@ CookieMonster.updateTable = function() {
 
 	Game.ObjectsById.forEach(function (e, t) {
 		var i = 0;
-		var n = new Array("FFFF00", "FFFF00");
+		var n = new Array(CookieMonster.colors.yellow, CookieMonster.colors.yellow);
 		var r = new Array(CookieMonster.holdCPI[t], CookieMonster.holdTC[t]);
 		var s = new Array(Math.max.apply(Math, CookieMonster.holdCPI), Math.max.apply(Math, CookieMonster.holdTC));
 		var o = new Array(Math.min.apply(Math, CookieMonster.holdCPI), Math.min.apply(Math, CookieMonster.holdTC));
 
 		for (i = 0; i < n.length; i++) {
 			if (r[i] === o[i]) {
-				n[i] = "00FF00";
+				n[i] = CookieMonster.colors.green;
 			} else if (r[i] === s[i]) {
-				n[i] = "FF0000";
+				n[i] = CookieMonster.colors.red;
 			} else if (s[i] - r[i] < r[i] - o[i]) {
 				n[i] = "FF7F00";
 			}
@@ -116,24 +116,24 @@ CookieMonster.colorize = function(e, t, n) {
 	var i = 0;
 	var r = Game.UpgradesById[t];
 	var s = r.basePrice;
-	var o = new Array("FFFF00", "FFFF00");
+	var o = new Array(CookieMonster.colors.yellow, CookieMonster.colors.yellow);
 	var u = new Array(Math.round(s / e * 100) / 100, Math.round(CookieMonster.secondsLeft(t, "up")));
 	var a = new Array(Math.max.apply(Math, CookieMonster.holdCPI), Math.max.apply(Math, CookieMonster.holdTC));
 	var f = new Array(Math.min.apply(Math, CookieMonster.holdCPI), Math.min.apply(Math, CookieMonster.holdTC));
 
 	for (i = 0; i < o.length; i++) {
 		if (u[i] < f[i]) {
-			o[i] = "4BB8F0";
+			o[i] = CookieMonster.colors.blue;
 			if (CookieMonster.isInStore(r) && i === 0) {
 				CookieMonster.inStore[0]++;
 			}
 		} else if (u[i] === f[i]) {
-			o[i] = "00FF00";
+			o[i] = CookieMonster.colors.green;
 			if (CookieMonster.isInStore(r) && i === 0) {
 				CookieMonster.inStore[1]++;
 			}
 		} else if (u[i] === a[i]) {
-			o[i] = "FF0000";
+			o[i] = CookieMonster.colors.red;
 			if (CookieMonster.isInStore(r) && i === 0) {
 				CookieMonster.inStore[4]++;
 			}

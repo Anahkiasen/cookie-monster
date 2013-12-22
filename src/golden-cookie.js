@@ -19,15 +19,15 @@ CookieMonster.manageBuffs = function() {
 	case 7:
 		n = 77 + 77 * Game.Has("Get lucky");
 		e = "Frenzy";
-		t = "FFFF00";
+		t = this.colors.yellow;
 		break;
 	case 666:
 		n = 6 + 6 * Game.Has("Get lucky");
 		e = "Blood Frenzy";
-		t = "00FF00";
+		t = CookieMonster.colors.green;
 		n = 66 + 66 * Game.Has("Get lucky");
 		e = "Clot";
-		t = "FF0000";
+		t = CookieMonster.colors.red;
 		break;
 	}
 
@@ -40,14 +40,14 @@ CookieMonster.manageBuffs = function() {
 		}
 
 		$("#cookie_monster_timer_" + t).fadeIn(250);
-		if ($("#cookie_monster_timer_FFFF00").css("opacity") === "1" && t !== "FFFF00") {
-			$("#cookie_monster_timer_FFFF00").fadeOut(250);
+		if ($("#cookie_monster_timer_"+this.colors.yellow).css("opacity") === "1" && t !== CookieMonster.colors.yellow) {
+			$("#cookie_monster_timer_"+this.colors.yellow).fadeOut(250);
 		}
-		if ($("#cookie_monster_timer_00FF00").css("opacity") === "1" && t !== "00FF00") {
-			$("#cookie_monster_timer_00FF00").fadeOut(250);
+		if ($("#cookie_monster_timer_"+this.colors.green).css("opacity") === "1" && t !== CookieMonster.colors.green) {
+			$("#cookie_monster_timer_"+this.colors.green).fadeOut(250);
 		}
-		if ($("#cookie_monster_timer_FF0000").css("opacity") === "1" && t !== "FF0000") {
-			$("#cookie_monster_timer_FF0000").fadeOut(250);
+		if ($("#cookie_monster_timer_"+this.colors.red).css("opacity") === "1" && t !== CookieMonster.colors.red) {
+			$("#cookie_monster_timer_"+this.colors.red).fadeOut(250);
 		}
 	} else if ($("#cookie_monster_timer_" + t).length === 1 && $("#cookie_monster_timer_" + t).css("opacity") === "1") {
 		$("#cookie_monster_timer_" + t).fadeOut(250);

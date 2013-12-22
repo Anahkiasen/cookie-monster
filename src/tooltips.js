@@ -181,15 +181,15 @@ CookieMonster.manageBuildingTooltip = function(e) {
 		Game.RebuildStore();
 	}
 
-	var u = new Array("FFFF00", "FFFF00");
+	var u = new Array(CookieMonster.colors.yellow, CookieMonster.colors.yellow);
 	var a = new Array(CookieMonster.holdCPI[t], CookieMonster.holdTC[t]);
 	var f = new Array(Math.max.apply(Math, CookieMonster.holdCPI), Math.max.apply(Math, CookieMonster.holdTC));
 	var l = new Array(Math.min.apply(Math, CookieMonster.holdCPI), Math.min.apply(Math, CookieMonster.holdTC));
 	for (i = 0; i < u.length; i++) {
 		if (a[i] === l[i]) {
-			u[i] = "00FF00";
+			u[i] = CookieMonster.colors.green;
 		} else if (a[i] === f[i]) {
-			u[i] = "FF0000";
+			u[i] = CookieMonster.colors.red;
 		} else if (f[i] - a[i] < a[i] - l[i]) {
 			u[i] = "FF7F00";
 		}

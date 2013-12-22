@@ -47,13 +47,14 @@ CookieMonster.sellOutValue = function () {
  */
 CookieMonster.sellOut = function() {
 	if (confirm("*** WARNING ***\nYou will have no buildings or cookies left after this.")) {
-		Game.ObjectsById.forEach(function (e) {
+		Game.ObjectsById.forEach(function (building) {
 			setTimeout(function () {
-				while (e.amount > 0) {
-					e.sell();
+				while (building.amount > 0) {
+					building.sell();
 				}
 			});
 		});
+
 		setTimeout(function () {
 			CookieMonster.buySell();
 		});
