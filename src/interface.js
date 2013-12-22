@@ -147,7 +147,7 @@ CookieMonster.colorize = function(e, t, n) {
 		$("#cm_up_q" + i).text(in_store[i])
 	}
 	if (settings[11] && CookieMonster.inStore(r)) {
-		$("#upgrade" + Game.UpgradesCookieMonster.inStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>')
+		$("#upgrade" + Game.UpgradesInStore.indexOf.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>')
 	}
 	if ($("#cm_up_div_" + t).length === 1) {
 		var l = new Array(CookieMonster.lucky("reg", true), CookieMonster.lucky("frenzy", true));
