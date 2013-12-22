@@ -1871,12 +1871,10 @@ CookieMonster.start = function() {
 		return alert("Cookie Monster " + this.version + "\n\nCookie Monster is already loaded, silly!");
 	}
 
-	var $body    = $('body');
-
 	$('#topBar').css('display', 'none');
 	$('#tooltip').css({
-		'margin-top': '32px',
-		'pointer-events': 'none',
+		'margin-top'     : '32px',
+		'pointer-events' : 'none',
 	});
 	$("#cookies").css({
 		'background'    : 'rgba(0, 0, 0, 0.75)',
@@ -1888,12 +1886,9 @@ CookieMonster.start = function() {
 
 	// Style main game window
 	$("#game").css({
-		'-webkit-touch-callout' : 'none',
 		'-webkit-user-select'   : 'none',
-		'-khtml-user-select'    : 'none',
 		'-moz-user-select'      : 'none',
 		'-ms-user-select'       : 'none',
-		'-o-user-select'        : 'none',
 		'user-select'           : 'none',
 		'top'                   : '0px',
 		'bottom'                : '57px',
@@ -1924,7 +1919,7 @@ CookieMonster.start = function() {
 	// Style Cookie Monster elements
 	$('#cookie_monster_bar').css({
 		'background-color' : '#4D4548',
-		'background-image' : 'linear-gradient(to left, #4d4548, #000000)',
+		'background-image' : 'linear-gradient(to bottom, #4d4548, #000000)',
 		'border-top'       : '1px solid black',
 		'bottom'           : '0px',
 		'cursor'           : 'default',
