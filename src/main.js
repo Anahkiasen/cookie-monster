@@ -51,6 +51,7 @@ CookieMonster.start = function() {
 		}
 	});
 
+	console.log(CookieMonster.$monsterBar, this);
 	CookieMonster.makeTable();
 	CookieMonster.saveTooltips();
 	CookieMonster.update();
