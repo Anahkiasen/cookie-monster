@@ -109,7 +109,7 @@ CookieMonster.sellOut = function() {
  */
 CookieMonster.buySell = function() {
 	if (Game.cookies < 1e9 && Game.BuildingsOwned < 100) {
-		CookieMonster.buySellNoWait();
+		this.buySellNoWait();
 		return false;
 	}
 
@@ -151,12 +151,12 @@ CookieMonster.buySellNoWait = function() {
 		if (t.price <= Game.cookies) {
 			t.buy();
 			t.sell();
-			CookieMonster.buySellNoWait();
+			this.buySellNoWait();
 			return false;
 		}
 	}
 
-	CookieMonster.buySellNoWait();
+	this.buySellNoWait();
 };
 CookieMonster.getTrueCPI =function(e, t) {
 	var n = 0;
@@ -1423,12 +1423,17 @@ CookieMonster.formatTime = function(e, t) {
 	}
 	return u;
 };
+/**
+ * Save the currently available tooltips
+ *
+ * @return {void}
+ */
 CookieMonster.saveTooltips = function() {
-	Game.UpgradesById.forEach(function (e, t) {
-		CookieMonster.tooltips[t] = e.desc;
+	Game.UpgradesById.forEach(function (upgrades, key) {
+		CookieMonster.tooltips[key] = upgrades.desc;
 	});
-	Game.ObjectsById.forEach(function (e, t) {
-		CookieMonster.buildingTooltips[t] = e.desc;
+	Game.ObjectsById.forEach(function (building, key) {
+		CookieMonster.buildingTooltips[key] = building.desc;
 	});
 };
 

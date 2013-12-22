@@ -1,9 +1,14 @@
+/**
+ * Save the currently available tooltips
+ *
+ * @return {void}
+ */
 CookieMonster.saveTooltips = function() {
-	Game.UpgradesById.forEach(function (e, t) {
-		CookieMonster.tooltips[t] = e.desc;
+	Game.UpgradesById.forEach(function (upgrades, key) {
+		CookieMonster.tooltips[key] = upgrades.desc;
 	});
-	Game.ObjectsById.forEach(function (e, t) {
-		CookieMonster.buildingTooltips[t] = e.desc;
+	Game.ObjectsById.forEach(function (building, key) {
+		CookieMonster.buildingTooltips[key] = building.desc;
 	});
 };
 
