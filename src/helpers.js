@@ -332,12 +332,12 @@ CookieMonster.checkUpgrade = function(e, t, n) {
 		}
 		break;
 	case 21:
-		if (!upgrade.bought && upgrade.desc.indexOf("for each 50 grandmas") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("for every 50 grandmas") !== -1) {
 			return true;
 		}
 		break;
 	case 22:
-		if (!upgrade.bought && upgrade.desc.indexOf("for each 20 portals") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
 			return true;
 		}
 		break;

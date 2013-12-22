@@ -814,12 +814,12 @@ CookieMonster.checkUpgrade = function(e, t, n) {
 		}
 		break;
 	case 21:
-		if (!upgrade.bought && upgrade.desc.indexOf("for each 50 grandmas") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("for every 50 grandmas") !== -1) {
 			return true;
 		}
 		break;
 	case 22:
-		if (!upgrade.bought && upgrade.desc.indexOf("for each 20 portals") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
 			return true;
 		}
 		break;
@@ -2045,10 +2045,10 @@ CookieMonster.getTotalGrandmaModifiers = function(e) {
 		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			r = r * 4;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf("for each 50 grandmas") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("for every 50 grandmas") !== -1) {
 			n += (e + 1) * 0.02 * (e + 1) - e * 0.02 * e;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf("for each 20 portals") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
 			n += Game.ObjectsById[7].amount * 0.05;
 		}
 	});
@@ -2067,7 +2067,7 @@ CookieMonster.getTotalPortalModifiers = function() {
 		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			total = total * 4;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf("for each 20 portals") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
 			e += Game.ObjectsById[1].amount * 0.05;
 		}
 	});
