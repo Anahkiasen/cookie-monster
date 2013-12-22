@@ -1,3 +1,12 @@
+/**
+ * Load a setting from localStorage
+ *
+ * @param {integer} key
+ * @param {string}  name
+ * @param {mixed}   defaultValue
+ *
+ * @return {void}
+ */
 CookieMonster.loadSetting = function(key, name, defaultValue) {
 	if (localStorage[name] !== undefined) {
 		CookieMonster.settings[key] = parseInt(localStorage[name], 10);
@@ -11,92 +20,21 @@ CookieMonster.loadSettings = function() {
 	CookieMonster.settings = [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1];
 
 	if (typeof Storage !== "undefined") {
-		if (localStorage.FlashScreen !== undefined) {
-			CookieMonster.settings[0] = parseInt(localStorage.FlashScreen, 10);
-		} else {
-			localStorage.FlashScreen = 1;
-			CookieMonster.settings[0] = 1;
-		}
-
-		if (localStorage.CookieTimer !== undefined) {
-			CookieMonster.settings[1] = parseInt(localStorage.CookieTimer, 10);
-		} else {
-			localStorage.CookieTimer = 1;
-			CookieMonster.settings[1] = 1;
-		}
-
-		if (localStorage.BuffBars !== undefined) {
-			CookieMonster.settings[2] = parseInt(localStorage.BuffBars, 10);
-		} else {
-			localStorage.BuffBars = 1;
-			CookieMonster.settings[2] = 1;
-		}
-
-		if (localStorage.Refresh !== undefined) {
-			CookieMonster.settings[3] = parseInt(localStorage.Refresh, 10);
-		} else {
-			localStorage.Refresh = 1e3;
-			CookieMonster.settings[3] = 1e3;
-		}
-
-		if (localStorage.CookieCD !== undefined) {
-			CookieMonster.settings[4] = parseInt(localStorage.CookieCD, 10);
-		} else {
-			localStorage.CookieCD = 1;
-			CookieMonster.settings[4] = 1;
-		}
-
-		if (localStorage.CMBar !== undefined) {
-			CookieMonster.settings[5] = parseInt(localStorage.CMBar, 10);
-		} else {
-			localStorage.CMBar = 1;
-			CookieMonster.settings[5] = 1;
-		}
-
+		this.loadSetting(0, 'FlashScreen', 1);
+		this.loadSetting(1, 'CookieTimer', 1);
+		this.loadSetting(2, 'BuffBars', 1);
+		this.loadSetting(3, 'Refresh', 1e3);
+		this.loadSetting(4, 'CookieCD', 1);
+		this.loadSetting(5, 'CMBar', 1);
 		this.loadSetting(6, 'ColoredPrices', 1);
-
-		if (localStorage.ShortNumbers !== undefined) {
-			CookieMonster.settings[7] = parseInt(localStorage.ShortNumbers, 10);
-		} else {
-			localStorage.ShortNumbers = 1;
-			CookieMonster.settings[7] = 1;
-		}
-
-		if (localStorage.CookieSound !== undefined) {
-			CookieMonster.settings[8] = parseInt(localStorage.CookieSound, 10);
-		} else {
-			localStorage.CookieSound = 0;
-			CookieMonster.settings[8] = 0;
-		}
-
-		if (localStorage.UpdateTitle !== undefined) {
-			CookieMonster.settings[9] = parseInt(localStorage.UpdateTitle, 10);
-		} else {
-			localStorage.UpdateTitle = 1;
-			CookieMonster.settings[9] = 1;
-		}
-
-		if (localStorage.LuckyAlert !== undefined) {
-			CookieMonster.settings[10] = parseInt(localStorage.LuckyAlert, 10);
-		} else {
-			localStorage.LuckyAlert = 1;
-			CookieMonster.settings[10] = 1;
-		}
-
-		if (localStorage.UpgradeIcons !== undefined) {
-			CookieMonster.settings[11] = parseInt(localStorage.UpgradeIcons, 10);
-		} else {
-			localStorage.UpgradeIcons = 1;
-			CookieMonster.settings[11] = 1;
-		}
-
-		if (localStorage.UpgradeDisplay !== undefined) {
-			CookieMonster.settings[12] = parseInt(localStorage.UpgradeDisplay, 10);
-		} else {
-			localStorage.UpgradeDisplay = 1;
-			CookieMonster.settings[12] = 1;
-		}
+		this.loadSetting(7, 'ShortNumbers', 1);
+		this.loadSetting(8, 'CookieSound', 0);
+		this.loadSetting(9, 'UpdateTitle', 1);
+		this.loadSetting(10, 'LuckyAlert', 1);
+		this.loadSetting(11, 'UpgradeIcons', 1);
+		this.loadSetting(12, 'UpgradeDisplay', 1);
 	}
+
 	CookieMonster.toggleBar();
 };
 
