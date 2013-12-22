@@ -68,7 +68,7 @@ CookieMonster.sellOut = function() {
  */
 CookieMonster.buySell = function() {
 	if (Game.cookies < 1e9 && Game.BuildingsOwned < 100) {
-		CookieMonster.buySellNoWait();
+		this.buySellNoWait();
 		return false;
 	}
 
@@ -110,10 +110,10 @@ CookieMonster.buySellNoWait = function() {
 		if (t.price <= Game.cookies) {
 			t.buy();
 			t.sell();
-			CookieMonster.buySellNoWait();
+			this.buySellNoWait();
 			return false;
 		}
 	}
 
-	CookieMonster.buySellNoWait();
+	this.buySellNoWait();
 };
