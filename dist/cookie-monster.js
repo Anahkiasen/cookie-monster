@@ -39,6 +39,7 @@ var CookieMonster = {
 		green  : '00FF00',
 		red    : 'FF0000',
 		blue   : '4BB8F0',
+		purple : 'FF00FF',
 	}
 };
 CookieMonster.getTrueCPI = function(e, t) {
@@ -148,85 +149,115 @@ CookieMonster.getFrenzyMultiplier = function() {
 };
 
 CookieMonster.manageBuffs = function() {
-	var e = "";
-	var t = "";
-	var n = 0;
-	var i = 13 + 13 * Game.Has("Get lucky");
-	var s = new Array(Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime);
-	var o = parseInt($("#cookie_monster_timer_bars_div").css("width"));
+	var buff       = "";
+	var color      = "";
+	var multiplier = 0;
+	var i          = 13 + 13 * Game.Has("Get lucky");
+	var s          = new Array(Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime);
+	var o          = parseInt($("#cookie_monster_timer_bars_div").css("width"));
 
 	switch (Game.frenzyPower) {
-	case 7:
-		n = 77 + 77 * Game.Has("Get lucky");
-		e = "Frenzy";
-		t = this.colors.yellow;
-		break;
-	case 666:
-		n = 6 + 6 * Game.Has("Get lucky");
-		e = "Blood Frenzy";
-		t = CookieMonster.colors.green;
-		n = 66 + 66 * Game.Has("Get lucky");
-		e = "Clot";
-		t = CookieMonster.colors.red;
-		break;
+		case 7:
+			multiplier = 77 + 77 * Game.Has("Get lucky");
+			buff       = "Frenzy";
+			color      = this.colors.yellow;
+			break;
+
+		case 666:
+			multiplier = 6 + 6 * Game.Has("Get lucky");
+			buff       = "Blood Frenzy";
+			color      = this.colors.green;
+			break;
+
+		// This is wrong but I'm not sure what to change it to
+		case 666:
+			multiplier = 66 + 66 * Game.Has("Get lucky");
+			buff       = "Clot";
+			color      = this.colors.red;
+			break;
 	}
 
-	if (Game.frenzy > 0 && CookieMonster.settings[2] === 1) {
-		if ($("#cookie_monster_timer_" + t).length !== 1) {
-			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_' + t + '" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">' + e + "<td>" + '<td><div id="cmt_' + t + '" style="position:relative; background:#' + t + "; height:10px; width:" + Game.frenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_' + t + '" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + n + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
+	if (Game.frenzy > 0 && this.settings[2] === 1) {
+		if ($("#cookie_monster_timer_" + color).length !== 1) {
+			$("#cookie_monster_timer_bars_div").append(
+				'<div id="cookie_monster_timer_' + color + '" style="padding:4px 0px 5px 0px;">'+
+				'<table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;">'+
+					'<tr>' +
+						'<td style="width:130px; text-align:right;">' + buff + "<td>" +
+						'<td>'+
+							'<div id="cmt_' + color + '" style="position:relative; background:#' + color + "; height:10px; width:" + Game.frenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;">'+
+								'<div id="cmt_time_' + color + '" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' +
+								multiplier +
+								'</div>'+
+							'</div>'+
+						'</td>'+
+						'<td style="width:55px;"></td>'+
+					'</tr>' +
+				'</table>'+
+			'</div>');
+
 		} else {
-			$("#cmt_" + t).css("width", Game.frenzy / s[2] * 100 + "%");
-			$("#cmt_time_" + t).text(Math.round(Game.frenzy / Game.fps));
+			$("#cmt_" + color).css("width", Game.frenzy / s[2] * 100 + "%");
+			$("#cmt_time_" + color).text(Math.round(Game.frenzy / Game.fps));
 		}
 
-		$("#cookie_monster_timer_" + t).fadeIn(250);
-		if ($("#cookie_monster_timer_"+this.colors.yellow).css("opacity") === "1" && t !== CookieMonster.colors.yellow) {
-			$("#cookie_monster_timer_"+this.colors.yellow).fadeOut(250);
+		$("#cookie_monster_timer_" + color).fadeIn(250);
+		for (var thisColor in this.colors) {
+			thisColor = this.colors[thisColor];
+
+			if ($("#cookie_monster_timer_"+thisColor).css("opacity") === "1" && color !== thisColor) {
+				$("#cookie_monster_timer_"+thisColor).fadeOut(250);
+			}
 		}
-		if ($("#cookie_monster_timer_"+this.colors.green).css("opacity") === "1" && t !== CookieMonster.colors.green) {
-			$("#cookie_monster_timer_"+this.colors.green).fadeOut(250);
-		}
-		if ($("#cookie_monster_timer_"+this.colors.red).css("opacity") === "1" && t !== CookieMonster.colors.red) {
-			$("#cookie_monster_timer_"+this.colors.red).fadeOut(250);
-		}
-	} else if ($("#cookie_monster_timer_" + t).length === 1 && $("#cookie_monster_timer_" + t).css("opacity") === "1") {
-		$("#cookie_monster_timer_" + t).fadeOut(250);
+	} else {
+		this.fadeOutBar(color);
 	}
+
+	var countdown = Math.round((s[2] - s[0]) / Game.fps);
 
 	if (Game.clickFrenzy > 0 && CookieMonster.settings[2] === 1) {
-		if ($("#cookie_monster_timer_4BB8F0").length !== 1) {
+		if ($("#cookie_monster_timer_"+this.colors.blue).length !== 1) {
 			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_4BB8F0" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Click Frenzy<td>' + '<td><div id="cmt_4BB8F0" style="position:relative; background:#4BB8F0; height:10px; width:' + Game.clickFrenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_4BB8F0" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + i + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
 		} else {
-			$("#cmt_4BB8F0").css("width", Game.clickFrenzy / s[2] * 100 + "%");
-			$("#cmt_time_4BB8F0").text(Math.round(Game.clickFrenzy / Game.fps));
+			$("#cmt_"+this.colors.blue).css("width", Game.clickFrenzy / s[2] * 100 + "%");
+			$("#cmt_time_"+this.colors.blue).text(Math.round(Game.clickFrenzy / Game.fps));
 		}
-		$("#cookie_monster_timer_4BB8F0").fadeIn(250);
-	} else if ($("#cookie_monster_timer_4BB8F0").length === 1 && $("#cookie_monster_timer_4BB8F0").css("opacity") === "1") {
-		$("#cookie_monster_timer_4BB8F0").fadeOut(250);
+		$("#cookie_monster_timer_"+this.colors.blue).fadeIn(250);
+	} else {
+		this.fadeOutBar(this.colors.blue);
 	}
 
 	if (s[0] > 0 && CookieMonster.$goldenCookie.css("display") === "none" && CookieMonster.settings[4] === 1) {
-		if ($("#cookie_monster_timer_FF00FF").length !== 1) {
-			$("#cookie_monster_timer_bars_div").append("" + '<div id="cookie_monster_timer_FF00FF" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Next Cookie<td>' + '<td><div id="cmt_FF00FF" style="position:relative; background:#aaaaaa; height:10px; width:100%; margin-left:4px; border:1px solid black;"><div id="cmt2_FF00FF" style="position:relative; background:#FF00FF; height:10px; width:100%; margin-left:0px; max-width:' + (o - 189) * 0.67 + 'px; float:right;"></div><div id="cmt_time_FF00FF" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + Math.round((s[2] - s[0]) / Game.fps) + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
+		if ($("#cookie_monster_timer_"+this.colors.purple).length !== 1) {
+			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_FF00FF" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Next Cookie<td>' + '<td><div id="cmt_FF00FF" style="position:relative; background:#aaaaaa; height:10px; width:100%; margin-left:4px; border:1px solid black;"><div id="cmt2_FF00FF" style="position:relative; background:#FF00FF; height:10px; width:100%; margin-left:0px; max-width:' + (o - 189) * 0.67 + 'px; float:right;"></div><div id="cmt_time_FF00FF" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + countdown + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
 		} else {
-			$("#cmt2_FF00FF").css("max-width", (o - 189) * 0.67 + "px");
-			$("#cmt_FF00FF").css("width", (s[2] - s[0]) / s[2] * 100 + "%");
-			$("#cmt_time_FF00FF").text(Math.round((s[2] - s[0]) / Game.fps));
+			$("#cmt2_"+this.colors.purple).css("max-width", (o - 189) * 0.67 + "px");
+			$("#cmt_"+this.colors.purple).css("width", (s[2] - s[0]) / s[2] * 100 + "%");
+			$("#cmt_time_"+this.colors.purple).text(countdown);
 		}
-		$("#cookie_monster_timer_FF00FF").fadeIn(250);
-	} else if ($("#cookie_monster_timer_FF00FF").length === 1 && $("#cookie_monster_timer_FF00FF").css("opacity") === "1") {
-		$("#cookie_monster_timer_FF00FF").fadeOut(250);
+		$("#cookie_monster_timer_"+this.colors.purple).fadeIn(250);
+	} else {
+		this.fadeOutBar(this.colors.purple);
 	}
 
-	if ((s[2] - s[0]) / Game.fps > 0 && CookieMonster.$goldenCookie.css("display") === "none") {
-		if (CookieMonster.settings[4] === 1) {
-			CookieMonster.goldenCookieAvailable = "(" + Math.round((s[2] - s[0]) / Game.fps) + ") ";
-		} else {
-			CookieMonster.goldenCookieAvailable = "";
-		}
+	if (countdown > 0 && CookieMonster.$goldenCookie.css("display") === "none") {
+		this.goldenCookieAvailable = (this.settings[4] === 1) ? "(" + countdown + ") " : '';
 	}
 
 	$("#versionNumber").css("bottom", $("#cookie_monster_timer_bars_div").css("height"));
+};
+
+/**
+ * Fade out a bar of a certain color
+ *
+ * @param {string} color
+ *
+ * @return {void}
+ */
+CookieMonster.fadeOutBar = function(color) {
+	if ($("#cookie_monster_timer_" + color).length === 1 && $("#cookie_monster_timer_" + color).css("opacity") === "1") {
+		$("#cookie_monster_timer_" + color).fadeOut(250);
+	}
 };
 /**
  * Get the number of Heavenly Chips from a number of cookies (all time)
@@ -1901,14 +1932,14 @@ CookieMonster.start = function() {
 		'border-bottom' : '1px solid black',
 	})
 	.after(
-	'<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0,0,0,0.6); border-bottom: 1px solid black; cursor:default;">'+
+	'<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0, 0, 0, 0.6); border-bottom: 1px solid black; cursor:default;">'+
 		'<tr>'+
 			'<td align=center style="color:#4bb8f0; padding:2px;" id="cm_up_q0">0</td>' +
 			'<td align=center style="color:#00ff00; padding:2px;" id="cm_up_q1">0</td>' +
 			'<td align=center style="color:#ffff00; padding:2px;" id="cm_up_q2">0</td>' +
 			'<td align=center style="color:#ff7f00; padding:2px;" id="cm_up_q3">0</td>' +
 			'<td align=center style="color:#ff0000; padding:2px;" id="cm_up_q4">0</td>' +
-			'<td align=center style="color:#ff00ff; padding:2px;" id="cm_up_q5">0</td>' +
+			'<td align=center style="color:#'+this.colors.purple+'; padding:2px;" id="cm_up_q5">0</td>' +
 		'</tr>'+
 	'</table>');
 
@@ -1931,7 +1962,7 @@ CookieMonster.start = function() {
 		'z-index'          : '1000',
 	});
 	$('#cookie_monster_overlay').css({
-		'background'     : 'rgba(255,255,255,1)',
+		'background'     : 'white',
 		'display'        : 'none',
 		'height'         : '100%',
 		'pointer-events' : 'none',

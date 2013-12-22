@@ -32,5 +32,6 @@ var CookieMonster = {
 		green  : '00FF00',
 		red    : 'FF0000',
 		blue   : '4BB8F0',
+		purple : 'FF00FF',
 	}
 };

@@ -60,14 +60,14 @@ CookieMonster.start = function() {
 		'border-bottom' : '1px solid black',
 	})
 	.after(
-	'<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0,0,0,0.6); border-bottom: 1px solid black; cursor:default;">'+
+	'<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0, 0, 0, 0.6); border-bottom: 1px solid black; cursor:default;">'+
 		'<tr>'+
 			'<td align=center style="color:#4bb8f0; padding:2px;" id="cm_up_q0">0</td>' +
 			'<td align=center style="color:#00ff00; padding:2px;" id="cm_up_q1">0</td>' +
 			'<td align=center style="color:#ffff00; padding:2px;" id="cm_up_q2">0</td>' +
 			'<td align=center style="color:#ff7f00; padding:2px;" id="cm_up_q3">0</td>' +
 			'<td align=center style="color:#ff0000; padding:2px;" id="cm_up_q4">0</td>' +
-			'<td align=center style="color:#ff00ff; padding:2px;" id="cm_up_q5">0</td>' +
+			'<td align=center style="color:#'+this.colors.purple+'; padding:2px;" id="cm_up_q5">0</td>' +
 		'</tr>'+
 	'</table>');
 
@@ -90,7 +90,7 @@ CookieMonster.start = function() {
 		'z-index'          : '1000',
 	});
 	$('#cookie_monster_overlay').css({
-		'background'     : 'rgba(255,255,255,1)',
+		'background'     : 'white',
 		'display'        : 'none',
 		'height'         : '100%',
 		'pointer-events' : 'none',
