@@ -285,7 +285,7 @@ CookieMonster.heavenlyToCookies = function(chipsNumber) {
 /**
  * Get the number of heavenly chips for a particular context
  *
- * @param {string} context [max,max_sell_out,cur,next,next_sell_out,time]
+ * @param {string} context [max,cur,next,time]
  *
  * @return {string}
  */
@@ -294,17 +294,18 @@ CookieMonster.getHeavenlyChip = function(context) {
 	var r = this.cookiesToHeavenly(Game.cookiesReset);
 	var i = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned);
 
-	if (context === "max") {
-		return this.formatNumber(bakedAllTime) + " <small>(" + this.formatNumber(bakedAllTime * 2) + "%)</small>";
-	}
-	if (context === "cur") {
-		return this.formatNumber(r) + " <small>(" + this.formatNumber(r * 2) + "%)</small>";
-	}
-	if (context === "next") {
-		return this.formatNumber(Math.round(i));
-	}
-	if (context === "time") {
-		return this.formatTime(Math.round(i / Game.cookiesPs), "");
+	switch (context) {
+		case 'max':
+			return this.formatNumber(bakedAllTime) + " <small>(" + this.formatNumber(bakedAllTime * 2) + "%)</small>";
+
+		case 'cur':
+			return this.formatNumber(r) + " <small>(" + this.formatNumber(r * 2) + "%)</small>";
+
+		case 'next':
+			return this.formatNumber(Math.round(i));
+
+		case 'time':
+			return this.formatTime(Math.round(i / Game.cookiesPs), '');
 	}
 };
 
