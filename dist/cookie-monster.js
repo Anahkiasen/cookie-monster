@@ -1914,7 +1914,7 @@ CookieMonster.baseTen = function(building) {
 };
 
 CookieMonster.mathematician = function(building) {
-	if (this.hasAchibuildingvement("Mathematician") === 1) {
+	if (this.hasAchievement("Mathematician") === 1) {
 		var t = [];
 		var n = [];
 		Game.ObjectsById.forEach(function (building) {
