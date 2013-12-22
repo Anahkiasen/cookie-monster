@@ -1,39 +1,69 @@
-CookieMonster.getHeavenlyChip = function(e) {
-	var t = CookieMonster.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
-	var n = CookieMonster.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned + CookieMonster.sellOut);
-	var r = CookieMonster.cookiesToHeavenly(Game.cookiesReset);
-	var i = CookieMonster.heavenlyToCookies(t + 1) - (Game.cookiesReset + Game.cookiesEarned);
-	var s = CookieMonster.heavenlyToCookies(n + 1) - (Game.cookiesReset + Game.cookiesEarned + CookieMonster.sellOut);
-	if (e === "max") {
-		return CookieMonster.formatNumber(t) + " <small>(" + CookieMonster.formatNumber(t * 2) + "%)</small>";
+/**
+ * Get the number of Heavenly Chips from a number of cookies (all time)
+ *
+ * @param {integer} cookiesNumber
+ *
+ * @return {integer}
+ */
+CookieMonster.cookiesToHeavenly = function(cookiesNumber) {
+	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * cookiesNumber) / Math.pow(10, 6) - 0.5);
+};
+
+/**
+ * Get the number of cookies required to have X chips
+ *
+ * @param {integer} chipsNumber
+ *
+ * @return {integer}
+ */
+CookieMonster.heavenlyToCookies = function(chipsNumber) {
+	return 5 * Math.pow(10, 11) * chipsNumber * (chipsNumber + 1);
+};
+
+/**
+ * Get the number of heavenly chips for a particular context
+ *
+ * @param {string} context [max,max_sell_out,cur,next,next_sell_out,time]
+ *
+ * @return {string}
+ */
+CookieMonster.getHeavenlyChip = function(context) {
+	var bakedAllTime = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
+	var n = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned + this.sellOut);
+	var r = this.cookiesToHeavenly(Game.cookiesReset);
+	var i = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned);
+	var s = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned + this.sellOut);
+
+	if (context === "max") {
+		return this.formatNumber(bakedAllTime) + " <small>(" + this.formatNumber(bakedAllTime * 2) + "%)</small>";
 	}
-	if (e === "max_sell_out") {
-		return CookieMonster.formatNumber(n) + " <small>(" + CookieMonster.formatNumber(n * 2) + "%)</small>";
+	if (context === "max_sell_out") {
+		return this.formatNumber(n) + " <small>(" + this.formatNumber(n * 2) + "%)</small>";
 	}
-	if (e === "cur") {
-		return CookieMonster.formatNumber(r) + " <small>(" + CookieMonster.formatNumber(r * 2) + "%)</small>";
+	if (context === "cur") {
+		return this.formatNumber(r) + " <small>(" + this.formatNumber(r * 2) + "%)</small>";
 	}
-	if (e === "next") {
-		return CookieMonster.formatNumber(Math.round(i));
+	if (context === "next") {
+		return this.formatNumber(Math.round(i));
 	}
-	if (e === "next_sell_out") {
-		return CookieMonster.formatNumber(Math.round(s));
+	if (context === "next_sell_out") {
+		return this.formatNumber(Math.round(s));
 	}
-	if (e === "time") {
-		return CookieMonster.formatTime(Math.round(i / Game.cookiesPs), "");
+	if (context === "time") {
+		return this.formatTime(Math.round(i / Game.cookiesPs), "");
 	}
 };
 
 CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	var i = 0;
-	var s = CookieMonster.getHeavenlyMultiplier();
+	var s = this.getHeavenlyMultiplier();
 	if (r !== 0) {
 		s = r;
 	}
 	var o = 0;
 	var u = new Array(0, 0, 0, 0);
 	var a = Game.milkProgress;
-	var f = CookieMonster.getFrenzyMultiplier();
+	var f = this.getFrenzyMultiplier();
 
 	Game.UpgradesById.forEach(function (e) {
 		var r = e.desc.replace("[Research]<br>", "");
@@ -86,7 +116,7 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	}
 	l = l * (1 + p * a);
 	i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
-	var d = CookieMonster.inc(i + h);
+	var d = this.inc(i + h);
 	if (d > 0) {
 		a += d * 0.04;
 		l = 100 + s + o;

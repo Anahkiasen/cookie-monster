@@ -1,4 +1,4 @@
-CookieMonster.getTrueCPI =function(e, t) {
+CookieMonster.getTrueCPI = function(e, t) {
 	var n = 0;
 	var r = 0;
 	var i = 0;

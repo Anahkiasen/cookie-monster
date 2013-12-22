@@ -158,7 +158,7 @@ CookieMonster.buySellNoWait = function() {
 
 	this.buySellNoWait();
 };
-CookieMonster.getTrueCPI =function(e, t) {
+CookieMonster.getTrueCPI = function(e, t) {
 	var n = 0;
 	var r = 0;
 	var i = 0;
@@ -345,42 +345,72 @@ CookieMonster.manageBuffs = function() {
 
 	$("#versionNumber").css("bottom", $("#cookie_monster_timer_bars_div").css("height"));
 };
-CookieMonster.getHeavenlyChip = function(e) {
-	var t = CookieMonster.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
-	var n = CookieMonster.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned + CookieMonster.sellOut);
-	var r = CookieMonster.cookiesToHeavenly(Game.cookiesReset);
-	var i = CookieMonster.heavenlyToCookies(t + 1) - (Game.cookiesReset + Game.cookiesEarned);
-	var s = CookieMonster.heavenlyToCookies(n + 1) - (Game.cookiesReset + Game.cookiesEarned + CookieMonster.sellOut);
-	if (e === "max") {
-		return CookieMonster.formatNumber(t) + " <small>(" + CookieMonster.formatNumber(t * 2) + "%)</small>";
+/**
+ * Get the number of Heavenly Chips from a number of cookies (all time)
+ *
+ * @param {integer} cookiesNumber
+ *
+ * @return {integer}
+ */
+CookieMonster.cookiesToHeavenly = function(cookiesNumber) {
+	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * cookiesNumber) / Math.pow(10, 6) - 0.5);
+};
+
+/**
+ * Get the number of cookies required to have X chips
+ *
+ * @param {integer} chipsNumber
+ *
+ * @return {integer}
+ */
+CookieMonster.heavenlyToCookies = function(chipsNumber) {
+	return 5 * Math.pow(10, 11) * chipsNumber * (chipsNumber + 1);
+};
+
+/**
+ * Get the number of heavenly chips for a particular context
+ *
+ * @param {string} context [max,max_sell_out,cur,next,next_sell_out,time]
+ *
+ * @return {string}
+ */
+CookieMonster.getHeavenlyChip = function(context) {
+	var bakedAllTime = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
+	var n = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned + this.sellOut);
+	var r = this.cookiesToHeavenly(Game.cookiesReset);
+	var i = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned);
+	var s = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned + this.sellOut);
+
+	if (context === "max") {
+		return this.formatNumber(bakedAllTime) + " <small>(" + this.formatNumber(bakedAllTime * 2) + "%)</small>";
 	}
-	if (e === "max_sell_out") {
-		return CookieMonster.formatNumber(n) + " <small>(" + CookieMonster.formatNumber(n * 2) + "%)</small>";
+	if (context === "max_sell_out") {
+		return this.formatNumber(n) + " <small>(" + this.formatNumber(n * 2) + "%)</small>";
 	}
-	if (e === "cur") {
-		return CookieMonster.formatNumber(r) + " <small>(" + CookieMonster.formatNumber(r * 2) + "%)</small>";
+	if (context === "cur") {
+		return this.formatNumber(r) + " <small>(" + this.formatNumber(r * 2) + "%)</small>";
 	}
-	if (e === "next") {
-		return CookieMonster.formatNumber(Math.round(i));
+	if (context === "next") {
+		return this.formatNumber(Math.round(i));
 	}
-	if (e === "next_sell_out") {
-		return CookieMonster.formatNumber(Math.round(s));
+	if (context === "next_sell_out") {
+		return this.formatNumber(Math.round(s));
 	}
-	if (e === "time") {
-		return CookieMonster.formatTime(Math.round(i / Game.cookiesPs), "");
+	if (context === "time") {
+		return this.formatTime(Math.round(i / Game.cookiesPs), "");
 	}
 };
 
 CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	var i = 0;
-	var s = CookieMonster.getHeavenlyMultiplier();
+	var s = this.getHeavenlyMultiplier();
 	if (r !== 0) {
 		s = r;
 	}
 	var o = 0;
 	var u = new Array(0, 0, 0, 0);
 	var a = Game.milkProgress;
-	var f = CookieMonster.getFrenzyMultiplier();
+	var f = this.getFrenzyMultiplier();
 
 	Game.UpgradesById.forEach(function (e) {
 		var r = e.desc.replace("[Research]<br>", "");
@@ -433,7 +463,7 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	}
 	l = l * (1 + p * a);
 	i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
-	var d = CookieMonster.inc(i + h);
+	var d = this.inc(i + h);
 	if (d > 0) {
 		a += d * 0.04;
 		l = 100 + s + o;
@@ -480,28 +510,6 @@ CookieMonster.getHeavenlyMultiplier = function() {
 
 	return chips * potential;
 };
-/**
- * Get the number of Heavenly Chips from a number of cookies (all time)
- *
- * @param {integer} cookiesNumber
- *
- * @return {integer}
- */
-CookieMonster.cookiesToHeavenly = function(cookiesNumber) {
-	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * cookiesNumber) / Math.pow(10, 6) - 0.5);
-};
-
-/**
- * Get the number of cookies required to have X chips
- *
- * @param {integer} chipsNumber
- *
- * @return {integer}
- */
-CookieMonster.heavenlyToCookies = function(chipsNumber) {
-	return 5 * Math.pow(10, 11) * chipsNumber * (chipsNumber + 1);
-};
-
 CookieMonster.dhc = function(e, t, n) {
 	var r = Game.UpgradesById[t];
 	var i = r.desc.indexOf("<b>") + 3;
@@ -728,13 +736,11 @@ CookieMonster.faviconSpinner = function(frame) {
  * @return {void}
  */
 CookieMonster.toggleBar = function() {
-	if (this.settings[5] === 0) {
-		this.$monsterBar.css("display", "none");
-		$("#game").css("bottom", "0px");
-	} else {
-		this.$monsterBar.css("display", "");
-		$("#game").css("bottom", "57px");
-	}
+	var toggle = this.settings[5] === 0;
+	var bottom = toggle ? 0 : 57;
+
+	this.$monsterBar.toggle(toggle);
+	$('#game').css('bottom', bottom+'px');
 };
 
 /**
@@ -744,20 +750,23 @@ CookieMonster.toggleBar = function() {
  */
 CookieMonster.updateUpgradeDisplay = function() {
 	var $upgrades = $("#upgrades");
+	var height;
 
 	switch (this.settings[12] * 1) {
 		case 1:
-			$upgrades.css("cssText", "");
+			height = '';
 			break;
 
 		case 2:
-			$upgrades.css("cssText", "height: auto !important;");
+			height = 'auto';
 			break;
 
-		case 0:
-			$upgrades.css("cssText", "height: 0px !important;");
+		default:
+			height = '0px';
 			break;
 	}
+
+	$upgrades.css('cssText', 'height: ' +height+ ' !important;');
 };
 
 /**
@@ -999,22 +1008,31 @@ CookieMonster.lucky = function(e, t) {
 	return r;
 };
 
-CookieMonster.luckyReward = function(e) {
-	var t = Game.cookiesPs;
-	if (Game.frenzy > 0 && e !== "cur") {
-		t = t / Game.frenzyPower;
+/**
+ * Get the lucky reward for a particular situation
+ *
+ * @param {string} context [cur,max,max_frenzy]
+ *
+ * @return {string}
+ */
+CookieMonster.luckyReward = function(context) {
+	var reward = Game.cookiesPs;
+
+	if (Game.frenzy > 0 && context !== "cur") {
+		reward = reward / Game.frenzyPower;
 	}
-	if (e === "max_frenzy") {
-		t = t * 7;
+	if (context === "max_frenzy") {
+		reward = reward * 7;
 	}
-	var n = new Array(Math.round(t * 1200 + 13), Math.round(Game.cookies * 0.1 + 13));
-	if (e === "max" || e === "max_frenzy") {
-		if (Math.round((t * 1200 + 13) / 0.1) > Game.cookies) {
-			return CookieMonster.formatNumber(n[0]);
+
+	var number = [Math.round(reward * 1200 + 13), Math.round(Game.cookies * 0.1 + 13)];
+	if (context === "max" || context === "max_frenzy") {
+		if (Math.round((reward * 1200 + 13) / 0.1) > Game.cookies) {
+			return this.formatNumber(number[0]);
 		}
 	}
 
-	return CookieMonster.formatNumber(Math.min.apply(Math, n));
+	return this.formatNumber(Math.min.apply(Math, number));
 };
 /**
  * Load a setting from localStorage

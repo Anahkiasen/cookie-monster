@@ -1,25 +1,3 @@
-/**
- * Get the number of Heavenly Chips from a number of cookies (all time)
- *
- * @param {integer} cookiesNumber
- *
- * @return {integer}
- */
-CookieMonster.cookiesToHeavenly = function(cookiesNumber) {
-	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * cookiesNumber) / Math.pow(10, 6) - 0.5);
-};
-
-/**
- * Get the number of cookies required to have X chips
- *
- * @param {integer} chipsNumber
- *
- * @return {integer}
- */
-CookieMonster.heavenlyToCookies = function(chipsNumber) {
-	return 5 * Math.pow(10, 11) * chipsNumber * (chipsNumber + 1);
-};
-
 CookieMonster.dhc = function(e, t, n) {
 	var r = Game.UpgradesById[t];
 	var i = r.desc.indexOf("<b>") + 3;

@@ -27,13 +27,11 @@ CookieMonster.faviconSpinner = function(frame) {
  * @return {void}
  */
 CookieMonster.toggleBar = function() {
-	if (this.settings[5] === 0) {
-		this.$monsterBar.css("display", "none");
-		$("#game").css("bottom", "0px");
-	} else {
-		this.$monsterBar.css("display", "");
-		$("#game").css("bottom", "57px");
-	}
+	var toggle = this.settings[5] === 0;
+	var bottom = toggle ? 0 : 57;
+
+	this.$monsterBar.toggle(toggle);
+	$('#game').css('bottom', bottom+'px');
 };
 
 /**
@@ -43,20 +41,23 @@ CookieMonster.toggleBar = function() {
  */
 CookieMonster.updateUpgradeDisplay = function() {
 	var $upgrades = $("#upgrades");
+	var height;
 
 	switch (this.settings[12] * 1) {
 		case 1:
-			$upgrades.css("cssText", "");
+			height = '';
 			break;
 
 		case 2:
-			$upgrades.css("cssText", "height: auto !important;");
+			height = 'auto';
 			break;
 
-		case 0:
-			$upgrades.css("cssText", "height: 0px !important;");
+		default:
+			height = '0px';
 			break;
 	}
+
+	$upgrades.css('cssText', 'height: ' +height+ ' !important;');
 };
 
 /**

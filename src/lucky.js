@@ -20,20 +20,29 @@ CookieMonster.lucky = function(e, t) {
 	return r;
 };
 
-CookieMonster.luckyReward = function(e) {
-	var t = Game.cookiesPs;
-	if (Game.frenzy > 0 && e !== "cur") {
-		t = t / Game.frenzyPower;
+/**
+ * Get the lucky reward for a particular situation
+ *
+ * @param {string} context [cur,max,max_frenzy]
+ *
+ * @return {string}
+ */
+CookieMonster.luckyReward = function(context) {
+	var reward = Game.cookiesPs;
+
+	if (Game.frenzy > 0 && context !== "cur") {
+		reward = reward / Game.frenzyPower;
 	}
-	if (e === "max_frenzy") {
-		t = t * 7;
+	if (context === "max_frenzy") {
+		reward = reward * 7;
 	}
-	var n = new Array(Math.round(t * 1200 + 13), Math.round(Game.cookies * 0.1 + 13));
-	if (e === "max" || e === "max_frenzy") {
-		if (Math.round((t * 1200 + 13) / 0.1) > Game.cookies) {
-			return CookieMonster.formatNumber(n[0]);
+
+	var number = [Math.round(reward * 1200 + 13), Math.round(Game.cookies * 0.1 + 13)];
+	if (context === "max" || context === "max_frenzy") {
+		if (Math.round((reward * 1200 + 13) / 0.1) > Game.cookies) {
+			return this.formatNumber(number[0]);
 		}
 	}
 
-	return CookieMonster.formatNumber(Math.min.apply(Math, n));
+	return this.formatNumber(Math.min.apply(Math, number));
 };
