@@ -69,7 +69,7 @@ CookieMonster.loadSettings = function() {
 		}
 	}
 	CookieMonster.toggleBar()
-}
+};
 
 CookieMonster.saveSettings = function() {
 	if (typeof Storage !== "undefined") {
@@ -89,11 +89,11 @@ CookieMonster.saveSettings = function() {
 	}
 
 	CookieMonster.toggleBar()
-}
+};
 
 CookieMonster.getOptionState = function(e) {
 	return (CookieMonster.settings[e] === 0) ? 'OFF' : 'ON';
-}
+};
 
 CookieMonster.toggleOption = function(option) {
 	var $option = $(option);

@@ -5,13 +5,13 @@ CookieMonster.saveTooltips = function() {
 	Game.ObjectsById.forEach(function (e, t) {
 		CookieMonster.buildingTooltips[t] = e.desc
 	})
-}
+};
 
 CookieMonster.setupTooltips = function() {
 	var e = false;
 	Game.UpgradesById.forEach(function (t, n) {
 		for (var r = 0; r < CookieMonster.upgradeCount; r++) {
-			if (_cup(r, n, true)) {
+			if (CookieMonster.checkUpgrade(r, n, true)) {
 				t.desc = CookieMonster.manageTooltips(r, n, true, false);
 				e = true;
 				break;
@@ -25,14 +25,14 @@ CookieMonster.setupTooltips = function() {
 	if (e) {
 		Game.RebuildUpgrades()
 	}
-}
+};
 
 CookieMonster.updateTooltips = function(e) {
 	if (e === "all" || e === "up") {
 		CookieMonster.inStore = new Array(0, 0, 0, 0, 0, 0);
 		Game.UpgradesById.forEach(function (e, t) {
 			for (var n = 0; n < CookieMonster.upgradeCount; n++) {
-				if (_cup(n, t, false)) {
+				if (CookieMonster.checkUpgrade(n, t, false)) {
 					CookieMonster.manageTooltips(n, t, false, false);
 					break;
 				}
@@ -44,7 +44,7 @@ CookieMonster.updateTooltips = function(e) {
 			CookieMonster.manageBuildingTooltip(e)
 		})
 	}
-}
+};
 
 CookieMonster.manageTooltips = function(e, t, n, r) {
 	var i = 0;
@@ -155,7 +155,7 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 		return i;
 	}
 	return tooltips[t] + CookieMonster.colorize(i, t, n)
-}
+};
 
 CookieMonster.manageBuildingTooltip = function(e) {
 	var t = e.id;

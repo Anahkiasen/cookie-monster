@@ -158,7 +158,7 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 		i++;
 	}
 	return r + CookieMonster.getAchievementWorth(i, 0, r + n, 0)
-}
+};
 
 CookieMonster.getTotalCursorModifiers = function() {
 	var e = 0;
@@ -172,7 +172,7 @@ CookieMonster.getTotalCursorModifiers = function() {
 		}
 	});
 	return e * Game.ObjectsById[0].amount
-}
+};
 
 CookieMonster.getTotalGrandmaModifiers = function(e) {
 	var t = 0.5;
@@ -196,7 +196,7 @@ CookieMonster.getTotalGrandmaModifiers = function(e) {
 		}
 	});
 	return t * r + n * r
-}
+};
 
 CookieMonster.getTotalPortalModifiers = function() {
 	var e = 0;

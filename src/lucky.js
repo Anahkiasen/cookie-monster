@@ -17,7 +17,7 @@ CookieMonster.lucky = function(e, t) {
 	}
 
 	return r;
-}
+};
 
 CookieMonster.luckyReward = function(e) {
 	var t = Game.cookiesPs;

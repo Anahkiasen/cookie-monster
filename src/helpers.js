@@ -1,6 +1,6 @@
 CookieMonster.cookiesToHeavenly = function(e) {
 	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * e) / Math.pow(10, 6) - 0.5)
-}
+};
 
 CookieMonster.heavenlyToCookies = function(e) {
 	return 5 * Math.pow(10, 11) * e * (e + 1)
@@ -42,7 +42,7 @@ function _lgt(e) {
 		}
 	}
 	return false;
-}
+};
 
 CookieMonster.checkAchievement = function(e) {
 	var t = 0;
@@ -113,6 +113,7 @@ function _bam(e, t, n) {
 			r = r * 4;
 		}
 	});
+
 	return t * r * Game.ObjectsById[n].amount * Game.globalCpsMult;
 }
 
@@ -126,6 +127,7 @@ function _inc(e) {
 			}
 		}
 	});
+
 	return t;
 }
 
@@ -158,7 +160,7 @@ function _mat(e) {
 	if (CookieMonster.checkAchievement("Mathematician") === 1) {
 		var t = [];
 		var n = [];
-		Game.ObjectsById.forEach(function (e, r) {
+		Game.ObjectsById.forEach(function (e) {
 			t.push(e.name);
 			n.push(e.amount);
 		});
@@ -217,11 +219,12 @@ function _cen(e) {
 	return false;
 }
 
-function _cup(e, t, n) {
-	up = Game.UpgradesById[t];
+CookieMonster.checkUpgrade = function(e, t, n) {
+	var up = Game.UpgradesById[t];
 	if (up.desc.indexOf("cm_up_div_") === -1 && !n) {
 		return false;
 	}
+
 	switch (e) {
 	case 0:
 		if (!up.bought && up.name === "Reinforced index finger") {
@@ -390,11 +393,11 @@ function _cup(e, t, n) {
 		break;
 	}
 	return false;
-}
+};
 
 CookieMonster.isInStore = function(e) {
 	if (Game.UpgradesInStore.indexOf(e) !== -1) {
 		return true;
 	}
 	return false;
-}
+};

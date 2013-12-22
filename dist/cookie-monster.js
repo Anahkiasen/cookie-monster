@@ -124,20 +124,20 @@ CookieMonster.buySellNoWait = function() {
 
 	CookieMonster.buySellNoWait();
 };
-function Get_True_CPI(e, t) {
+CookieMonster.getTrueCPI =function(e, t) {
 	var n = 0;
 	var r = 0;
 	var i = 0;
 	if (t === "ob") {
 		n = CookieMonster.secondsLeft(Game.ObjectsById[e], "ob");
 		r = Game.ObjectsById[e].price;
-		i = CookieMonster.holdIs[e]
+		i = CookieMonster.holdIs[e];
 	}
 	if (t === "up") {
 		n = CookieMonster.secondsLeft(Game.UpgradesById[e], "up");
 		r = Game.UpgradesById[e].basePrice;
 		for (var s = 0; s < CookieMonster.upgradeCount; s++) {
-			if (_cup(s, e, false)) {
+			if (CookieMonster.checkUpgrade(s, e, false)) {
 				i = CookieMonster.manageTooltips(s, e, false, true);
 				break;
 			}
@@ -160,9 +160,9 @@ function Get_True_CPI(e, t) {
 	});
 
 	return o;
-}
+};
 
-function Test_True_CPI(e, t) {
+CookieMonster.testTrueCPI = function(e, t) {
 	var n = 0;
 	var r = 0;
 	var i = 0;
@@ -176,7 +176,7 @@ function Test_True_CPI(e, t) {
 		n = CookieMonster.secondsLeft(e, "up");
 		i = Game.UpgradesById[e].basePrice;
 		for (var o = 0; o < CookieMonster.upgradeCount; o++) {
-			if (_cup(o, e, false)) {
+			if (CookieMonster.checkUpgrade(o, e, false)) {
 				s = CookieMonster.manageTooltips(o, e, false, true);
 				break;
 			}
@@ -193,10 +193,10 @@ function Test_True_CPI(e, t) {
 			var p = CookieMonster.holdIs[o.id];
 			var d = CookieMonster.holdCPI[o.id];
 			if (c === 0) {
-				c = p
+				c = p;
 			}
 			if (l === 0) {
-				l = d
+				l = d;
 			}
 			var v = CookieMonster.secondsLeft(o.id, "ob");
 			var m = 0;
@@ -204,7 +204,7 @@ function Test_True_CPI(e, t) {
 			if (g.id !== u.length && (CookieMonster.holdCPI[g.id] < l || g.id === e)) {
 				m = CookieMonster.secondsLeft(g.id, "ob");
 				l = CookieMonster.holdCPI[g.id];
-				c = p
+				c = p;
 			}
 			if (v < n - r) {
 				var y = m - v;
@@ -212,31 +212,27 @@ function Test_True_CPI(e, t) {
 				var b = c * y;
 				if (y > 0) {
 					s -= c;
-					a = a - h + b
+					a = a - h + b;
 				}
 			}
 		}
 	});
 	f = a / s;
 	return f;
-}
+};
 /**
  * Get the current frenzy multiplier
  *
  * @return {integer}
  */
 CookieMonster.getFrenzyMultiplier = function() {
-	if (Game.frenzy > 0) {
-		return Game.frenzyPower
-	}
-	return 1
-}
+	return (Game.frenzy > 0) ? Game.frenzyPower : 1;
+};
 
 CookieMonster.manageBuffs = function() {
 	var e = "";
 	var t = "";
 	var n = 0;
-	var r = 0;
 	var i = 13 + 13 * Game.Has("Get lucky");
 	var s = new Array(Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime);
 	var o = parseInt($("#cookie_monster_timer_bars_div").css("width"));
@@ -259,7 +255,7 @@ CookieMonster.manageBuffs = function() {
 
 	if (Game.frenzy > 0 && CookieMonster.settings[2] === 1) {
 		if ($("#cookie_monster_timer_" + t).length !== 1) {
-			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_' + t + '" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">' + e + "<td>" + '<td><div id="cmt_' + t + '" style="position:relative; background:#' + t + "; height:10px; width:" + Game.frenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_' + t + '" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + n + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>")
+			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_' + t + '" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">' + e + "<td>" + '<td><div id="cmt_' + t + '" style="position:relative; background:#' + t + "; height:10px; width:" + Game.frenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_' + t + '" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + n + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
 		} else {
 			$("#cmt_" + t).css("width", Game.frenzy / s[2] * 100 + "%");
 			$("#cmt_time_" + t).text(Math.round(Game.frenzy / Game.fps));
@@ -267,53 +263,53 @@ CookieMonster.manageBuffs = function() {
 
 		$("#cookie_monster_timer_" + t).fadeIn(250);
 		if ($("#cookie_monster_timer_FFFF00").css("opacity") === "1" && t !== "FFFF00") {
-			$("#cookie_monster_timer_FFFF00").fadeOut(250)
+			$("#cookie_monster_timer_FFFF00").fadeOut(250);
 		}
 		if ($("#cookie_monster_timer_00FF00").css("opacity") === "1" && t !== "00FF00") {
-			$("#cookie_monster_timer_00FF00").fadeOut(250)
+			$("#cookie_monster_timer_00FF00").fadeOut(250);
 		}
 		if ($("#cookie_monster_timer_FF0000").css("opacity") === "1" && t !== "FF0000") {
-			$("#cookie_monster_timer_FF0000").fadeOut(250)
+			$("#cookie_monster_timer_FF0000").fadeOut(250);
 		}
 	} else if ($("#cookie_monster_timer_" + t).length === 1 && $("#cookie_monster_timer_" + t).css("opacity") === "1") {
-		$("#cookie_monster_timer_" + t).fadeOut(250)
+		$("#cookie_monster_timer_" + t).fadeOut(250);
 	}
 
 	if (Game.clickFrenzy > 0 && CookieMonster.settings[2] === 1) {
 		if ($("#cookie_monster_timer_4BB8F0").length !== 1) {
-			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_4BB8F0" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Click Frenzy<td>' + '<td><div id="cmt_4BB8F0" style="position:relative; background:#4BB8F0; height:10px; width:' + Game.clickFrenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_4BB8F0" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + i + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>")
+			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_4BB8F0" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Click Frenzy<td>' + '<td><div id="cmt_4BB8F0" style="position:relative; background:#4BB8F0; height:10px; width:' + Game.clickFrenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_4BB8F0" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + i + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
 		} else {
 			$("#cmt_4BB8F0").css("width", Game.clickFrenzy / s[2] * 100 + "%");
 			$("#cmt_time_4BB8F0").text(Math.round(Game.clickFrenzy / Game.fps));
 		}
-		$("#cookie_monster_timer_4BB8F0").fadeIn(250)
+		$("#cookie_monster_timer_4BB8F0").fadeIn(250);
 	} else if ($("#cookie_monster_timer_4BB8F0").length === 1 && $("#cookie_monster_timer_4BB8F0").css("opacity") === "1") {
-		$("#cookie_monster_timer_4BB8F0").fadeOut(250)
+		$("#cookie_monster_timer_4BB8F0").fadeOut(250);
 	}
 
 	if (s[0] > 0 && CookieMonster.$goldenCookie.css("display") === "none" && CookieMonster.settings[4] === 1) {
 		if ($("#cookie_monster_timer_FF00FF").length !== 1) {
-			$("#cookie_monster_timer_bars_div").append("" + '<div id="cookie_monster_timer_FF00FF" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Next Cookie<td>' + '<td><div id="cmt_FF00FF" style="position:relative; background:#aaaaaa; height:10px; width:100%; margin-left:4px; border:1px solid black;"><div id="cmt2_FF00FF" style="position:relative; background:#FF00FF; height:10px; width:100%; margin-left:0px; max-width:' + (o - 189) * 0.67 + 'px; float:right;"></div><div id="cmt_time_FF00FF" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + Math.round((s[2] - s[0]) / Game.fps) + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>")
+			$("#cookie_monster_timer_bars_div").append("" + '<div id="cookie_monster_timer_FF00FF" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Next Cookie<td>' + '<td><div id="cmt_FF00FF" style="position:relative; background:#aaaaaa; height:10px; width:100%; margin-left:4px; border:1px solid black;"><div id="cmt2_FF00FF" style="position:relative; background:#FF00FF; height:10px; width:100%; margin-left:0px; max-width:' + (o - 189) * 0.67 + 'px; float:right;"></div><div id="cmt_time_FF00FF" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + Math.round((s[2] - s[0]) / Game.fps) + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
 		} else {
 			$("#cmt2_FF00FF").css("max-width", (o - 189) * 0.67 + "px");
 			$("#cmt_FF00FF").css("width", (s[2] - s[0]) / s[2] * 100 + "%");
 			$("#cmt_time_FF00FF").text(Math.round((s[2] - s[0]) / Game.fps));
 		}
-		$("#cookie_monster_timer_FF00FF").fadeIn(250)
+		$("#cookie_monster_timer_FF00FF").fadeIn(250);
 	} else if ($("#cookie_monster_timer_FF00FF").length === 1 && $("#cookie_monster_timer_FF00FF").css("opacity") === "1") {
-		$("#cookie_monster_timer_FF00FF").fadeOut(250)
+		$("#cookie_monster_timer_FF00FF").fadeOut(250);
 	}
 
 	if ((s[2] - s[0]) / Game.fps > 0 && CookieMonster.$goldenCookie.css("display") === "none") {
 		if (CookieMonster.settings[4] === 1) {
-			CookieMonster.goldenCookieAvailable = "(" + Math.round((s[2] - s[0]) / Game.fps) + ") "
+			CookieMonster.goldenCookieAvailable = "(" + Math.round((s[2] - s[0]) / Game.fps) + ") ";
 		} else {
 			CookieMonster.goldenCookieAvailable = "";
 		}
 	}
 
 	$("#versionNumber").css("bottom", $("#cookie_monster_timer_bars_div").css("height"));
-}
+};
 CookieMonster.getHeavenlyChip = function(e) {
 	var t = CookieMonster.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
 	var n = CookieMonster.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned + CookieMonster.sellOut);
@@ -321,13 +317,13 @@ CookieMonster.getHeavenlyChip = function(e) {
 	var i = CookieMonster.heavenlyToCookies(t + 1) - (Game.cookiesReset + Game.cookiesEarned);
 	var s = CookieMonster.heavenlyToCookies(n + 1) - (Game.cookiesReset + Game.cookiesEarned + CookieMonster.sellOut);
 	if (e === "max") {
-		return CookieMonster.formatNumber(t) + " <small>(" + CookieMonster.formatNumber(t * 2) + "%)</small>"
+		return CookieMonster.formatNumber(t) + " <small>(" + CookieMonster.formatNumber(t * 2) + "%)</small>";
 	}
 	if (e === "max_sell_out") {
-		return CookieMonster.formatNumber(n) + " <small>(" + CookieMonster.formatNumber(n * 2) + "%)</small>"
+		return CookieMonster.formatNumber(n) + " <small>(" + CookieMonster.formatNumber(n * 2) + "%)</small>";
 	}
 	if (e === "cur") {
-		return CookieMonster.formatNumber(r) + " <small>(" + CookieMonster.formatNumber(r * 2) + "%)</small>"
+		return CookieMonster.formatNumber(r) + " <small>(" + CookieMonster.formatNumber(r * 2) + "%)</small>";
 	}
 	if (e === "next") {
 		return CookieMonster.formatNumber(Math.round(i));
@@ -336,15 +332,15 @@ CookieMonster.getHeavenlyChip = function(e) {
 		return CookieMonster.formatNumber(Math.round(s));
 	}
 	if (e === "time") {
-		return CookieMonster.formatTime(Math.round(i / Game.cookiesPs), "")
+		return CookieMonster.formatTime(Math.round(i / Game.cookiesPs), "");
 	}
-}
+};
 
 CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	var i = 0;
 	var s = CookieMonster.getHeavenlyMultiplier();
 	if (r !== 0) {
-		s = r
+		s = r;
 	}
 	var o = 0;
 	var u = new Array(0, 0, 0, 0);
@@ -354,22 +350,22 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	Game.UpgradesById.forEach(function (e, n) {
 		var r = e.desc.replace("[Research]<br>", "");
 		if (e.bought && r.indexOf("Cookie production multiplier <b>+") !== -1) {
-			s += r.substr(33, r.indexOf("%", 33) - 33) * 1
+			s += r.substr(33, r.indexOf("%", 33) - 33) * 1;
 		}
 		if (!e.bought && r.indexOf("Cookie production multiplier <b>+") !== -1 && e.id === t) {
-			o += r.substr(33, r.indexOf("%", 33) - 33) * 1
+			o += r.substr(33, r.indexOf("%", 33) - 33) * 1;
 		}
 		if (e.bought && e.name === "Kitten helpers") {
-			u[0] = 0.05
+			u[0] = 0.05;
 		}
 		if (e.bought && e.name === "Kitten workers") {
-			u[1] = 0.1
+			u[1] = 0.1;
 		}
 		if (e.bought && e.name === "Kitten engineers") {
-			u[2] = 0.2
+			u[2] = 0.2;
 		}
 		if (e.bought && e.name === "Kitten overseers") {
-			u[3] = 0.2
+			u[3] = 0.2;
 		}
 	});
 	var l = 100 + s;
@@ -411,40 +407,41 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 		l = l * (1 + u[2] * a);
 		l = l * (1 + u[3] * a);
 		l = l * (1 + p * a);
-		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h
+		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
 	}
 	if (r !== 0) {
-		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f
+		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f;
 	}
 	if (Game.Has("Elder Covenant")) {
-		i *= 0.95
+		i *= 0.95;
 	}
 	return i;
-}
+};
 
 CookieMonster.getHeavenlyMultiplier = function() {
 	var e = Game.prestige["Heavenly chips"] * 2;
 	var t = 0;
 	if (Game.Has("Heavenly chip secret")) {
-		t += 0.05
+		t += 0.05;
 	}
 	if (Game.Has("Heavenly cookie stand")) {
-		t += 0.2
+		t += 0.2;
 	}
 	if (Game.Has("Heavenly bakery")) {
-		t += 0.25
+		t += 0.25;
 	}
 	if (Game.Has("Heavenly confectionery")) {
-		t += 0.25
+		t += 0.25;
 	}
 	if (Game.Has("Heavenly key")) {
-		t += 0.25
+		t += 0.25;
 	}
-	return e * t
-}
+
+	return e * t;
+};
 CookieMonster.cookiesToHeavenly = function(e) {
 	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * e) / Math.pow(10, 6) - 0.5)
-}
+};
 
 CookieMonster.heavenlyToCookies = function(e) {
 	return 5 * Math.pow(10, 11) * e * (e + 1)
@@ -486,7 +483,7 @@ function _lgt(e) {
 		}
 	}
 	return false;
-}
+};
 
 CookieMonster.checkAchievement = function(e) {
 	var t = 0;
@@ -557,6 +554,7 @@ function _bam(e, t, n) {
 			r = r * 4;
 		}
 	});
+
 	return t * r * Game.ObjectsById[n].amount * Game.globalCpsMult;
 }
 
@@ -570,6 +568,7 @@ function _inc(e) {
 			}
 		}
 	});
+
 	return t;
 }
 
@@ -602,7 +601,7 @@ function _mat(e) {
 	if (CookieMonster.checkAchievement("Mathematician") === 1) {
 		var t = [];
 		var n = [];
-		Game.ObjectsById.forEach(function (e, r) {
+		Game.ObjectsById.forEach(function (e) {
 			t.push(e.name);
 			n.push(e.amount);
 		});
@@ -661,11 +660,12 @@ function _cen(e) {
 	return false;
 }
 
-function _cup(e, t, n) {
-	up = Game.UpgradesById[t];
+CookieMonster.checkUpgrade = function(e, t, n) {
+	var up = Game.UpgradesById[t];
 	if (up.desc.indexOf("cm_up_div_") === -1 && !n) {
 		return false;
 	}
+
 	switch (e) {
 	case 0:
 		if (!up.bought && up.name === "Reinforced index finger") {
@@ -834,28 +834,29 @@ function _cup(e, t, n) {
 		break;
 	}
 	return false;
-}
+};
 
 CookieMonster.isInStore = function(e) {
 	if (Game.UpgradesInStore.indexOf(e) !== -1) {
 		return true;
 	}
 	return false;
-}
+};
 CookieMonster.faviconSpinner = function(e) {
 	if (e > 6) {
-		e = 1
+		e = 1;
 	}
+
 	if (CookieMonster.goldenCookieAvailable === "(G) ") {
 		$("#cm_favicon").attr("href", "http://frozenelm.com/cookiemonster/images/cm_gc_" + e + ".png");
 		e++;
 		setTimeout(function () {
-			CookieMonster.faviconSpinner(e)
-		}, 250)
+			CookieMonster.faviconSpinner(e);
+		}, 250);
 	} else {
-		$("#cm_favicon").attr("href", "http://orteil.dashnet.org/cookieclicker/img/favicon.ico")
+		$("#cm_favicon").attr("href", "http://orteil.dashnet.org/cookieclicker/img/favicon.ico");
 	}
-}
+};
 
 CookieMonster.toggleBar = function() {
 	if (CookieMonster.settings[5] === 0) {
@@ -865,7 +866,7 @@ CookieMonster.toggleBar = function() {
 		CookieMonster.$monsterBar.css("display", "");
 		$("#game").css("bottom", "57px");
 	}
-}
+};
 
 CookieMonster.updateUpgradeDisplay = function() {
 	var e = $("#upgrades");
@@ -883,7 +884,7 @@ CookieMonster.updateUpgradeDisplay = function() {
 			e.css("cssText", "height: 0px !important;");
 			break;
 	}
-}
+};
 
 CookieMonster.makeTable = function() {
 	var e = '<th align=left width=130 style="color:#FFFF00;"> ' + CookieMonster.version + "</th>";
@@ -895,12 +896,12 @@ CookieMonster.makeTable = function() {
 		e += '<th align=middle id="cookie_monster_item_' + s + '" style="font-weight:bold;"></th>';
 		n += '<td align=middle id="cookie_monster_is_' + s + '"></td>';
 		r += '<td align=middle id="cookie_monster_cpi_' + s + '"></td>';
-		i += '<td align=middle id="cookie_monster_tc_' + s + '"></td>'
+		i += '<td align=middle id="cookie_monster_tc_' + s + '"></td>';
 	});
 
 	CookieMonster.$monsterBar.html(
 		'<table style="width:100%; table-layout:fixed; margin-top:2px;">' +
-			"<tr>" + e + '</tr>'
+			"<tr>" + e + '</tr>'+
 			'<tr>'+
 				'<th align=right style="color:#4bb8f0;">Bonus Income</th>' + n +
 			'</tr>' +
@@ -913,7 +914,7 @@ CookieMonster.makeTable = function() {
 		"</table>");
 
 	CookieMonster.$monsterBar = $('#cookie_monster_bar');
-}
+};
 
 CookieMonster.updateTable = function() {
 	Game.ObjectsById.forEach(function (e, t) {
@@ -951,7 +952,7 @@ CookieMonster.updateTable = function() {
 		$("#cookie_monster_cpi_" + t).html('<span style="color:#' + n[0] + ';">' + CookieMonster.formatNumber(r[0]) + "</span>");
 		$("#cookie_monster_tc_" + t).html('<span style="color:#' + n[1] + ';">' + CookieMonster.formatTime(r[1], "min") + "</span>")
 	})
-}
+};
 
 CookieMonster.colorize = function(e, t, n) {
 	var r = Game.UpgradesById[t];
@@ -1033,7 +1034,7 @@ CookieMonster.colorize = function(e, t, n) {
 		o = "000000";
 		return '<div id="cm_up_lucky_div_' + t + '" style="position:absolute; top:-25px; left:-12px; height:32px;">' + '<div id="cm_up_lucky_div_warning" style="background:url(http://frozenelm.com/images/cookiemonster/warning.png); position:relative; float:left; height:32px; width:32px; display:none;"></div>' + '<div id="cm_up_lucky_div_caution" style="background:url(http://frozenelm.com/images/cookiemonster/caution.png); position:relative; float:left; height:32px; width:32px; display:none;"></div>' + "</div>" + '<div id="cm_up_div_' + t + '" style="position:relative; height:96px; background:#222222; border:1px solid #' + o + '; margin:6px -6px -6px -6px; display:none;"></div>' + '<div id="cm_up_note_div_' + t + '" style="position:absolute; left:0px; margin-top:10px; color:white;">' + '<div id="cm_up_note_div_warning" style="background:#222222; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #FF0000;"><b style="color:#FF0000;">Warning:</b> Purchase of this item will put you under the number of Cookies required for "Lucky!"</br><span id="cm_up_warning_amount"></span>' + '<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="http://frozenelm.com/images/cookiemonster/warning.png" height=16px width=16px></div></div>' + '<div id="cm_up_note_div_caution" style="background:#222222; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #FFFF00;"><b style="color:#FFFF00;">Caution:</b> Purchase of this item will put you under the number of Cookies required for "Lucky!" (Frenzy)</br><span id="cm_up_caution_amount"></span>' + '<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="http://frozenelm.com/images/cookiemonster/caution.png" height=16px width=16px></div></div>' + "</div>"
 	}
-}
+};
 
 CookieMonster.organizeObjectList = function() {
 	var e = [];
@@ -1055,7 +1056,7 @@ CookieMonster.organizeObjectList = function() {
 		}
 	});
 	return e;
-}
+};
 
 CookieMonster.emphasize = function() {
 	var e = $("#cookie_monster_golden_overlay");
@@ -1068,16 +1069,16 @@ CookieMonster.emphasize = function() {
 		emphasize = false;
 		if (CookieMonster.settings[9] === 1) {
 			CookieMonster.goldenCookieAvailable = "(G) ";
-			CookieMonster.faviconSpinner(1)
+			CookieMonster.faviconSpinner(1);
 		}
 		if (CookieMonster.settings[8] === 1) {
 			var n = new Audio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");
 			n.volume = 1;
-			n.play()
+			n.play();
 		}
 		if (CookieMonster.settings[0] === 1) {
 			$("#cookie_monster_overlay").fadeIn(100);
-			$("#cookie_monster_overlay").fadeOut(500)
+			$("#cookie_monster_overlay").fadeOut(500);
 		}
 	}
 	if (t.css("display") !== "none" && CookieMonster.settings[1] === 1) {
@@ -1085,11 +1086,11 @@ CookieMonster.emphasize = function() {
 		e.css("opacity", t.css("opacity"));
 		e.css("left", t.css("left"));
 		e.css("top", t.css("top"));
-		e.html('<div style="position:absolute; top:30px; width:96px; height:36px;">' + Math.round(Game.goldenCookie.life / Game.fps) + "</div>")
+		e.html('<div style="position:absolute; top:30px; width:96px; height:36px;">' + Math.round(Game.goldenCookie.life / Game.fps) + "</div>");
 	} else {
-		e.css("display", "none")
+		e.css("display", "none");
 	}
-}
+};
 CookieMonster.lucky = function(e, t) {
 	var n = Game.cookiesPs;
 	if (Game.frenzy > 0) {
@@ -1109,7 +1110,7 @@ CookieMonster.lucky = function(e, t) {
 	}
 
 	return r;
-}
+};
 
 CookieMonster.luckyReward = function(e) {
 	var t = Game.cookiesPs;
@@ -1218,7 +1219,7 @@ CookieMonster.loadSettings = function() {
 		}
 	}
 	CookieMonster.toggleBar()
-}
+};
 
 CookieMonster.saveSettings = function() {
 	if (typeof Storage !== "undefined") {
@@ -1238,11 +1239,11 @@ CookieMonster.saveSettings = function() {
 	}
 
 	CookieMonster.toggleBar()
-}
+};
 
 CookieMonster.getOptionState = function(e) {
 	return (CookieMonster.settings[e] === 0) ? 'OFF' : 'ON';
-}
+};
 
 CookieMonster.toggleOption = function(option) {
 	var $option = $(option);
@@ -1469,7 +1470,7 @@ CookieMonster.factorTime = function(e) {
 		return 1 - t * -1 / n / r
 	}
 	return 1
-}
+};
 
 CookieMonster.secondsLeft = function(e, t) {
 	var n = 0;
@@ -1490,7 +1491,7 @@ CookieMonster.secondsLeft = function(e, t) {
 		return o;
 	}
 	return 0
-}
+};
 
 CookieMonster.sts = function(e, t) {
 	var n = CookieMonster.settings[7];
@@ -1508,15 +1509,15 @@ CookieMonster.sts = function(e, t) {
 		return Math.round(e);
 	}
 	return Math.round(e * 100) / 100;
-}
+};
 
 CookieMonster.formatNumber = function(e) {
 	return CookieMonster.sts(e, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+};
 
 CookieMonster.formatNumberB = function(e) {
 	return CookieMonster.sts(e, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+};
 
 CookieMonster.formatTime = function(e, t) {
 	e = Math.round(e);
@@ -1572,13 +1573,13 @@ CookieMonster.saveTooltips = function() {
 	Game.ObjectsById.forEach(function (e, t) {
 		CookieMonster.buildingTooltips[t] = e.desc
 	})
-}
+};
 
 CookieMonster.setupTooltips = function() {
 	var e = false;
 	Game.UpgradesById.forEach(function (t, n) {
 		for (var r = 0; r < CookieMonster.upgradeCount; r++) {
-			if (_cup(r, n, true)) {
+			if (CookieMonster.checkUpgrade(r, n, true)) {
 				t.desc = CookieMonster.manageTooltips(r, n, true, false);
 				e = true;
 				break;
@@ -1592,14 +1593,14 @@ CookieMonster.setupTooltips = function() {
 	if (e) {
 		Game.RebuildUpgrades()
 	}
-}
+};
 
 CookieMonster.updateTooltips = function(e) {
 	if (e === "all" || e === "up") {
 		CookieMonster.inStore = new Array(0, 0, 0, 0, 0, 0);
 		Game.UpgradesById.forEach(function (e, t) {
 			for (var n = 0; n < CookieMonster.upgradeCount; n++) {
-				if (_cup(n, t, false)) {
+				if (CookieMonster.checkUpgrade(n, t, false)) {
 					CookieMonster.manageTooltips(n, t, false, false);
 					break;
 				}
@@ -1611,7 +1612,7 @@ CookieMonster.updateTooltips = function(e) {
 			CookieMonster.manageBuildingTooltip(e)
 		})
 	}
-}
+};
 
 CookieMonster.manageTooltips = function(e, t, n, r) {
 	var i = 0;
@@ -1722,7 +1723,7 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 		return i;
 	}
 	return tooltips[t] + CookieMonster.colorize(i, t, n)
-}
+};
 
 CookieMonster.manageBuildingTooltip = function(e) {
 	var t = e.id;
@@ -1951,7 +1952,7 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 		i++;
 	}
 	return r + CookieMonster.getAchievementWorth(i, 0, r + n, 0)
-}
+};
 
 CookieMonster.getTotalCursorModifiers = function() {
 	var e = 0;
@@ -1965,7 +1966,7 @@ CookieMonster.getTotalCursorModifiers = function() {
 		}
 	});
 	return e * Game.ObjectsById[0].amount
-}
+};
 
 CookieMonster.getTotalGrandmaModifiers = function(e) {
 	var t = 0.5;
@@ -1989,7 +1990,7 @@ CookieMonster.getTotalGrandmaModifiers = function(e) {
 		}
 	});
 	return t * r + n * r
-}
+};
 
 CookieMonster.getTotalPortalModifiers = function() {
 	var e = 0;
@@ -2067,7 +2068,7 @@ CookieMonster.start = function() {
 	CookieMonster.setupTooltips();
 	CookieMonster.mainLoop();
 	Game.Popup('<span style="color:#FFFF00; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + CookieMonster.version + " Loaded!</span>");
-}
+};
 
 CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();

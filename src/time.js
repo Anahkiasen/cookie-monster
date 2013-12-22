@@ -9,7 +9,7 @@ CookieMonster.factorTime = function(e) {
 		return 1 - t * -1 / n / r
 	}
 	return 1
-}
+};
 
 CookieMonster.secondsLeft = function(e, t) {
 	var n = 0;
@@ -30,7 +30,7 @@ CookieMonster.secondsLeft = function(e, t) {
 		return o;
 	}
 	return 0
-}
+};
 
 CookieMonster.sts = function(e, t) {
 	var n = CookieMonster.settings[7];
@@ -48,15 +48,15 @@ CookieMonster.sts = function(e, t) {
 		return Math.round(e);
 	}
 	return Math.round(e * 100) / 100;
-}
+};
 
 CookieMonster.formatNumber = function(e) {
 	return CookieMonster.sts(e, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+};
 
 CookieMonster.formatNumberB = function(e) {
 	return CookieMonster.sts(e, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+};
 
 CookieMonster.formatTime = function(e, t) {
 	e = Math.round(e);

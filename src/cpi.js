@@ -1,17 +1,17 @@
-function Get_True_CPI(e, t) {
+CookieMonster.getTrueCPI =function(e, t) {
 	var n = 0;
 	var r = 0;
 	var i = 0;
 	if (t === "ob") {
 		n = CookieMonster.secondsLeft(Game.ObjectsById[e], "ob");
 		r = Game.ObjectsById[e].price;
-		i = CookieMonster.holdIs[e]
+		i = CookieMonster.holdIs[e];
 	}
 	if (t === "up") {
 		n = CookieMonster.secondsLeft(Game.UpgradesById[e], "up");
 		r = Game.UpgradesById[e].basePrice;
 		for (var s = 0; s < CookieMonster.upgradeCount; s++) {
-			if (_cup(s, e, false)) {
+			if (CookieMonster.checkUpgrade(s, e, false)) {
 				i = CookieMonster.manageTooltips(s, e, false, true);
 				break;
 			}
@@ -34,9 +34,9 @@ function Get_True_CPI(e, t) {
 	});
 
 	return o;
-}
+};
 
-function Test_True_CPI(e, t) {
+CookieMonster.testTrueCPI = function(e, t) {
 	var n = 0;
 	var r = 0;
 	var i = 0;
@@ -50,7 +50,7 @@ function Test_True_CPI(e, t) {
 		n = CookieMonster.secondsLeft(e, "up");
 		i = Game.UpgradesById[e].basePrice;
 		for (var o = 0; o < CookieMonster.upgradeCount; o++) {
-			if (_cup(o, e, false)) {
+			if (CookieMonster.checkUpgrade(o, e, false)) {
 				s = CookieMonster.manageTooltips(o, e, false, true);
 				break;
 			}
@@ -67,10 +67,10 @@ function Test_True_CPI(e, t) {
 			var p = CookieMonster.holdIs[o.id];
 			var d = CookieMonster.holdCPI[o.id];
 			if (c === 0) {
-				c = p
+				c = p;
 			}
 			if (l === 0) {
-				l = d
+				l = d;
 			}
 			var v = CookieMonster.secondsLeft(o.id, "ob");
 			var m = 0;
@@ -78,7 +78,7 @@ function Test_True_CPI(e, t) {
 			if (g.id !== u.length && (CookieMonster.holdCPI[g.id] < l || g.id === e)) {
 				m = CookieMonster.secondsLeft(g.id, "ob");
 				l = CookieMonster.holdCPI[g.id];
-				c = p
+				c = p;
 			}
 			if (v < n - r) {
 				var y = m - v;
@@ -86,11 +86,11 @@ function Test_True_CPI(e, t) {
 				var b = c * y;
 				if (y > 0) {
 					s -= c;
-					a = a - h + b
+					a = a - h + b;
 				}
 			}
 		}
 	});
 	f = a / s;
 	return f;
-}
+};

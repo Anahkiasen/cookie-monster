@@ -58,7 +58,7 @@ CookieMonster.start = function() {
 	CookieMonster.setupTooltips();
 	CookieMonster.mainLoop();
 	Game.Popup('<span style="color:#FFFF00; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + CookieMonster.version + " Loaded!</span>");
-}
+};
 
 CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();
