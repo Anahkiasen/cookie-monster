@@ -1211,7 +1211,8 @@ function Manage_Buffs() {
 	case 666:
 		n = 6 + 6 * Game.Has("Get lucky");
 		e = "Blood Frenzy";
-		t = "00FF00": n = 66 + 66 * Game.Has("Get lucky");
+		t = "00FF00";
+		n = 66 + 66 * Game.Has("Get lucky");
 		e = "Clot";
 		t = "FF0000";
 		break

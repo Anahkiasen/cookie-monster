@@ -116,7 +116,7 @@ module.exports = function(grunt) {
 				}
 			},
 
-			all: ['<%= src %>/cpi.js'],
+			all: ['<%= src %>/*.js'],
 		},
 
 	});
