@@ -867,20 +867,21 @@ CookieMonster.toggleBar = function() {
 	}
 }
 
-
-
 CookieMonster.updateUpgradeDisplay = function() {
 	var e = $("#upgrades");
+
 	switch (CookieMonster.settings[12] * 1) {
-	case 1:
-		e.css("cssText", "");
-		break;
-	case 2:
-		e.css("cssText", "height: auto !important;");
-		break;
-	case 0:
-		e.css("cssText", "height: 0px !important;");
-		break;
+		case 1:
+			e.css("cssText", "");
+			break;
+
+		case 2:
+			e.css("cssText", "height: auto !important;");
+			break;
+
+		case 0:
+			e.css("cssText", "height: 0px !important;");
+			break;
 	}
 }
 
@@ -896,7 +897,22 @@ CookieMonster.makeTable = function() {
 		r += '<td align=middle id="cookie_monster_cpi_' + s + '"></td>';
 		i += '<td align=middle id="cookie_monster_tc_' + s + '"></td>'
 	});
-	CookieMonster.$monsterBar.html("" + '<table style="width:100%; table-layout:fixed; margin-top:2px;">' + "<tr>" + e + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Bonus Income</th>' + n + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Base Cost Per Income</th>' + r + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Time Left</th>' + i + "</tr>" + "</table>")
+
+	CookieMonster.$monsterBar.html(
+		'<table style="width:100%; table-layout:fixed; margin-top:2px;">' +
+			"<tr>" + e + '</tr>'
+			'<tr>'+
+				'<th align=right style="color:#4bb8f0;">Bonus Income</th>' + n +
+			'</tr>' +
+			'<tr>'+
+				'<th align=right style="color:#4bb8f0;">Base Cost Per Income</th>' + r +
+			'</tr>' +
+			'<tr>' +
+				'<th align=right style="color:#4bb8f0;">Time Left</th>' + i +
+			'</tr>' +
+		"</table>");
+
+	CookieMonster.$monsterBar = $('#cookie_monster_bar');
 }
 
 CookieMonster.updateTable = function() {
