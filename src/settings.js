@@ -128,12 +128,12 @@ CookieMonster.toggleOption = function(option) {
 		case "Colored Prices ON":
 			this.settings[6] = 0;
 			$option.text("Colored Prices OFF");
-			CookieMonster.updateTooltips("ob");
+			CookieMonster.updateTooltips("objects");
 			break;
 		case "Colored Prices OFF":
 			this.settings[6] = 1;
 			$option.text("Colored Prices ON");
-			CookieMonster.updateTooltips("ob");
+			CookieMonster.updateTooltips("objects");
 			break;
 		case "Upgrade Icons ON":
 			this.settings[11] = 0;

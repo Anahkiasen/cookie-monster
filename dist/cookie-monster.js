@@ -1039,12 +1039,12 @@ CookieMonster.toggleOption = function(option) {
 		case "Colored Prices ON":
 			this.settings[6] = 0;
 			$option.text("Colored Prices OFF");
-			CookieMonster.updateTooltips("ob");
+			CookieMonster.updateTooltips("objects");
 			break;
 		case "Colored Prices OFF":
 			this.settings[6] = 1;
 			$option.text("Colored Prices ON");
-			CookieMonster.updateTooltips("ob");
+			CookieMonster.updateTooltips("objects");
 			break;
 		case "Upgrade Icons ON":
 			this.settings[11] = 0;
@@ -1354,22 +1354,30 @@ CookieMonster.setupTooltips = function() {
 	}
 };
 
-CookieMonster.updateTooltips = function(e) {
-	if (e === "all" || e === "up") {
-		CookieMonster.inStore = new Array(0, 0, 0, 0, 0, 0);
-		Game.UpgradesById.forEach(function (e, t) {
-			for (var n = 0; n < CookieMonster.upgradeCount; n++) {
-				if (CookieMonster.checkUpgrade(n, t, false)) {
-					CookieMonster.manageTooltips(n, t, false, false);
+/**
+ * Update one or more types of tooltips
+ *
+ * @param {string} which [upgrades,objects,all]
+ *
+ * @return {void}
+ */
+CookieMonster.updateTooltips = function(which) {
+	if (which === "all" || which === "upgrades") {
+		this.inStore = new Array(0, 0, 0, 0, 0, 0);
+
+		Game.UpgradesById.forEach(function (upgrade, key) {
+			for (var n = 0; n < this.upgradeCount; n++) {
+				if (this.checkUpgrade(n, key, false)) {
+					this.manageTooltips(n, key, false, false);
 					break;
 				}
 			}
 		});
 	}
 
-	if (e === "all" || e === "ob") {
-		Game.ObjectsById.forEach(function (e) {
-			CookieMonster.manageBuildingTooltip(e);
+	if (which === "all" || which === "objects") {
+		Game.ObjectsById.forEach(function (object) {
+			this.manageBuildingTooltip(object);
 		});
 	}
 };
@@ -1379,110 +1387,111 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 	var s = 0;
 	switch (e) {
 	case 0:
-		i = CookieMonster.bam("The mouse and cursors", 0.1, 0);
+		i = this.bam("The mouse and cursors", 0.1, 0);
 		break;
 	case 1:
-		i = CookieMonster.bte(0);
+		i = this.bte(0);
 		break;
 	case 2:
-		i = CookieMonster.mcg(t);
+		i = this.mcg(t);
 		break;
 	case 3:
-		i = CookieMonster.bam("Grandmas", 0.3, 1);
+		i = this.bam("Grandmas", 0.3, 1);
 		break;
 	case 4:
-		i = CookieMonster.bte(1);
-		if (CookieMonster.lgt(t)) {
+		i = this.bte(1);
+		if (this.lgt(t)) {
 			s++;
 		}
 		break;
 	case 5:
-		i = CookieMonster.bam("Farms", 0.5, 2);
+		i = this.bam("Farms", 0.5, 2);
 		break;
 	case 6:
-		i = CookieMonster.bte(2);
+		i = this.bte(2);
 		break;
 	case 7:
-		i = CookieMonster.bam("Factories", 4, 3);
+		i = this.bam("Factories", 4, 3);
 		break;
 	case 8:
-		i = CookieMonster.bte(3);
+		i = this.bte(3);
 		break;
 	case 9:
-		i = CookieMonster.bam("Mines", 10, 4);
+		i = this.bam("Mines", 10, 4);
 		break;
 	case 10:
-		i = CookieMonster.bte(4);
+		i = this.bte(4);
 		break;
 	case 11:
-		i = CookieMonster.bam("Shipments", 30, 5);
+		i = this.bam("Shipments", 30, 5);
 		break;
 	case 12:
-		i = CookieMonster.bte(5);
+		i = this.bte(5);
 		break;
 	case 13:
-		i = CookieMonster.bam("Alchemy labs", 100, 6);
+		i = this.bam("Alchemy labs", 100, 6);
 		break;
 	case 14:
-		i = CookieMonster.bte(6);
+		i = this.bte(6);
 		break;
 	case 15:
-		i = CookieMonster.bam("Portals", 1666, 7);
+		i = this.bam("Portals", 1666, 7);
 		break;
 	case 16:
-		i = CookieMonster.bte(7);
+		i = this.bte(7);
 		break;
 	case 17:
-		i = CookieMonster.bam("Time machines", 9876, 8);
+		i = this.bam("Time machines", 9876, 8);
 		break;
 	case 18:
-		i = CookieMonster.bte(8);
+		i = this.bte(8);
 		break;
 	case 21:
-		i = CookieMonster.gpg();
+		i = this.gpg();
 		break;
 	case 22:
-		i = CookieMonster.gpp();
+		i = this.gpp();
 		break;
 	case 23:
-		s += CookieMonster.hasAchievement("Elder nap");
+		s += this.hasAchievement("Elder nap");
 		if (Game.pledges === 4) {
-			s += CookieMonster.hasAchievement("Elder slumber");
+			s += this.hasAchievement("Elder slumber");
 		}
 		break;
 	case 24:
-		s += CookieMonster.hasAchievement("Elder calm");
+		s += this.hasAchievement("Elder calm");
 		break;
 	case 28:
-		i = CookieMonster.fte(1);
+		i = this.fte(1);
 		break;
 	case 29:
-		i = CookieMonster.bte(9);
+		i = this.bte(9);
 		break;
 	case 30:
-		i = CookieMonster.bam("Antimatter condensers", 99999, 9);
+		i = this.bam("Antimatter condensers", 99999, 9);
 		break;
 	case 32:
-		i = CookieMonster.dhc(s, t, i);
-		if (CookieMonster.isHeavenlyKey(t)) {
-			s += CookieMonster.hasAchievement("Wholesome");
+		i = this.dhc(s, t, i);
+		if (this.isHeavenlyKey(t)) {
+			s += this.hasAchievement("Wholesome");
 		}
 		break;
 	}
 	if (Game.UpgradesOwned === 19) {
-		s += CookieMonster.hasAchievement("Enhancer");
+		s += this.hasAchievement("Enhancer");
 	}
 	if (Game.UpgradesOwned === 49) {
-		s += CookieMonster.hasAchievement("Augmenter");
+		s += this.hasAchievement("Augmenter");
 	}
 	if (Game.UpgradesOwned === 99) {
-		s += CookieMonster.hasAchievement("Upgrader");
+		s += this.hasAchievement("Upgrader");
 	}
-	i += CookieMonster.getAchievementWorth(s, t, i, 0);
+	i += this.getAchievementWorth(s, t, i, 0);
 	if (r) {
 		return i;
 	}
-	return CookieMonster.tooltips[t] + CookieMonster.colorize(i, t, n);
+
+	return this.tooltips[t] + this.colorize(i, t, n);
 };
 
 CookieMonster.manageBuildingTooltip = function(e) {
@@ -1840,7 +1849,7 @@ CookieMonster.update = function() {
 	Game.tooltip.draw = new Function("from,text,x,y,origin", Game.tooltip.draw.toString().replace("implemented');}", "implemented');}" + n).replace("this.on=1;", "this.on=1;\nCookieMonster.updateTooltips('all');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	Game.Reset = new Function("bypass", Game.Reset.toString().replace("Game.researchT=0;", "Game.researchT=0;\n$('#cookie_monster_timer_bars_div').text('');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	Game.LoadSave = new Function("data", Game.LoadSave.toString().replace("Game.Popup('Game loaded');", "Game.Popup('Game loaded');\n$('#cookie_monster_timer_bars_div').text('');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-	Game.RebuildStore = new Function("", Game.RebuildStore.toString().replace("l('products').innerHTML=str;", "l('products').innerHTML=str;\nCookieMonster.updateTooltips('ob');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
+	Game.RebuildStore = new Function("", Game.RebuildStore.toString().replace("l('products').innerHTML=str;", "l('products').innerHTML=str;\nCookieMonster.updateTooltips('objects');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	Game.Draw = new Function("", Game.Draw.toString().replace("Beautify(Math.round(Game.cookiesd))", "CookieMonster.formatNumberB(Game.cookiesd)").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	var r = "return CookieMonster.formatNumber(what);";
 	Beautify = new Function("what,floats", Beautify.toString().replace("var str='';", r + "\nvar str='';").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
