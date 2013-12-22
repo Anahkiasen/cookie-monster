@@ -22,11 +22,11 @@ CookieMonster.lgt = function(e) {
 	if (CookieMonster.hasAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
 		var t = [];
 		var n = [];
-		Game.UpgradesById.forEach(function (e, r) {
-			if (e.bought && e.name.indexOf(" grandmas") !== -1) {
-				t.push(r);
-			} else if (!e.bought && e.name.indexOf(" grandmas") !== -1) {
-				n.push(r);
+		Game.UpgradesById.forEach(function (upgrade, key) {
+			if (upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
+				t.push(key);
+			} else if (!upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
+				n.push(key);
 			}
 		});
 		if (n.length === 1 && n[0] === e) {
@@ -56,34 +56,34 @@ CookieMonster.hasAchievement = function(checkedAchievement) {
 };
 
 CookieMonster.gpp = function() {
-	var e = 1;
+	var multiplier = 1;
 
-	Game.UpgradesById.forEach(function (t) {
-		if (t.bought && t.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			e = e * 2;
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+			multiplier = multiplier * 2;
 		}
 
-		if (t.bought && t.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			e = e * 4;
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+			multiplier = multiplier * 4;
 		}
 	});
 
-	return Game.ObjectsById[7].amount * 0.05 * e * Game.ObjectsById[1].amount * Game.globalCpsMult;
+	return Game.ObjectsById[7].amount * 0.05 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
 };
 
 CookieMonster.gpg = function() {
-	var e = 1;
+	var multiplier = 1;
 
-	Game.UpgradesById.forEach(function (t) {
-		if (t.bought && t.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			e = e * 2;
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+			multiplier = multiplier * 2;
 		}
-		if (t.bought && t.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			e = e * 4;
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+			multiplier = multiplier * 4;
 		}
 	});
 
-	return Game.ObjectsById[1].amount * 0.02 * e * Game.ObjectsById[1].amount * Game.globalCpsMult;
+	return Game.ObjectsById[1].amount * 0.02 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
 };
 
 CookieMonster.mcg = function(e) {
@@ -104,19 +104,19 @@ CookieMonster.fte = function(e) {
 	return Game.ObjectsById[e].storedTotalCps * 3 * Game.globalCpsMult;
 };
 
-CookieMonster.bam = function(e, t, n) {
-	var r = 1;
+CookieMonster.bam = function(building, cookiesPerSecond, buildingKey) {
+	var multiplier = 1;
 
-	Game.UpgradesById.forEach(function (t) {
-		if (t.bought && t.desc.indexOf(e + " are <b>twice</b> as efficient.") !== -1) {
-			r = r * 2;
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf(building + " are <b>twice</b> as efficient.") !== -1) {
+			multiplier = multiplier * 2;
 		}
-		if (t.bought && t.desc.indexOf(e + " are <b>4 times</b> as efficient.") !== -1) {
-			r = r * 4;
+		if (upgrade.bought && upgrade.desc.indexOf(building + " are <b>4 times</b> as efficient.") !== -1) {
+			multiplier = multiplier * 4;
 		}
 	});
 
-	return t * r * Game.ObjectsById[n].amount * Game.globalCpsMult;
+	return cookiesPerSecond * multiplier * Game.ObjectsById[buildingKey].amount * Game.globalCpsMult;
 };
 
 CookieMonster.inc = function(e) {

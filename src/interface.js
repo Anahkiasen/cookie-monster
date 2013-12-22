@@ -108,9 +108,9 @@ CookieMonster.updateTable = function() {
 		var a = e.name.replace(/([^\s]+)/, "");
 
 		CookieMonster.holdItem[t] = e.name.replace(a, "") + ' (<span style="color:#' +CookieMonster.colors.blue+ ';">' + CookieMonster.formatNumber(r) + "</span>)";
-		CookieMonster.holdIs[t] = Math.round(o * 100) / 100;
-		CookieMonster.holdCPI[t] = Math.round(u * 100) / 100;
-		CookieMonster.holdTC[t] = Math.round(CookieMonster.secondsLeft(t, "ob"));
+		CookieMonster.holdIs[t]   = Math.round(o * 100) / 100;
+		CookieMonster.holdCPI[t]  = Math.round(u * 100) / 100;
+		CookieMonster.holdTC[t]   = Math.round(CookieMonster.secondsLeft(t, "ob"));
 	});
 
 	Game.ObjectsById.forEach(function (e, t) {
@@ -126,7 +126,7 @@ CookieMonster.updateTable = function() {
 			} else if (r[i] === s[i]) {
 				n[i] = CookieMonster.colors.red;
 			} else if (s[i] - r[i] < r[i] - o[i]) {
-				n[i] = "FF7F00";
+				n[i] = CookieMonster.colors.orange;
 			}
 		}
 		$("#cookie_monster_item_" + t).html(CookieMonster.holdItem[t]);
@@ -162,12 +162,12 @@ CookieMonster.colorize = function(e, t, n) {
 				this.inStore[4]++;
 			}
 		} else if (u[i] > a[i]) {
-			o[i] = "FF00FF";
+			o[i] = this.colors.purple;
 			if (this.isInStore(r) && i === 0) {
 				this.inStore[5]++;
 			}
 		} else if (a[i] - u[i] < u[i] - f[i]) {
-			o[i] = "FF7F00";
+			o[i] = this.colors.orange;
 			if (this.isInStore(r) && i === 0) {
 				this.inStore[3]++;
 			}

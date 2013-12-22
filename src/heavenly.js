@@ -58,24 +58,24 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	var a = Game.milkProgress;
 	var f = this.getFrenzyMultiplier();
 
-	Game.UpgradesById.forEach(function (e) {
-		var r = e.desc.replace("[Research]<br>", "");
-		if (e.bought && r.indexOf("Cookie production multiplier <b>+") !== -1) {
+	Game.UpgradesById.forEach(function (upgrade) {
+		var r = upgrade.desc.replace("[Research]<br>", "");
+		if (upgrade.bought && r.indexOf("Cookie production multiplier <b>+") !== -1) {
 			s += r.substr(33, r.indexOf("%", 33) - 33) * 1;
 		}
-		if (!e.bought && r.indexOf("Cookie production multiplier <b>+") !== -1 && e.id === t) {
+		if (!upgrade.bought && r.indexOf("Cookie production multiplier <b>+") !== -1 && upgrade.id === t) {
 			o += r.substr(33, r.indexOf("%", 33) - 33) * 1;
 		}
-		if (e.bought && e.name === "Kitten helpers") {
+		if (upgrade.bought && upgrade.name === "Kitten helpers") {
 			u[0] = 0.05;
 		}
-		if (e.bought && e.name === "Kitten workers") {
+		if (upgrade.bought && upgrade.name === "Kitten workers") {
 			u[1] = 0.1;
 		}
-		if (e.bought && e.name === "Kitten engineers") {
+		if (upgrade.bought && upgrade.name === "Kitten engineers") {
 			u[2] = 0.2;
 		}
-		if (e.bought && e.name === "Kitten overseers") {
+		if (upgrade.bought && upgrade.name === "Kitten overseers") {
 			u[3] = 0.2;
 		}
 	});
@@ -94,18 +94,18 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	l = l * (1 + u[3] * a);
 	var p = 0;
 	switch (Game.UpgradesById[t].name) {
-	case "Kitten helpers":
-		p = 0.05;
-		break;
-	case "Kitten workers":
-		p = 0.1;
-		break;
-	case "Kitten engineers":
-		p = 0.2;
-		break;
-	case "Kitten overseers":
-		p = 0.2;
-		break;
+		case "Kitten helpers":
+			p = 0.05;
+			break;
+		case "Kitten workers":
+			p = 0.1;
+			break;
+		case "Kitten engineers":
+			p = 0.2;
+			break;
+		case "Kitten overseers":
+			p = 0.2;
+			break;
 	}
 	l = l * (1 + p * a);
 	i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
