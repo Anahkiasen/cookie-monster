@@ -14,10 +14,10 @@ CookieMonster.setupTooltips = function() {
 			if (_cup(r, n, true)) {
 				t.desc = CookieMonster.manageTooltips(r, n, true, false);
 				e = true;
-				break
+				break;
 			}
 		}
-		if (t.bought && t.desc != tooltips[n]) {
+		if (t.bought && t.desc !== tooltips[n]) {
 			t.desc = tooltips[n];
 			e = true
 		}
@@ -34,7 +34,7 @@ CookieMonster.updateTooltips = function(e) {
 			for (var n = 0; n < upgrade_count; n++) {
 				if (_cup(n, t, false)) {
 					CookieMonster.manageTooltips(n, t, false, false);
-					break
+					break;
 				}
 			}
 		})
@@ -139,7 +139,7 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 		if (_lhc(t)) {
 			s += _cha("Wholesome")
 		}
-		break
+		break;
 	}
 	if (Game.UpgradesOwned === 19) {
 		s += _cha("Enhancer")
@@ -196,13 +196,13 @@ CookieMonster.manageBuildingTooltip = function(e) {
 		$("#cm_ob_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#4bb8f0; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + CookieMonster.formatNumber(hold_is[t]) + '</div><div style="position:absolute; top:34px; left:4px; color:#4bb8f0; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + u[0] + ';">' + CookieMonster.formatNumber(a[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#4bb8f0; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + u[1] + ';">' + CookieMonster.formatTime(a[1], "") + "</div>");
 		$("#cm_ob_warning_amount").text("Deficit: " + CookieMonster.formatNumber(o[0]));
 		$("#cm_ob_caution_amount").text("Deficit: " + CookieMonster.formatNumber(o[1]));
-		if (settings[10] === 1 || settings[10] === 2) {
+		if (CookieMonster.settings[10] === 1 || CookieMonster.settings[10] === 2) {
 			$("#cm_ob_lucky_div_warning").css("display", r[0]);
 			$("#cm_ob_lucky_div_caution").css("display", r[1])
 		} else {
 			$("#cm_ob_lucky_div_warning").css("display", "none");
 			$("#cm_ob_lucky_div_caution").css("display", "none")
-		} if (settings[10] === 1 || settings[10] === 3) {
+		} if (CookieMonster.settings[10] === 1 || CookieMonster.settings[10] === 3) {
 			$("#cm_ob_note_div_warning").css("display", r[0]);
 			$("#cm_ob_note_div_caution").css("display", r[1])
 		} else {
@@ -210,7 +210,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 			$("#cm_ob_note_div_caution").css("display", "none")
 		}
 	}
-	if (settings[6] === 1) {
+	if (CookieMonster.settings[6] === 1) {
 		$("#product" + t).find(".price").first().css("color", "#" + u[0])
 	} else {
 		$("#product" + t).find(".price").first().css("color", "")

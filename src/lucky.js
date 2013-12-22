@@ -21,13 +21,13 @@ CookieMonster.lucky = function(e, t) {
 
 CookieMonster.luckyReward = function(e) {
 	var t = Game.cookiesPs;
-	if (Game.frenzy > 0 && e != "cur") {
+	if (Game.frenzy > 0 && e !== "cur") {
 		t = t / Game.frenzyPower
 	}
 	if (e === "max_frenzy") {
 		t = t * 7
 	}
-	var n = new Array(Math.round(t * 1200 + 13), Math.round(Game.cookies * .1 + 13));
+	var n = new Array(Math.round(t * 1200 + 13), Math.round(Game.cookies * 0.1 + 13));
 	if (e === "max" || e === "max_frenzy") {
 		if (Math.round((t * 1200 + 13) / .1) > Game.cookies) {
 			return CookieMonster.formatNumber(n[0])
@@ -42,7 +42,7 @@ CookieMonster.luckyReward = function(e) {
  * @return {string}
  */
 CookieMonster.getLuckyAlert = function () {
-	switch (settings[10] * 1) {
+	switch (CookieMonster.settings[10] * 1) {
 	case 1:
 		return "Both";
 	case 2:

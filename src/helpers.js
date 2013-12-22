@@ -1,5 +1,5 @@
 CookieMonster.cookiesToHeavenly = function(e) {
-	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * e) / Math.pow(10, 6) - .5)
+	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * e) / Math.pow(10, 6) - 0.5)
 }
 
 CookieMonster.heavenlyToCookies = function(e) {
@@ -23,17 +23,17 @@ function _lhc(e) {
 }
 
 function _cpc() {
-	return Game.mouseCps() * .01 * usr_clk
+	return Game.mouseCps() * 0.01 * usr_clk
 }
 
 function _lgt(e) {
-	if (_cha("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") != -1) {
+	if (_cha("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
 		var t = [];
 		var n = [];
 		Game.UpgradesById.forEach(function (e, r) {
-			if (e.bought && e.name.indexOf(" grandmas") != -1) {
+			if (e.bought && e.name.indexOf(" grandmas") !== -1) {
 				t.push(r)
-			} else if (!e.bought && e.name.indexOf(" grandmas") != -1) {
+			} else if (!e.bought && e.name.indexOf(" grandmas") !== -1) {
 				n.push(r)
 			}
 		});
@@ -57,33 +57,33 @@ function _cha(e) {
 function _gpp() {
 	var e = 1;
 	Game.UpgradesById.forEach(function (t, n) {
-		if (t.bought && t.desc.indexOf("Grandmas are <b>twice</b> as efficient.") != -1) {
+		if (t.bought && t.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			e = e * 2
 		}
-		if (t.bought && t.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") != -1) {
+		if (t.bought && t.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			e = e * 4
 		}
 	});
-	return Game.ObjectsById[7].amount * .05 * e * Game.ObjectsById[1].amount * Game.globalCpsMult
+	return Game.ObjectsById[7].amount * 0.05 * e * Game.ObjectsById[1].amount * Game.globalCpsMult
 }
 
 function _gpg() {
 	var e = 1;
 	Game.UpgradesById.forEach(function (t, n) {
-		if (t.bought && t.desc.indexOf("Grandmas are <b>twice</b> as efficient.") != -1) {
+		if (t.bought && t.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			e = e * 2
 		}
-		if (t.bought && t.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") != -1) {
+		if (t.bought && t.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			e = e * 4
 		}
 	});
-	return Game.ObjectsById[1].amount * .02 * e * Game.ObjectsById[1].amount * Game.globalCpsMult
+	return Game.ObjectsById[1].amount * 0.02 * e * Game.ObjectsById[1].amount * Game.globalCpsMult
 }
 
 function _mcg(e) {
 	var t = Game.UpgradesById[e].desc;
 	var n = 31;
-	if (t.indexOf(" another ") != -1) {
+	if (t.indexOf(" another ") !== -1) {
 		n += 8
 	}
 	var r = t.substr(n, t.indexOf("<", n) - n) * 1;
@@ -101,10 +101,10 @@ function _fte(e) {
 function _bam(e, t, n) {
 	var r = 1;
 	Game.UpgradesById.forEach(function (t, n) {
-		if (t.bought && t.desc.indexOf(e + " are <b>twice</b> as efficient.") != -1) {
+		if (t.bought && t.desc.indexOf(e + " are <b>twice</b> as efficient.") !== -1) {
 			r = r * 2
 		}
-		if (t.bought && t.desc.indexOf(e + " are <b>4 times</b> as efficient.") != -1) {
+		if (t.bought && t.desc.indexOf(e + " are <b>4 times</b> as efficient.") !== -1) {
 			r = r * 4
 		}
 	});
@@ -115,7 +115,7 @@ function _inc(e) {
 	var t = 0;
 	Game.AchievementsById.forEach(function (n, r) {
 		var i = n.desc.replace(/,/g, "");
-		if (!n.won && i.indexOf(" per second.") != -1) {
+		if (!n.won && i.indexOf(" per second.") !== -1) {
 			if (e >= i.substr(8, i.indexOf("</b>", 8) - 8) * 1) {
 				t++
 			}
@@ -224,12 +224,12 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 1:
-		if (!up.bought && up.desc.indexOf("The mouse and cursors are <b>twice</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("The mouse and cursors are <b>twice</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
 	case 2:
-		if (!up.bought && up.desc.indexOf("The mouse and cursors gain") != -1) {
+		if (!up.bought && up.desc.indexOf("The mouse and cursors gain") !== -1) {
 			return true
 		}
 		break;
@@ -239,7 +239,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 4:
-		if (!up.bought && up.desc.indexOf("Grandmas are <b>twice</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
@@ -249,7 +249,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 6:
-		if (!up.bought && up.desc.indexOf("Farms are <b>twice</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("Farms are <b>twice</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
@@ -259,7 +259,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 8:
-		if (!up.bought && up.desc.indexOf("Factories are <b>twice</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("Factories are <b>twice</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
@@ -269,7 +269,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 10:
-		if (!up.bought && up.desc.indexOf("Mines are <b>twice</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("Mines are <b>twice</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
@@ -279,7 +279,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 12:
-		if (!up.bought && up.desc.indexOf("Shipments are <b>twice</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("Shipments are <b>twice</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
@@ -289,7 +289,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 14:
-		if (!up.bought && up.desc.indexOf("Alchemy labs are <b>twice</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("Alchemy labs are <b>twice</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
@@ -299,7 +299,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 16:
-		if (!up.bought && up.desc.indexOf("Portals are <b>twice</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("Portals are <b>twice</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
@@ -309,27 +309,27 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 18:
-		if (!up.bought && up.desc.indexOf("Time machines are <b>twice</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("Time machines are <b>twice</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
 	case 19:
-		if (!up.bought && up.desc.indexOf("the more milk you have") != -1) {
+		if (!up.bought && up.desc.indexOf("the more milk you have") !== -1) {
 			return true
 		}
 		break;
 	case 20:
-		if (!up.bought && up.desc.indexOf("Cookie production multiplier <b>+") != -1) {
+		if (!up.bought && up.desc.indexOf("Cookie production multiplier <b>+") !== -1) {
 			return true
 		}
 		break;
 	case 21:
-		if (!up.bought && up.desc.indexOf("for each 50 grandmas") != -1) {
+		if (!up.bought && up.desc.indexOf("for each 50 grandmas") !== -1) {
 			return true
 		}
 		break;
 	case 22:
-		if (!up.bought && up.desc.indexOf("for each 20 portals") != -1) {
+		if (!up.bought && up.desc.indexOf("for each 20 portals") !== -1) {
 			return true
 		}
 		break;
@@ -349,22 +349,22 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 26:
-		if (!up.bought && up.desc.indexOf("Golden cookie") != -1) {
+		if (!up.bought && up.desc.indexOf("Golden cookie") !== -1) {
 			return true
 		}
 		break;
 	case 27:
-		if (!up.bought && up.desc.indexOf("Clicking gains <b>+1% of your CpS</b>.") != -1) {
+		if (!up.bought && up.desc.indexOf("Clicking gains <b>+1% of your CpS</b>.") !== -1) {
 			return true
 		}
 		break;
 	case 28:
-		if (!up.bought && up.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
 	case 29:
-		if (!up.bought && up.desc.indexOf("Antimatter condensers are <b>twice</b> as efficient.") != -1) {
+		if (!up.bought && up.desc.indexOf("Antimatter condensers are <b>twice</b> as efficient.") !== -1) {
 			return true
 		}
 		break;
@@ -379,16 +379,16 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 32:
-		if (!up.bought && up.desc.indexOf("heavenly chips") != -1) {
+		if (!up.bought && up.desc.indexOf("heavenly chips") !== -1) {
 			return true
 		}
-		break
+		break;
 	}
 	return false
 }
 
 CookieMonster.inStore = function(e) {
-	if (Game.UpgradesInStore.indexOf(e) != -1) {
+	if (Game.UpgradesInStore.indexOf(e) !== -1) {
 		return true
 	}
 	return false

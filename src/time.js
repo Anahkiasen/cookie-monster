@@ -33,7 +33,7 @@ CookieMonster.secondsLeft = function(e, t) {
 }
 
 CookieMonster.sts = function(e, t) {
-	var n = settings[7];
+	var n = CookieMonster.settings[7];
 	if (n > 0) {
 		var r = 1e33;
 		for (var i = sts_type[n - 1].length - 1; i >= 0; i--) {
@@ -72,7 +72,7 @@ CookieMonster.formatTime = function(e, t) {
 	var i = parseInt(e / 60) % 60;
 	var s = e % 60;
 	var o = new Array(" days, ", " hours, ", " minutes, ", " seconds");
-	if (t != "min") {
+	if (t !== "min") {
 		if (n === 1) {
 			o[0] = " day, "
 		}

@@ -14,7 +14,7 @@ CookieMonster.faviconSpinner = function(e) {
 }
 
 CookieMonster.toggleBar = function() {
-	if (settings[5] === 0) {
+	if (CookieMonster.settings[5] === 0) {
 		$("#cookie_monster_bar").css("display", "none");
 		$("#game").css("bottom", "0px")
 	} else {
@@ -24,7 +24,7 @@ CookieMonster.toggleBar = function() {
 }
 
 CookieMonster.upgradeDisplay = function() {
-	switch (settings[12] * 1) {
+	switch (CookieMonster.settings[12] * 1) {
 	case 1:
 		return "Normal";
 	case 2:
@@ -38,7 +38,7 @@ CookieMonster.upgradeDisplay = function() {
 
 CookieMonster.updateUpgradeDisplay = function() {
 	var e = $("#upgrades");
-	switch (settings[12] * 1) {
+	switch (CookieMonster.settings[12] * 1) {
 	case 1:
 		e.css("cssText", "");
 		break;
@@ -47,7 +47,7 @@ CookieMonster.updateUpgradeDisplay = function() {
 		break;
 	case 0:
 		e.css("cssText", "height: 0px !important;");
-		break
+		break;
 	}
 }
 
@@ -146,7 +146,7 @@ CookieMonster.colorize = function(e, t, n) {
 	for (i = 0; i < in_store.length; i++) {
 		$("#cm_up_q" + i).text(in_store[i])
 	}
-	if (settings[11] && CookieMonster.inStore(r)) {
+	if (CookieMonster.settings[11] && CookieMonster.inStore(r)) {
 		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>')
 	}
 	if ($("#cm_up_div_" + t).length === 1) {
@@ -166,13 +166,13 @@ CookieMonster.colorize = function(e, t, n) {
 		$("#cm_up_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#4bb8f0; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + CookieMonster.formatNumber(Math.round(e * 100) / 100) + '</div><div style="position:absolute; top:34px; left:4px; color:#4bb8f0; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + o[0] + ';">' + CookieMonster.formatNumber(u[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#4bb8f0; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + o[1] + ';">' + CookieMonster.formatTime(u[1], "min") + "</div>");
 		$("#cm_up_warning_amount").text("Deficit: " + CookieMonster.formatNumber(h[0]));
 		$("#cm_up_caution_amount").text("Deficit: " + CookieMonster.formatNumber(h[1]));
-		if (settings[10] === 1 || settings[10] === 2) {
+		if (CookieMonster.settings[10] === 1 || CookieMonster.settings[10] === 2) {
 			$("#cm_up_lucky_div_warning").css("display", c[0]);
 			$("#cm_up_lucky_div_caution").css("display", c[1])
 		} else {
 			$("#cm_up_lucky_div_warning").css("display", "none");
 			$("#cm_up_lucky_div_caution").css("display", "none")
-		} if (settings[10] === 1 || settings[10] === 3) {
+		} if (CookieMonster.settings[10] === 1 || CookieMonster.settings[10] === 3) {
 			$("#cm_up_note_div_warning").css("display", c[0]);
 			$("#cm_up_note_div_caution").css("display", c[1])
 		} else {
@@ -209,7 +209,7 @@ CookieMonster.organizeObjectList = function() {
 }
 
 CookieMonster.shortNumbers = function() {
-	switch (settings[7] * 1) {
+	switch (CookieMonster.settings[7] * 1) {
 	case 1:
 		return "ON (A)";
 	case 2:
@@ -222,7 +222,7 @@ CookieMonster.shortNumbers = function() {
 }
 
 CookieMonster.refresh = function() {
-	switch (settings[3] * 1) {
+	switch (CookieMonster.settings[3] * 1) {
 	case 1e3:
 		return "1";
 	case 500:
@@ -245,23 +245,23 @@ CookieMonster.emphasize = function() {
 		emphasize = true;
 		gc_avail = ""
 	}
-	if (t.css("display") != "none" && emphasize) {
+	if (t.css("display") !== "none" && emphasize) {
 		emphasize = false;
-		if (settings[9] === 1) {
+		if (CookieMonster.settings[9] === 1) {
 			gc_avail = "(G) ";
 			CookieMonster.faviconSpinner(1)
 		}
-		if (settings[8] === 1) {
+		if (CookieMonster.settings[8] === 1) {
 			var n = new Audio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");
 			n.volume = 1;
 			n.play()
 		}
-		if (settings[0] === 1) {
+		if (CookieMonster.settings[0] === 1) {
 			$("#cookie_monster_overlay").fadeIn(100);
 			$("#cookie_monster_overlay").fadeOut(500)
 		}
 	}
-	if (t.css("display") != "none" && settings[1] === 1) {
+	if (t.css("display") !== "none" && CookieMonster.settings[1] === 1) {
 		e.css("display", "block");
 		e.css("opacity", t.css("opacity"));
 		e.css("left", t.css("left"));

@@ -134,7 +134,7 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 		if (t === 99) {
 			i += _cha("It does matter!")
 		}
-		break
+		break;
 	}
 	if (Game.BuildingsOwned === 99) {
 		i += _cha("Builder")
@@ -163,9 +163,9 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 CookieMonster.getTotalCursorModifiers = function() {
 	var e = 0;
 	Game.UpgradesById.forEach(function (t, n) {
-		if (t.bought && t.desc.indexOf("The mouse and cursors gain") != -1) {
+		if (t.bought && t.desc.indexOf("The mouse and cursors gain") !== -1) {
 			var r = 31;
-			if (t.desc.indexOf(" another ") != -1) {
+			if (t.desc.indexOf(" another ") !== -1) {
 				r += 8
 			}
 			e += t.desc.substr(r, t.desc.indexOf("<", r) - r) * 1
@@ -175,24 +175,24 @@ CookieMonster.getTotalCursorModifiers = function() {
 }
 
 CookieMonster.getTotalGrandmaModifiers = function(e) {
-	var t = .5;
+	var t = 0.5;
 	var n = 0;
 	var r = 1;
 	Game.UpgradesById.forEach(function (i, s) {
 		if (i.bought && i.name === "Forwards from grandma") {
-			t += .3
+			t += 0.3
 		}
-		if (i.bought && i.desc.indexOf("Grandmas are <b>twice</b> as efficient.") != -1) {
+		if (i.bought && i.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			r = r * 2
 		}
-		if (i.bought && i.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") != -1) {
+		if (i.bought && i.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			r = r * 4
 		}
-		if (i.bought && i.desc.indexOf("for each 50 grandmas") != -1) {
-			n += (e + 1) * .02 * (e + 1) - e * .02 * e
+		if (i.bought && i.desc.indexOf("for each 50 grandmas") !== -1) {
+			n += (e + 1) * 0.02 * (e + 1) - e * 0.02 * e
 		}
-		if (i.bought && i.desc.indexOf("for each 20 portals") != -1) {
-			n += Game.ObjectsById[7].amount * .05
+		if (i.bought && i.desc.indexOf("for each 20 portals") !== -1) {
+			n += Game.ObjectsById[7].amount * 0.05
 		}
 	});
 	return t * r + n * r
@@ -202,14 +202,14 @@ CookieMonster.getTotalPortalModifiers = function() {
 	var e = 0;
 	var t = 1;
 	Game.UpgradesById.forEach(function (n, r) {
-		if (n.bought && n.desc.indexOf("Grandmas are <b>twice</b> as efficient.") != -1) {
+		if (n.bought && n.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			t = t * 2
 		}
-		if (n.bought && n.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") != -1) {
+		if (n.bought && n.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			t = t * 4
 		}
-		if (n.bought && n.desc.indexOf("for each 20 portals") != -1) {
-			e += Game.ObjectsById[1].amount * .05
+		if (n.bought && n.desc.indexOf("for each 20 portals") !== -1) {
+			e += Game.ObjectsById[1].amount * 0.05
 		}
 	});
 	return e * t
