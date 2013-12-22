@@ -35,7 +35,7 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	var a = Game.milkProgress;
 	var f = CookieMonster.getFrenzyMultiplier();
 
-	Game.UpgradesById.forEach(function (e, n) {
+	Game.UpgradesById.forEach(function (e) {
 		var r = e.desc.replace("[Research]<br>", "");
 		if (e.bought && r.indexOf("Cookie production multiplier <b>+") !== -1) {
 			s += r.substr(33, r.indexOf("%", 33) - 33) * 1;
