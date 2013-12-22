@@ -162,13 +162,14 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 
 CookieMonster.getTotalCursorModifiers = function() {
 	var e = 0;
-	Game.UpgradesById.forEach(function (t) {
-		if (t.bought && t.desc.indexOf("The mouse and cursors gain") !== -1) {
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf("The mouse and cursors gain") !== -1) {
 			var r = 31;
-			if (t.desc.indexOf(" another ") !== -1) {
+			if (upgrade.desc.indexOf(" another ") !== -1) {
 				r += 8;
 			}
-			e += t.desc.substr(r, t.desc.indexOf("<", r) - r) * 1;
+			e += upgrade.desc.substr(r, upgrade.desc.indexOf("<", r) - r) * 1;
 		}
 	});
 
@@ -180,20 +181,20 @@ CookieMonster.getTotalGrandmaModifiers = function(e) {
 	var n = 0;
 	var r = 1;
 
-	Game.UpgradesById.forEach(function (i) {
-		if (i.bought && i.name === "Forwards from grandma") {
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.name === "Forwards from grandma") {
 			t += 0.3;
 		}
-		if (i.bought && i.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			r = r * 2;
 		}
-		if (i.bought && i.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			r = r * 4;
 		}
-		if (i.bought && i.desc.indexOf("for each 50 grandmas") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("for each 50 grandmas") !== -1) {
 			n += (e + 1) * 0.02 * (e + 1) - e * 0.02 * e;
 		}
-		if (i.bought && i.desc.indexOf("for each 20 portals") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("for each 20 portals") !== -1) {
 			n += Game.ObjectsById[7].amount * 0.05;
 		}
 	});

@@ -36,23 +36,3 @@ CookieMonster.luckyReward = function(e) {
 	}
 	return CookieMonster.formatNumber(Math.min.apply(Math, n));
 };
-
-/**
- * Get the current status of alerts
- *
- * @return {string}
- */
-CookieMonster.getLuckyAlert = function () {
-	switch (CookieMonster.settings[10] * 1) {
-	case 1:
-		return "Both";
-	case 2:
-		return "Icons";
-	case 3:
-		return "Notes";
-	case 0:
-		return "Off";
-	default:
-		return "Both";
-	}
-};

@@ -220,174 +220,174 @@ CookieMonster.centennial = function(e) {
 };
 
 CookieMonster.checkUpgrade = function(e, t, n) {
-	var up = Game.UpgradesById[t];
-	if (up.desc.indexOf("cm_up_div_") === -1 && !n) {
+	var upgrade = Game.UpgradesById[t];
+	if (upgrade.desc.indexOf("cm_up_div_") === -1 && !n) {
 		return false;
 	}
 
 	switch (e) {
 	case 0:
-		if (!up.bought && up.name === "Reinforced index finger") {
+		if (!upgrade.bought && upgrade.name === "Reinforced index finger") {
 			return true;
 		}
 		break;
 	case 1:
-		if (!up.bought && up.desc.indexOf("The mouse and cursors are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("The mouse and cursors are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 2:
-		if (!up.bought && up.desc.indexOf("The mouse and cursors gain") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("The mouse and cursors gain") !== -1) {
 			return true;
 		}
 		break;
 	case 3:
-		if (!up.bought && up.name === "Forwards from grandma") {
+		if (!upgrade.bought && upgrade.name === "Forwards from grandma") {
 			return true;
 		}
 		break;
 	case 4:
-		if (!up.bought && up.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 5:
-		if (!up.bought && up.name === "Cheap hoes") {
+		if (!upgrade.bought && upgrade.name === "Cheap hoes") {
 			return true;
 		}
 		break;
 	case 6:
-		if (!up.bought && up.desc.indexOf("Farms are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Farms are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 7:
-		if (!up.bought && up.name === "Sturdier conveyor belts") {
+		if (!upgrade.bought && upgrade.name === "Sturdier conveyor belts") {
 			return true;
 		}
 		break;
 	case 8:
-		if (!up.bought && up.desc.indexOf("Factories are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Factories are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 9:
-		if (!up.bought && up.name === "Sugar gas") {
+		if (!upgrade.bought && upgrade.name === "Sugar gas") {
 			return true;
 		}
 		break;
 	case 10:
-		if (!up.bought && up.desc.indexOf("Mines are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Mines are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 11:
-		if (!up.bought && up.name === "Vanilla nebulae") {
+		if (!upgrade.bought && upgrade.name === "Vanilla nebulae") {
 			return true;
 		}
 		break;
 	case 12:
-		if (!up.bought && up.desc.indexOf("Shipments are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Shipments are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 13:
-		if (!up.bought && up.name === "Antimony") {
+		if (!upgrade.bought && upgrade.name === "Antimony") {
 			return true;
 		}
 		break;
 	case 14:
-		if (!up.bought && up.desc.indexOf("Alchemy labs are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Alchemy labs are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 15:
-		if (!up.bought && up.name === "Ancient tablet") {
+		if (!upgrade.bought && upgrade.name === "Ancient tablet") {
 			return true;
 		}
 		break;
 	case 16:
-		if (!up.bought && up.desc.indexOf("Portals are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Portals are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 17:
-		if (!up.bought && up.name === "Flux capacitors") {
+		if (!upgrade.bought && upgrade.name === "Flux capacitors") {
 			return true;
 		}
 		break;
 	case 18:
-		if (!up.bought && up.desc.indexOf("Time machines are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Time machines are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 19:
-		if (!up.bought && up.desc.indexOf("the more milk you have") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("the more milk you have") !== -1) {
 			return true;
 		}
 		break;
 	case 20:
-		if (!up.bought && up.desc.indexOf("Cookie production multiplier <b>+") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Cookie production multiplier <b>+") !== -1) {
 			return true;
 		}
 		break;
 	case 21:
-		if (!up.bought && up.desc.indexOf("for each 50 grandmas") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("for each 50 grandmas") !== -1) {
 			return true;
 		}
 		break;
 	case 22:
-		if (!up.bought && up.desc.indexOf("for each 20 portals") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("for each 20 portals") !== -1) {
 			return true;
 		}
 		break;
 	case 23:
-		if (!up.bought && up.name === "Elder Pledge") {
+		if (!upgrade.bought && upgrade.name === "Elder Pledge") {
 			return true;
 		}
 		break;
 	case 24:
-		if (!up.bought && up.name === "Elder Covenant") {
+		if (!upgrade.bought && upgrade.name === "Elder Covenant") {
 			return true;
 		}
 		break;
 	case 25:
-		if (!up.bought && up.name === "Sacrificial rolling pins") {
+		if (!upgrade.bought && upgrade.name === "Sacrificial rolling pins") {
 			return true;
 		}
 		break;
 	case 26:
-		if (!up.bought && up.desc.indexOf("Golden cookie") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Golden cookie") !== -1) {
 			return true;
 		}
 		break;
 	case 27:
-		if (!up.bought && up.desc.indexOf("Clicking gains <b>+1% of your CpS</b>.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Clicking gains <b>+1% of your CpS</b>.") !== -1) {
 			return true;
 		}
 		break;
 	case 28:
-		if (!up.bought && up.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 29:
-		if (!up.bought && up.desc.indexOf("Antimatter condensers are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Antimatter condensers are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 30:
-		if (!up.bought && up.name === "Sugar bosons") {
+		if (!upgrade.bought && upgrade.name === "Sugar bosons") {
 			return true;
 		}
 		break;
 	case 31:
-		if (!up.bought && up.name === "Revoke Elder Covenant") {
+		if (!upgrade.bought && upgrade.name === "Revoke Elder Covenant") {
 			return true;
 		}
 		break;
 	case 32:
-		if (!up.bought && up.desc.indexOf("heavenly chips") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("heavenly chips") !== -1) {
 			return true;
 		}
 		break;

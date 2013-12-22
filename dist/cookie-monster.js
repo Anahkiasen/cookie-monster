@@ -696,174 +696,174 @@ CookieMonster.centennial = function(e) {
 };
 
 CookieMonster.checkUpgrade = function(e, t, n) {
-	var up = Game.UpgradesById[t];
-	if (up.desc.indexOf("cm_up_div_") === -1 && !n) {
+	var upgrade = Game.UpgradesById[t];
+	if (upgrade.desc.indexOf("cm_up_div_") === -1 && !n) {
 		return false;
 	}
 
 	switch (e) {
 	case 0:
-		if (!up.bought && up.name === "Reinforced index finger") {
+		if (!upgrade.bought && upgrade.name === "Reinforced index finger") {
 			return true;
 		}
 		break;
 	case 1:
-		if (!up.bought && up.desc.indexOf("The mouse and cursors are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("The mouse and cursors are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 2:
-		if (!up.bought && up.desc.indexOf("The mouse and cursors gain") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("The mouse and cursors gain") !== -1) {
 			return true;
 		}
 		break;
 	case 3:
-		if (!up.bought && up.name === "Forwards from grandma") {
+		if (!upgrade.bought && upgrade.name === "Forwards from grandma") {
 			return true;
 		}
 		break;
 	case 4:
-		if (!up.bought && up.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 5:
-		if (!up.bought && up.name === "Cheap hoes") {
+		if (!upgrade.bought && upgrade.name === "Cheap hoes") {
 			return true;
 		}
 		break;
 	case 6:
-		if (!up.bought && up.desc.indexOf("Farms are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Farms are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 7:
-		if (!up.bought && up.name === "Sturdier conveyor belts") {
+		if (!upgrade.bought && upgrade.name === "Sturdier conveyor belts") {
 			return true;
 		}
 		break;
 	case 8:
-		if (!up.bought && up.desc.indexOf("Factories are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Factories are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 9:
-		if (!up.bought && up.name === "Sugar gas") {
+		if (!upgrade.bought && upgrade.name === "Sugar gas") {
 			return true;
 		}
 		break;
 	case 10:
-		if (!up.bought && up.desc.indexOf("Mines are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Mines are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 11:
-		if (!up.bought && up.name === "Vanilla nebulae") {
+		if (!upgrade.bought && upgrade.name === "Vanilla nebulae") {
 			return true;
 		}
 		break;
 	case 12:
-		if (!up.bought && up.desc.indexOf("Shipments are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Shipments are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 13:
-		if (!up.bought && up.name === "Antimony") {
+		if (!upgrade.bought && upgrade.name === "Antimony") {
 			return true;
 		}
 		break;
 	case 14:
-		if (!up.bought && up.desc.indexOf("Alchemy labs are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Alchemy labs are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 15:
-		if (!up.bought && up.name === "Ancient tablet") {
+		if (!upgrade.bought && upgrade.name === "Ancient tablet") {
 			return true;
 		}
 		break;
 	case 16:
-		if (!up.bought && up.desc.indexOf("Portals are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Portals are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 17:
-		if (!up.bought && up.name === "Flux capacitors") {
+		if (!upgrade.bought && upgrade.name === "Flux capacitors") {
 			return true;
 		}
 		break;
 	case 18:
-		if (!up.bought && up.desc.indexOf("Time machines are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Time machines are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 19:
-		if (!up.bought && up.desc.indexOf("the more milk you have") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("the more milk you have") !== -1) {
 			return true;
 		}
 		break;
 	case 20:
-		if (!up.bought && up.desc.indexOf("Cookie production multiplier <b>+") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Cookie production multiplier <b>+") !== -1) {
 			return true;
 		}
 		break;
 	case 21:
-		if (!up.bought && up.desc.indexOf("for each 50 grandmas") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("for each 50 grandmas") !== -1) {
 			return true;
 		}
 		break;
 	case 22:
-		if (!up.bought && up.desc.indexOf("for each 20 portals") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("for each 20 portals") !== -1) {
 			return true;
 		}
 		break;
 	case 23:
-		if (!up.bought && up.name === "Elder Pledge") {
+		if (!upgrade.bought && upgrade.name === "Elder Pledge") {
 			return true;
 		}
 		break;
 	case 24:
-		if (!up.bought && up.name === "Elder Covenant") {
+		if (!upgrade.bought && upgrade.name === "Elder Covenant") {
 			return true;
 		}
 		break;
 	case 25:
-		if (!up.bought && up.name === "Sacrificial rolling pins") {
+		if (!upgrade.bought && upgrade.name === "Sacrificial rolling pins") {
 			return true;
 		}
 		break;
 	case 26:
-		if (!up.bought && up.desc.indexOf("Golden cookie") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Golden cookie") !== -1) {
 			return true;
 		}
 		break;
 	case 27:
-		if (!up.bought && up.desc.indexOf("Clicking gains <b>+1% of your CpS</b>.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Clicking gains <b>+1% of your CpS</b>.") !== -1) {
 			return true;
 		}
 		break;
 	case 28:
-		if (!up.bought && up.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 29:
-		if (!up.bought && up.desc.indexOf("Antimatter condensers are <b>twice</b> as efficient.") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("Antimatter condensers are <b>twice</b> as efficient.") !== -1) {
 			return true;
 		}
 		break;
 	case 30:
-		if (!up.bought && up.name === "Sugar bosons") {
+		if (!upgrade.bought && upgrade.name === "Sugar bosons") {
 			return true;
 		}
 		break;
 	case 31:
-		if (!up.bought && up.name === "Revoke Elder Covenant") {
+		if (!upgrade.bought && upgrade.name === "Revoke Elder Covenant") {
 			return true;
 		}
 		break;
 	case 32:
-		if (!up.bought && up.desc.indexOf("heavenly chips") !== -1) {
+		if (!upgrade.bought && upgrade.desc.indexOf("heavenly chips") !== -1) {
 			return true;
 		}
 		break;
@@ -882,11 +882,11 @@ CookieMonster.faviconSpinner = function(e) {
 		e = 1;
 	}
 
-	if (CookieMonster.goldenCookieAvailable === "(G) ") {
+	if (this.goldenCookieAvailable === "(G) ") {
 		$("#cm_favicon").attr("href", "http://frozenelm.com/cookiemonster/images/cm_gc_" + e + ".png");
 		e++;
 		setTimeout(function () {
-			CookieMonster.faviconSpinner(e);
+			this.faviconSpinner(e);
 		}, 250);
 	} else {
 		$("#cm_favicon").attr("href", "http://orteil.dashnet.org/cookieclicker/img/favicon.ico");
@@ -894,38 +894,49 @@ CookieMonster.faviconSpinner = function(e) {
 };
 
 CookieMonster.toggleBar = function() {
-	if (CookieMonster.settings[5] === 0) {
-		CookieMonster.$monsterBar.css("display", "none");
+	if (this.settings[5] === 0) {
+		this.$monsterBar.css("display", "none");
 		$("#game").css("bottom", "0px");
 	} else {
-		CookieMonster.$monsterBar.css("display", "");
+		this.$monsterBar.css("display", "");
 		$("#game").css("bottom", "57px");
 	}
 };
 
+/**
+ * Update the stylings of the upgrades to the selected option
+ *
+ * @return {void}
+ */
 CookieMonster.updateUpgradeDisplay = function() {
-	var e = $("#upgrades");
+	var $upgrades = $("#upgrades");
 
-	switch (CookieMonster.settings[12] * 1) {
+	switch (this.settings[12] * 1) {
 		case 1:
-			e.css("cssText", "");
+			$upgrades.css("cssText", "");
 			break;
 
 		case 2:
-			e.css("cssText", "height: auto !important;");
+			$upgrades.css("cssText", "height: auto !important;");
 			break;
 
 		case 0:
-			e.css("cssText", "height: 0px !important;");
+			$upgrades.css("cssText", "height: 0px !important;");
 			break;
 	}
 };
 
+/**
+ * Create the Bottom Bar
+ *
+ * @return {void}
+ */
 CookieMonster.makeTable = function() {
-	var e = '<th align=left width=130 style="color:#' +this.colors.yellow+ ';"> ' + CookieMonster.version + "</th>";
+	var e = '<th align=left width=130 style="color:#' +this.colors.yellow+ ';"> ' + this.version + "</th>";
 	var n = "";
 	var r = "";
 	var i = "";
+
 	Game.ObjectsById.forEach(function (t, s) {
 		e += '<th align=middle id="cookie_monster_item_' + s + '" style="font-weight:bold;"></th>';
 		n += '<td align=middle id="cookie_monster_is_' + s + '"></td>';
@@ -995,51 +1006,51 @@ CookieMonster.colorize = function(e, t, n) {
 	var i = 0;
 	var r = Game.UpgradesById[t];
 	var s = r.basePrice;
-	var o = new Array(CookieMonster.colors.yellow, CookieMonster.colors.yellow);
-	var u = new Array(Math.round(s / e * 100) / 100, Math.round(CookieMonster.secondsLeft(t, "up")));
-	var a = new Array(Math.max.apply(Math, CookieMonster.holdCPI), Math.max.apply(Math, CookieMonster.holdTC));
-	var f = new Array(Math.min.apply(Math, CookieMonster.holdCPI), Math.min.apply(Math, CookieMonster.holdTC));
+	var o = new Array(this.colors.yellow, this.colors.yellow);
+	var u = new Array(Math.round(s / e * 100) / 100, Math.round(this.secondsLeft(t, "up")));
+	var a = new Array(Math.max.apply(Math, this.holdCPI), Math.max.apply(Math, this.holdTC));
+	var f = new Array(Math.min.apply(Math, this.holdCPI), Math.min.apply(Math, this.holdTC));
 
 	for (i = 0; i < o.length; i++) {
 		if (u[i] < f[i]) {
-			o[i] = CookieMonster.colors.blue;
-			if (CookieMonster.isInStore(r) && i === 0) {
-				CookieMonster.inStore[0]++;
+			o[i] = this.colors.blue;
+			if (this.isInStore(r) && i === 0) {
+				this.inStore[0]++;
 			}
 		} else if (u[i] === f[i]) {
-			o[i] = CookieMonster.colors.green;
-			if (CookieMonster.isInStore(r) && i === 0) {
-				CookieMonster.inStore[1]++;
+			o[i] = this.colors.green;
+			if (this.isInStore(r) && i === 0) {
+				this.inStore[1]++;
 			}
 		} else if (u[i] === a[i]) {
-			o[i] = CookieMonster.colors.red;
-			if (CookieMonster.isInStore(r) && i === 0) {
-				CookieMonster.inStore[4]++;
+			o[i] = this.colors.red;
+			if (this.isInStore(r) && i === 0) {
+				this.inStore[4]++;
 			}
 		} else if (u[i] > a[i]) {
 			o[i] = "FF00FF";
-			if (CookieMonster.isInStore(r) && i === 0) {
-				CookieMonster.inStore[5]++;
+			if (this.isInStore(r) && i === 0) {
+				this.inStore[5]++;
 			}
 		} else if (a[i] - u[i] < u[i] - f[i]) {
 			o[i] = "FF7F00";
-			if (CookieMonster.isInStore(r) && i === 0) {
-				CookieMonster.inStore[3]++;
+			if (this.isInStore(r) && i === 0) {
+				this.inStore[3]++;
 			}
 		} else {
-			if (CookieMonster.isInStore(r) && i === 0) {
-				CookieMonster.inStore[2]++;
+			if (this.isInStore(r) && i === 0) {
+				this.inStore[2]++;
 			}
 		}
 	}
-	for (i = 0; i < CookieMonster.inStore.length; i++) {
-		$("#cm_up_q" + i).text(CookieMonster.inStore[i]);
+	for (i = 0; i < this.inStore.length; i++) {
+		$("#cm_up_q" + i).text(this.inStore[i]);
 	}
-	if (CookieMonster.settings[11] && CookieMonster.isInStore(r)) {
+	if (this.settings[11] && this.isInStore(r)) {
 		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
 	}
 	if ($("#cm_up_div_" + t).length === 1) {
-		var l = new Array(CookieMonster.lucky("reg", true), CookieMonster.lucky("frenzy", true));
+		var l = new Array(this.lucky("reg", true), this.lucky("frenzy", true));
 		var c = new Array("none", "none");
 		var h = new Array(0, 0);
 		if (Game.cookies - s < l[0]) {
@@ -1052,18 +1063,18 @@ CookieMonster.colorize = function(e, t, n) {
 		}
 		$("#cm_up_div_" + t).css("border", "1px solid #" + o[0]);
 		$("#cm_up_div_" + t).css("display", "");
-		$("#cm_up_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#4bb8f0; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + CookieMonster.formatNumber(Math.round(e * 100) / 100) + '</div><div style="position:absolute; top:34px; left:4px; color:#4bb8f0; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + o[0] + ';">' + CookieMonster.formatNumber(u[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#4bb8f0; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + o[1] + ';">' + CookieMonster.formatTime(u[1], "min") + "</div>");
-		$("#cm_up_warning_amount").text("Deficit: " + CookieMonster.formatNumber(h[0]));
-		$("#cm_up_caution_amount").text("Deficit: " + CookieMonster.formatNumber(h[1]));
+		$("#cm_up_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#4bb8f0; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(Math.round(e * 100) / 100) + '</div><div style="position:absolute; top:34px; left:4px; color:#4bb8f0; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + o[0] + ';">' + this.formatNumber(u[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#4bb8f0; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + o[1] + ';">' + this.formatTime(u[1], "min") + "</div>");
+		$("#cm_up_warning_amount").text("Deficit: " + this.formatNumber(h[0]));
+		$("#cm_up_caution_amount").text("Deficit: " + this.formatNumber(h[1]));
 
-		if (CookieMonster.settings[10] === 1 || CookieMonster.settings[10] === 2) {
+		if (this.settings[10] === 1 || this.settings[10] === 2) {
 			$("#cm_up_lucky_div_warning").css("display", c[0]);
 			$("#cm_up_lucky_div_caution").css("display", c[1]);
 		} else {
 			$("#cm_up_lucky_div_warning").css("display", "none");
 			$("#cm_up_lucky_div_caution").css("display", "none");
 		}
-		if (CookieMonster.settings[10] === 1 || CookieMonster.settings[10] === 3) {
+		if (this.settings[10] === 1 || this.settings[10] === 3) {
 			$("#cm_up_note_div_warning").css("display", c[0]);
 			$("#cm_up_note_div_caution").css("display", c[1]);
 		} else {
@@ -1101,28 +1112,28 @@ CookieMonster.organizeObjectList = function() {
 
 CookieMonster.doEmphasize = function() {
 	var e = $("#cookie_monster_golden_overlay");
-	var t = CookieMonster.$goldenCookie;
-	if (t.css("display") === "none" && !CookieMonster.emphasize) {
-		CookieMonster.emphasize = true;
-		CookieMonster.goldenCookieAvailable = "";
+	var t = this.$goldenCookie;
+	if (t.css("display") === "none" && !this.emphasize) {
+		this.emphasize = true;
+		this.goldenCookieAvailable = "";
 	}
-	if (t.css("display") !== "none" && CookieMonster.emphasize) {
-		CookieMonster.emphasize = false;
-		if (CookieMonster.settings[9] === 1) {
-			CookieMonster.goldenCookieAvailable = "(G) ";
-			CookieMonster.faviconSpinner(1);
+	if (t.css("display") !== "none" && this.emphasize) {
+		this.emphasize = false;
+		if (this.settings[9] === 1) {
+			this.goldenCookieAvailable = "(G) ";
+			this.faviconSpinner(1);
 		}
-		if (CookieMonster.settings[8] === 1) {
+		if (this.settings[8] === 1) {
 			var n = new Audio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");
 			n.volume = 1;
 			n.play();
 		}
-		if (CookieMonster.settings[0] === 1) {
+		if (this.settings[0] === 1) {
 			$("#cookie_monster_overlay").fadeIn(100);
 			$("#cookie_monster_overlay").fadeOut(500);
 		}
 	}
-	if (t.css("display") !== "none" && CookieMonster.settings[1] === 1) {
+	if (t.css("display") !== "none" && this.settings[1] === 1) {
 		e.css("display", "block");
 		e.css("opacity", t.css("opacity"));
 		e.css("left", t.css("left"));
@@ -1169,26 +1180,6 @@ CookieMonster.luckyReward = function(e) {
 		}
 	}
 	return CookieMonster.formatNumber(Math.min.apply(Math, n));
-};
-
-/**
- * Get the current status of alerts
- *
- * @return {string}
- */
-CookieMonster.getLuckyAlert = function () {
-	switch (CookieMonster.settings[10] * 1) {
-	case 1:
-		return "Both";
-	case 2:
-		return "Icons";
-	case 3:
-		return "Notes";
-	case 0:
-		return "Off";
-	default:
-		return "Both";
-	}
 };
 /**
  * Load a setting from localStorage
@@ -1466,6 +1457,26 @@ CookieMonster.getUpgradeDisplay = function() {
 			return "None";
 		default:
 			return "Normal";
+	}
+};
+
+/**
+ * Get a text version of the "Luck alerts" option
+ *
+ * @return {string}
+ */
+CookieMonster.getLuckyAlert = function () {
+	switch (this.settings[10] * 1) {
+		case 1:
+			return "Both";
+		case 2:
+			return "Icons";
+		case 3:
+			return "Notes";
+		case 0:
+			return "Off";
+		default:
+			return "Both";
 	}
 };
 CookieMonster.factorTime = function(e) {
@@ -1969,13 +1980,14 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 
 CookieMonster.getTotalCursorModifiers = function() {
 	var e = 0;
-	Game.UpgradesById.forEach(function (t) {
-		if (t.bought && t.desc.indexOf("The mouse and cursors gain") !== -1) {
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf("The mouse and cursors gain") !== -1) {
 			var r = 31;
-			if (t.desc.indexOf(" another ") !== -1) {
+			if (upgrade.desc.indexOf(" another ") !== -1) {
 				r += 8;
 			}
-			e += t.desc.substr(r, t.desc.indexOf("<", r) - r) * 1;
+			e += upgrade.desc.substr(r, upgrade.desc.indexOf("<", r) - r) * 1;
 		}
 	});
 
@@ -1987,20 +1999,20 @@ CookieMonster.getTotalGrandmaModifiers = function(e) {
 	var n = 0;
 	var r = 1;
 
-	Game.UpgradesById.forEach(function (i) {
-		if (i.bought && i.name === "Forwards from grandma") {
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.name === "Forwards from grandma") {
 			t += 0.3;
 		}
-		if (i.bought && i.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			r = r * 2;
 		}
-		if (i.bought && i.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
 			r = r * 4;
 		}
-		if (i.bought && i.desc.indexOf("for each 50 grandmas") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("for each 50 grandmas") !== -1) {
 			n += (e + 1) * 0.02 * (e + 1) - e * 0.02 * e;
 		}
-		if (i.bought && i.desc.indexOf("for each 20 portals") !== -1) {
+		if (upgrade.bought && upgrade.desc.indexOf("for each 20 portals") !== -1) {
 			n += Game.ObjectsById[7].amount * 0.05;
 		}
 	});
