@@ -61,8 +61,9 @@ CookieMonster.manageBuffs = function() {
 		}
 
 		$("#cookie_monster_timer_" + color).fadeIn(250);
-		for (var thisColor in this.colors) {
-			this.fadeOutBar(this.colors[thisColor], color);
+		var buffColors = ['FFFF00', '00FF00', 'FF0000'];
+		for (var thisColor in buffColors) {
+			this.fadeOutBar(buffColors[thisColor], color);
 		}
 	} else {
 		this.fadeOutBar(color);
