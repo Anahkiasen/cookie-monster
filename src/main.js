@@ -26,7 +26,7 @@ CookieMonster.start = function() {
 	}
 
 	var $topBar  = $('#topBar');
-	var $tooltip = $('#tooltip');
+	var $toolTip = $('#tooltip');
 	var $body    = $('body');
 	var $cookies = $("#cookies");
 
