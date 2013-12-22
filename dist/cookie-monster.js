@@ -2165,7 +2165,7 @@ CookieMonster.mainLoop = function() {
 //////////////////////////////////////////////////////////////////////
 
 if (document.title.indexOf("Cookie Clicker") !== -1 && $("#game").length !== 0) {
-	this.start();
+	CookieMonster.start();
 } else {
-	alert("Cookie Monster " + this.version + "\n\nThese aren't the droids you're looking for.");
+	alert("Cookie Monster " + CookieMonster.version + "\n\nThese aren't the droids you're looking for.");
 }
