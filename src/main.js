@@ -21,8 +21,8 @@ CookieMonster.update = function() {
  */
 CookieMonster.start = function() {
 	// Cancel if already loaded
-	if (CookieMonster.$monsterBar.length !== 0) {
-		return alert("Cookie Monster " + CookieMonster.version + "\n\nCookie Monster is already loaded, silly!");
+	if (this.$monsterBar.length !== 0) {
+		return alert("Cookie Monster " + this.version + "\n\nCookie Monster is already loaded, silly!");
 	}
 
 	var $topBar  = $('#topBar');
@@ -36,7 +36,7 @@ CookieMonster.start = function() {
 	$cookies.css("background", "rgba(0,0,0,0.75)");
 	$cookies.css("border-top", "1px solid black");
 	$cookies.css("border-bottom", "1px solid black");
-	CookieMonster.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
+	this.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
 	$("#game").css("cssText","-webkit-touch-callout: none;" + "-webkit-user-select: none;" + "-khtml-user-select: none;" + "-moz-user-select: none;" + "-ms-user-select: none;" + "-o-user-select: none;" + "user-select: none;" + "top: 0px;" + "bottom: 57px;");
 	$("#storeTitle").css("cssText","font-size: 18px;" + "padding: 4px 8px 2px 8px;" + "border-bottom: 1px solid black;");
 	$("#storeTitle").after('<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0,0,0,0.6); border-bottom: 1px solid black; cursor:default;"><tr>' + '<td align=center style="color:#4bb8f0; padding:2px;" id="cm_up_q0">0</td>' + '<td align=center style="color:#00ff00; padding:2px;" id="cm_up_q1">0</td>' + '<td align=center style="color:#ffff00; padding:2px;" id="cm_up_q2">0</td>' + '<td align=center style="color:#ff7f00; padding:2px;" id="cm_up_q3">0</td>' + '<td align=center style="color:#ff0000; padding:2px;" id="cm_up_q4">0</td>' + '<td align=center style="color:#ff00ff; padding:2px;" id="cm_up_q5">0</td>' + "</tr></table>");
@@ -52,36 +52,44 @@ CookieMonster.start = function() {
 	});
 
 	// Refrehs selector
-	CookieMonster.$monsterBar = $('#cookie_monster_bar');
+	this.$monsterBar = $('#cookie_monster_bar');
 
-	CookieMonster.makeTable();
-	CookieMonster.saveTooltips();
-	CookieMonster.update();
-	CookieMonster.loadSettings();
-	CookieMonster.setupTooltips();
-	CookieMonster.mainLoop();
+	this.makeTable();
+	this.saveTooltips();
+	this.update();
+	this.loadSettings();
+	this.setupTooltips();
+	this.mainLoop();
 
-	Game.Popup('<span style="color:#' +this.colors.yellow+ '; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + CookieMonster.version + " Loaded!</span>");
+	Game.Popup('<span style="color:#' +this.colors.yellow+ '; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + this.version + " Loaded!</span>");
 };
 
+/**
+ * Executes the main updating loop to refrsh CookieMonster
+ *
+ * @return {void}
+ */
 CookieMonster.mainLoop = function() {
-	CookieMonster.updateTable();
-	CookieMonster.updateTooltips("all");
-	CookieMonster.doEmphasize();
-	CookieMonster.manageBuffs();
-	CookieMonster.loops++;
+	this.updateTable();
+	this.updateTooltips("all");
+	this.doEmphasize();
+	this.manageBuffs();
+	this.loops++;
 
-	if (CookieMonster.loops === 1) {
+	if (this.loops === 1) {
 		Game.RebuildStore();
 	}
 
 	setTimeout(function () {
 		CookieMonster.mainLoop();
-	}, CookieMonster.settings[3]);
+	}, this.settings[3]);
 };
 
+// Runtime
+//////////////////////////////////////////////////////////////////////
+
 if (document.title.indexOf("Cookie Clicker") !== -1 && $("#game").length !== 0) {
-	CookieMonster.start();
+	this.start();
 } else {
-	alert("Cookie Monster " + CookieMonster.version + "\n\nThese aren't the droids you're looking for.");
+	alert("Cookie Monster " + this.version + "\n\nThese aren't the droids you're looking for.");
 }

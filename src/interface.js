@@ -14,6 +14,11 @@ CookieMonster.faviconSpinner = function(e) {
 	}
 };
 
+/**
+ * Toggle the CookieMonster bottom bar
+ *
+ * @return {void}
+ */
 CookieMonster.toggleBar = function() {
 	if (this.settings[5] === 0) {
 		this.$monsterBar.css("display", "none");

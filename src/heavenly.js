@@ -106,24 +106,30 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	return i;
 };
 
+/**
+ * Get the current heavenly multiplier
+ *
+ * @return {integer}
+ */
 CookieMonster.getHeavenlyMultiplier = function() {
-	var e = Game.prestige["Heavenly chips"] * 2;
-	var t = 0;
+	var chips     = Game.prestige["Heavenly chips"] * 2;
+	var potential = 0;
+
 	if (Game.Has("Heavenly chip secret")) {
-		t += 0.05;
+		potential += 0.05;
 	}
 	if (Game.Has("Heavenly cookie stand")) {
-		t += 0.2;
+		potential += 0.2;
 	}
 	if (Game.Has("Heavenly bakery")) {
-		t += 0.25;
+		potential += 0.25;
 	}
 	if (Game.Has("Heavenly confectionery")) {
-		t += 0.25;
+		potential += 0.25;
 	}
 	if (Game.Has("Heavenly key")) {
-		t += 0.25;
+		potential += 0.25;
 	}
 
-	return e * t;
+	return chips * potential;
 };

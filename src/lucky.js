@@ -34,5 +34,6 @@ CookieMonster.luckyReward = function(e) {
 			return CookieMonster.formatNumber(n[0]);
 		}
 	}
+
 	return CookieMonster.formatNumber(Math.min.apply(Math, n));
 };
