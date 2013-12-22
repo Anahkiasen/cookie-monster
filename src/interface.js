@@ -2,7 +2,7 @@ CookieMonster.faviconSpinner = function(e) {
 	if (e > 6) {
 		e = 1
 	}
-	if (gc_avail === "(G) ") {
+	if (CookieMonster.goldenCookieAvailable === "(G) ") {
 		$("#cm_favicon").attr("href", "http://frozenelm.com/cookiemonster/images/cm_gc_" + e + ".png");
 		e++;
 		setTimeout(function () {
@@ -23,18 +23,7 @@ CookieMonster.toggleBar = function() {
 	}
 }
 
-CookieMonster.upgradeDisplay = function() {
-	switch (CookieMonster.settings[12] * 1) {
-	case 1:
-		return "Normal";
-	case 2:
-		return "All";
-	case 0:
-		return "None";
-	default:
-		return "Normal"
-	}
-}
+
 
 CookieMonster.updateUpgradeDisplay = function() {
 	var e = $("#upgrades");
@@ -52,7 +41,7 @@ CookieMonster.updateUpgradeDisplay = function() {
 }
 
 CookieMonster.makeTable = function() {
-	var e = '<th align=left width=130 style="color:#FFFF00;"> ' + version + "</th>";
+	var e = '<th align=left width=130 style="color:#FFFF00;"> ' + CookieMonster.version + "</th>";
 	var t = "";
 	var n = "";
 	var r = "";
@@ -208,47 +197,17 @@ CookieMonster.organizeObjectList = function() {
 	return e
 }
 
-CookieMonster.shortNumbers = function() {
-	switch (CookieMonster.settings[7] * 1) {
-	case 1:
-		return "ON (A)";
-	case 2:
-		return "ON (B)";
-	case 0:
-		return "OFF";
-	default:
-		return "OFF"
-	}
-}
-
-CookieMonster.refresh = function() {
-	switch (CookieMonster.settings[3] * 1) {
-	case 1e3:
-		return "1";
-	case 500:
-		return "2";
-	case 250:
-		return "4";
-	case 100:
-		return "10";
-	case 33:
-		return "30";
-	default:
-		return "1"
-	}
-}
-
 CookieMonster.emphasize = function() {
 	var e = $("#cookie_monster_golden_overlay");
 	var t = $("#goldenCookie");
 	if (t.css("display") === "none" && !emphasize) {
 		emphasize = true;
-		gc_avail = ""
+		CookieMonster.goldenCookieAvailable = ""
 	}
 	if (t.css("display") !== "none" && emphasize) {
 		emphasize = false;
 		if (CookieMonster.settings[9] === 1) {
-			gc_avail = "(G) ";
+			CookieMonster.goldenCookieAvailable = "(G) ";
 			CookieMonster.faviconSpinner(1)
 		}
 		if (CookieMonster.settings[8] === 1) {

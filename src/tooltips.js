@@ -3,7 +3,7 @@ CookieMonster.saveTooltips = function() {
 		tooltips[t] = e.desc
 	});
 	Game.ObjectsById.forEach(function (e, t) {
-		building_tooltips[t] = e.desc
+		CookieMonster.buildingTooltips[t] = e.desc
 	})
 }
 
@@ -171,7 +171,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 		r[1] = "block";
 		o[1] = n[1] - (Game.cookies - e.price)
 	}
-	if (e.desc === building_tooltips[e.id]) {
+	if (e.desc === CookieMonster.buildingTooltips[e.id]) {
 		e.desc += '<div id="cm_ob_div_' + t + '" style="position:relative; height:96px; background:#222222; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>';
 		e.desc += '<div id="cm_ob_lucky_div_' + t + '" style="position:absolute; top:-25px; left:-12px; height:32px;">' + '<div id="cm_ob_lucky_div_warning" style="background:url(http://frozenelm.com/cookiemonster/images/warning.png); position:relative; float:left; height:32px; width:32px; display:none;"></div>' + '<div id="cm_ob_lucky_div_caution" style="background:url(http://frozenelm.com/cookiemonster/images/caution.png); position:relative; float:left; height:32px; width:32px; display:none;"></div>' + "</div>";
 		e.desc += '<div id="cm_ob_note_div_' + t + '" style="position:absolute; left:0px; margin-top:10px; color:white;">' + '<div id="cm_ob_note_div_warning" style="background:#222222; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #FF0000;"><b style="color:#FF0000;">Warning:</b> Purchase of this item will put you under the number of Cookies required for "Lucky!"</br><span id="cm_ob_warning_amount"></span>' + '<div id="cm_ob_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="http://frozenelm.com/cookiemonster/images/warning.png" height=16px width=16px></div></div>' + '<div id="cm_ob_note_div_caution" style="background:#222222; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #FFFF00;"><b style="color:#FFFF00;">Caution:</b> Purchase of this item will put you under the number of Cookies required for "Lucky!" (Frenzy)</br><span id="cm_ob_caution_amount"></span>' + '<div id="cm_ob_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="http://frozenelm.com/cookiemonster/images/caution.png" height=16px width=16px></div></div>' + "</div>";
@@ -210,6 +210,8 @@ CookieMonster.manageBuildingTooltip = function(e) {
 			$("#cm_ob_note_div_caution").css("display", "none")
 		}
 	}
+
+	console.log(CookieMonster.settings);
 	if (CookieMonster.settings[6] === 1) {
 		$("#product" + t).find(".price").first().css("color", "#" + u[0])
 	} else {

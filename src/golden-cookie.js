@@ -84,9 +84,9 @@ CookieMonster.manageBuffs = function() {
 
 	if ((s[2] - s[0]) / Game.fps > 0 && $("#goldenCookie").css("display") === "none") {
 		if (CookieMonster.settings[4] === 1) {
-			gc_avail = "(" + Math.round((s[2] - s[0]) / Game.fps) + ") "
+			CookieMonster.goldenCookieAvailable = "(" + Math.round((s[2] - s[0]) / Game.fps) + ") "
 		} else {
-			gc_avail = ""
+			CookieMonster.goldenCookieAvailable = ""
 		}
 	}
 

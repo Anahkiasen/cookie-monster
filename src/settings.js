@@ -251,3 +251,61 @@ CookieMonster.toggleOption = function(option) {
 
 	CookieMonster.saveSettings()
 }
+
+/**
+ * Get a text version of the current short numbers option
+ *
+ * @return {string}
+ */
+CookieMonster.getShortNumbers = function() {
+	switch (CookieMonster.settings[7] * 1) {
+	case 1:
+		return "ON (A)";
+	case 2:
+		return "ON (B)";
+	case 0:
+		return "OFF";
+	default:
+		return "OFF"
+	}
+}
+
+/**
+ * Get a text version of the current refresh rate
+ *
+ * @return {string}
+ */
+CookieMonster.getRefreshRate = function() {
+	switch (CookieMonster.settings[3] * 1) {
+		case 1e3:
+			return "1";
+		case 500:
+			return "2";
+		case 250:
+			return "4";
+		case 100:
+			return "10";
+		case 33:
+			return "30";
+		default:
+			return "1";
+	}
+}
+
+/**
+ * Get a text version of the "Upgrade display" option
+ *
+ * @return {string}
+ */
+CookieMonster.getUpgradeDisplay = function() {
+	switch (CookieMonster.settings[12] * 1) {
+	case 1:
+		return "Normal";
+	case 2:
+		return "All";
+	case 0:
+		return "None";
+	default:
+		return "Normal"
+	}
+}
