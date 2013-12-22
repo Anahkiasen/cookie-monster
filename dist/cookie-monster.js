@@ -1187,10 +1187,10 @@ CookieMonster.getLuckyAlert = function () {
  */
 CookieMonster.loadSetting = function(key, name, defaultValue) {
 	if (localStorage[name] !== undefined) {
-		CookieMonster.settings[key] = parseInt(localStorage[name], 10);
+		this.settings[key] = parseInt(localStorage[name], 10);
 	} else {
-		localStorage.FlashScreen    = defaultValue;
-		CookieMonster.settings[key] = defaultValue;
+		localStorage[name] = defaultValue;
+		this.settings[key] = defaultValue;
 	}
 };
 
@@ -1218,26 +1218,26 @@ CookieMonster.loadSettings = function() {
 
 CookieMonster.saveSettings = function() {
 	if (typeof Storage !== "undefined") {
-		localStorage.FlashScreen    = CookieMonster.settings[0];
-		localStorage.CookieTimer    = CookieMonster.settings[1];
-		localStorage.BuffBars       = CookieMonster.settings[2];
-		localStorage.Refresh        = CookieMonster.settings[3];
-		localStorage.CookieCD       = CookieMonster.settings[4];
-		localStorage.CMBar          = CookieMonster.settings[5];
-		localStorage.ColoredPrices  = CookieMonster.settings[6];
-		localStorage.ShortNumbers   = CookieMonster.settings[7];
-		localStorage.CookieSound    = CookieMonster.settings[8];
-		localStorage.UpdateTitle    = CookieMonster.settings[9];
-		localStorage.LuckyAlert     = CookieMonster.settings[10];
-		localStorage.UpgradeIcons   = CookieMonster.settings[11];
-		localStorage.UpgradeDisplay = CookieMonster.settings[12];
+		localStorage.FlashScreen    = this.settings[0];
+		localStorage.CookieTimer    = this.settings[1];
+		localStorage.BuffBars       = this.settings[2];
+		localStorage.Refresh        = this.settings[3];
+		localStorage.CookieCD       = this.settings[4];
+		localStorage.CMBar          = this.settings[5];
+		localStorage.ColoredPrices  = this.settings[6];
+		localStorage.ShortNumbers   = this.settings[7];
+		localStorage.CookieSound    = this.settings[8];
+		localStorage.UpdateTitle    = this.settings[9];
+		localStorage.LuckyAlert     = this.settings[10];
+		localStorage.UpgradeIcons   = this.settings[11];
+		localStorage.UpgradeDisplay = this.settings[12];
 	}
 
-	CookieMonster.toggleBar();
+	this.toggleBar();
 };
 
 CookieMonster.getOptionState = function(e) {
-	return (CookieMonster.settings[e] === 0) ? 'OFF' : 'ON';
+	return (this.settings[e] === 0) ? 'OFF' : 'ON';
 };
 
 CookieMonster.toggleOption = function(option) {
@@ -1245,156 +1245,156 @@ CookieMonster.toggleOption = function(option) {
 
 	switch ($option.text()) {
 	case "Flash Screen ON":
-		CookieMonster.settings[0] = 0;
+		this.settings[0] = 0;
 		$option.text("Flash Screen OFF");
 		break;
 	case "Flash Screen OFF":
-		CookieMonster.settings[0] = 1;
+		this.settings[0] = 1;
 		$option.text("Flash Screen ON");
 		break;
 	case "Cookie Sound ON":
-		CookieMonster.settings[8] = 0;
+		this.settings[8] = 0;
 		$option.text("Cookie Sound OFF");
 		break;
 	case "Cookie Sound OFF":
-		CookieMonster.settings[8] = 1;
+		this.settings[8] = 1;
 		$option.text("Cookie Sound ON");
 		break;
 	case "Cookie Timer ON":
-		CookieMonster.settings[1] = 0;
+		this.settings[1] = 0;
 		$option.text("Cookie Timer OFF");
 		break;
 	case "Cookie Timer OFF":
-		CookieMonster.settings[1] = 1;
+		this.settings[1] = 1;
 		$option.text("Cookie Timer ON");
 		break;
 	case "Next Cookie Timer ON":
-		CookieMonster.settings[4] = 0;
+		this.settings[4] = 0;
 		$option.text("Next Cookie Timer OFF");
 		break;
 	case "Next Cookie Timer OFF":
-		CookieMonster.settings[4] = 1;
+		this.settings[4] = 1;
 		$option.text("Next Cookie Timer ON");
 		break;
 	case "Update Title ON":
-		CookieMonster.settings[9] = 0;
+		this.settings[9] = 0;
 		$option.text("Update Title OFF");
 		break;
 	case "Update Title OFF":
-		CookieMonster.settings[9] = 1;
+		this.settings[9] = 1;
 		$option.text("Update Title ON");
 		break;
 	case "Buff Bars ON":
-		CookieMonster.settings[2] = 0;
+		this.settings[2] = 0;
 		$option.text("Buff Bars OFF");
 		break;
 	case "Buff Bars OFF":
-		CookieMonster.settings[2] = 1;
+		this.settings[2] = 1;
 		$option.text("Buff Bars ON");
 		break;
 	case "Bottom Bar ON":
-		CookieMonster.settings[5] = 0;
+		this.settings[5] = 0;
 		$option.text("Bottom Bar OFF");
 		break;
 	case "Bottom Bar OFF":
-		CookieMonster.settings[5] = 1;
+		this.settings[5] = 1;
 		$option.text("Bottom Bar ON");
 		break;
 	case "Colored Prices ON":
-		CookieMonster.settings[6] = 0;
+		this.settings[6] = 0;
 		$option.text("Colored Prices OFF");
 		CookieMonster.updateTooltips("ob");
 		break;
 	case "Colored Prices OFF":
-		CookieMonster.settings[6] = 1;
+		this.settings[6] = 1;
 		$option.text("Colored Prices ON");
 		CookieMonster.updateTooltips("ob");
 		break;
 	case "Upgrade Icons ON":
-		CookieMonster.settings[11] = 0;
+		this.settings[11] = 0;
 		$option.text("Upgrade Icons OFF");
 		Game.RebuildUpgrades();
 		break;
 	case "Upgrade Icons OFF":
-		CookieMonster.settings[11] = 1;
+		this.settings[11] = 1;
 		$option.text("Upgrade Icons ON");
 		Game.RebuildUpgrades();
 		break;
 	case "Upgrade Display (All)":
-		CookieMonster.settings[12] = 0;
+		this.settings[12] = 0;
 		$option.text("Upgrade Display (None)");
 		CookieMonster.updateUpgradeDisplay();
 		break;
 	case "Upgrade Display (None)":
-		CookieMonster.settings[12] = 1;
+		this.settings[12] = 1;
 		$option.text("Upgrade Display (Normal)");
 		CookieMonster.updateUpgradeDisplay();
 		break;
 	case "Upgrade Display (Normal)":
-		CookieMonster.settings[12] = 2;
+		this.settings[12] = 2;
 		$option.text("Upgrade Display (All)");
 		CookieMonster.updateUpgradeDisplay();
 		break;
 	case "Short Numbers ON (B)":
-		CookieMonster.settings[7] = 0;
+		this.settings[7] = 0;
 		$option.text("Short Numbers OFF");
 		Game.RebuildStore();
 		Game.RebuildUpgrades();
 		CookieMonster.updateTable();
 		break;
 	case "Short Numbers OFF":
-		CookieMonster.settings[7] = 1;
+		this.settings[7] = 1;
 		$option.text("Short Numbers ON (A)");
 		Game.RebuildStore();
 		Game.RebuildUpgrades();
 		CookieMonster.updateTable();
 		break;
 	case "Short Numbers ON (A)":
-		CookieMonster.settings[7] = 2;
+		this.settings[7] = 2;
 		$option.text("Short Numbers ON (B)");
 		Game.RebuildStore();
 		Game.RebuildUpgrades();
 		CookieMonster.updateTable();
 		break;
 	case "Lucky Alert (Both)":
-		CookieMonster.settings[10] = 2;
+		this.settings[10] = 2;
 		$option.text("Lucky Alert (Icons)");
 		break;
 	case "Lucky Alert (Icons)":
-		CookieMonster.settings[10] = 3;
+		this.settings[10] = 3;
 		$option.text("Lucky Alert (Notes)");
 		break;
 	case "Lucky Alert (Notes)":
-		CookieMonster.settings[10] = 0;
+		this.settings[10] = 0;
 		$option.text("Lucky Alert (Off)");
 		break;
 	case "Lucky Alert (Off)":
-		CookieMonster.settings[10] = 1;
+		this.settings[10] = 1;
 		$option.text("Lucky Alert (Both)");
 		break;
 	case "Refresh Rate (1 fps)":
-		CookieMonster.settings[3] = 500;
+		this.settings[3] = 500;
 		$option.text("Refresh Rate (2 fps)");
 		break;
 	case "Refresh Rate (2 fps)":
-		CookieMonster.settings[3] = 250;
+		this.settings[3] = 250;
 		$option.text("Refresh Rate (4 fps)");
 		break;
 	case "Refresh Rate (4 fps)":
-		CookieMonster.settings[3] = 100;
+		this.settings[3] = 100;
 		$option.text("Refresh Rate (10 fps)");
 		break;
 	case "Refresh Rate (10 fps)":
-		CookieMonster.settings[3] = 33;
+		this.settings[3] = 33;
 		$option.text("Refresh Rate (30 fps)");
 		break;
 	case "Refresh Rate (30 fps)":
-		CookieMonster.settings[3] = 1e3;
+		this.settings[3] = 1e3;
 		$option.text("Refresh Rate (1 fps)");
 		break;
 	}
 
-	CookieMonster.saveSettings();
+	this.saveSettings();
 };
 
 /**
@@ -1403,7 +1403,7 @@ CookieMonster.toggleOption = function(option) {
  * @return {string}
  */
 CookieMonster.getShortNumbers = function() {
-	switch (CookieMonster.settings[7] * 1) {
+	switch (this.settings[7] * 1) {
 		case 1:
 			return "ON (A)";
 		case 2:
@@ -1421,7 +1421,7 @@ CookieMonster.getShortNumbers = function() {
  * @return {string}
  */
 CookieMonster.getRefreshRate = function() {
-	switch (CookieMonster.settings[3] * 1) {
+	switch (this.settings[3] * 1) {
 		case 1e3:
 			return "1";
 		case 500:
@@ -1443,7 +1443,7 @@ CookieMonster.getRefreshRate = function() {
  * @return {string}
  */
 CookieMonster.getUpgradeDisplay = function() {
-	switch (CookieMonster.settings[12] * 1) {
+	switch (this.settings[12] * 1) {
 		case 1:
 			return "Normal";
 		case 2:
@@ -1492,13 +1492,13 @@ CookieMonster.secondsLeft = function(e, t) {
 };
 
 CookieMonster.sts = function(e, t) {
-	var n = CookieMonster.settings[7];
+	var n = this.settings[7];
 	if (n > 0) {
 		var r = 1e33;
-		for (var i = CookieMonster.stsType[n - 1].length - 1; i >= 0; i--) {
+		for (var i = this.stsType[n - 1].length - 1; i >= 0; i--) {
 			var s = (e / r % 999).toFixed(3);
 			if (s >= 1) {
-				return s + CookieMonster.stsType[n - 1][i];
+				return s + this.stsType[n - 1][i];
 			}
 			r /= 1e3;
 		}
@@ -1510,11 +1510,11 @@ CookieMonster.sts = function(e, t) {
 };
 
 CookieMonster.formatNumber = function(e) {
-	return CookieMonster.sts(e, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return this.sts(e, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 CookieMonster.formatNumberB = function(e) {
-	return CookieMonster.sts(e, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return this.sts(e, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 CookieMonster.formatTime = function(e, t) {
@@ -1796,146 +1796,146 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 	switch (e) {
 	case "Cursor":
 		if (t === 0) {
-			i += CookieMonster.checkAchievement("Click");
+			i += this.checkAchievement("Click");
 		}
 		if (t === 1) {
-			i += CookieMonster.checkAchievement("Double-click");
+			i += this.checkAchievement("Double-click");
 		}
 		if (t === 49) {
-			i += CookieMonster.checkAchievement("Mouse wheel");
+			i += this.checkAchievement("Mouse wheel");
 		}
 		if (t === 99) {
-			i += CookieMonster.checkAchievement("Of Mice and Men");
+			i += this.checkAchievement("Of Mice and Men");
 		}
 		if (t === 199) {
-			i += CookieMonster.checkAchievement("The Digital");
+			i += this.checkAchievement("The Digital");
 		}
 		break;
 	case "Grandma":
-		r += CookieMonster.getTotalGrandmaModifiers(t) * Game.globalCpsMult;
-		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
+		r += this.getTotalGrandmaModifiers(t) * Game.globalCpsMult;
+		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += CookieMonster.checkAchievement("Grandma's Cookies");
+			i += this.checkAchievement("Grandma's Cookies");
 		}
 		if (t === 49) {
-			i += CookieMonster.checkAchievement("Sloppy kisses");
+			i += this.checkAchievement("Sloppy kisses");
 		}
 		if (t === 99) {
-			i += CookieMonster.checkAchievement("Retirement home");
+			i += this.checkAchievement("Retirement home");
 		}
 		if (t === 149) {
-			i += CookieMonster.checkAchievement("Friend of the ancients");
+			i += this.checkAchievement("Friend of the ancients");
 		}
 		if (t === 199) {
-			i += CookieMonster.checkAchievement("Ruler of the ancients");
+			i += this.checkAchievement("Ruler of the ancients");
 		}
 		break;
 	case "Farm":
-		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
+		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += CookieMonster.checkAchievement("My first farm");
+			i += this.checkAchievement("My first farm");
 		}
 		if (t === 49) {
-			i += CookieMonster.checkAchievement("Reap what you sow");
+			i += this.checkAchievement("Reap what you sow");
 		}
 		if (t === 99) {
-			i += CookieMonster.checkAchievement("Farm ill");
+			i += this.checkAchievement("Farm ill");
 		}
 		break;
 	case "Factory":
-		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
+		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += CookieMonster.checkAchievement("Production chain");
+			i += this.checkAchievement("Production chain");
 		}
 		if (t === 49) {
-			i += CookieMonster.checkAchievement("Industrial revolution");
+			i += this.checkAchievement("Industrial revolution");
 		}
 		if (t === 99) {
-			i += CookieMonster.checkAchievement("Global warming");
+			i += this.checkAchievement("Global warming");
 		}
 		break;
 	case "Mine":
-		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
+		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += CookieMonster.checkAchievement("You know the drill");
+			i += this.checkAchievement("You know the drill");
 		}
 		if (t === 49) {
-			i += CookieMonster.checkAchievement("Excavation site");
+			i += this.checkAchievement("Excavation site");
 		}
 		if (t === 99) {
-			i += CookieMonster.checkAchievement("Hollow the planet");
+			i += this.checkAchievement("Hollow the planet");
 		}
 		break;
 	case "Shipment":
-		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
+		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += CookieMonster.checkAchievement("Expedition");
+			i += this.checkAchievement("Expedition");
 		}
 		if (t === 49) {
-			i += CookieMonster.checkAchievement("Galactic highway");
+			i += this.checkAchievement("Galactic highway");
 		}
 		if (t === 99) {
-			i += CookieMonster.checkAchievement("Far far away");
+			i += this.checkAchievement("Far far away");
 		}
 		break;
 	case "Alchemy lab":
-		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
+		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += CookieMonster.checkAchievement("Transmutation");
+			i += this.checkAchievement("Transmutation");
 		}
 		if (t === 49) {
-			i += CookieMonster.checkAchievement("Transmogrification");
+			i += this.checkAchievement("Transmogrification");
 		}
 		if (t === 99) {
-			i += CookieMonster.checkAchievement("Gold member");
+			i += this.checkAchievement("Gold member");
 		}
 		break;
 	case "Portal":
 		r += CookieMonster.getTotalPortalModifiers() * Game.globalCpsMult;
-		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
+		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += CookieMonster.checkAchievement("A whole new world");
+			i += this.checkAchievement("A whole new world");
 		}
 		if (t === 49) {
-			i += CookieMonster.checkAchievement("Now you're thinking");
+			i += this.checkAchievement("Now you're thinking");
 		}
 		if (t === 99) {
-			i += CookieMonster.checkAchievement("Dimensional shift");
+			i += this.checkAchievement("Dimensional shift");
 		}
 		break;
 	case "Time machine":
-		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
+		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += CookieMonster.checkAchievement("Time warp");
+			i += this.checkAchievement("Time warp");
 		}
 		if (t === 49) {
-			i += CookieMonster.checkAchievement("Alternate timeline");
+			i += this.checkAchievement("Alternate timeline");
 		}
 		if (t === 99) {
-			i += CookieMonster.checkAchievement("Rewriting history");
+			i += this.checkAchievement("Rewriting history");
 		}
 		break;
 	case "Antimatter condenser":
-		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
+		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
 		if (t === 0) {
-			i += CookieMonster.checkAchievement("Antibatter");
+			i += this.checkAchievement("Antibatter");
 		}
 		if (t === 49) {
-			i += CookieMonster.checkAchievement("Quirky quarks");
+			i += this.checkAchievement("Quirky quarks");
 		}
 		if (t === 99) {
-			i += CookieMonster.checkAchievement("It does matter!");
+			i += this.checkAchievement("It does matter!");
 		}
 		break;
 	}
 	if (Game.BuildingsOwned === 99) {
-		i += CookieMonster.checkAchievement("Builder");
+		i += this.checkAchievement("Builder");
 	}
 	if (Game.BuildingsOwned === 399) {
-		i += CookieMonster.checkAchievement("Architect");
+		i += this.checkAchievement("Architect");
 	}
 	if (Game.BuildingsOwned === 799) {
-		i += CookieMonster.checkAchievement("Engineer");
+		i += this.checkAchievement("Engineer");
 	}
 	if (_owe(e)) {
 		i++;
@@ -1949,62 +1949,67 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 	if (_cen(e)) {
 		i++;
 	}
-	return r + CookieMonster.getAchievementWorth(i, 0, r + n, 0)
+	return r + this.getAchievementWorth(i, 0, r + n, 0);
 };
 
 CookieMonster.getTotalCursorModifiers = function() {
 	var e = 0;
-	Game.UpgradesById.forEach(function (t, n) {
+	Game.UpgradesById.forEach(function (t) {
 		if (t.bought && t.desc.indexOf("The mouse and cursors gain") !== -1) {
 			var r = 31;
 			if (t.desc.indexOf(" another ") !== -1) {
-				r += 8
+				r += 8;
 			}
-			e += t.desc.substr(r, t.desc.indexOf("<", r) - r) * 1
+			e += t.desc.substr(r, t.desc.indexOf("<", r) - r) * 1;
 		}
 	});
-	return e * Game.ObjectsById[0].amount
+
+	return e * Game.ObjectsById[0].amount;
 };
 
 CookieMonster.getTotalGrandmaModifiers = function(e) {
 	var t = 0.5;
 	var n = 0;
 	var r = 1;
-	Game.UpgradesById.forEach(function (i, s) {
+
+	Game.UpgradesById.forEach(function (i) {
 		if (i.bought && i.name === "Forwards from grandma") {
-			t += 0.3
+			t += 0.3;
 		}
 		if (i.bought && i.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			r = r * 2
+			r = r * 2;
 		}
 		if (i.bought && i.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			r = r * 4
+			r = r * 4;
 		}
 		if (i.bought && i.desc.indexOf("for each 50 grandmas") !== -1) {
-			n += (e + 1) * 0.02 * (e + 1) - e * 0.02 * e
+			n += (e + 1) * 0.02 * (e + 1) - e * 0.02 * e;
 		}
 		if (i.bought && i.desc.indexOf("for each 20 portals") !== -1) {
-			n += Game.ObjectsById[7].amount * 0.05
+			n += Game.ObjectsById[7].amount * 0.05;
 		}
 	});
-	return t * r + n * r
+
+	return t * r + n * r;
 };
 
 CookieMonster.getTotalPortalModifiers = function() {
-	var e = 0;
-	var t = 1;
-	Game.UpgradesById.forEach(function (n, r) {
-		if (n.bought && n.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			t = t * 2
+	var e     = 0;
+	var total = 1;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+			total = total * 2;
 		}
-		if (n.bought && n.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			t = t * 4
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+			total = total * 4;
 		}
-		if (n.bought && n.desc.indexOf("for each 20 portals") !== -1) {
-			e += Game.ObjectsById[1].amount * 0.05
+		if (upgrade.bought && upgrade.desc.indexOf("for each 20 portals") !== -1) {
+			e += Game.ObjectsById[1].amount * 0.05;
 		}
 	});
-	return e * t
+
+	return e * total;
 }
 CookieMonster.update = function() {
 	Game.Logic = new Function("", Game.Logic.toString().replace(".title=", ".title=CookieMonster.goldenCookieAvailable+").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));

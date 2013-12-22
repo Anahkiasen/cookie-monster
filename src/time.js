@@ -36,13 +36,13 @@ CookieMonster.secondsLeft = function(e, t) {
 };
 
 CookieMonster.sts = function(e, t) {
-	var n = CookieMonster.settings[7];
+	var n = this.settings[7];
 	if (n > 0) {
 		var r = 1e33;
-		for (var i = CookieMonster.stsType[n - 1].length - 1; i >= 0; i--) {
+		for (var i = this.stsType[n - 1].length - 1; i >= 0; i--) {
 			var s = (e / r % 999).toFixed(3);
 			if (s >= 1) {
-				return s + CookieMonster.stsType[n - 1][i];
+				return s + this.stsType[n - 1][i];
 			}
 			r /= 1e3;
 		}
@@ -54,11 +54,11 @@ CookieMonster.sts = function(e, t) {
 };
 
 CookieMonster.formatNumber = function(e) {
-	return CookieMonster.sts(e, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return this.sts(e, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 CookieMonster.formatNumberB = function(e) {
-	return CookieMonster.sts(e, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return this.sts(e, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 CookieMonster.formatTime = function(e, t) {
