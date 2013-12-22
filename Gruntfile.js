@@ -109,12 +109,14 @@ module.exports = function(grunt) {
 				sub     : true,
 				undef   : true,
 				unused  : true,
+				loopfunc: true,
+				predef: ['CookieMonster', 'Game'],
 				globals : {
 					$ : false,
 				}
 			},
 
-			all: ['<%= src %>/*'],
+			all: ['<%= src %>/cpi.js'],
 		},
 
 	});

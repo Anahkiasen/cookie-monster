@@ -29,13 +29,14 @@ function Manage_Buffs() {
 	case 666:
 		n = 6 + 6 * Game.Has("Get lucky");
 		e = "Blood Frenzy";
-		t = "00FF00": n = 66 + 66 * Game.Has("Get lucky");
+		t = "00FF00";
+		n = 66 + 66 * Game.Has("Get lucky");
 		e = "Clot";
 		t = "FF0000";
 		break
 	}
 
-	if (Game.frenzy > 0 && settings[2] == 1) {
+	if (Game.frenzy > 0 && settings[2] === 1) {
 		if ($("#cookie_monster_timer_" + t).length != 1) {
 			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_' + t + '" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">' + e + "<td>" + '<td><div id="cmt_' + t + '" style="position:relative; background:#' + t + "; height:10px; width:" + Game.frenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_' + t + '" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + n + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>")
 		} else {
@@ -43,20 +44,20 @@ function Manage_Buffs() {
 			$("#cmt_time_" + t).text(Math.round(Game.frenzy / Game.fps))
 		}
 		$("#cookie_monster_timer_" + t).fadeIn(250);
-		if ($("#cookie_monster_timer_FFFF00").css("opacity") == "1" && t != "FFFF00") {
+		if ($("#cookie_monster_timer_FFFF00").css("opacity") === "1" && t != "FFFF00") {
 			$("#cookie_monster_timer_FFFF00").fadeOut(250)
 		}
-		if ($("#cookie_monster_timer_00FF00").css("opacity") == "1" && t != "00FF00") {
+		if ($("#cookie_monster_timer_00FF00").css("opacity") === "1" && t != "00FF00") {
 			$("#cookie_monster_timer_00FF00").fadeOut(250)
 		}
-		if ($("#cookie_monster_timer_FF0000").css("opacity") == "1" && t != "FF0000") {
+		if ($("#cookie_monster_timer_FF0000").css("opacity") === "1" && t != "FF0000") {
 			$("#cookie_monster_timer_FF0000").fadeOut(250)
 		}
-	} else if ($("#cookie_monster_timer_" + t).length == 1 && $("#cookie_monster_timer_" + t).css("opacity") == "1") {
+	} else if ($("#cookie_monster_timer_" + t).length === 1 && $("#cookie_monster_timer_" + t).css("opacity") === "1") {
 		$("#cookie_monster_timer_" + t).fadeOut(250)
 	}
 
-	if (Game.clickFrenzy > 0 && settings[2] == 1) {
+	if (Game.clickFrenzy > 0 && settings[2] === 1) {
 		if ($("#cookie_monster_timer_4BB8F0").length != 1) {
 			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_4BB8F0" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Click Frenzy<td>' + '<td><div id="cmt_4BB8F0" style="position:relative; background:#4BB8F0; height:10px; width:' + Game.clickFrenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_4BB8F0" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + i + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>")
 		} else {
@@ -64,11 +65,11 @@ function Manage_Buffs() {
 			$("#cmt_time_4BB8F0").text(Math.round(Game.clickFrenzy / Game.fps))
 		}
 		$("#cookie_monster_timer_4BB8F0").fadeIn(250)
-	} else if ($("#cookie_monster_timer_4BB8F0").length == 1 && $("#cookie_monster_timer_4BB8F0").css("opacity") == "1") {
+	} else if ($("#cookie_monster_timer_4BB8F0").length === 1 && $("#cookie_monster_timer_4BB8F0").css("opacity") === "1") {
 		$("#cookie_monster_timer_4BB8F0").fadeOut(250)
 	}
 
-	if (s[0] > 0 && $("#goldenCookie").css("display") == "none" && settings[4] == 1) {
+	if (s[0] > 0 && $("#goldenCookie").css("display") === "none" && settings[4] === 1) {
 		if ($("#cookie_monster_timer_FF00FF").length != 1) {
 			$("#cookie_monster_timer_bars_div").append("" + '<div id="cookie_monster_timer_FF00FF" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Next Cookie<td>' + '<td><div id="cmt_FF00FF" style="position:relative; background:#aaaaaa; height:10px; width:100%; margin-left:4px; border:1px solid black;"><div id="cmt2_FF00FF" style="position:relative; background:#FF00FF; height:10px; width:100%; margin-left:0px; max-width:' + (o - 189) * .67 + 'px; float:right;"></div><div id="cmt_time_FF00FF" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + Math.round((s[2] - s[0]) / Game.fps) + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>")
 		} else {
@@ -77,12 +78,12 @@ function Manage_Buffs() {
 			$("#cmt_time_FF00FF").text(Math.round((s[2] - s[0]) / Game.fps))
 		}
 		$("#cookie_monster_timer_FF00FF").fadeIn(250)
-	} else if ($("#cookie_monster_timer_FF00FF").length == 1 && $("#cookie_monster_timer_FF00FF").css("opacity") == "1") {
+	} else if ($("#cookie_monster_timer_FF00FF").length === 1 && $("#cookie_monster_timer_FF00FF").css("opacity") === "1") {
 		$("#cookie_monster_timer_FF00FF").fadeOut(250)
 	}
 
-	if ((s[2] - s[0]) / Game.fps > 0 && $("#goldenCookie").css("display") == "none") {
-		if (settings[4] == 1) {
+	if ((s[2] - s[0]) / Game.fps > 0 && $("#goldenCookie").css("display") === "none") {
+		if (settings[4] === 1) {
 			gc_avail = "(" + Math.round((s[2] - s[0]) / Game.fps) + ") "
 		} else {
 			gc_avail = ""

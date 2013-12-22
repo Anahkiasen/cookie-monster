@@ -91,7 +91,7 @@ CookieMonster.saveSettings = function() {
 }
 
 CookieMonster.getOptionState = function(e) {
-	if (settings[e] == 0) {
+	if (settings[e] === 0) {
 		return "OFF"
 	}
 	return "ON"

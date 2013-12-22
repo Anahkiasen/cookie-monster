@@ -6,12 +6,12 @@
 CookieMonster.sellOutValue = function () {
 	var e = 0;
 	var t = Game.cookies;
-	var n = new Array;
+	var n = [];
 	var r = 0;
 
 	Game.ObjectsById.forEach(function (e, t) {
 		n[t] = e.amount;
-		r += e.amount
+		r += e.amount;
 	});
 
 	while (t >= 15 || r > 0) {
@@ -23,21 +23,22 @@ CookieMonster.sellOutValue = function () {
 				t += Math.floor(u.basePrice * Math.pow(1.15, a) / 2);
 				e += Math.floor(u.basePrice * Math.pow(1.15, a) / 2);
 				n[i]--;
-				r--
+				r--;
 			}
 			while (t >= u.basePrice * Math.pow(1.15, n[i])) {
 				s = true;
 				t -= u.basePrice * Math.pow(1.15, n[i]);
 				n[i]++;
-				r++
+				r++;
 			}
 			if (s) {
-				break
+				break;
 			}
 		}
 	}
-	sell_out = e
-}
+
+	CookieMonster.sellOut = e;
+};
 
 /**
  * Sells out all buildings
@@ -46,18 +47,18 @@ CookieMonster.sellOutValue = function () {
  */
 CookieMonster.sellOut = function() {
 	if (confirm("*** WARNING ***\nYou will have no buildings or cookies left after this.")) {
-		Game.ObjectsById.forEach(function (e, t) {
+		Game.ObjectsById.forEach(function (e) {
 			setTimeout(function () {
 				while (e.amount > 0) {
-					e.sell()
+					e.sell();
 				}
-			})
+			});
 		});
 		setTimeout(function () {
-			Buy_Sell()
-		})
+			CookieMonster.buySell();
+		});
 	}
-}
+};
 
 /**
  * Buys and sells all building
@@ -67,31 +68,29 @@ CookieMonster.sellOut = function() {
 CookieMonster.buySell = function() {
 	if (Game.cookies < 1e9 && Game.BuildingsOwned < 100) {
 		CookieMonster.buySellNoWait();
-		return false
+		return false;
 	}
 
 	for (var e = Game.ObjectsById.length - 1; e >= 0; e--) {
 		var t = Game.ObjectsById[e];
 		if (t.price <= Game.cookies) {
 			t.buy();
-			setTimeout(function () {
+			return setTimeout(function () {
 				CookieMonster.buySell();
 			});
-			return false
 		}
 		if (t.price > Game.cookies && t.amount > 0) {
 			t.sell();
-			setTimeout(function () {
+			return setTimeout(function () {
 				CookieMonster.buySell();
 			});
-			return false
 		}
 	}
 
 	setTimeout(function () {
 		CookieMonster.buySell();
-	})
-}
+	});
+};
 
 /**
  * Buys and sells all buildings (no wait)
@@ -100,17 +99,20 @@ CookieMonster.buySell = function() {
  */
 CookieMonster.buySellNoWait = function() {
 	if (Game.cookies < 15) {
-		return false
+		return false;
 	}
+
 	for (var e = Game.ObjectsById.length - 1; e >= 0; e--) {
 		var t = Game.ObjectsById[e];
 		t.sell();
+
 		if (t.price <= Game.cookies) {
 			t.buy();
 			t.sell();
 			CookieMonster.buySellNoWait();
-			return false
+			return false;
 		}
 	}
-	CookieMonster.buySellNoWait()
-}
+
+	CookieMonster.buySellNoWait();
+};

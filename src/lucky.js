@@ -3,7 +3,7 @@ CookieMonster.lucky = function(e, t) {
 	if (Game.frenzy > 0) {
 		n = n / Game.frenzyPower
 	}
-	if (e == "frenzy") {
+	if (e === "frenzy") {
 		n = n * 7
 	}
 	var r = Math.round((n * 1200 + 13) / .1);
@@ -24,11 +24,11 @@ CookieMonster.luckyReward = function(e) {
 	if (Game.frenzy > 0 && e != "cur") {
 		t = t / Game.frenzyPower
 	}
-	if (e == "max_frenzy") {
+	if (e === "max_frenzy") {
 		t = t * 7
 	}
 	var n = new Array(Math.round(t * 1200 + 13), Math.round(Game.cookies * .1 + 13));
-	if (e == "max" || e == "max_frenzy") {
+	if (e === "max" || e === "max_frenzy") {
 		if (Math.round((t * 1200 + 13) / .1) > Game.cookies) {
 			return CookieMonster.formatNumber(n[0])
 		}

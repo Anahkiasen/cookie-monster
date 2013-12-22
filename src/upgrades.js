@@ -3,146 +3,146 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 	var i = 0;
 	switch (e) {
 	case "Cursor":
-		if (t == 0) {
+		if (t === 0) {
 			i += _cha("Click")
 		}
-		if (t == 1) {
+		if (t === 1) {
 			i += _cha("Double-click")
 		}
-		if (t == 49) {
+		if (t === 49) {
 			i += _cha("Mouse wheel")
 		}
-		if (t == 99) {
+		if (t === 99) {
 			i += _cha("Of Mice and Men")
 		}
-		if (t == 199) {
+		if (t === 199) {
 			i += _cha("The Digital")
 		}
 		break;
 	case "Grandma":
 		r += CookieMonster.getTotalGrandmaModifiers(t) * Game.globalCpsMult;
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t == 0) {
+		if (t === 0) {
 			i += _cha("Grandma's Cookies")
 		}
-		if (t == 49) {
+		if (t === 49) {
 			i += _cha("Sloppy kisses")
 		}
-		if (t == 99) {
+		if (t === 99) {
 			i += _cha("Retirement home")
 		}
-		if (t == 149) {
+		if (t === 149) {
 			i += _cha("Friend of the ancients")
 		}
-		if (t == 199) {
+		if (t === 199) {
 			i += _cha("Ruler of the ancients")
 		}
 		break;
 	case "Farm":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t == 0) {
+		if (t === 0) {
 			i += _cha("My first farm")
 		}
-		if (t == 49) {
+		if (t === 49) {
 			i += _cha("Reap what you sow")
 		}
-		if (t == 99) {
+		if (t === 99) {
 			i += _cha("Farm ill")
 		}
 		break;
 	case "Factory":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t == 0) {
+		if (t === 0) {
 			i += _cha("Production chain")
 		}
-		if (t == 49) {
+		if (t === 49) {
 			i += _cha("Industrial revolution")
 		}
-		if (t == 99) {
+		if (t === 99) {
 			i += _cha("Global warming")
 		}
 		break;
 	case "Mine":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t == 0) {
+		if (t === 0) {
 			i += _cha("You know the drill")
 		}
-		if (t == 49) {
+		if (t === 49) {
 			i += _cha("Excavation site")
 		}
-		if (t == 99) {
+		if (t === 99) {
 			i += _cha("Hollow the planet")
 		}
 		break;
 	case "Shipment":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t == 0) {
+		if (t === 0) {
 			i += _cha("Expedition")
 		}
-		if (t == 49) {
+		if (t === 49) {
 			i += _cha("Galactic highway")
 		}
-		if (t == 99) {
+		if (t === 99) {
 			i += _cha("Far far away")
 		}
 		break;
 	case "Alchemy lab":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t == 0) {
+		if (t === 0) {
 			i += _cha("Transmutation")
 		}
-		if (t == 49) {
+		if (t === 49) {
 			i += _cha("Transmogrification")
 		}
-		if (t == 99) {
+		if (t === 99) {
 			i += _cha("Gold member")
 		}
 		break;
 	case "Portal":
 		r += CookieMonster.getTotalPortalModifiers() * Game.globalCpsMult;
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t == 0) {
+		if (t === 0) {
 			i += _cha("A whole new world")
 		}
-		if (t == 49) {
+		if (t === 49) {
 			i += _cha("Now you're thinking")
 		}
-		if (t == 99) {
+		if (t === 99) {
 			i += _cha("Dimensional shift")
 		}
 		break;
 	case "Time machine":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t == 0) {
+		if (t === 0) {
 			i += _cha("Time warp")
 		}
-		if (t == 49) {
+		if (t === 49) {
 			i += _cha("Alternate timeline")
 		}
-		if (t == 99) {
+		if (t === 99) {
 			i += _cha("Rewriting history")
 		}
 		break;
 	case "Antimatter condenser":
 		r += CookieMonster.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t == 0) {
+		if (t === 0) {
 			i += _cha("Antibatter")
 		}
-		if (t == 49) {
+		if (t === 49) {
 			i += _cha("Quirky quarks")
 		}
-		if (t == 99) {
+		if (t === 99) {
 			i += _cha("It does matter!")
 		}
 		break
 	}
-	if (Game.BuildingsOwned == 99) {
+	if (Game.BuildingsOwned === 99) {
 		i += _cha("Builder")
 	}
-	if (Game.BuildingsOwned == 399) {
+	if (Game.BuildingsOwned === 399) {
 		i += _cha("Architect")
 	}
-	if (Game.BuildingsOwned == 799) {
+	if (Game.BuildingsOwned === 799) {
 		i += _cha("Engineer")
 	}
 	if (_owe(e)) {
@@ -179,7 +179,7 @@ CookieMonster.getTotalGrandmaModifiers = function(e) {
 	var n = 0;
 	var r = 1;
 	Game.UpgradesById.forEach(function (i, s) {
-		if (i.bought && i.name == "Forwards from grandma") {
+		if (i.bought && i.name === "Forwards from grandma") {
 			t += .3
 		}
 		if (i.bought && i.desc.indexOf("Grandmas are <b>twice</b> as efficient.") != -1) {

@@ -16,7 +16,7 @@ function _dhc(e, t, n) {
 }
 
 function _lhc(e) {
-	if (Game.UpgradesById[e].name == "Heavenly key") {
+	if (Game.UpgradesById[e].name === "Heavenly key") {
 		return true
 	}
 	return false
@@ -27,9 +27,9 @@ function _cpc() {
 }
 
 function _lgt(e) {
-	if (_cha("Elder") == 1 && Game.UpgradesById[e].name.indexOf(" grandmas") != -1) {
-		var t = new Array;
-		var n = new Array;
+	if (_cha("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") != -1) {
+		var t = [];
+		var n = [];
 		Game.UpgradesById.forEach(function (e, r) {
 			if (e.bought && e.name.indexOf(" grandmas") != -1) {
 				t.push(r)
@@ -37,7 +37,7 @@ function _lgt(e) {
 				n.push(r)
 			}
 		});
-		if (n.length == 1 && n[0] == e) {
+		if (n.length === 1 && n[0] === e) {
 			return true
 		}
 	}
@@ -47,7 +47,7 @@ function _lgt(e) {
 function _cha(e) {
 	var t = 0;
 	Game.AchievementsById.forEach(function (n, r) {
-		if (!n.won && n.name == e) {
+		if (!n.won && n.name === e) {
 			t = 1
 		}
 	});
@@ -125,15 +125,15 @@ function _inc(e) {
 }
 
 function _bat(e) {
-	if (_cha("Base 10") == 1) {
-		var t = new Array;
-		var n = new Array;
+	if (_cha("Base 10") === 1) {
+		var t = [];
+		var n = [];
 		Game.ObjectsById.forEach(function (e, r) {
 			t.push(e.name);
 			n.push(e.amount)
 		});
 		t.forEach(function (t, r) {
-			if (t == e) {
+			if (t === e) {
 				n[r]++
 			}
 		});
@@ -150,15 +150,15 @@ function _bat(e) {
 }
 
 function _mat(e) {
-	if (_cha("Mathematician") == 1) {
-		var t = new Array;
-		var n = new Array;
+	if (_cha("Mathematician") === 1) {
+		var t = [];
+		var n = [];
 		Game.ObjectsById.forEach(function (e, r) {
 			t.push(e.name);
 			n.push(e.amount)
 		});
 		t.forEach(function (t, r) {
-			if (t == e) {
+			if (t === e) {
 				n[r]++
 			}
 		});
@@ -177,9 +177,9 @@ function _mat(e) {
 }
 
 function _owe(e) {
-	if (_cha("One with everything") == 1) {
-		var t = new Array;
-		var n = new Array;
+	if (_cha("One with everything") === 1) {
+		var t = [];
+		var n = [];
 		Game.ObjectsById.forEach(function (e, r) {
 			if (e.amount > 0) {
 				t.push(e.name)
@@ -187,7 +187,7 @@ function _owe(e) {
 				n.push(e.name)
 			}
 		});
-		if (n.length == 1 && n[0] == e) {
+		if (n.length === 1 && n[0] === e) {
 			return true
 		}
 	}
@@ -195,9 +195,9 @@ function _owe(e) {
 }
 
 function _cen(e) {
-	if (_cha("Centennial") == 1) {
-		var t = new Array;
-		var n = new Array;
+	if (_cha("Centennial") === 1) {
+		var t = [];
+		var n = [];
 		Game.ObjectsById.forEach(function (e, r) {
 			if (e.amount >= 100) {
 				t.push(e.name)
@@ -205,7 +205,7 @@ function _cen(e) {
 				n.push(e)
 			}
 		});
-		if (n.length == 1 && n[0].name == e && n[0].amount == 99) {
+		if (n.length === 1 && n[0].name === e && n[0].amount === 99) {
 			return true
 		}
 	}
@@ -214,12 +214,12 @@ function _cen(e) {
 
 function _cup(e, t, n) {
 	up = Game.UpgradesById[t];
-	if (up.desc.indexOf("cm_up_div_") == -1 && !n) {
+	if (up.desc.indexOf("cm_up_div_") === -1 && !n) {
 		return false
 	}
 	switch (e) {
 	case 0:
-		if (!up.bought && up.name == "Reinforced index finger") {
+		if (!up.bought && up.name === "Reinforced index finger") {
 			return true
 		}
 		break;
@@ -234,7 +234,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 3:
-		if (!up.bought && up.name == "Forwards from grandma") {
+		if (!up.bought && up.name === "Forwards from grandma") {
 			return true
 		}
 		break;
@@ -244,7 +244,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 5:
-		if (!up.bought && up.name == "Cheap hoes") {
+		if (!up.bought && up.name === "Cheap hoes") {
 			return true
 		}
 		break;
@@ -254,7 +254,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 7:
-		if (!up.bought && up.name == "Sturdier conveyor belts") {
+		if (!up.bought && up.name === "Sturdier conveyor belts") {
 			return true
 		}
 		break;
@@ -264,7 +264,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 9:
-		if (!up.bought && up.name == "Sugar gas") {
+		if (!up.bought && up.name === "Sugar gas") {
 			return true
 		}
 		break;
@@ -274,7 +274,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 11:
-		if (!up.bought && up.name == "Vanilla nebulae") {
+		if (!up.bought && up.name === "Vanilla nebulae") {
 			return true
 		}
 		break;
@@ -284,7 +284,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 13:
-		if (!up.bought && up.name == "Antimony") {
+		if (!up.bought && up.name === "Antimony") {
 			return true
 		}
 		break;
@@ -294,7 +294,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 15:
-		if (!up.bought && up.name == "Ancient tablet") {
+		if (!up.bought && up.name === "Ancient tablet") {
 			return true
 		}
 		break;
@@ -304,7 +304,7 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 17:
-		if (!up.bought && up.name == "Flux capacitors") {
+		if (!up.bought && up.name === "Flux capacitors") {
 			return true
 		}
 		break;
@@ -334,17 +334,17 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 23:
-		if (!up.bought && up.name == "Elder Pledge") {
+		if (!up.bought && up.name === "Elder Pledge") {
 			return true
 		}
 		break;
 	case 24:
-		if (!up.bought && up.name == "Elder Covenant") {
+		if (!up.bought && up.name === "Elder Covenant") {
 			return true
 		}
 		break;
 	case 25:
-		if (!up.bought && up.name == "Sacrificial rolling pins") {
+		if (!up.bought && up.name === "Sacrificial rolling pins") {
 			return true
 		}
 		break;
@@ -369,12 +369,12 @@ function _cup(e, t, n) {
 		}
 		break;
 	case 30:
-		if (!up.bought && up.name == "Sugar bosons") {
+		if (!up.bought && up.name === "Sugar bosons") {
 			return true
 		}
 		break;
 	case 31:
-		if (!up.bought && up.name == "Revoke Elder Covenant") {
+		if (!up.bought && up.name === "Revoke Elder Covenant") {
 			return true
 		}
 		break;

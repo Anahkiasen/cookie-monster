@@ -4,22 +4,22 @@ CookieMonster.getHeavenlyChip = function(e) {
 	var r = CookieMonster.cookiesToHeavenly(Game.cookiesReset);
 	var i = CookieMonster.heavenlyToCookies(t + 1) - (Game.cookiesReset + Game.cookiesEarned);
 	var s = CookieMonster.heavenlyToCookies(n + 1) - (Game.cookiesReset + Game.cookiesEarned + sell_out);
-	if (e == "max") {
+	if (e === "max") {
 		return CookieMonster.formatNumber(t) + " <small>(" + CookieMonster.formatNumber(t * 2) + "%)</small>"
 	}
-	if (e == "max_sell_out") {
+	if (e === "max_sell_out") {
 		return CookieMonster.formatNumber(n) + " <small>(" + CookieMonster.formatNumber(n * 2) + "%)</small>"
 	}
-	if (e == "cur") {
+	if (e === "cur") {
 		return CookieMonster.formatNumber(r) + " <small>(" + CookieMonster.formatNumber(r * 2) + "%)</small>"
 	}
-	if (e == "next") {
+	if (e === "next") {
 		return CookieMonster.formatNumber(Math.round(i))
 	}
-	if (e == "next_sell_out") {
+	if (e === "next_sell_out") {
 		return CookieMonster.formatNumber(Math.round(s))
 	}
-	if (e == "time") {
+	if (e === "time") {
 		return CookieMonster.formatTime(Math.round(i / Game.cookiesPs), "")
 	}
 }
@@ -40,19 +40,19 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 		if (e.bought && r.indexOf("Cookie production multiplier <b>+") != -1) {
 			s += r.substr(33, r.indexOf("%", 33) - 33) * 1
 		}
-		if (!e.bought && r.indexOf("Cookie production multiplier <b>+") != -1 && e.id == t) {
+		if (!e.bought && r.indexOf("Cookie production multiplier <b>+") != -1 && e.id === t) {
 			o += r.substr(33, r.indexOf("%", 33) - 33) * 1
 		}
-		if (e.bought && e.name == "Kitten helpers") {
+		if (e.bought && e.name === "Kitten helpers") {
 			u[0] = .05
 		}
-		if (e.bought && e.name == "Kitten workers") {
+		if (e.bought && e.name === "Kitten workers") {
 			u[1] = .1
 		}
-		if (e.bought && e.name == "Kitten engineers") {
+		if (e.bought && e.name === "Kitten engineers") {
 			u[2] = .2
 		}
-		if (e.bought && e.name == "Kitten overseers") {
+		if (e.bought && e.name === "Kitten overseers") {
 			u[3] = .2
 		}
 	});

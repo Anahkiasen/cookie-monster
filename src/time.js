@@ -1,7 +1,7 @@
 CookieMonster.factorTime = function(e) {
 	var t = Game.cookies - e;
 	var n = Game.cookiesPs;
-	if (n == 0) {
+	if (n === 0) {
 		return 1
 	}
 	if (t < 0) {
@@ -13,15 +13,15 @@ CookieMonster.factorTime = function(e) {
 
 CookieMonster.secondsLeft = function(e, t) {
 	var n = 0;
-	if (t == "ob") {
+	if (t === "ob") {
 		n = Game.ObjectsById[e].price
 	}
-	if (t == "up") {
+	if (t === "up") {
 		n = Game.UpgradesById[e].basePrice
 	}
 	var r = Game.cookies - n;
 	var i = Game.cookiesPs;
-	if (i == 0) {
+	if (i === 0) {
 		return 0
 	}
 	if (r < 0) {
@@ -58,10 +58,10 @@ CookieMonster.formatNumberB = function(e) {
 
 CookieMonster.formatTime = function(e, t) {
 	e = Math.round(e);
-	if (e == Infinity) {
+	if (e === Infinity) {
 		return "Never"
 	}
-	if (e == 0) {
+	if (e === 0) {
 		return "Done!"
 	}
 	if (e / 86400 > 1e3) {
@@ -73,16 +73,16 @@ CookieMonster.formatTime = function(e, t) {
 	var s = e % 60;
 	var o = new Array(" days, ", " hours, ", " minutes, ", " seconds");
 	if (t != "min") {
-		if (n == 1) {
+		if (n === 1) {
 			o[0] = " day, "
 		}
-		if (r == 1) {
+		if (r === 1) {
 			o[1] = " hour, "
 		}
-		if (i == 1) {
+		if (i === 1) {
 			o[2] = " minute, "
 		}
-		if (s == 1) {
+		if (s === 1) {
 			o[3] = " second"
 		}
 	} else {
