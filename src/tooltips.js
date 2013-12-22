@@ -37,12 +37,13 @@ CookieMonster.updateTooltips = function(e) {
 					break;
 				}
 			}
-		})
+		});
 	}
+
 	if (e === "all" || e === "ob") {
-		Game.ObjectsById.forEach(function (e, t) {
+		Game.ObjectsById.forEach(function (e) {
 			CookieMonster.manageBuildingTooltip(e);
-		})
+		});
 	}
 };
 
@@ -119,7 +120,7 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 	case 23:
 		s += CookieMonster.checkAchievement("Elder nap");
 		if (Game.pledges === 4) {
-			s += CookieMonster.checkAchievement("Elder slumber")
+			s += CookieMonster.checkAchievement("Elder slumber");
 		}
 		break;
 	case 24:
@@ -137,32 +138,32 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 	case 32:
 		i = CookieMonster.dhc(s, t, i);
 		if (CookieMonster.isHeavenlyKey(t)) {
-			s += CookieMonster.checkAchievement("Wholesome")
+			s += CookieMonster.checkAchievement("Wholesome");
 		}
 		break;
 	}
 	if (Game.UpgradesOwned === 19) {
-		s += CookieMonster.checkAchievement("Enhancer")
+		s += CookieMonster.checkAchievement("Enhancer");
 	}
 	if (Game.UpgradesOwned === 49) {
-		s += CookieMonster.checkAchievement("Augmenter")
+		s += CookieMonster.checkAchievement("Augmenter");
 	}
 	if (Game.UpgradesOwned === 99) {
-		s += CookieMonster.checkAchievement("Upgrader")
+		s += CookieMonster.checkAchievement("Upgrader");
 	}
 	i += CookieMonster.getAchievementWorth(s, t, i, 0);
 	if (r) {
 		return i;
 	}
-	return CookieMonster.tooltips[t] + CookieMonster.colorize(i, t, n)
+	return CookieMonster.tooltips[t] + CookieMonster.colorize(i, t, n);
 };
 
 CookieMonster.manageBuildingTooltip = function(e) {
 	var t = e.id;
 	var n = new Array(CookieMonster.lucky("reg", true), CookieMonster.lucky("frenzy", true));
 	var r = new Array("none", "none");
-	var s = new Array("", "");
 	var o = new Array(0, 0);
+	var i;
 
 	if (Game.cookies - e.price < n[0]) {
 		r[0] = "block";

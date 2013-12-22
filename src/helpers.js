@@ -1,10 +1,10 @@
 CookieMonster.cookiesToHeavenly = function(e) {
-	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * e) / Math.pow(10, 6) - 0.5)
+	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * e) / Math.pow(10, 6) - 0.5);
 };
 
 CookieMonster.heavenlyToCookies = function(e) {
-	return 5 * Math.pow(10, 11) * e * (e + 1)
-}
+	return 5 * Math.pow(10, 11) * e * (e + 1);
+};
 
 CookieMonster.dhc = function(e, t, n) {
 	var r = Game.UpgradesById[t];
@@ -12,16 +12,16 @@ CookieMonster.dhc = function(e, t, n) {
 	var s = r.desc.indexOf("%");
 	var o = r.desc.substr(i, s - i) * 1;
 	var u = CookieMonster.getAchievementWorth(e, t, n, Game.prestige["Heavenly chips"] * 2 * (o / 100));
-	return u - Game.cookiesPs
-}
+	return u - Game.cookiesPs;
+};
 
 CookieMonster.isHeavenlyKey = function(e) {
 	return (Game.UpgradesById[e].name === "Heavenly key");
-}
+};
 
 CookieMonster.cpc = function() {
-	return Game.mouseCps() * 0.01 * usr_clk
-}
+	return Game.mouseCps() * 0.01 * usr_clk;
+};
 
 CookieMonster.lgt = function(e) {
 	if (CookieMonster.checkAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
@@ -29,9 +29,9 @@ CookieMonster.lgt = function(e) {
 		var n = [];
 		Game.UpgradesById.forEach(function (e, r) {
 			if (e.bought && e.name.indexOf(" grandmas") !== -1) {
-				t.push(r)
+				t.push(r);
 			} else if (!e.bought && e.name.indexOf(" grandmas") !== -1) {
-				n.push(r)
+				n.push(r);
 			}
 		});
 		if (n.length === 1 && n[0] === e) {
@@ -43,18 +43,18 @@ CookieMonster.lgt = function(e) {
 
 CookieMonster.checkAchievement = function(e) {
 	var t = 0;
-	Game.AchievementsById.forEach(function (n, r) {
+	Game.AchievementsById.forEach(function (n) {
 		if (!n.won && n.name === e) {
-			t = 1
+			t = 1;
 		}
 	});
 	return t;
-}
+};
 
 CookieMonster.gpp = function() {
 	var e = 1;
 
-	Game.UpgradesById.forEach(function (t, n) {
+	Game.UpgradesById.forEach(function (t) {
 		if (t.bought && t.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			e = e * 2;
 		}
@@ -64,13 +64,13 @@ CookieMonster.gpp = function() {
 		}
 	});
 
-	return Game.ObjectsById[7].amount * 0.05 * e * Game.ObjectsById[1].amount * Game.globalCpsMult
-}
+	return Game.ObjectsById[7].amount * 0.05 * e * Game.ObjectsById[1].amount * Game.globalCpsMult;
+};
 
 CookieMonster.gpg = function() {
 	var e = 1;
 
-	Game.UpgradesById.forEach(function (t, n) {
+	Game.UpgradesById.forEach(function (t) {
 		if (t.bought && t.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
 			e = e * 2;
 		}
@@ -79,8 +79,8 @@ CookieMonster.gpg = function() {
 		}
 	});
 
-	return Game.ObjectsById[1].amount * 0.02 * e * Game.ObjectsById[1].amount * Game.globalCpsMult
-}
+	return Game.ObjectsById[1].amount * 0.02 * e * Game.ObjectsById[1].amount * Game.globalCpsMult;
+};
 
 CookieMonster.mcg = function(e) {
 	var t = Game.UpgradesById[e].desc;
@@ -90,19 +90,20 @@ CookieMonster.mcg = function(e) {
 	}
 	var r = t.substr(n, t.indexOf("<", n) - n) * 1;
 	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
-}
+};
 
 CookieMonster.bte = function(e) {
 	return Game.ObjectsById[e].storedTotalCps * Game.globalCpsMult;
-}
+};
 
 CookieMonster.fte = function(e) {
 	return Game.ObjectsById[e].storedTotalCps * 3 * Game.globalCpsMult;
-}
+};
 
 CookieMonster.bam = function(e, t, n) {
 	var r = 1;
-	Game.UpgradesById.forEach(function (t, n) {
+
+	Game.UpgradesById.forEach(function (t) {
 		if (t.bought && t.desc.indexOf(e + " are <b>twice</b> as efficient.") !== -1) {
 			r = r * 2;
 		}
@@ -112,13 +113,14 @@ CookieMonster.bam = function(e, t, n) {
 	});
 
 	return t * r * Game.ObjectsById[n].amount * Game.globalCpsMult;
-}
+};
 
 CookieMonster.inc = function(e) {
 	var t = 0;
-	Game.AchievementsById.forEach(function (n, r) {
-		var i = n.desc.replace(/,/g, "");
-		if (!n.won && i.indexOf(" per second.") !== -1) {
+
+	Game.AchievementsById.forEach(function (achievement) {
+		var i = achievement.desc.replace(/,/g, "");
+		if (!achievement.won && i.indexOf(" per second.") !== -1) {
 			if (e >= i.substr(8, i.indexOf("</b>", 8) - 8) * 1) {
 				t++;
 			}
@@ -126,13 +128,13 @@ CookieMonster.inc = function(e) {
 	});
 
 	return t;
-}
+};
 
-CookieMonster.bat = function(e) {
+CookieMonster.baseTen = function(e) {
 	if (CookieMonster.checkAchievement("Base 10") === 1) {
 		var t = [];
 		var n = [];
-		Game.ObjectsById.forEach(function (e, r) {
+		Game.ObjectsById.forEach(function (e) {
 			t.push(e.name);
 			n.push(e.amount);
 		});
@@ -151,9 +153,9 @@ CookieMonster.bat = function(e) {
 		return true;
 	}
 	return false;
-}
+};
 
-CookieMonster.mat = function(e) {
+CookieMonster.mathematician = function(e) {
 	if (CookieMonster.checkAchievement("Mathematician") === 1) {
 		var t = [];
 		var n = [];
@@ -178,13 +180,14 @@ CookieMonster.mat = function(e) {
 		return true;
 	}
 	return false;
-}
+};
 
 CookieMonster.oneWithEverything = function(e) {
 	if (CookieMonster.checkAchievement("One with everything") === 1) {
 		var t = [];
 		var n = [];
-		Game.ObjectsById.forEach(function (e, r) {
+
+		Game.ObjectsById.forEach(function (e) {
 			if (e.amount > 0) {
 				t.push(e.name);
 			} else {
@@ -196,13 +199,13 @@ CookieMonster.oneWithEverything = function(e) {
 		}
 	}
 	return false;
-}
+};
 
 CookieMonster.centennial = function(e) {
 	if (CookieMonster.checkAchievement("Centennial") === 1) {
 		var t = [];
 		var n = [];
-		Game.ObjectsById.forEach(function (e, r) {
+		Game.ObjectsById.forEach(function (e) {
 			if (e.amount >= 100) {
 				t.push(e.name);
 			} else {
@@ -214,7 +217,7 @@ CookieMonster.centennial = function(e) {
 		}
 	}
 	return false;
-}
+};
 
 CookieMonster.checkUpgrade = function(e, t, n) {
 	var up = Game.UpgradesById[t];
