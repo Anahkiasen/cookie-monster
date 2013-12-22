@@ -739,7 +739,7 @@ CookieMonster.toggleBar = function() {
 	var toggle = this.settings[5] === 0;
 	var bottom = toggle ? 0 : 57;
 
-	this.$monsterBar.toggle(toggle);
+	this.$monsterBar.toggle(!toggle);
 	$('#game').css('bottom', bottom+'px');
 };
 
