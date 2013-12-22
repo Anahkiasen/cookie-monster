@@ -3,16 +3,16 @@ CookieMonster.getTrueCPI =function(e, t) {
 	var r = 0;
 	var i = 0;
 	if (t === "ob") {
-		n = CookieMonster.secondsLeft(Game.ObjectsById[e], "ob");
+		n = this.secondsLeft(Game.ObjectsById[e], "ob");
 		r = Game.ObjectsById[e].price;
-		i = CookieMonster.holdIs[e];
+		i = this.holdIs[e];
 	}
 	if (t === "up") {
-		n = CookieMonster.secondsLeft(Game.UpgradesById[e], "up");
+		n = this.secondsLeft(Game.UpgradesById[e], "up");
 		r = Game.UpgradesById[e].basePrice;
-		for (var s = 0; s < CookieMonster.upgradeCount; s++) {
-			if (CookieMonster.checkUpgrade(s, e, false)) {
-				i = CookieMonster.manageTooltips(s, e, false, true);
+		for (var s = 0; s < this.upgradeCount; s++) {
+			if (this.checkUpgrade(s, e, false)) {
+				i = this.manageTooltips(s, e, false, true);
 				break;
 			}
 		}
@@ -20,8 +20,8 @@ CookieMonster.getTrueCPI =function(e, t) {
 	var o = r / i;
 	Game.ObjectsById.forEach(function (s, u) {
 		var a = s.price;
-		var f = CookieMonster.holdIs[u];
-		var l = CookieMonster.secondsLeft(s, "ob");
+		var f = this.holdIs[u];
+		var l = this.secondsLeft(s, "ob");
 		if (l < n && (t === "up" || u !== e)) {
 			var c = n - l;
 			var h = f * c;
@@ -42,21 +42,21 @@ CookieMonster.testTrueCPI = function(e, t) {
 	var i = 0;
 	var s = 0;
 	if (t === "ob") {
-		n = CookieMonster.secondsLeft(e, "ob");
+		n = this.secondsLeft(e, "ob");
 		i = Game.ObjectsById[e].price;
-		s = CookieMonster.holdIs[e];
+		s = this.holdIs[e];
 	}
 	if (t === "up") {
-		n = CookieMonster.secondsLeft(e, "up");
+		n = this.secondsLeft(e, "up");
 		i = Game.UpgradesById[e].basePrice;
-		for (var o = 0; o < CookieMonster.upgradeCount; o++) {
-			if (CookieMonster.checkUpgrade(o, e, false)) {
-				s = CookieMonster.manageTooltips(o, e, false, true);
+		for (var o = 0; o < this.upgradeCount; o++) {
+			if (this.checkUpgrade(o, e, false)) {
+				s = this.manageTooltips(o, e, false, true);
 				break;
 			}
 		}
 	}
-	var u = CookieMonster.organizeObjectList();
+	var u = this.organizeObjectList();
 	var a = i;
 	var f = a / s;
 	var l = f;
@@ -64,20 +64,20 @@ CookieMonster.testTrueCPI = function(e, t) {
 	u.forEach(function (o, f) {
 		if (i > o.price && (t === "up" || o.id !== e)) {
 			var h = o.price;
-			var p = CookieMonster.holdIs[o.id];
-			var d = CookieMonster.holdCPI[o.id];
+			var p = this.holdIs[o.id];
+			var d = this.holdCPI[o.id];
 			if (c === 0) {
 				c = p;
 			}
 			if (l === 0) {
 				l = d;
 			}
-			var v = CookieMonster.secondsLeft(o.id, "ob");
+			var v = this.secondsLeft(o.id, "ob");
 			var m = 0;
 			var g = u[f + 1];
-			if (g.id !== u.length && (CookieMonster.holdCPI[g.id] < l || g.id === e)) {
-				m = CookieMonster.secondsLeft(g.id, "ob");
-				l = CookieMonster.holdCPI[g.id];
+			if (g.id !== u.length && (this.holdCPI[g.id] < l || g.id === e)) {
+				m = this.secondsLeft(g.id, "ob");
+				l = this.holdCPI[g.id];
 				c = p;
 			}
 			if (v < n - r) {
@@ -92,5 +92,6 @@ CookieMonster.testTrueCPI = function(e, t) {
 		}
 	});
 	f = a / s;
+
 	return f;
 };

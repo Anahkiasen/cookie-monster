@@ -86,7 +86,7 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	}
 	l = l * (1 + p * a);
 	i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
-	var d = _inc(i + h);
+	var d = CookieMonster.inc(i + h);
 	if (d > 0) {
 		a += d * 0.04;
 		l = 100 + s + o;

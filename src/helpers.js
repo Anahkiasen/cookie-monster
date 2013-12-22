@@ -6,7 +6,7 @@ CookieMonster.heavenlyToCookies = function(e) {
 	return 5 * Math.pow(10, 11) * e * (e + 1)
 }
 
-function _dhc(e, t, n) {
+CookieMonster.dhc = function(e, t, n) {
 	var r = Game.UpgradesById[t];
 	var i = r.desc.indexOf("<b>") + 3;
 	var s = r.desc.indexOf("%");
@@ -15,18 +15,15 @@ function _dhc(e, t, n) {
 	return u - Game.cookiesPs
 }
 
-function _lhc(e) {
-	if (Game.UpgradesById[e].name === "Heavenly key") {
-		return true;
-	}
-	return false;
+CookieMonster.isHeavenlyKey = function(e) {
+	return (Game.UpgradesById[e].name === "Heavenly key");
 }
 
-function _cpc() {
+CookieMonster.cpc = function() {
 	return Game.mouseCps() * 0.01 * usr_clk
 }
 
-function _lgt(e) {
+CookieMonster.lgt = function(e) {
 	if (CookieMonster.checkAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
 		var t = [];
 		var n = [];
@@ -54,7 +51,7 @@ CookieMonster.checkAchievement = function(e) {
 	return t;
 }
 
-function _gpp() {
+CookieMonster.gpp = function() {
 	var e = 1;
 
 	Game.UpgradesById.forEach(function (t, n) {
@@ -70,7 +67,7 @@ function _gpp() {
 	return Game.ObjectsById[7].amount * 0.05 * e * Game.ObjectsById[1].amount * Game.globalCpsMult
 }
 
-function _gpg() {
+CookieMonster.gpg = function() {
 	var e = 1;
 
 	Game.UpgradesById.forEach(function (t, n) {
@@ -85,7 +82,7 @@ function _gpg() {
 	return Game.ObjectsById[1].amount * 0.02 * e * Game.ObjectsById[1].amount * Game.globalCpsMult
 }
 
-function _mcg(e) {
+CookieMonster.mcg = function(e) {
 	var t = Game.UpgradesById[e].desc;
 	var n = 31;
 	if (t.indexOf(" another ") !== -1) {
@@ -95,15 +92,15 @@ function _mcg(e) {
 	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
 }
 
-function _bte(e) {
+CookieMonster.bte = function(e) {
 	return Game.ObjectsById[e].storedTotalCps * Game.globalCpsMult;
 }
 
-function _fte(e) {
+CookieMonster.fte = function(e) {
 	return Game.ObjectsById[e].storedTotalCps * 3 * Game.globalCpsMult;
 }
 
-function _bam(e, t, n) {
+CookieMonster.bam = function(e, t, n) {
 	var r = 1;
 	Game.UpgradesById.forEach(function (t, n) {
 		if (t.bought && t.desc.indexOf(e + " are <b>twice</b> as efficient.") !== -1) {
@@ -117,7 +114,7 @@ function _bam(e, t, n) {
 	return t * r * Game.ObjectsById[n].amount * Game.globalCpsMult;
 }
 
-function _inc(e) {
+CookieMonster.inc = function(e) {
 	var t = 0;
 	Game.AchievementsById.forEach(function (n, r) {
 		var i = n.desc.replace(/,/g, "");
@@ -131,7 +128,7 @@ function _inc(e) {
 	return t;
 }
 
-function _bat(e) {
+CookieMonster.bat = function(e) {
 	if (CookieMonster.checkAchievement("Base 10") === 1) {
 		var t = [];
 		var n = [];
@@ -156,7 +153,7 @@ function _bat(e) {
 	return false;
 }
 
-function _mat(e) {
+CookieMonster.mat = function(e) {
 	if (CookieMonster.checkAchievement("Mathematician") === 1) {
 		var t = [];
 		var n = [];
@@ -183,7 +180,7 @@ function _mat(e) {
 	return false;
 }
 
-function _owe(e) {
+CookieMonster.oneWithEverything = function(e) {
 	if (CookieMonster.checkAchievement("One with everything") === 1) {
 		var t = [];
 		var n = [];
@@ -201,7 +198,7 @@ function _owe(e) {
 	return false;
 }
 
-function _cen(e) {
+CookieMonster.centennial = function(e) {
 	if (CookieMonster.checkAchievement("Centennial") === 1) {
 		var t = [];
 		var n = [];

@@ -145,16 +145,16 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 	if (Game.BuildingsOwned === 799) {
 		i += this.checkAchievement("Engineer");
 	}
-	if (_owe(e)) {
+	if (CookieMonster.oneWithEverything(e)) {
 		i++;
 	}
-	if (_mat(e)) {
+	if (CookieMonster.mat(e)) {
 		i++;
 	}
-	if (_bat(e)) {
+	if (CookieMonster.bat(e)) {
 		i++;
 	}
-	if (_cen(e)) {
+	if (CookieMonster.centennial(e)) {
 		i++;
 	}
 	return r + this.getAchievementWorth(i, 0, r + n, 0);

@@ -51,70 +51,70 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 	var s = 0;
 	switch (e) {
 	case 0:
-		i = _bam("The mouse and cursors", 0.1, 0);
+		i = CookieMonster.bam("The mouse and cursors", 0.1, 0);
 		break;
 	case 1:
-		i = _bte(0);
+		i = CookieMonster.bte(0);
 		break;
 	case 2:
-		i = _mcg(t);
+		i = CookieMonster.mcg(t);
 		break;
 	case 3:
-		i = _bam("Grandmas", 0.3, 1);
+		i = CookieMonster.bam("Grandmas", 0.3, 1);
 		break;
 	case 4:
-		i = _bte(1);
-		if (_lgt(t)) {
+		i = CookieMonster.bte(1);
+		if (CookieMonster.lgt(t)) {
 			s++;
 		}
 		break;
 	case 5:
-		i = _bam("Farms", 0.5, 2);
+		i = CookieMonster.bam("Farms", 0.5, 2);
 		break;
 	case 6:
-		i = _bte(2);
+		i = CookieMonster.bte(2);
 		break;
 	case 7:
-		i = _bam("Factories", 4, 3);
+		i = CookieMonster.bam("Factories", 4, 3);
 		break;
 	case 8:
-		i = _bte(3);
+		i = CookieMonster.bte(3);
 		break;
 	case 9:
-		i = _bam("Mines", 10, 4);
+		i = CookieMonster.bam("Mines", 10, 4);
 		break;
 	case 10:
-		i = _bte(4);
+		i = CookieMonster.bte(4);
 		break;
 	case 11:
-		i = _bam("Shipments", 30, 5);
+		i = CookieMonster.bam("Shipments", 30, 5);
 		break;
 	case 12:
-		i = _bte(5);
+		i = CookieMonster.bte(5);
 		break;
 	case 13:
-		i = _bam("Alchemy labs", 100, 6);
+		i = CookieMonster.bam("Alchemy labs", 100, 6);
 		break;
 	case 14:
-		i = _bte(6);
+		i = CookieMonster.bte(6);
 		break;
 	case 15:
-		i = _bam("Portals", 1666, 7);
+		i = CookieMonster.bam("Portals", 1666, 7);
 		break;
 	case 16:
-		i = _bte(7);
+		i = CookieMonster.bte(7);
 		break;
 	case 17:
-		i = _bam("Time machines", 9876, 8);
+		i = CookieMonster.bam("Time machines", 9876, 8);
 		break;
 	case 18:
-		i = _bte(8);
+		i = CookieMonster.bte(8);
 		break;
 	case 21:
-		i = _gpg();
+		i = CookieMonster.gpg();
 		break;
 	case 22:
-		i = _gpp();
+		i = CookieMonster.gpp();
 		break;
 	case 23:
 		s += CookieMonster.checkAchievement("Elder nap");
@@ -126,17 +126,17 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 		s += CookieMonster.checkAchievement("Elder calm");
 		break;
 	case 28:
-		i = _fte(1);
+		i = CookieMonster.fte(1);
 		break;
 	case 29:
-		i = _bte(9);
+		i = CookieMonster.bte(9);
 		break;
 	case 30:
-		i = _bam("Antimatter condensers", 99999, 9);
+		i = CookieMonster.bam("Antimatter condensers", 99999, 9);
 		break;
 	case 32:
-		i = _dhc(s, t, i);
-		if (_lhc(t)) {
+		i = CookieMonster.dhc(s, t, i);
+		if (CookieMonster.isHeavenlyKey(t)) {
 			s += CookieMonster.checkAchievement("Wholesome")
 		}
 		break;
