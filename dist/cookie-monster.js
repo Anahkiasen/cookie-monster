@@ -1220,7 +1220,7 @@ CookieMonster.loadSettings = function() {
 		}
 
 		if (localStorage.ColoredPrices !== undefined) {
-			CookieMonster.settings[6] = localStorage.ColoredPrices;
+			CookieMonster.settings[6] = parseInt(localStorage.ColoredPrices, 10);
 		} else {
 			localStorage.ColoredPrices = 1;
 			CookieMonster.settings[6] = 1;
