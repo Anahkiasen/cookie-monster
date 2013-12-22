@@ -1,13 +1,20 @@
-CookieMonster.faviconSpinner = function(e) {
-	if (e > 6) {
-		e = 1;
+/**
+ * Changes the favicon according to current state
+ *
+ * @param {integer} frame The current sprite of the favicon
+ *
+ * @return {void}
+ */
+CookieMonster.faviconSpinner = function(frame) {
+	if (frame > 6) {
+		frame = 1;
 	}
 
 	if (this.goldenCookieAvailable === "(G) ") {
-		$("#cm_favicon").attr("href", "http://frozenelm.com/cookiemonster/images/cm_gc_" + e + ".png");
-		e++;
+		$("#cm_favicon").attr("href", "http://frozenelm.com/cookiemonster/images/cm_gc_" + frame + ".png");
+		frame++;
 		setTimeout(function () {
-			this.faviconSpinner(e);
+			CookieMonster.faviconSpinner(frame);
 		}, 250);
 	} else {
 		$("#cm_favicon").attr("href", "http://orteil.dashnet.org/cookieclicker/img/favicon.ico");
