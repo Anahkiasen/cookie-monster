@@ -1173,96 +1173,100 @@ CookieMonster.getLuckyAlert = function () {
 		return "Both"
 	}
 }
+CookieMonster.loadSetting = function(key, name, defaultValue) {
+	if (localStorage[name] !== undefined) {
+		CookieMonster.settings[key] = parseInt(localStorage[name], 10);
+	} else {
+		localStorage.FlashScreen    = defaultValue;
+		CookieMonster.settings[key] = defaultValue;
+	}
+};
+
 CookieMonster.loadSettings = function() {
 	CookieMonster.settings = [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1];
 
 	if (typeof Storage !== "undefined") {
 		if (localStorage.FlashScreen !== undefined) {
-			CookieMonster.settings[0] = localStorage.FlashScreen;
+			CookieMonster.settings[0] = parseInt(localStorage.FlashScreen, 10);
 		} else {
 			localStorage.FlashScreen = 1;
 			CookieMonster.settings[0] = 1;
 		}
 
 		if (localStorage.CookieTimer !== undefined) {
-			CookieMonster.settings[1] = localStorage.CookieTimer;
+			CookieMonster.settings[1] = parseInt(localStorage.CookieTimer, 10);
 		} else {
 			localStorage.CookieTimer = 1;
 			CookieMonster.settings[1] = 1;
 		}
 
 		if (localStorage.BuffBars !== undefined) {
-			CookieMonster.settings[2] = localStorage.BuffBars;
+			CookieMonster.settings[2] = parseInt(localStorage.BuffBars, 10);
 		} else {
 			localStorage.BuffBars = 1;
 			CookieMonster.settings[2] = 1;
 		}
 
 		if (localStorage.Refresh !== undefined) {
-			CookieMonster.settings[3] = localStorage.Refresh;
+			CookieMonster.settings[3] = parseInt(localStorage.Refresh, 10);
 		} else {
 			localStorage.Refresh = 1e3;
 			CookieMonster.settings[3] = 1e3;
 		}
 
 		if (localStorage.CookieCD !== undefined) {
-			CookieMonster.settings[4] = localStorage.CookieCD;
+			CookieMonster.settings[4] = parseInt(localStorage.CookieCD, 10);
 		} else {
 			localStorage.CookieCD = 1;
 			CookieMonster.settings[4] = 1;
 		}
 
 		if (localStorage.CMBar !== undefined) {
-			CookieMonster.settings[5] = localStorage.CMBar;
+			CookieMonster.settings[5] = parseInt(localStorage.CMBar, 10);
 		} else {
 			localStorage.CMBar = 1;
 			CookieMonster.settings[5] = 1;
 		}
 
-		if (localStorage.ColoredPrices !== undefined) {
-			CookieMonster.settings[6] = parseInt(localStorage.ColoredPrices, 10);
-		} else {
-			localStorage.ColoredPrices = 1;
-			CookieMonster.settings[6] = 1;
-		}
+		this.loadSetting(6, 'ColoredPrices', 1);
 
 		if (localStorage.ShortNumbers !== undefined) {
-			CookieMonster.settings[7] = localStorage.ShortNumbers;
+			CookieMonster.settings[7] = parseInt(localStorage.ShortNumbers, 10);
 		} else {
 			localStorage.ShortNumbers = 1;
 			CookieMonster.settings[7] = 1;
 		}
 
 		if (localStorage.CookieSound !== undefined) {
-			CookieMonster.settings[8] = localStorage.CookieSound;
+			CookieMonster.settings[8] = parseInt(localStorage.CookieSound, 10);
 		} else {
 			localStorage.CookieSound = 0;
 			CookieMonster.settings[8] = 0;
 		}
 
 		if (localStorage.UpdateTitle !== undefined) {
-			CookieMonster.settings[9] = localStorage.UpdateTitle;
+			CookieMonster.settings[9] = parseInt(localStorage.UpdateTitle, 10);
 		} else {
 			localStorage.UpdateTitle = 1;
 			CookieMonster.settings[9] = 1;
 		}
 
 		if (localStorage.LuckyAlert !== undefined) {
-			CookieMonster.settings[10] = localStorage.LuckyAlert;
+			CookieMonster.settings[10] = parseInt(localStorage.LuckyAlert, 10);
 		} else {
 			localStorage.LuckyAlert = 1;
 			CookieMonster.settings[10] = 1;
 		}
 
 		if (localStorage.UpgradeIcons !== undefined) {
-			CookieMonster.settings[11] = localStorage.UpgradeIcons;
+			CookieMonster.settings[11] = parseInt(localStorage.UpgradeIcons, 10);
 		} else {
 			localStorage.UpgradeIcons = 1;
 			CookieMonster.settings[11] = 1;
 		}
 
 		if (localStorage.UpgradeDisplay !== undefined) {
-			CookieMonster.settings[12] = localStorage.UpgradeDisplay;
+			CookieMonster.settings[12] = parseInt(localStorage.UpgradeDisplay, 10);
 		} else {
 			localStorage.UpgradeDisplay = 1;
 			CookieMonster.settings[12] = 1;
