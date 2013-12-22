@@ -1945,10 +1945,10 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 	if (CookieMonster.oneWithEverything(e)) {
 		i++;
 	}
-	if (CookieMonster.mat(e)) {
+	if (CookieMonster.mathematician(e)) {
 		i++;
 	}
-	if (CookieMonster.bat(e)) {
+	if (CookieMonster.baseTen(e)) {
 		i++;
 	}
 	if (CookieMonster.centennial(e)) {
@@ -2015,7 +2015,7 @@ CookieMonster.getTotalPortalModifiers = function() {
 	});
 
 	return e * total;
-}
+};
 CookieMonster.update = function() {
 	Game.Logic = new Function("", Game.Logic.toString().replace(".title=", ".title=CookieMonster.goldenCookieAvailable+").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	var e = "\n\n'<div class=\"subsection\">'+" + '\'<div class="title"><span style="color:#4bb8f0;">Cookie Monster Goodies</span></div>\'+' + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> ' + CookieMonster.lucky('reg', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.lucky('frenzy', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> ' + CookieMonster.luckyReward('max') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX) (Frenzy):</b> ' + CookieMonster.luckyReward('max_frenzy') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (CUR):</b> ' + CookieMonster.luckyReward('cur') + '</div>'+" + "'</br><div class=\"listing\"><b>Heavenly Chips (MAX):</b> ' + CookieMonster.getHeavenlyChip('max') + '</div>'+" + "'<div class=\"listing\"><b>Heavenly Chips (CUR):</b> ' + CookieMonster.getHeavenlyChip('cur') + '</div>'+" + "'<div class=\"listing\"><b>Cookies To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('next') + '</div>'+" + "'<div class=\"listing\"><b>Time To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('time') + '</div>'+" + "'</div>'+";

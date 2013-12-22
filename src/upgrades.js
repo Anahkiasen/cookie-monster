@@ -148,10 +148,10 @@ CookieMonster.getUpgradeBonuses = function(e, t, n) {
 	if (CookieMonster.oneWithEverything(e)) {
 		i++;
 	}
-	if (CookieMonster.mat(e)) {
+	if (CookieMonster.mathematician(e)) {
 		i++;
 	}
-	if (CookieMonster.bat(e)) {
+	if (CookieMonster.baseTen(e)) {
 		i++;
 	}
 	if (CookieMonster.centennial(e)) {
@@ -218,4 +218,4 @@ CookieMonster.getTotalPortalModifiers = function() {
 	});
 
 	return e * total;
-}
+};
