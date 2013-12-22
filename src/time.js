@@ -36,10 +36,10 @@ CookieMonster.sts = function(e, t) {
 	var n = CookieMonster.settings[7];
 	if (n > 0) {
 		var r = 1e33;
-		for (var i = sts_type[n - 1].length - 1; i >= 0; i--) {
+		for (var i = CookieMonster.stsType[n - 1].length - 1; i >= 0; i--) {
 			var s = (e / r % 999).toFixed(3);
 			if (s >= 1) {
-				return s + sts_type[n - 1][i];
+				return s + CookieMonster.stsType[n - 1][i];
 			}
 			r /= 1e3;
 		}

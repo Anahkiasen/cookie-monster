@@ -136,7 +136,7 @@ function Get_True_CPI(e, t) {
 	if (t === "up") {
 		n = CookieMonster.secondsLeft(Game.UpgradesById[e], "up");
 		r = Game.UpgradesById[e].basePrice;
-		for (var s = 0; s < upgrade_count; s++) {
+		for (var s = 0; s < CookieMonster.upgradeCount; s++) {
 			if (_cup(s, e, false)) {
 				i = CookieMonster.manageTooltips(s, e, false, true);
 				break;
@@ -175,7 +175,7 @@ function Test_True_CPI(e, t) {
 	if (t === "up") {
 		n = CookieMonster.secondsLeft(e, "up");
 		i = Game.UpgradesById[e].basePrice;
-		for (var o = 0; o < upgrade_count; o++) {
+		for (var o = 0; o < CookieMonster.upgradeCount; o++) {
 			if (_cup(o, e, false)) {
 				s = CookieMonster.manageTooltips(o, e, false, true);
 				break;
@@ -232,7 +232,6 @@ CookieMonster.getFrenzyMultiplier = function() {
 	return 1
 }
 
-
 CookieMonster.manageBuffs = function() {
 	var e = "";
 	var t = "";
@@ -263,8 +262,9 @@ CookieMonster.manageBuffs = function() {
 			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_' + t + '" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">' + e + "<td>" + '<td><div id="cmt_' + t + '" style="position:relative; background:#' + t + "; height:10px; width:" + Game.frenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_' + t + '" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + n + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>")
 		} else {
 			$("#cmt_" + t).css("width", Game.frenzy / s[2] * 100 + "%");
-			$("#cmt_time_" + t).text(Math.round(Game.frenzy / Game.fps))
+			$("#cmt_time_" + t).text(Math.round(Game.frenzy / Game.fps));
 		}
+
 		$("#cookie_monster_timer_" + t).fadeIn(250);
 		if ($("#cookie_monster_timer_FFFF00").css("opacity") === "1" && t !== "FFFF00") {
 			$("#cookie_monster_timer_FFFF00").fadeOut(250)
@@ -284,35 +284,35 @@ CookieMonster.manageBuffs = function() {
 			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_4BB8F0" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Click Frenzy<td>' + '<td><div id="cmt_4BB8F0" style="position:relative; background:#4BB8F0; height:10px; width:' + Game.clickFrenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_4BB8F0" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + i + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>")
 		} else {
 			$("#cmt_4BB8F0").css("width", Game.clickFrenzy / s[2] * 100 + "%");
-			$("#cmt_time_4BB8F0").text(Math.round(Game.clickFrenzy / Game.fps))
+			$("#cmt_time_4BB8F0").text(Math.round(Game.clickFrenzy / Game.fps));
 		}
 		$("#cookie_monster_timer_4BB8F0").fadeIn(250)
 	} else if ($("#cookie_monster_timer_4BB8F0").length === 1 && $("#cookie_monster_timer_4BB8F0").css("opacity") === "1") {
 		$("#cookie_monster_timer_4BB8F0").fadeOut(250)
 	}
 
-	if (s[0] > 0 && $("#goldenCookie").css("display") === "none" && CookieMonster.settings[4] === 1) {
+	if (s[0] > 0 && CookieMonster.$goldenCookie.css("display") === "none" && CookieMonster.settings[4] === 1) {
 		if ($("#cookie_monster_timer_FF00FF").length !== 1) {
 			$("#cookie_monster_timer_bars_div").append("" + '<div id="cookie_monster_timer_FF00FF" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Next Cookie<td>' + '<td><div id="cmt_FF00FF" style="position:relative; background:#aaaaaa; height:10px; width:100%; margin-left:4px; border:1px solid black;"><div id="cmt2_FF00FF" style="position:relative; background:#FF00FF; height:10px; width:100%; margin-left:0px; max-width:' + (o - 189) * 0.67 + 'px; float:right;"></div><div id="cmt_time_FF00FF" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + Math.round((s[2] - s[0]) / Game.fps) + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>")
 		} else {
 			$("#cmt2_FF00FF").css("max-width", (o - 189) * 0.67 + "px");
 			$("#cmt_FF00FF").css("width", (s[2] - s[0]) / s[2] * 100 + "%");
-			$("#cmt_time_FF00FF").text(Math.round((s[2] - s[0]) / Game.fps))
+			$("#cmt_time_FF00FF").text(Math.round((s[2] - s[0]) / Game.fps));
 		}
 		$("#cookie_monster_timer_FF00FF").fadeIn(250)
 	} else if ($("#cookie_monster_timer_FF00FF").length === 1 && $("#cookie_monster_timer_FF00FF").css("opacity") === "1") {
 		$("#cookie_monster_timer_FF00FF").fadeOut(250)
 	}
 
-	if ((s[2] - s[0]) / Game.fps > 0 && $("#goldenCookie").css("display") === "none") {
+	if ((s[2] - s[0]) / Game.fps > 0 && CookieMonster.$goldenCookie.css("display") === "none") {
 		if (CookieMonster.settings[4] === 1) {
 			CookieMonster.goldenCookieAvailable = "(" + Math.round((s[2] - s[0]) / Game.fps) + ") "
 		} else {
-			CookieMonster.goldenCookieAvailable = ""
+			CookieMonster.goldenCookieAvailable = "";
 		}
 	}
 
-	$("#versionNumber").css("bottom", $("#cookie_monster_timer_bars_div").css("height"))
+	$("#versionNumber").css("bottom", $("#cookie_monster_timer_bars_div").css("height"));
 }
 CookieMonster.getHeavenlyChip = function(e) {
 	var t = CookieMonster.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
@@ -330,10 +330,10 @@ CookieMonster.getHeavenlyChip = function(e) {
 		return CookieMonster.formatNumber(r) + " <small>(" + CookieMonster.formatNumber(r * 2) + "%)</small>"
 	}
 	if (e === "next") {
-		return CookieMonster.formatNumber(Math.round(i))
+		return CookieMonster.formatNumber(Math.round(i));
 	}
 	if (e === "next_sell_out") {
-		return CookieMonster.formatNumber(Math.round(s))
+		return CookieMonster.formatNumber(Math.round(s));
 	}
 	if (e === "time") {
 		return CookieMonster.formatTime(Math.round(i / Game.cookiesPs), "")
@@ -859,10 +859,10 @@ CookieMonster.faviconSpinner = function(e) {
 
 CookieMonster.toggleBar = function() {
 	if (CookieMonster.settings[5] === 0) {
-		$("#cookie_monster_bar").css("display", "none");
+		CookieMonster.$monsterBar.css("display", "none");
 		$("#game").css("bottom", "0px");
 	} else {
-		$("#cookie_monster_bar").css("display", "");
+		CookieMonster.$monsterBar.css("display", "");
 		$("#game").css("bottom", "57px");
 	}
 }
@@ -896,7 +896,7 @@ CookieMonster.makeTable = function() {
 		r += '<td align=middle id="cookie_monster_cpi_' + s + '"></td>';
 		i += '<td align=middle id="cookie_monster_tc_' + s + '"></td>'
 	});
-	$("#cookie_monster_bar").html("" + '<table style="width:100%; table-layout:fixed; margin-top:2px;">' + "<tr>" + e + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Bonus Income</th>' + n + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Base Cost Per Income</th>' + r + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Time Left</th>' + i + "</tr>" + "</table>")
+	CookieMonster.$monsterBar.html("" + '<table style="width:100%; table-layout:fixed; margin-top:2px;">' + "<tr>" + e + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Bonus Income</th>' + n + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Base Cost Per Income</th>' + r + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Time Left</th>' + i + "</tr>" + "</table>")
 }
 
 CookieMonster.updateTable = function() {
@@ -914,7 +914,7 @@ CookieMonster.updateTable = function() {
 		CookieMonster.holdItem[t] = e.name.replace(a, "") + ' (<span style="color:#4bb8f0;">' + CookieMonster.formatNumber(r) + "</span>)";
 		CookieMonster.holdIs[t] = Math.round(o * 100) / 100;
 		CookieMonster.holdCPI[t] = Math.round(u * 100) / 100;
-		CookieMonster.holdTC[t] = Math.round(CookieMonster.secondsLeft(t, "ob"))
+		CookieMonster.holdTC[t] = Math.round(CookieMonster.secondsLeft(t, "ob"));
 	});
 	Game.ObjectsById.forEach(function (e, t) {
 		var n = new Array("FFFF00", "FFFF00");
@@ -1043,10 +1043,10 @@ CookieMonster.organizeObjectList = function() {
 
 CookieMonster.emphasize = function() {
 	var e = $("#cookie_monster_golden_overlay");
-	var t = $("#goldenCookie");
+	var t = CookieMonster.$goldenCookie;
 	if (t.css("display") === "none" && !emphasize) {
 		emphasize = true;
-		CookieMonster.goldenCookieAvailable = ""
+		CookieMonster.goldenCookieAvailable = "";
 	}
 	if (t.css("display") !== "none" && emphasize) {
 		emphasize = false;
@@ -1109,7 +1109,7 @@ CookieMonster.luckyReward = function(e) {
 			return CookieMonster.formatNumber(n[0])
 		}
 	}
-	return CookieMonster.formatNumber(Math.min.apply(Math, n))
+	return CookieMonster.formatNumber(Math.min.apply(Math, n));
 }
 
 /**
@@ -1480,10 +1480,10 @@ CookieMonster.sts = function(e, t) {
 	var n = CookieMonster.settings[7];
 	if (n > 0) {
 		var r = 1e33;
-		for (var i = sts_type[n - 1].length - 1; i >= 0; i--) {
+		for (var i = CookieMonster.stsType[n - 1].length - 1; i >= 0; i--) {
 			var s = (e / r % 999).toFixed(3);
 			if (s >= 1) {
-				return s + sts_type[n - 1][i];
+				return s + CookieMonster.stsType[n - 1][i];
 			}
 			r /= 1e3;
 		}
@@ -1561,7 +1561,7 @@ CookieMonster.saveTooltips = function() {
 CookieMonster.setupTooltips = function() {
 	var e = false;
 	Game.UpgradesById.forEach(function (t, n) {
-		for (var r = 0; r < upgrade_count; r++) {
+		for (var r = 0; r < CookieMonster.upgradeCount; r++) {
 			if (_cup(r, n, true)) {
 				t.desc = CookieMonster.manageTooltips(r, n, true, false);
 				e = true;
@@ -1582,7 +1582,7 @@ CookieMonster.updateTooltips = function(e) {
 	if (e === "all" || e === "up") {
 		CookieMonster.inStore = new Array(0, 0, 0, 0, 0, 0);
 		Game.UpgradesById.forEach(function (e, t) {
-			for (var n = 0; n < upgrade_count; n++) {
+			for (var n = 0; n < CookieMonster.upgradeCount; n++) {
 				if (_cup(n, t, false)) {
 					CookieMonster.manageTooltips(n, t, false, false);
 					break;
@@ -2004,42 +2004,53 @@ CookieMonster.update = function() {
 	Game.RebuildStore = new Function("", Game.RebuildStore.toString().replace("l('products').innerHTML=str;", "l('products').innerHTML=str;\nCookieMonster.updateTooltips('ob');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	Game.Draw = new Function("", Game.Draw.toString().replace("Beautify(Math.round(Game.cookiesd))", "CookieMonster.formatNumberB(Game.cookiesd)").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	var r = "return CookieMonster.formatNumber(what);";
-	Beautify = new Function("what,floats", Beautify.toString().replace("var str='';", r + "\nvar str='';").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""))
+	Beautify = new Function("what,floats", Beautify.toString().replace("var str='';", r + "\nvar str='';").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 }
 
+/**
+ * Setup CookieMonster
+ *
+ * @return {void}
+ */
 CookieMonster.start = function() {
-	if ($("#cookie_monster_bar").length !== 0) {
-		alert("Cookie Monster " + CookieMonster.version + "\n\nCookie Monster is already loaded, silly!");
-		return false;
-	} else {
-		$("#topBar").css("display", "none");
-		$("#tooltip").css("margin-top", "32px");
-		$("#tooltip").css("pointer-events", "none");
-		$("#cookies").css("background", "rgba(0,0,0,0.75)");
-		$("#cookies").css("border-top", "1px solid black");
-		$("#cookies").css("border-bottom", "1px solid black");
-		$("#goldenCookie").css("cssText", "" + "z-index: 1000001 !important;");
-		$("#game").css("cssText", "" + "-webkit-touch-callout: none;" + "-webkit-user-select: none;" + "-khtml-user-select: none;" + "-moz-user-select: none;" + "-ms-user-select: none;" + "-o-user-select: none;" + "user-select: none;" + "top: 0px;" + "bottom: 57px;" + "");
-		$("#storeTitle").css("cssText", "" + "font-size: 18px;" + "padding: 4px 8px 2px 8px;" + "border-bottom: 1px solid black;" + "");
-		$("#storeTitle").after('<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0,0,0,0.6); border-bottom: 1px solid black; cursor:default;"><tr>' + '<td align=center style="color:#4bb8f0; padding:2px;" id="cm_up_q0">0</td>' + '<td align=center style="color:#00ff00; padding:2px;" id="cm_up_q1">0</td>' + '<td align=center style="color:#ffff00; padding:2px;" id="cm_up_q2">0</td>' + '<td align=center style="color:#ff7f00; padding:2px;" id="cm_up_q3">0</td>' + '<td align=center style="color:#ff0000; padding:2px;" id="cm_up_q4">0</td>' + '<td align=center style="color:#ff00ff; padding:2px;" id="cm_up_q5">0</td>' + "</tr></table>");
-		$("body").append('<div id="cookie_monster_bar" style="z-index:1000; position:absolute; bottom:0px; left:0px; width:100%; height:56px; border-top:1px solid black; cursor:default;' + "text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;" + "background: rgb(69,72,77); /* Old browsers */" + "background: -moz-linear-gradient(top,  rgba(69,72,77,1) 0%, rgba(0,0,0,1) 100%); /* FF3.6+ */" + "background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(69,72,77,1)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */" + "background: -webkit-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */" + "background: -o-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* Opera 11.10+ */" + "background: -ms-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* IE10+ */" + "background: linear-gradient(to bottom,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* W3C */" + "filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=0 ); /* IE6-9 */" + '"></div>');
-		$("body").append('<div id="cookie_monster_overlay" style="position:fixed; z-index:1000000; height:100%; width:100%; background:rgba(255,255,255,1); pointer-events:none; display:none;"></div>');
-		$("body").append('<div id="cookie_monster_golden_overlay" style="position:fixed; z-index:1000002; height:96px; width:96px; pointer-events:none; cursor:pointer; opacity:0; display:none; text-align:center; font-family: \'Kavoon\', Georgia,serif; font-size:32px; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black !important;" onclick="Game.goldenCookie.click();"></div>');
-		$("#sectionLeft").append('<div id="cookie_monster_timer_bars_div" style="position:absolute; z-index:1000; bottom:-1px; left:0px; width:100%; pointer-events:none; text-align:center; font-family: \'Kavoon\', Georgia,serif; font-size:16px; background:rgba(0,0,0,0.6); border-top:1px solid black;"></div>');
-		$("link").each(function () {
-			if ($(this).attr("href") === "img/favicon.ico") {
-				$(this).attr("id", "cm_favicon")
-			}
-		});
-
-		CookieMonster.makeTable();
-		CookieMonster.saveTooltips();
-		CookieMonster.update();
-		CookieMonster.loadSettings();
-		CookieMonster.setupTooltips();
-		CookieMonster.mainLoop();
-		Game.Popup('<span style="color:#FFFF00; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + CookieMonster.version + " Loaded!</span>")
+	// Cancel if already loaded
+	if (CookieMonster.$monsterBar.length !== 0) {
+		return alert("Cookie Monster " + CookieMonster.version + "\n\nCookie Monster is already loaded, silly!");
 	}
+
+	var $topBar  = $('#topBar');
+	var $tooltip = $('#tooltip');
+	var $body    = $('body');
+	var $cookies = $("#cookies");
+
+	$topBar.css("display", "none");
+	$toolTip.css("margin-top", "32px");
+	$toolTip.css("pointer-events", "none");
+	$cookies.css("background", "rgba(0,0,0,0.75)");
+	$cookies.css("border-top", "1px solid black");
+	$cookies.css("border-bottom", "1px solid black");
+	CookieMonster.$goldenCookie.css("cssText", "" + "z-index: 1000001 !important;");
+	$("#game").css("cssText", "" + "-webkit-touch-callout: none;" + "-webkit-user-select: none;" + "-khtml-user-select: none;" + "-moz-user-select: none;" + "-ms-user-select: none;" + "-o-user-select: none;" + "user-select: none;" + "top: 0px;" + "bottom: 57px;" + "");
+	$("#storeTitle").css("cssText", "" + "font-size: 18px;" + "padding: 4px 8px 2px 8px;" + "border-bottom: 1px solid black;" + "");
+	$("#storeTitle").after('<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0,0,0,0.6); border-bottom: 1px solid black; cursor:default;"><tr>' + '<td align=center style="color:#4bb8f0; padding:2px;" id="cm_up_q0">0</td>' + '<td align=center style="color:#00ff00; padding:2px;" id="cm_up_q1">0</td>' + '<td align=center style="color:#ffff00; padding:2px;" id="cm_up_q2">0</td>' + '<td align=center style="color:#ff7f00; padding:2px;" id="cm_up_q3">0</td>' + '<td align=center style="color:#ff0000; padding:2px;" id="cm_up_q4">0</td>' + '<td align=center style="color:#ff00ff; padding:2px;" id="cm_up_q5">0</td>' + "</tr></table>");
+	$body.append('<div id="cookie_monster_bar" style="z-index:1000; position:absolute; bottom:0px; left:0px; width:100%; height:56px; border-top:1px solid black; cursor:default;' + "text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;" + "background: rgb(69,72,77); /* Old browsers */" + "background: -moz-linear-gradient(top,  rgba(69,72,77,1) 0%, rgba(0,0,0,1) 100%); /* FF3.6+ */" + "background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(69,72,77,1)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */" + "background: -webkit-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */" + "background: -o-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* Opera 11.10+ */" + "background: -ms-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* IE10+ */" + "background: linear-gradient(to bottom,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* W3C */" + "filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=0 ); /* IE6-9 */" + '"></div>');
+	$body.append('<div id="cookie_monster_overlay" style="position:fixed; z-index:1000000; height:100%; width:100%; background:rgba(255,255,255,1); pointer-events:none; display:none;"></div>');
+	$body.append('<div id="cookie_monster_golden_overlay" style="position:fixed; z-index:1000002; height:96px; width:96px; pointer-events:none; cursor:pointer; opacity:0; display:none; text-align:center; font-family: \'Kavoon\', Georgia,serif; font-size:32px; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black !important;" onclick="Game.goldenCookie.click();"></div>');
+	$("#sectionLeft").append('<div id="cookie_monster_timer_bars_div" style="position:absolute; z-index:1000; bottom:-1px; left:0px; width:100%; pointer-events:none; text-align:center; font-family: \'Kavoon\', Georgia,serif; font-size:16px; background:rgba(0,0,0,0.6); border-top:1px solid black;"></div>');
+
+	$("link").each(function () {
+		if ($(this).attr("href") === "img/favicon.ico") {
+			$(this).attr("id", "cm_favicon");
+		}
+	});
+
+	CookieMonster.makeTable();
+	CookieMonster.saveTooltips();
+	CookieMonster.update();
+	CookieMonster.loadSettings();
+	CookieMonster.setupTooltips();
+	CookieMonster.mainLoop();
+	Game.Popup('<span style="color:#FFFF00; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + CookieMonster.version + " Loaded!</span>");
 }
 
 CookieMonster.mainLoop = function() {
@@ -2048,14 +2059,17 @@ CookieMonster.mainLoop = function() {
 	CookieMonster.emphasize();
 	CookieMonster.manageBuffs();
 	loops++;
+
 	if (loops === 1) {
-		Game.RebuildStore()
+		Game.RebuildStore();
 	}
+
 	setTimeout(function () {
-		CookieMonster.mainLoop()
-	}, CookieMonster.settings[3])
+		CookieMonster.mainLoop();
+	}, CookieMonster.settings[3]);
 }
 
+// Runtime variables
 CookieMonster.version               = "v.1.038.01";
 var emphasize                       = true;
 var tooltips                        = [];
@@ -2068,12 +2082,16 @@ CookieMonster.goldenCookieAvailable = "";
 CookieMonster.settings              = [];
 CookieMonster.inStore               = new Array(0, 0, 0, 0, 0, 0);
 CookieMonster.sellOut               = 0;
-var upgrade_count                   = 33;
-var sts_type                        = new Array([" M", " B", " T", " Qa", " Qi", " Sx", " Sp", " Oc", " No", " Dc"], [" M", " G", " T", " P", " E", " Z", " Y", " Oc", " No", " Dc"]);
+CookieMonster.upgradeCount          = 33;
+CookieMonster.stsType               = new Array([" M", " B", " T", " Qa", " Qi", " Sx", " Sp", " Oc", " No", " Dc"], [" M", " G", " T", " P", " E", " Z", " Y", " Oc", " No", " Dc"]);
 var loops                           = 0;
 
+// Selectors
+CookieMonster.$monsterBar   = $("#cookie_monster_bar");
+CookieMonster.$goldenCookie = $("#goldenCookie");
+
 if (document.title.indexOf("Cookie Clicker") !== -1 && $("#game").length !== 0) {
-	CookieMonster.start()
+	CookieMonster.start();
 } else {
-	alert("Cookie Monster " + CookieMonster.version + "\n\nThese aren't the droids you're looking for.")
+	alert("Cookie Monster " + CookieMonster.version + "\n\nThese aren't the droids you're looking for.");
 }

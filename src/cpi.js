@@ -10,7 +10,7 @@ function Get_True_CPI(e, t) {
 	if (t === "up") {
 		n = CookieMonster.secondsLeft(Game.UpgradesById[e], "up");
 		r = Game.UpgradesById[e].basePrice;
-		for (var s = 0; s < upgrade_count; s++) {
+		for (var s = 0; s < CookieMonster.upgradeCount; s++) {
 			if (_cup(s, e, false)) {
 				i = CookieMonster.manageTooltips(s, e, false, true);
 				break;
@@ -49,7 +49,7 @@ function Test_True_CPI(e, t) {
 	if (t === "up") {
 		n = CookieMonster.secondsLeft(e, "up");
 		i = Game.UpgradesById[e].basePrice;
-		for (var o = 0; o < upgrade_count; o++) {
+		for (var o = 0; o < CookieMonster.upgradeCount; o++) {
 			if (_cup(o, e, false)) {
 				s = CookieMonster.manageTooltips(o, e, false, true);
 				break;

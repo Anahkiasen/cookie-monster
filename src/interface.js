@@ -15,10 +15,10 @@ CookieMonster.faviconSpinner = function(e) {
 
 CookieMonster.toggleBar = function() {
 	if (CookieMonster.settings[5] === 0) {
-		$("#cookie_monster_bar").css("display", "none");
+		CookieMonster.$monsterBar.css("display", "none");
 		$("#game").css("bottom", "0px");
 	} else {
-		$("#cookie_monster_bar").css("display", "");
+		CookieMonster.$monsterBar.css("display", "");
 		$("#game").css("bottom", "57px");
 	}
 }
@@ -52,7 +52,7 @@ CookieMonster.makeTable = function() {
 		r += '<td align=middle id="cookie_monster_cpi_' + s + '"></td>';
 		i += '<td align=middle id="cookie_monster_tc_' + s + '"></td>'
 	});
-	$("#cookie_monster_bar").html("" + '<table style="width:100%; table-layout:fixed; margin-top:2px;">' + "<tr>" + e + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Bonus Income</th>' + n + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Base Cost Per Income</th>' + r + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Time Left</th>' + i + "</tr>" + "</table>")
+	CookieMonster.$monsterBar.html("" + '<table style="width:100%; table-layout:fixed; margin-top:2px;">' + "<tr>" + e + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Bonus Income</th>' + n + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Base Cost Per Income</th>' + r + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Time Left</th>' + i + "</tr>" + "</table>")
 }
 
 CookieMonster.updateTable = function() {
@@ -70,7 +70,7 @@ CookieMonster.updateTable = function() {
 		CookieMonster.holdItem[t] = e.name.replace(a, "") + ' (<span style="color:#4bb8f0;">' + CookieMonster.formatNumber(r) + "</span>)";
 		CookieMonster.holdIs[t] = Math.round(o * 100) / 100;
 		CookieMonster.holdCPI[t] = Math.round(u * 100) / 100;
-		CookieMonster.holdTC[t] = Math.round(CookieMonster.secondsLeft(t, "ob"))
+		CookieMonster.holdTC[t] = Math.round(CookieMonster.secondsLeft(t, "ob"));
 	});
 	Game.ObjectsById.forEach(function (e, t) {
 		var n = new Array("FFFF00", "FFFF00");
@@ -199,10 +199,10 @@ CookieMonster.organizeObjectList = function() {
 
 CookieMonster.emphasize = function() {
 	var e = $("#cookie_monster_golden_overlay");
-	var t = $("#goldenCookie");
+	var t = CookieMonster.$goldenCookie;
 	if (t.css("display") === "none" && !emphasize) {
 		emphasize = true;
-		CookieMonster.goldenCookieAvailable = ""
+		CookieMonster.goldenCookieAvailable = "";
 	}
 	if (t.css("display") !== "none" && emphasize) {
 		emphasize = false;

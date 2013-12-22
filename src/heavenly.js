@@ -14,10 +14,10 @@ CookieMonster.getHeavenlyChip = function(e) {
 		return CookieMonster.formatNumber(r) + " <small>(" + CookieMonster.formatNumber(r * 2) + "%)</small>"
 	}
 	if (e === "next") {
-		return CookieMonster.formatNumber(Math.round(i))
+		return CookieMonster.formatNumber(Math.round(i));
 	}
 	if (e === "next_sell_out") {
-		return CookieMonster.formatNumber(Math.round(s))
+		return CookieMonster.formatNumber(Math.round(s));
 	}
 	if (e === "time") {
 		return CookieMonster.formatTime(Math.round(i / Game.cookiesPs), "")

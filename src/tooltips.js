@@ -10,7 +10,7 @@ CookieMonster.saveTooltips = function() {
 CookieMonster.setupTooltips = function() {
 	var e = false;
 	Game.UpgradesById.forEach(function (t, n) {
-		for (var r = 0; r < upgrade_count; r++) {
+		for (var r = 0; r < CookieMonster.upgradeCount; r++) {
 			if (_cup(r, n, true)) {
 				t.desc = CookieMonster.manageTooltips(r, n, true, false);
 				e = true;
@@ -31,7 +31,7 @@ CookieMonster.updateTooltips = function(e) {
 	if (e === "all" || e === "up") {
 		CookieMonster.inStore = new Array(0, 0, 0, 0, 0, 0);
 		Game.UpgradesById.forEach(function (e, t) {
-			for (var n = 0; n < upgrade_count; n++) {
+			for (var n = 0; n < CookieMonster.upgradeCount; n++) {
 				if (_cup(n, t, false)) {
 					CookieMonster.manageTooltips(n, t, false, false);
 					break;
