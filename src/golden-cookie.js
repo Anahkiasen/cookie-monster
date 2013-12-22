@@ -111,11 +111,8 @@ CookieMonster.manageBuffs = function() {
  */
 CookieMonster.fadeOutBar = function(color, match) {
 	var $bar = $("#cookie_monster_timer_" + color);
-	if (typeof match === 'undefined') {
-		match = color + 'nope';
-	}
 
 	if ($bar.length === 1 && $bar.css("opacity") === "1" && color !== match) {
-		$bar.fadeOut(250);
+		$bar.stop(true, true).fadeOut(250);
 	}
 };
