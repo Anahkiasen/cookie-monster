@@ -53,7 +53,7 @@ CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();
 	CookieMonster.updateTooltips("all");
 	CookieMonster.emphasize();
-	Manage_Buffs();
+	CookieMonster.manageBuffs();
 	loops++;
 	if (loops === 1) {
 		Game.RebuildStore()

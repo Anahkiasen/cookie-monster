@@ -11,7 +11,7 @@ CookieMonster.getFrenzyMultiplier = function() {
 }
 
 
-function Manage_Buffs() {
+CookieMonster.manageBuffs = function() {
 	var e = "";
 	var t = "";
 	var n = 0;
