@@ -315,10 +315,10 @@ function Manage_Buffs() {
 }
 CookieMonster.getHeavenlyChip = function(e) {
 	var t = CookieMonster.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
-	var n = CookieMonster.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned + sell_out);
+	var n = CookieMonster.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned + CookieMonster.sellOut);
 	var r = CookieMonster.cookiesToHeavenly(Game.cookiesReset);
 	var i = CookieMonster.heavenlyToCookies(t + 1) - (Game.cookiesReset + Game.cookiesEarned);
-	var s = CookieMonster.heavenlyToCookies(n + 1) - (Game.cookiesReset + Game.cookiesEarned + sell_out);
+	var s = CookieMonster.heavenlyToCookies(n + 1) - (Game.cookiesReset + Game.cookiesEarned + CookieMonster.sellOut);
 	if (e === "max") {
 		return CookieMonster.formatNumber(t) + " <small>(" + CookieMonster.formatNumber(t * 2) + "%)</small>"
 	}
