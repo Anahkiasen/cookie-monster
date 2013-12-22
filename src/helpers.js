@@ -1,9 +1,23 @@
-CookieMonster.cookiesToHeavenly = function(e) {
-	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * e) / Math.pow(10, 6) - 0.5);
+/**
+ * Get the number of Heavenly Chips from a number of cookies (all time)
+ *
+ * @param {integer} cookiesNumber
+ *
+ * @return {integer}
+ */
+CookieMonster.cookiesToHeavenly = function(cookiesNumber) {
+	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * cookiesNumber) / Math.pow(10, 6) - 0.5);
 };
 
-CookieMonster.heavenlyToCookies = function(e) {
-	return 5 * Math.pow(10, 11) * e * (e + 1);
+/**
+ * Get the number of cookies required to have X chips
+ *
+ * @param {integer} chipsNumber
+ *
+ * @return {integer}
+ */
+CookieMonster.heavenlyToCookies = function(chipsNumber) {
+	return 5 * Math.pow(10, 11) * chipsNumber * (chipsNumber + 1);
 };
 
 CookieMonster.dhc = function(e, t, n) {
@@ -15,8 +29,15 @@ CookieMonster.dhc = function(e, t, n) {
 	return u - Game.cookiesPs;
 };
 
-CookieMonster.isHeavenlyKey = function(e) {
-	return (Game.UpgradesById[e].name === "Heavenly key");
+/**
+ * Check if the upgrade ID is the one for Heavenly Key
+ *
+ * @param {integer} upgrade
+ *
+ * @return {Boolean}
+ */
+CookieMonster.isHeavenlyKey = function(upgrade) {
+	return (Game.UpgradesById[upgrade].name === "Heavenly key");
 };
 
 CookieMonster.lgt = function(e) {
@@ -186,9 +207,13 @@ CookieMonster.checkUpgrade = function(e, t, n) {
 	return false;
 };
 
-CookieMonster.isInStore = function(e) {
-	if (Game.UpgradesInStore.indexOf(e) !== -1) {
-		return true;
-	}
-	return false;
+/**
+ * Check if an upgrade is in store
+ *
+ * @param {Array} upgrade
+ *
+ * @return {Boolean}
+ */
+CookieMonster.isInStore = function(upgrade) {
+	return Game.UpgradesInStore.indexOf(upgrade) !== -1;
 };
