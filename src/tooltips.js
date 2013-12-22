@@ -67,7 +67,7 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 	var s = 0;
 	switch (upgradeKey) {
 		case 0:
-			i = this.bam("The mouse and cursors", 0.1, 0);
+			i = this.bam('The mouse and cursors', 0.1, 0);
 			break;
 		case 1:
 			i = this.bte(0);
@@ -76,7 +76,7 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 			i = this.mcg(t);
 			break;
 		case 3:
-			i = this.bam("Grandmas", 0.3, 1);
+			i = this.bam('Grandmas', 0.3, 1);
 			break;
 		case 4:
 			i = this.bte(1);
@@ -85,43 +85,43 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 			}
 			break;
 		case 5:
-			i = this.bam("Farms", 0.5, 2);
+			i = this.bam('Farms', 0.5, 2);
 			break;
 		case 6:
 			i = this.bte(2);
 			break;
 		case 7:
-			i = this.bam("Factories", 4, 3);
+			i = this.bam('Factories', 4, 3);
 			break;
 		case 8:
 			i = this.bte(3);
 			break;
 		case 9:
-			i = this.bam("Mines", 10, 4);
+			i = this.bam('Mines', 10, 4);
 			break;
 		case 10:
 			i = this.bte(4);
 			break;
 		case 11:
-			i = this.bam("Shipments", 30, 5);
+			i = this.bam('Shipments', 30, 5);
 			break;
 		case 12:
 			i = this.bte(5);
 			break;
 		case 13:
-			i = this.bam("Alchemy labs", 100, 6);
+			i = this.bam('Alchemy labs', 100, 6);
 			break;
 		case 14:
 			i = this.bte(6);
 			break;
 		case 15:
-			i = this.bam("Portals", 1666, 7);
+			i = this.bam('Portals', 1666, 7);
 			break;
 		case 16:
 			i = this.bte(7);
 			break;
 		case 17:
-			i = this.bam("Time machines", 9876, 8);
+			i = this.bam('Time machines', 9876, 8);
 			break;
 		case 18:
 			i = this.bte(8);
@@ -148,7 +148,7 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 			i = this.bte(9);
 			break;
 		case 30:
-			i = this.bam("Antimatter condensers", 99999, 9);
+			i = this.bam('Antimatter condensers', 99999, 9);
 			break;
 		case 32:
 			i = this.dhc(s, t, i);
