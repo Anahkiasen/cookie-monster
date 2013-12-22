@@ -501,10 +501,6 @@ CookieMonster.isHeavenlyKey = function(e) {
 	return (Game.UpgradesById[e].name === "Heavenly key");
 };
 
-CookieMonster.cpc = function() {
-	return Game.mouseCps() * 0.01 * usr_clk;
-};
-
 CookieMonster.lgt = function(e) {
 	if (CookieMonster.hasAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
 		var t = [];
@@ -627,173 +623,48 @@ CookieMonster.checkUpgrade = function(e, t, n) {
 		return false;
 	}
 
-	switch (e) {
-	case 0:
-		if (!upgrade.bought && upgrade.name === "Reinforced index finger") {
-			return true;
-		}
-		break;
-	case 1:
-		if (!upgrade.bought && upgrade.desc.indexOf("The mouse and cursors are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 2:
-		if (!upgrade.bought && upgrade.desc.indexOf("The mouse and cursors gain") !== -1) {
-			return true;
-		}
-		break;
-	case 3:
-		if (!upgrade.bought && upgrade.name === "Forwards from grandma") {
-			return true;
-		}
-		break;
-	case 4:
-		if (!upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 5:
-		if (!upgrade.bought && upgrade.name === "Cheap hoes") {
-			return true;
-		}
-		break;
-	case 6:
-		if (!upgrade.bought && upgrade.desc.indexOf("Farms are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 7:
-		if (!upgrade.bought && upgrade.name === "Sturdier conveyor belts") {
-			return true;
-		}
-		break;
-	case 8:
-		if (!upgrade.bought && upgrade.desc.indexOf("Factories are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 9:
-		if (!upgrade.bought && upgrade.name === "Sugar gas") {
-			return true;
-		}
-		break;
-	case 10:
-		if (!upgrade.bought && upgrade.desc.indexOf("Mines are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 11:
-		if (!upgrade.bought && upgrade.name === "Vanilla nebulae") {
-			return true;
-		}
-		break;
-	case 12:
-		if (!upgrade.bought && upgrade.desc.indexOf("Shipments are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 13:
-		if (!upgrade.bought && upgrade.name === "Antimony") {
-			return true;
-		}
-		break;
-	case 14:
-		if (!upgrade.bought && upgrade.desc.indexOf("Alchemy labs are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 15:
-		if (!upgrade.bought && upgrade.name === "Ancient tablet") {
-			return true;
-		}
-		break;
-	case 16:
-		if (!upgrade.bought && upgrade.desc.indexOf("Portals are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 17:
-		if (!upgrade.bought && upgrade.name === "Flux capacitors") {
-			return true;
-		}
-		break;
-	case 18:
-		if (!upgrade.bought && upgrade.desc.indexOf("Time machines are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 19:
-		if (!upgrade.bought && upgrade.desc.indexOf("the more milk you have") !== -1) {
-			return true;
-		}
-		break;
-	case 20:
-		if (!upgrade.bought && upgrade.desc.indexOf("Cookie production multiplier <b>+") !== -1) {
-			return true;
-		}
-		break;
-	case 21:
-		if (!upgrade.bought && upgrade.desc.indexOf("for every 50 grandmas") !== -1) {
-			return true;
-		}
-		break;
-	case 22:
-		if (!upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
-			return true;
-		}
-		break;
-	case 23:
-		if (!upgrade.bought && upgrade.name === "Elder Pledge") {
-			return true;
-		}
-		break;
-	case 24:
-		if (!upgrade.bought && upgrade.name === "Elder Covenant") {
-			return true;
-		}
-		break;
-	case 25:
-		if (!upgrade.bought && upgrade.name === "Sacrificial rolling pins") {
-			return true;
-		}
-		break;
-	case 26:
-		if (!upgrade.bought && upgrade.desc.indexOf("Golden cookie") !== -1) {
-			return true;
-		}
-		break;
-	case 27:
-		if (!upgrade.bought && upgrade.desc.indexOf("Clicking gains <b>+1% of your CpS</b>.") !== -1) {
-			return true;
-		}
-		break;
-	case 28:
-		if (!upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 29:
-		if (!upgrade.bought && upgrade.desc.indexOf("Antimatter condensers are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 30:
-		if (!upgrade.bought && upgrade.name === "Sugar bosons") {
-			return true;
-		}
-		break;
-	case 31:
-		if (!upgrade.bought && upgrade.name === "Revoke Elder Covenant") {
-			return true;
-		}
-		break;
-	case 32:
-		if (!upgrade.bought && upgrade.desc.indexOf("heavenly chips") !== -1) {
-			return true;
-		}
-		break;
+	var upgrades = [
+		"Reinforced index finger",
+		"The mouse and cursors are <b>twice</b> as efficient.",
+		"The mouse and cursors gain",
+		"Forwards from grandma",
+		"Grandmas are <b>twice</b> as efficient.",
+		"Cheap hoes",
+		"Farms are <b>twice</b> as efficient.",
+		"Sturdier conveyor belts",
+		"Factories are <b>twice</b> as efficient.",
+		"Sugar gas",
+		"Mines are <b>twice</b> as efficient.",
+		"Vanilla nebulae",
+		"Shipments are <b>twice</b> as efficient.",
+		"Antimony",
+		"Alchemy labs are <b>twice</b> as efficient.",
+		"Ancient tablet",
+		"Portals are <b>twice</b> as efficient.",
+		"Flux capacitors",
+		"Time machines are <b>twice</b> as efficient.",
+		"the more milk you have",
+		"Cookie production multiplier <b>+",
+		"for every 50 grandmas",
+		"for every 20 portals",
+		"Elder Pledge",
+		"Elder Covenant",
+		"Sacrificial rolling pins",
+		"Golden cookie",
+		"Clicking gains <b>+1% of your CpS</b>.",
+		"Grandmas are <b>4 times</b> as efficient.",
+		"Antimatter condensers are <b>twice</b> as efficient.",
+		"Sugar bosons",
+		"Revoke Elder Covenant",
+		"heavenly chips",
+	];
+
+	// Get description and check it against current upgrade
+	var description = upgrades[e];
+	if (!upgrade.bought && (upgrade.name === description || upgrade.desc.indexOf(description) !== -1)) {
+		return true;
 	}
+
 	return false;
 };
 
