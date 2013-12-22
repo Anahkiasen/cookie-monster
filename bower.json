@@ -1,0 +1,6 @@
+{
+  "name": "cookie-monster",
+  "dependencies": {
+    "jquery": "~1.*"
+  }
+}

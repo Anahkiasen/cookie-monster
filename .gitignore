@@ -1,0 +1,6 @@
+# Dependencies
+bower_components
+node_modules
+
+# Logs and caches
+npm-debug.log

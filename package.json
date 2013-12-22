@@ -1,0 +1,13 @@
+{
+	"name": "cookie-monster",
+	"dependencies": {
+		"bower": "*",
+		"grunt": "*",
+		"grunt-cli": "*",
+		"grunt-bower-task": "*",
+		"grunt-contrib-concat": "*",
+		"grunt-contrib-jshint": "*",
+		"grunt-contrib-uglify": "*",
+		"grunt-contrib-watch": "*"
+	}
+}
