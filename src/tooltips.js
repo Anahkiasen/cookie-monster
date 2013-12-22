@@ -17,8 +17,8 @@ CookieMonster.setupTooltips = function() {
 				break;
 			}
 		}
-		if (t.bought && t.desc !== tooltips[n]) {
-			t.desc = tooltips[n];
+		if (t.bought && t.desc !== CookieMonster.tooltips[n]) {
+			t.desc = CookieMonster.tooltips[n];
 			e = true
 		}
 	});
@@ -154,7 +154,7 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 	if (r) {
 		return i;
 	}
-	return tooltips[t] + CookieMonster.colorize(i, t, n)
+	return CookieMonster.tooltips[t] + CookieMonster.colorize(i, t, n)
 };
 
 CookieMonster.manageBuildingTooltip = function(e) {

@@ -63,39 +63,18 @@ CookieMonster.start = function() {
 CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();
 	CookieMonster.updateTooltips("all");
-	CookieMonster.emphasize();
+	CookieMonster.doEmphasize();
 	CookieMonster.manageBuffs();
-	loops++;
+	CookieMonster.loops++;
 
-	if (loops === 1) {
+	if (CookieMonster.loops === 1) {
 		Game.RebuildStore();
 	}
 
 	setTimeout(function () {
 		CookieMonster.mainLoop();
 	}, CookieMonster.settings[3]);
-}
-
-// Runtime variables
-CookieMonster.version               = "v.1.038.01";
-var emphasize                       = true;
-var tooltips                        = [];
-CookieMonster.buildingTooltips      = [];
-CookieMonster.holdItem              = [];
-CookieMonster.holdIs                = [];
-CookieMonster.holdCPI               = [];
-CookieMonster.holdTC                = [];
-CookieMonster.goldenCookieAvailable = "";
-CookieMonster.settings              = [];
-CookieMonster.inStore               = new Array(0, 0, 0, 0, 0, 0);
-CookieMonster.sellOut               = 0;
-CookieMonster.upgradeCount          = 33;
-CookieMonster.stsType               = new Array([" M", " B", " T", " Qa", " Qi", " Sx", " Sp", " Oc", " No", " Dc"], [" M", " G", " T", " P", " E", " Z", " Y", " Oc", " No", " Dc"]);
-var loops                           = 0;
-
-// Selectors
-CookieMonster.$monsterBar   = $("#cookie_monster_bar");
-CookieMonster.$goldenCookie = $("#goldenCookie");
+};
 
 if (document.title.indexOf("Cookie Clicker") !== -1 && $("#game").length !== 0) {
 	CookieMonster.start();
