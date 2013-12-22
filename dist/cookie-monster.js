@@ -1839,6 +1839,11 @@ CookieMonster.centennial = function(building) {
 	}
 	return false;
 };
+/**
+ * Hook CookieMonster onto various parts of the Cookie Clicker code
+ *
+ * @return {void}
+ */
 CookieMonster.update = function() {
 	Game.Logic = new Function("", Game.Logic.toString().replace(".title=", ".title=CookieMonster.goldenCookieAvailable+").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	var e = "\n\n'<div class=\"subsection\">'+" + '\'<div class="title"><span style="color:#4bb8f0;">Cookie Monster Goodies</span></div>\'+' + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> ' + CookieMonster.lucky('reg', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.lucky('frenzy', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> ' + CookieMonster.luckyReward('max') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX) (Frenzy):</b> ' + CookieMonster.luckyReward('max_frenzy') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (CUR):</b> ' + CookieMonster.luckyReward('cur') + '</div>'+" + "'</br><div class=\"listing\"><b>Heavenly Chips (MAX):</b> ' + CookieMonster.getHeavenlyChip('max') + '</div>'+" + "'<div class=\"listing\"><b>Heavenly Chips (CUR):</b> ' + CookieMonster.getHeavenlyChip('cur') + '</div>'+" + "'<div class=\"listing\"><b>Cookies To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('next') + '</div>'+" + "'<div class=\"listing\"><b>Time To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('time') + '</div>'+" + "'</div>'+";
@@ -1866,31 +1871,109 @@ CookieMonster.start = function() {
 		return alert("Cookie Monster " + this.version + "\n\nCookie Monster is already loaded, silly!");
 	}
 
-	var $topBar  = $('#topBar');
-	var $toolTip = $('#tooltip');
 	var $body    = $('body');
-	var $cookies = $("#cookies");
 
-	$topBar.css("display", "none");
-	$toolTip.css("margin-top", "32px");
-	$toolTip.css("pointer-events", "none");
-	$cookies.css("background", "rgba(0,0,0,0.75)");
-	$cookies.css("border-top", "1px solid black");
-	$cookies.css("border-bottom", "1px solid black");
-	this.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
-	$("#game").css("cssText","-webkit-touch-callout: none;" + "-webkit-user-select: none;" + "-khtml-user-select: none;" + "-moz-user-select: none;" + "-ms-user-select: none;" + "-o-user-select: none;" + "user-select: none;" + "top: 0px;" + "bottom: 57px;");
-	$("#storeTitle").css("cssText","font-size: 18px;" + "padding: 4px 8px 2px 8px;" + "border-bottom: 1px solid black;");
-	$("#storeTitle").after('<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0,0,0,0.6); border-bottom: 1px solid black; cursor:default;"><tr>' + '<td align=center style="color:#4bb8f0; padding:2px;" id="cm_up_q0">0</td>' + '<td align=center style="color:#00ff00; padding:2px;" id="cm_up_q1">0</td>' + '<td align=center style="color:#ffff00; padding:2px;" id="cm_up_q2">0</td>' + '<td align=center style="color:#ff7f00; padding:2px;" id="cm_up_q3">0</td>' + '<td align=center style="color:#ff0000; padding:2px;" id="cm_up_q4">0</td>' + '<td align=center style="color:#ff00ff; padding:2px;" id="cm_up_q5">0</td>' + "</tr></table>");
-	$body.append('<div id="cookie_monster_bar" style="z-index:1000; position:absolute; bottom:0px; left:0px; width:100%; height:56px; border-top:1px solid black; cursor:default;' + "text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;" + "background: rgb(69,72,77); /* Old browsers */" + "background: -moz-linear-gradient(top,  rgba(69,72,77,1) 0%, rgba(0,0,0,1) 100%); /* FF3.6+ */" + "background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(69,72,77,1)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */" + "background: -webkit-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */" + "background: -o-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* Opera 11.10+ */" + "background: -ms-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* IE10+ */" + "background: linear-gradient(to bottom,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* W3C */" + "filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=0 ); /* IE6-9 */" + '"></div>');
-	$body.append('<div id="cookie_monster_overlay" style="position:fixed; z-index:1000000; height:100%; width:100%; background:rgba(255,255,255,1); pointer-events:none; display:none;"></div>');
-	$body.append('<div id="cookie_monster_golden_overlay" style="position:fixed; z-index:1000002; height:96px; width:96px; pointer-events:none; cursor:pointer; opacity:0; display:none; text-align:center; font-family: \'Kavoon\', Georgia,serif; font-size:32px; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black !important;" onclick="Game.goldenCookie.click();"></div>');
-	$("#sectionLeft").append('<div id="cookie_monster_timer_bars_div" style="position:absolute; z-index:1000; bottom:-1px; left:0px; width:100%; pointer-events:none; text-align:center; font-family: \'Kavoon\', Georgia,serif; font-size:16px; background:rgba(0,0,0,0.6); border-top:1px solid black;"></div>');
-
-	$("link").each(function () {
-		if ($(this).attr("href") === "img/favicon.ico") {
-			$(this).attr("id", "cm_favicon");
-		}
+	$('#topBar').css('display', 'none');
+	$('#tooltip').css({
+		'margin-top': '32px',
+		'pointer-events': 'none',
 	});
+	$("#cookies").css({
+		'background'    : 'rgba(0, 0, 0, 0.75)',
+		'border-top'    : '1px solid black',
+		'border-bottom' : '1px solid black',
+	});
+
+	this.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
+
+	// Style main game window
+	$("#game").css({
+		'-webkit-touch-callout' : 'none',
+		'-webkit-user-select'   : 'none',
+		'-khtml-user-select'    : 'none',
+		'-moz-user-select'      : 'none',
+		'-ms-user-select'       : 'none',
+		'-o-user-select'        : 'none',
+		'user-select'           : 'none',
+		'top'                   : '0px',
+		'bottom'                : '57px',
+	});
+
+	// Style store
+	$("#storeTitle").css({
+		'font-size'     : '18px',
+		'padding'       : '4px 8px 2px 8px',
+		'border-bottom' : '1px solid black',
+	})
+	.after(
+	'<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0,0,0,0.6); border-bottom: 1px solid black; cursor:default;">'+
+		'<tr>'+
+			'<td align=center style="color:#4bb8f0; padding:2px;" id="cm_up_q0">0</td>' +
+			'<td align=center style="color:#00ff00; padding:2px;" id="cm_up_q1">0</td>' +
+			'<td align=center style="color:#ffff00; padding:2px;" id="cm_up_q2">0</td>' +
+			'<td align=center style="color:#ff7f00; padding:2px;" id="cm_up_q3">0</td>' +
+			'<td align=center style="color:#ff0000; padding:2px;" id="cm_up_q4">0</td>' +
+			'<td align=center style="color:#ff00ff; padding:2px;" id="cm_up_q5">0</td>' +
+		'</tr>'+
+	'</table>');
+
+	// Add Cookie Monster elements
+	$('body').append('<div id="cookie_monster_bar"></div><div id="cookie_monster_overlay"></div><div id="cookie_monster_golden_overlay" onclick="Game.goldenCookie.click();"></div>');
+	$("#sectionLeft").append('<div id="cookie_monster_timer_bars_div"></div>');
+
+	// Style Cookie Monster elements
+	$('#cookie_monster_bar').css({
+		'background-color' : '#4D4548',
+		'background-image' : 'linear-gradient(to left, #4d4548, #000000)',
+		'border-top'       : '1px solid black',
+		'bottom'           : '0px',
+		'cursor'           : 'default',
+		'height'           : '56px',
+		'left'             : '0px',
+		'position'         : 'absolute',
+		'text-shadow'      : '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
+		'width'            : '100%',
+		'z-index'          : '1000',
+	});
+	$('#cookie_monster_overlay').css({
+		'background'     : 'rgba(255,255,255,1)',
+		'display'        : 'none',
+		'height'         : '100%',
+		'pointer-events' : 'none',
+		'position'       : 'fixed',
+		'width'          : '100%',
+		'z-index'        : '1000000',
+	});
+	$('#cookie_monster_golden_overlay').css({
+		'cursor'         : 'pointer',
+		'display'        : 'none',
+		'font-family'    : 'Kavoon, Georgia, serif',
+		'font-size'      : '32px',
+		'height'         : '96px',
+		'opacity'        : '0',
+		'pointer-events' : 'none',
+		'position'       : 'fixed',
+		'text-align'     : 'center',
+		'text-shadow'    : '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black !important',
+		'width'          : '96px',
+		'z-index'        : '1000002',
+	});
+	$('#cookie_monster_timer_bars_div').css({
+		'background'     : 'rgba(0, 0, 0, 0.6)',
+		'border-top'     : '1px solid black',
+		'bottom'         : '-1px',
+		'font-family'    : 'Kavoon, Georgia, serif',
+		'font-size'      : '16px',
+		'left'           : '0px',
+		'pointer-events' : 'none',
+		'position'       : 'absolute',
+		'text-align'     : 'center',
+		'width'          : '100%',
+		'z-index'        : '1000',
+	});
+
+	// Add ID to favicon
+	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
 
 	// Refrehs selector
 	this.$monsterBar = $('#cookie_monster_bar');
