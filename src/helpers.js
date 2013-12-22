@@ -392,7 +392,7 @@ function _cup(e, t, n) {
 	return false;
 }
 
-CookieMonster.inStore = function(e) {
+CookieMonster.isInStore = function(e) {
 	if (Game.UpgradesInStore.indexOf(e) !== -1) {
 		return true;
 	}

@@ -836,7 +836,7 @@ function _cup(e, t, n) {
 	return false;
 }
 
-CookieMonster.inStore = function(e) {
+CookieMonster.isInStore = function(e) {
 	if (Game.UpgradesInStore.indexOf(e) !== -1) {
 		return true;
 	}
@@ -947,31 +947,31 @@ CookieMonster.colorize = function(e, t, n) {
 	for (i = 0; i < o.length; i++) {
 		if (u[i] < f[i]) {
 			o[i] = "4BB8F0";
-			if (CookieMonster.inStore(r) && i === 0) {
+			if (CookieMonster.isInStore(r) && i === 0) {
 				CookieMonster.inStore[0]++;
 			}
 		} else if (u[i] === f[i]) {
 			o[i] = "00FF00";
-			if (CookieMonster.inStore(r) && i === 0) {
+			if (CookieMonster.isInStore(r) && i === 0) {
 				CookieMonster.inStore[1]++;
 			}
 		} else if (u[i] === a[i]) {
 			o[i] = "FF0000";
-			if (CookieMonster.inStore(r) && i === 0) {
+			if (CookieMonster.isInStore(r) && i === 0) {
 				CookieMonster.inStore[4]++;
 			}
 		} else if (u[i] > a[i]) {
 			o[i] = "FF00FF";
-			if (CookieMonster.inStore(r) && i === 0) {
+			if (CookieMonster.isInStore(r) && i === 0) {
 				CookieMonster.inStore[5]++;
 			}
 		} else if (a[i] - u[i] < u[i] - f[i]) {
 			o[i] = "FF7F00";
-			if (CookieMonster.inStore(r) && i === 0) {
+			if (CookieMonster.isInStore(r) && i === 0) {
 				CookieMonster.inStore[3]++;
 			}
 		} else {
-			if (CookieMonster.inStore(r) && i === 0) {
+			if (CookieMonster.isInStore(r) && i === 0) {
 				CookieMonster.inStore[2]++;
 			}
 		}
@@ -979,7 +979,7 @@ CookieMonster.colorize = function(e, t, n) {
 	for (i = 0; i < CookieMonster.inStore.length; i++) {
 		$("#cm_up_q" + i).text(CookieMonster.inStore[i])
 	}
-	if (CookieMonster.settings[11] && CookieMonster.inStore(r)) {
+	if (CookieMonster.settings[11] && CookieMonster.isInStore(r)) {
 		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>')
 	}
 	if ($("#cm_up_div_" + t).length === 1) {
