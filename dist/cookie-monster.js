@@ -501,12 +501,8 @@ CookieMonster.isHeavenlyKey = function(e) {
 	return (Game.UpgradesById[e].name === "Heavenly key");
 };
 
-CookieMonster.cpc = function() {
-	return Game.mouseCps() * 0.01 * usr_clk;
-};
-
 CookieMonster.lgt = function(e) {
-	if (CookieMonster.checkAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
+	if (CookieMonster.hasAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
 		var t = [];
 		var n = [];
 		Game.UpgradesById.forEach(function (e, r) {
@@ -523,14 +519,23 @@ CookieMonster.lgt = function(e) {
 	return false;
 };
 
-CookieMonster.checkAchievement = function(e) {
-	var t = 0;
-	Game.AchievementsById.forEach(function (n) {
-		if (!n.won && n.name === e) {
-			t = 1;
+/**
+ * Check if the user has won an achievement
+ *
+ * @param {string} checkedAchievement
+ *
+ * @return {integer} Boolean in integer form
+ */
+CookieMonster.hasAchievement = function(checkedAchievement) {
+	var found = 0;
+
+	Game.AchievementsById.forEach(function (achievement) {
+		if (!achievement.won && achievement.name === checkedAchievement) {
+			found = 1;
 		}
 	});
-	return t;
+
+	return found;
 };
 
 CookieMonster.gpp = function() {
@@ -612,268 +617,54 @@ CookieMonster.inc = function(e) {
 	return t;
 };
 
-CookieMonster.baseTen = function(e) {
-	if (CookieMonster.checkAchievement("Base 10") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (e) {
-			t.push(e.name);
-			n.push(e.amount);
-		});
-		t.forEach(function (t, r) {
-			if (t === e) {
-				n[r]++;
-			}
-		});
-		var r = n.length * 10;
-		for (var i = 0; i < n.length; i++) {
-			if (n[i] < r) {
-				return false;
-			}
-			r = r - 10;
-		}
-		return true;
-	}
-	return false;
-};
-
-CookieMonster.mathematician = function(e) {
-	if (CookieMonster.checkAchievement("Mathematician") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (e) {
-			t.push(e.name);
-			n.push(e.amount);
-		});
-		t.forEach(function (t, r) {
-			if (t === e) {
-				n[r]++;
-			}
-		});
-		var r = 128;
-		for (var i = 0; i < n.length; i++) {
-			if (i > 2) {
-				r = r / 2;
-			}
-			if (n[i] < r) {
-				return false;
-			}
-		}
-		return true;
-	}
-	return false;
-};
-
-CookieMonster.oneWithEverything = function(e) {
-	if (CookieMonster.checkAchievement("One with everything") === 1) {
-		var t = [];
-		var n = [];
-
-		Game.ObjectsById.forEach(function (e) {
-			if (e.amount > 0) {
-				t.push(e.name);
-			} else {
-				n.push(e.name);
-			}
-		});
-		if (n.length === 1 && n[0] === e) {
-			return true;
-		}
-	}
-	return false;
-};
-
-CookieMonster.centennial = function(e) {
-	if (CookieMonster.checkAchievement("Centennial") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (e) {
-			if (e.amount >= 100) {
-				t.push(e.name);
-			} else {
-				n.push(e);
-			}
-		});
-		if (n.length === 1 && n[0].name === e && n[0].amount === 99) {
-			return true;
-		}
-	}
-	return false;
-};
-
 CookieMonster.checkUpgrade = function(e, t, n) {
 	var upgrade = Game.UpgradesById[t];
 	if (upgrade.desc.indexOf("cm_up_div_") === -1 && !n) {
 		return false;
 	}
 
-	switch (e) {
-	case 0:
-		if (!upgrade.bought && upgrade.name === "Reinforced index finger") {
-			return true;
-		}
-		break;
-	case 1:
-		if (!upgrade.bought && upgrade.desc.indexOf("The mouse and cursors are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 2:
-		if (!upgrade.bought && upgrade.desc.indexOf("The mouse and cursors gain") !== -1) {
-			return true;
-		}
-		break;
-	case 3:
-		if (!upgrade.bought && upgrade.name === "Forwards from grandma") {
-			return true;
-		}
-		break;
-	case 4:
-		if (!upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 5:
-		if (!upgrade.bought && upgrade.name === "Cheap hoes") {
-			return true;
-		}
-		break;
-	case 6:
-		if (!upgrade.bought && upgrade.desc.indexOf("Farms are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 7:
-		if (!upgrade.bought && upgrade.name === "Sturdier conveyor belts") {
-			return true;
-		}
-		break;
-	case 8:
-		if (!upgrade.bought && upgrade.desc.indexOf("Factories are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 9:
-		if (!upgrade.bought && upgrade.name === "Sugar gas") {
-			return true;
-		}
-		break;
-	case 10:
-		if (!upgrade.bought && upgrade.desc.indexOf("Mines are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 11:
-		if (!upgrade.bought && upgrade.name === "Vanilla nebulae") {
-			return true;
-		}
-		break;
-	case 12:
-		if (!upgrade.bought && upgrade.desc.indexOf("Shipments are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 13:
-		if (!upgrade.bought && upgrade.name === "Antimony") {
-			return true;
-		}
-		break;
-	case 14:
-		if (!upgrade.bought && upgrade.desc.indexOf("Alchemy labs are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 15:
-		if (!upgrade.bought && upgrade.name === "Ancient tablet") {
-			return true;
-		}
-		break;
-	case 16:
-		if (!upgrade.bought && upgrade.desc.indexOf("Portals are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 17:
-		if (!upgrade.bought && upgrade.name === "Flux capacitors") {
-			return true;
-		}
-		break;
-	case 18:
-		if (!upgrade.bought && upgrade.desc.indexOf("Time machines are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 19:
-		if (!upgrade.bought && upgrade.desc.indexOf("the more milk you have") !== -1) {
-			return true;
-		}
-		break;
-	case 20:
-		if (!upgrade.bought && upgrade.desc.indexOf("Cookie production multiplier <b>+") !== -1) {
-			return true;
-		}
-		break;
-	case 21:
-		if (!upgrade.bought && upgrade.desc.indexOf("for every 50 grandmas") !== -1) {
-			return true;
-		}
-		break;
-	case 22:
-		if (!upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
-			return true;
-		}
-		break;
-	case 23:
-		if (!upgrade.bought && upgrade.name === "Elder Pledge") {
-			return true;
-		}
-		break;
-	case 24:
-		if (!upgrade.bought && upgrade.name === "Elder Covenant") {
-			return true;
-		}
-		break;
-	case 25:
-		if (!upgrade.bought && upgrade.name === "Sacrificial rolling pins") {
-			return true;
-		}
-		break;
-	case 26:
-		if (!upgrade.bought && upgrade.desc.indexOf("Golden cookie") !== -1) {
-			return true;
-		}
-		break;
-	case 27:
-		if (!upgrade.bought && upgrade.desc.indexOf("Clicking gains <b>+1% of your CpS</b>.") !== -1) {
-			return true;
-		}
-		break;
-	case 28:
-		if (!upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 29:
-		if (!upgrade.bought && upgrade.desc.indexOf("Antimatter condensers are <b>twice</b> as efficient.") !== -1) {
-			return true;
-		}
-		break;
-	case 30:
-		if (!upgrade.bought && upgrade.name === "Sugar bosons") {
-			return true;
-		}
-		break;
-	case 31:
-		if (!upgrade.bought && upgrade.name === "Revoke Elder Covenant") {
-			return true;
-		}
-		break;
-	case 32:
-		if (!upgrade.bought && upgrade.desc.indexOf("heavenly chips") !== -1) {
-			return true;
-		}
-		break;
+	var upgrades = [
+		"Reinforced index finger",
+		"The mouse and cursors are <b>twice</b> as efficient.",
+		"The mouse and cursors gain",
+		"Forwards from grandma",
+		"Grandmas are <b>twice</b> as efficient.",
+		"Cheap hoes",
+		"Farms are <b>twice</b> as efficient.",
+		"Sturdier conveyor belts",
+		"Factories are <b>twice</b> as efficient.",
+		"Sugar gas",
+		"Mines are <b>twice</b> as efficient.",
+		"Vanilla nebulae",
+		"Shipments are <b>twice</b> as efficient.",
+		"Antimony",
+		"Alchemy labs are <b>twice</b> as efficient.",
+		"Ancient tablet",
+		"Portals are <b>twice</b> as efficient.",
+		"Flux capacitors",
+		"Time machines are <b>twice</b> as efficient.",
+		"the more milk you have",
+		"Cookie production multiplier <b>+",
+		"for every 50 grandmas",
+		"for every 20 portals",
+		"Elder Pledge",
+		"Elder Covenant",
+		"Sacrificial rolling pins",
+		"Golden cookie",
+		"Clicking gains <b>+1% of your CpS</b>.",
+		"Grandmas are <b>4 times</b> as efficient.",
+		"Antimatter condensers are <b>twice</b> as efficient.",
+		"Sugar bosons",
+		"Revoke Elder Covenant",
+		"heavenly chips",
+	];
+
+	// Get description and check it against current upgrade
+	var description = upgrades[e];
+	if (!upgrade.bought && (upgrade.name === description || upgrade.desc.indexOf(description) !== -1)) {
+		return true;
 	}
+
 	return false;
 };
 
@@ -1757,13 +1548,13 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 		i = CookieMonster.gpp();
 		break;
 	case 23:
-		s += CookieMonster.checkAchievement("Elder nap");
+		s += CookieMonster.hasAchievement("Elder nap");
 		if (Game.pledges === 4) {
-			s += CookieMonster.checkAchievement("Elder slumber");
+			s += CookieMonster.hasAchievement("Elder slumber");
 		}
 		break;
 	case 24:
-		s += CookieMonster.checkAchievement("Elder calm");
+		s += CookieMonster.hasAchievement("Elder calm");
 		break;
 	case 28:
 		i = CookieMonster.fte(1);
@@ -1777,18 +1568,18 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 	case 32:
 		i = CookieMonster.dhc(s, t, i);
 		if (CookieMonster.isHeavenlyKey(t)) {
-			s += CookieMonster.checkAchievement("Wholesome");
+			s += CookieMonster.hasAchievement("Wholesome");
 		}
 		break;
 	}
 	if (Game.UpgradesOwned === 19) {
-		s += CookieMonster.checkAchievement("Enhancer");
+		s += CookieMonster.hasAchievement("Enhancer");
 	}
 	if (Game.UpgradesOwned === 49) {
-		s += CookieMonster.checkAchievement("Augmenter");
+		s += CookieMonster.hasAchievement("Augmenter");
 	}
 	if (Game.UpgradesOwned === 99) {
-		s += CookieMonster.checkAchievement("Upgrader");
+		s += CookieMonster.hasAchievement("Upgrader");
 	}
 	i += CookieMonster.getAchievementWorth(s, t, i, 0);
 	if (r) {
@@ -1864,170 +1655,132 @@ CookieMonster.manageBuildingTooltip = function(e) {
 		$("#product" + t).find(".price").first().css("color", "");
 	}
 };
-CookieMonster.getUpgradeBonuses = function(e, t, n) {
+CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
 	var r = 0;
 	var i = 0;
-	switch (e) {
-	case "Cursor":
-		if (t === 0) {
-			i += this.checkAchievement("Click");
+
+	var upgrades = {
+		'Cursor': {
+			0   : 'Click',
+			1   : 'Double-click',
+			49  : 'Mouse wheel',
+			99  : 'Of Mice and Men',
+			199 : 'The Digital',
+		},
+		'Grandma': {
+			0   : 'Grandma\'s Cookies',
+			49  : 'Sloppy kisses',
+			99  : 'Retirement home',
+			149 : 'Friend of the ancients',
+			199 : 'Ruler of the ancients',
+		},
+		'Farm': {
+			0  : 'My first farm',
+			49 : 'Reap what you sow',
+			99 : 'Farm ill',
+		},
+		'Factory': {
+			0  : 'Production chain',
+			49 : 'Industrial revolution',
+			99 : 'Global warming',
+		},
+		'Mine': {
+			0  : 'You know the drill',
+			49 : 'Excavation site',
+			99 : 'Hollow the planet',
+		},
+		'Shipment': {
+			0  : 'Expedition',
+			49 : 'Galactic highway',
+			99 : 'Far far away',
+		},
+		'Alchemy lab': {
+			0  : 'Transmutation',
+			49 : 'Transmogrification',
+			99 : 'Gold member',
+		},
+		'Portal': {
+			0  : 'A whole new world',
+			49 : 'Now you\'re thinking',
+			99 : 'Dimensional shift',
+		},
+		'Time machine': {
+			0  : 'Time warp',
+			49 : 'Alternate timeline',
+			99 : 'Rewriting history',
+		},
+		'Antimatter condenser': {
+			0  : 'Antibatter',
+			49 : 'Quirky quarks',
+			99 : 'It does matter!',
 		}
-		if (t === 1) {
-			i += this.checkAchievement("Double-click");
-		}
-		if (t === 49) {
-			i += this.checkAchievement("Mouse wheel");
-		}
-		if (t === 99) {
-			i += this.checkAchievement("Of Mice and Men");
-		}
-		if (t === 199) {
-			i += this.checkAchievement("The Digital");
-		}
-		break;
-	case "Grandma":
-		r += this.getTotalGrandmaModifiers(t) * Game.globalCpsMult;
-		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t === 0) {
-			i += this.checkAchievement("Grandma's Cookies");
-		}
-		if (t === 49) {
-			i += this.checkAchievement("Sloppy kisses");
-		}
-		if (t === 99) {
-			i += this.checkAchievement("Retirement home");
-		}
-		if (t === 149) {
-			i += this.checkAchievement("Friend of the ancients");
-		}
-		if (t === 199) {
-			i += this.checkAchievement("Ruler of the ancients");
-		}
-		break;
-	case "Farm":
-		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t === 0) {
-			i += this.checkAchievement("My first farm");
-		}
-		if (t === 49) {
-			i += this.checkAchievement("Reap what you sow");
-		}
-		if (t === 99) {
-			i += this.checkAchievement("Farm ill");
-		}
-		break;
-	case "Factory":
-		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t === 0) {
-			i += this.checkAchievement("Production chain");
-		}
-		if (t === 49) {
-			i += this.checkAchievement("Industrial revolution");
-		}
-		if (t === 99) {
-			i += this.checkAchievement("Global warming");
-		}
-		break;
-	case "Mine":
-		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t === 0) {
-			i += this.checkAchievement("You know the drill");
-		}
-		if (t === 49) {
-			i += this.checkAchievement("Excavation site");
-		}
-		if (t === 99) {
-			i += this.checkAchievement("Hollow the planet");
-		}
-		break;
-	case "Shipment":
-		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t === 0) {
-			i += this.checkAchievement("Expedition");
-		}
-		if (t === 49) {
-			i += this.checkAchievement("Galactic highway");
-		}
-		if (t === 99) {
-			i += this.checkAchievement("Far far away");
-		}
-		break;
-	case "Alchemy lab":
-		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t === 0) {
-			i += this.checkAchievement("Transmutation");
-		}
-		if (t === 49) {
-			i += this.checkAchievement("Transmogrification");
-		}
-		if (t === 99) {
-			i += this.checkAchievement("Gold member");
-		}
-		break;
-	case "Portal":
-		r += CookieMonster.getTotalPortalModifiers() * Game.globalCpsMult;
-		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t === 0) {
-			i += this.checkAchievement("A whole new world");
-		}
-		if (t === 49) {
-			i += this.checkAchievement("Now you're thinking");
-		}
-		if (t === 99) {
-			i += this.checkAchievement("Dimensional shift");
-		}
-		break;
-	case "Time machine":
-		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t === 0) {
-			i += this.checkAchievement("Time warp");
-		}
-		if (t === 49) {
-			i += this.checkAchievement("Alternate timeline");
-		}
-		if (t === 99) {
-			i += this.checkAchievement("Rewriting history");
-		}
-		break;
-	case "Antimatter condenser":
-		r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-		if (t === 0) {
-			i += this.checkAchievement("Antibatter");
-		}
-		if (t === 49) {
-			i += this.checkAchievement("Quirky quarks");
-		}
-		if (t === 99) {
-			i += this.checkAchievement("It does matter!");
-		}
-		break;
+	};
+
+	i += this.hasAchievement(upgrades[building][currentNumber]);
+
+	switch (building) {
+		case "Grandma":
+			r += this.getTotalGrandmaModifiers(currentNumber) * Game.globalCpsMult;
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Farm":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Factory":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Mine":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Shipment":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Alchemy lab":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Portal":
+			r += this.getTotalPortalModifiers() * Game.globalCpsMult;
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Time machine":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Antimatter condenser":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
 	}
+
 	if (Game.BuildingsOwned === 99) {
-		i += this.checkAchievement("Builder");
+		i += this.hasAchievement("Builder");
 	}
 	if (Game.BuildingsOwned === 399) {
-		i += this.checkAchievement("Architect");
+		i += this.hasAchievement("Architect");
 	}
 	if (Game.BuildingsOwned === 799) {
-		i += this.checkAchievement("Engineer");
+		i += this.hasAchievement("Engineer");
 	}
-	if (CookieMonster.oneWithEverything(e)) {
+	if (this.oneWithEverything(building)) {
 		i++;
 	}
-	if (CookieMonster.mathematician(e)) {
+	if (this.mathematician(building)) {
 		i++;
 	}
-	if (CookieMonster.baseTen(e)) {
+	if (this.baseTen(building)) {
 		i++;
 	}
-	if (CookieMonster.centennial(e)) {
+	if (this.centennial(building)) {
 		i++;
 	}
+
 	return r + this.getAchievementWorth(i, 0, r + n, 0);
 };
 
+//////////////////////////////////////////////////////////////////////
+/////////////////////////////// MODIFIERS ////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 CookieMonster.getTotalCursorModifiers = function() {
-	var e = 0;
+	var modifier = 0;
 
 	Game.UpgradesById.forEach(function (upgrade) {
 		if (upgrade.bought && upgrade.desc.indexOf("The mouse and cursors gain") !== -1) {
@@ -2035,14 +1788,14 @@ CookieMonster.getTotalCursorModifiers = function() {
 			if (upgrade.desc.indexOf(" another ") !== -1) {
 				r += 8;
 			}
-			e += upgrade.desc.substr(r, upgrade.desc.indexOf("<", r) - r) * 1;
+			modifier += upgrade.desc.substr(r, upgrade.desc.indexOf("<", r) - r) * 1;
 		}
 	});
 
-	return e * Game.ObjectsById[0].amount;
+	return modifier * Game.ObjectsById[0].amount;
 };
 
-CookieMonster.getTotalGrandmaModifiers = function(e) {
+CookieMonster.getTotalGrandmaModifiers = function(currentNumber) {
 	var t = 0.5;
 	var n = 0;
 	var r = 1;
@@ -2058,7 +1811,7 @@ CookieMonster.getTotalGrandmaModifiers = function(e) {
 			r = r * 4;
 		}
 		if (upgrade.bought && upgrade.desc.indexOf("for every 50 grandmas") !== -1) {
-			n += (e + 1) * 0.02 * (e + 1) - e * 0.02 * e;
+			n += (currentNumber + 1) * 0.02 * (currentNumber + 1) - currentNumber * 0.02 * currentNumber;
 		}
 		if (upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
 			n += Game.ObjectsById[7].amount * 0.05;
@@ -2069,8 +1822,8 @@ CookieMonster.getTotalGrandmaModifiers = function(e) {
 };
 
 CookieMonster.getTotalPortalModifiers = function() {
-	var e     = 0;
-	var total = 1;
+	var modifier = 0;
+	var total    = 1;
 
 	Game.UpgradesById.forEach(function (upgrade) {
 		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
@@ -2080,11 +1833,105 @@ CookieMonster.getTotalPortalModifiers = function() {
 			total = total * 4;
 		}
 		if (upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
-			e += Game.ObjectsById[1].amount * 0.05;
+			modifier += Game.ObjectsById[1].amount * 0.05;
 		}
 	});
 
-	return e * total;
+	return modifier * total;
+};
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////// BUILDING SCHEMAS ////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+CookieMonster.baseTen = function(building) {
+	if (this.hasAchievement("Base 10") === 1) {
+		var t = [];
+		var n = [];
+		Game.ObjectsById.forEach(function (building) {
+			t.push(building.name);
+			n.push(building.amount);
+		});
+		t.forEach(function (t, r) {
+			if (t === building) {
+				n[r]++;
+			}
+		});
+		var r = n.length * 10;
+		for (var i = 0; i < n.length; i++) {
+			if (n[i] < r) {
+				return false;
+			}
+			r = r - 10;
+		}
+		return true;
+	}
+
+	return false;
+};
+
+CookieMonster.mathematician = function(building) {
+	if (this.hasAchibuildingvement("Mathematician") === 1) {
+		var t = [];
+		var n = [];
+		Game.ObjectsById.forEach(function (building) {
+			t.push(building.name);
+			n.push(building.amount);
+		});
+		t.forEach(function (t, r) {
+			if (t === building) {
+				n[r]++;
+			}
+		});
+		var r = 128;
+		for (var i = 0; i < n.length; i++) {
+			if (i > 2) {
+				r = r / 2;
+			}
+			if (n[i] < r) {
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+};
+
+CookieMonster.oneWithEverything = function(building) {
+	if (this.hasAchievement("One with everything") === 1) {
+		var t = [];
+		var n = [];
+
+		Game.ObjectsById.forEach(function (building) {
+			if (building.amount > 0) {
+				t.push(building.name);
+			} else {
+				n.push(building.name);
+			}
+		});
+		if (n.length === 1 && n[0] === building) {
+			return true;
+		}
+	}
+	return false;
+};
+
+CookieMonster.centennial = function(building) {
+	if (this.hasAchievement("Centennial") === 1) {
+		var t = [];
+		var n = [];
+		Game.ObjectsById.forEach(function (building) {
+			if (building.amount >= 100) {
+				t.push(building.name);
+			} else {
+				n.push(building);
+			}
+		});
+		if (n.length === 1 && n[0].name === building && n[0].amount === 99) {
+			return true;
+		}
+	}
+	return false;
 };
 CookieMonster.update = function() {
 	Game.Logic = new Function("", Game.Logic.toString().replace(".title=", ".title=CookieMonster.goldenCookieAvailable+").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
