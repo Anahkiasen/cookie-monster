@@ -56,6 +56,8 @@ module.exports = function(grunt) {
 				files: {
 					'<%= builds %>/cookie-monster.js': [
 						'<%= components %>/jquery/jquery.min.js',
+						'<%= src %>/jquery/settings.js',
+						'<%= src %>/jquery/tooltips.js',
 						'<%= src %>/jquery/cookie-monster.js',
 					],
 				},
