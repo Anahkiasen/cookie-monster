@@ -12,7 +12,7 @@ CookieMonster.update = function() {
 	Game.Draw = new Function("", Game.Draw.toString().replace("Beautify(Math.round(Game.cookiesd))", "CookieMonster.formatNumberB(Game.cookiesd)").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	var r = "return CookieMonster.formatNumber(what);";
 	Beautify = new Function("what,floats", Beautify.toString().replace("var str='';", r + "\nvar str='';").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-}
+};
 
 /**
  * Setup CookieMonster

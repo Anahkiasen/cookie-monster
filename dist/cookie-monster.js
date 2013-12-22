@@ -912,7 +912,6 @@ CookieMonster.updateUpgradeDisplay = function() {
 
 CookieMonster.makeTable = function() {
 	var e = '<th align=left width=130 style="color:#FFFF00;"> ' + CookieMonster.version + "</th>";
-	var t = "";
 	var n = "";
 	var r = "";
 	var i = "";
@@ -2030,7 +2029,7 @@ CookieMonster.update = function() {
 	Game.Draw = new Function("", Game.Draw.toString().replace("Beautify(Math.round(Game.cookiesd))", "CookieMonster.formatNumberB(Game.cookiesd)").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	var r = "return CookieMonster.formatNumber(what);";
 	Beautify = new Function("what,floats", Beautify.toString().replace("var str='';", r + "\nvar str='';").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-}
+};
 
 /**
  * Setup CookieMonster

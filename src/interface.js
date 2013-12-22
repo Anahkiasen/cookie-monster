@@ -44,7 +44,6 @@ CookieMonster.updateUpgradeDisplay = function() {
 
 CookieMonster.makeTable = function() {
 	var e = '<th align=left width=130 style="color:#FFFF00;"> ' + CookieMonster.version + "</th>";
-	var t = "";
 	var n = "";
 	var r = "";
 	var i = "";
