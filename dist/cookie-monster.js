@@ -1174,76 +1174,101 @@ CookieMonster.getLuckyAlert = function () {
 	}
 }
 CookieMonster.loadSettings = function() {
-	settings = [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1];
+	CookieMonster.settings = [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1];
+
 	if (typeof Storage !== "undefined") {
 		if (localStorage.FlashScreen !== undefined) {
 			CookieMonster.settings[0] = localStorage.FlashScreen;
 		} else {
 			localStorage.FlashScreen = 1;
-			CookieMonster.settings[0] = 1
-		} if (localStorage.CookieTimer !== undefined) {
+			CookieMonster.settings[0] = 1;
+		}
+
+		if (localStorage.CookieTimer !== undefined) {
 			CookieMonster.settings[1] = localStorage.CookieTimer;
 		} else {
 			localStorage.CookieTimer = 1;
-			CookieMonster.settings[1] = 1
-		} if (localStorage.BuffBars !== undefined) {
+			CookieMonster.settings[1] = 1;
+		}
+
+		if (localStorage.BuffBars !== undefined) {
 			CookieMonster.settings[2] = localStorage.BuffBars;
 		} else {
 			localStorage.BuffBars = 1;
-			CookieMonster.settings[2] = 1
-		} if (localStorage.Refresh !== undefined) {
+			CookieMonster.settings[2] = 1;
+		}
+
+		if (localStorage.Refresh !== undefined) {
 			CookieMonster.settings[3] = localStorage.Refresh;
 		} else {
 			localStorage.Refresh = 1e3;
-			CookieMonster.settings[3] = 1e3
-		} if (localStorage.CookieCD !== undefined) {
+			CookieMonster.settings[3] = 1e3;
+		}
+
+		if (localStorage.CookieCD !== undefined) {
 			CookieMonster.settings[4] = localStorage.CookieCD;
 		} else {
 			localStorage.CookieCD = 1;
-			CookieMonster.settings[4] = 1
-		} if (localStorage.CMBar !== undefined) {
+			CookieMonster.settings[4] = 1;
+		}
+
+		if (localStorage.CMBar !== undefined) {
 			CookieMonster.settings[5] = localStorage.CMBar;
 		} else {
 			localStorage.CMBar = 1;
-			CookieMonster.settings[5] = 1
-		} if (localStorage.ColoredPrices !== undefined) {
+			CookieMonster.settings[5] = 1;
+		}
+
+		if (localStorage.ColoredPrices !== undefined) {
 			CookieMonster.settings[6] = localStorage.ColoredPrices;
 		} else {
 			localStorage.ColoredPrices = 1;
-			CookieMonster.settings[6] = 1
-		} if (localStorage.ShortNumbers !== undefined) {
+			CookieMonster.settings[6] = 1;
+		}
+
+		if (localStorage.ShortNumbers !== undefined) {
 			CookieMonster.settings[7] = localStorage.ShortNumbers;
 		} else {
 			localStorage.ShortNumbers = 1;
-			CookieMonster.settings[7] = 1
-		} if (localStorage.CookieSound !== undefined) {
+			CookieMonster.settings[7] = 1;
+		}
+
+		if (localStorage.CookieSound !== undefined) {
 			CookieMonster.settings[8] = localStorage.CookieSound;
 		} else {
 			localStorage.CookieSound = 0;
-			CookieMonster.settings[8] = 0
-		} if (localStorage.UpdateTitle !== undefined) {
+			CookieMonster.settings[8] = 0;
+		}
+
+		if (localStorage.UpdateTitle !== undefined) {
 			CookieMonster.settings[9] = localStorage.UpdateTitle;
 		} else {
 			localStorage.UpdateTitle = 1;
-			CookieMonster.settings[9] = 1
-		} if (localStorage.LuckyAlert !== undefined) {
+			CookieMonster.settings[9] = 1;
+		}
+
+		if (localStorage.LuckyAlert !== undefined) {
 			CookieMonster.settings[10] = localStorage.LuckyAlert;
 		} else {
 			localStorage.LuckyAlert = 1;
-			CookieMonster.settings[10] = 1
-		} if (localStorage.UpgradeIcons !== undefined) {
+			CookieMonster.settings[10] = 1;
+		}
+
+		if (localStorage.UpgradeIcons !== undefined) {
 			CookieMonster.settings[11] = localStorage.UpgradeIcons;
 		} else {
 			localStorage.UpgradeIcons = 1;
-			CookieMonster.settings[11] = 1
-		} if (localStorage.UpgradeDisplay !== undefined) {
+			CookieMonster.settings[11] = 1;
+		}
+
+		if (localStorage.UpgradeDisplay !== undefined) {
 			CookieMonster.settings[12] = localStorage.UpgradeDisplay;
 		} else {
 			localStorage.UpgradeDisplay = 1;
 			CookieMonster.settings[12] = 1;
 		}
 	}
-	CookieMonster.toggleBar()
+	CookieMonster.toggleBar();
 };
 
 CookieMonster.saveSettings = function() {
@@ -1263,7 +1288,7 @@ CookieMonster.saveSettings = function() {
 		localStorage.UpgradeDisplay = CookieMonster.settings[12];
 	}
 
-	CookieMonster.toggleBar()
+	CookieMonster.toggleBar();
 };
 
 CookieMonster.getOptionState = function(e) {
@@ -1425,7 +1450,7 @@ CookieMonster.toggleOption = function(option) {
 	}
 
 	CookieMonster.saveSettings();
-}
+};
 
 /**
  * Get a text version of the current short numbers option
@@ -1443,7 +1468,7 @@ CookieMonster.getShortNumbers = function() {
 		default:
 			return "OFF";
 	}
-}
+};
 
 /**
  * Get a text version of the current refresh rate
@@ -1465,7 +1490,7 @@ CookieMonster.getRefreshRate = function() {
 		default:
 			return "1";
 	}
-}
+};
 
 /**
  * Get a text version of the "Upgrade display" option
@@ -1481,9 +1506,9 @@ CookieMonster.getUpgradeDisplay = function() {
 		case 0:
 			return "None";
 		default:
-			return "Normal"
+			return "Normal";
 	}
-}
+};
 CookieMonster.factorTime = function(e) {
 	var t = Game.cookies - e;
 	var n = Game.cookiesPs;
@@ -2071,9 +2096,9 @@ CookieMonster.start = function() {
 	$cookies.css("background", "rgba(0,0,0,0.75)");
 	$cookies.css("border-top", "1px solid black");
 	$cookies.css("border-bottom", "1px solid black");
-	CookieMonster.$goldenCookie.css("cssText", "" + "z-index: 1000001 !important;");
-	$("#game").css("cssText", "" + "-webkit-touch-callout: none;" + "-webkit-user-select: none;" + "-khtml-user-select: none;" + "-moz-user-select: none;" + "-ms-user-select: none;" + "-o-user-select: none;" + "user-select: none;" + "top: 0px;" + "bottom: 57px;" + "");
-	$("#storeTitle").css("cssText", "" + "font-size: 18px;" + "padding: 4px 8px 2px 8px;" + "border-bottom: 1px solid black;" + "");
+	CookieMonster.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
+	$("#game").css("cssText","-webkit-touch-callout: none;" + "-webkit-user-select: none;" + "-khtml-user-select: none;" + "-moz-user-select: none;" + "-ms-user-select: none;" + "-o-user-select: none;" + "user-select: none;" + "top: 0px;" + "bottom: 57px;");
+	$("#storeTitle").css("cssText","font-size: 18px;" + "padding: 4px 8px 2px 8px;" + "border-bottom: 1px solid black;");
 	$("#storeTitle").after('<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0,0,0,0.6); border-bottom: 1px solid black; cursor:default;"><tr>' + '<td align=center style="color:#4bb8f0; padding:2px;" id="cm_up_q0">0</td>' + '<td align=center style="color:#00ff00; padding:2px;" id="cm_up_q1">0</td>' + '<td align=center style="color:#ffff00; padding:2px;" id="cm_up_q2">0</td>' + '<td align=center style="color:#ff7f00; padding:2px;" id="cm_up_q3">0</td>' + '<td align=center style="color:#ff0000; padding:2px;" id="cm_up_q4">0</td>' + '<td align=center style="color:#ff00ff; padding:2px;" id="cm_up_q5">0</td>' + "</tr></table>");
 	$body.append('<div id="cookie_monster_bar" style="z-index:1000; position:absolute; bottom:0px; left:0px; width:100%; height:56px; border-top:1px solid black; cursor:default;' + "text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;" + "background: rgb(69,72,77); /* Old browsers */" + "background: -moz-linear-gradient(top,  rgba(69,72,77,1) 0%, rgba(0,0,0,1) 100%); /* FF3.6+ */" + "background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(69,72,77,1)), color-stop(100%,rgba(0,0,0,1))); /* Chrome,Safari4+ */" + "background: -webkit-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */" + "background: -o-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* Opera 11.10+ */" + "background: -ms-linear-gradient(top,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* IE10+ */" + "background: linear-gradient(to bottom,  rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%); /* W3C */" + "filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=0 ); /* IE6-9 */" + '"></div>');
 	$body.append('<div id="cookie_monster_overlay" style="position:fixed; z-index:1000000; height:100%; width:100%; background:rgba(255,255,255,1); pointer-events:none; display:none;"></div>');
@@ -2086,13 +2111,16 @@ CookieMonster.start = function() {
 		}
 	});
 
-	console.log(CookieMonster.$monsterBar, this);
+	// Refrehs selector
+	CookieMonster.$monsterBar = $('#cookie_monster_bar');
+
 	CookieMonster.makeTable();
 	CookieMonster.saveTooltips();
 	CookieMonster.update();
 	CookieMonster.loadSettings();
 	CookieMonster.setupTooltips();
 	CookieMonster.mainLoop();
+
 	Game.Popup('<span style="color:#FFFF00; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + CookieMonster.version + " Loaded!</span>");
 };
 

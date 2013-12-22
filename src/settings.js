@@ -1,74 +1,99 @@
 CookieMonster.loadSettings = function() {
-	settings = [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1];
+	CookieMonster.settings = [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1];
+
 	if (typeof Storage !== "undefined") {
 		if (localStorage.FlashScreen !== undefined) {
 			CookieMonster.settings[0] = localStorage.FlashScreen;
 		} else {
 			localStorage.FlashScreen = 1;
-			CookieMonster.settings[0] = 1
-		} if (localStorage.CookieTimer !== undefined) {
+			CookieMonster.settings[0] = 1;
+		}
+
+		if (localStorage.CookieTimer !== undefined) {
 			CookieMonster.settings[1] = localStorage.CookieTimer;
 		} else {
 			localStorage.CookieTimer = 1;
-			CookieMonster.settings[1] = 1
-		} if (localStorage.BuffBars !== undefined) {
+			CookieMonster.settings[1] = 1;
+		}
+
+		if (localStorage.BuffBars !== undefined) {
 			CookieMonster.settings[2] = localStorage.BuffBars;
 		} else {
 			localStorage.BuffBars = 1;
-			CookieMonster.settings[2] = 1
-		} if (localStorage.Refresh !== undefined) {
+			CookieMonster.settings[2] = 1;
+		}
+
+		if (localStorage.Refresh !== undefined) {
 			CookieMonster.settings[3] = localStorage.Refresh;
 		} else {
 			localStorage.Refresh = 1e3;
-			CookieMonster.settings[3] = 1e3
-		} if (localStorage.CookieCD !== undefined) {
+			CookieMonster.settings[3] = 1e3;
+		}
+
+		if (localStorage.CookieCD !== undefined) {
 			CookieMonster.settings[4] = localStorage.CookieCD;
 		} else {
 			localStorage.CookieCD = 1;
-			CookieMonster.settings[4] = 1
-		} if (localStorage.CMBar !== undefined) {
+			CookieMonster.settings[4] = 1;
+		}
+
+		if (localStorage.CMBar !== undefined) {
 			CookieMonster.settings[5] = localStorage.CMBar;
 		} else {
 			localStorage.CMBar = 1;
-			CookieMonster.settings[5] = 1
-		} if (localStorage.ColoredPrices !== undefined) {
+			CookieMonster.settings[5] = 1;
+		}
+
+		if (localStorage.ColoredPrices !== undefined) {
 			CookieMonster.settings[6] = localStorage.ColoredPrices;
 		} else {
 			localStorage.ColoredPrices = 1;
-			CookieMonster.settings[6] = 1
-		} if (localStorage.ShortNumbers !== undefined) {
+			CookieMonster.settings[6] = 1;
+		}
+
+		if (localStorage.ShortNumbers !== undefined) {
 			CookieMonster.settings[7] = localStorage.ShortNumbers;
 		} else {
 			localStorage.ShortNumbers = 1;
-			CookieMonster.settings[7] = 1
-		} if (localStorage.CookieSound !== undefined) {
+			CookieMonster.settings[7] = 1;
+		}
+
+		if (localStorage.CookieSound !== undefined) {
 			CookieMonster.settings[8] = localStorage.CookieSound;
 		} else {
 			localStorage.CookieSound = 0;
-			CookieMonster.settings[8] = 0
-		} if (localStorage.UpdateTitle !== undefined) {
+			CookieMonster.settings[8] = 0;
+		}
+
+		if (localStorage.UpdateTitle !== undefined) {
 			CookieMonster.settings[9] = localStorage.UpdateTitle;
 		} else {
 			localStorage.UpdateTitle = 1;
-			CookieMonster.settings[9] = 1
-		} if (localStorage.LuckyAlert !== undefined) {
+			CookieMonster.settings[9] = 1;
+		}
+
+		if (localStorage.LuckyAlert !== undefined) {
 			CookieMonster.settings[10] = localStorage.LuckyAlert;
 		} else {
 			localStorage.LuckyAlert = 1;
-			CookieMonster.settings[10] = 1
-		} if (localStorage.UpgradeIcons !== undefined) {
+			CookieMonster.settings[10] = 1;
+		}
+
+		if (localStorage.UpgradeIcons !== undefined) {
 			CookieMonster.settings[11] = localStorage.UpgradeIcons;
 		} else {
 			localStorage.UpgradeIcons = 1;
-			CookieMonster.settings[11] = 1
-		} if (localStorage.UpgradeDisplay !== undefined) {
+			CookieMonster.settings[11] = 1;
+		}
+
+		if (localStorage.UpgradeDisplay !== undefined) {
 			CookieMonster.settings[12] = localStorage.UpgradeDisplay;
 		} else {
 			localStorage.UpgradeDisplay = 1;
 			CookieMonster.settings[12] = 1;
 		}
 	}
-	CookieMonster.toggleBar()
+	CookieMonster.toggleBar();
 };
 
 CookieMonster.saveSettings = function() {
@@ -88,7 +113,7 @@ CookieMonster.saveSettings = function() {
 		localStorage.UpgradeDisplay = CookieMonster.settings[12];
 	}
 
-	CookieMonster.toggleBar()
+	CookieMonster.toggleBar();
 };
 
 CookieMonster.getOptionState = function(e) {
@@ -250,7 +275,7 @@ CookieMonster.toggleOption = function(option) {
 	}
 
 	CookieMonster.saveSettings();
-}
+};
 
 /**
  * Get a text version of the current short numbers option
@@ -268,7 +293,7 @@ CookieMonster.getShortNumbers = function() {
 		default:
 			return "OFF";
 	}
-}
+};
 
 /**
  * Get a text version of the current refresh rate
@@ -290,7 +315,7 @@ CookieMonster.getRefreshRate = function() {
 		default:
 			return "1";
 	}
-}
+};
 
 /**
  * Get a text version of the "Upgrade display" option
@@ -306,6 +331,6 @@ CookieMonster.getUpgradeDisplay = function() {
 		case 0:
 			return "None";
 		default:
-			return "Normal"
+			return "Normal";
 	}
-}
+};
