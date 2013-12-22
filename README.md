@@ -1,5 +1,10 @@
-Cookie-monster
-==============
+# CookieMonster
+
+## Authors
+
+**Original author : [Raving_Kumquat](http://cookieclicker.wikia.com/wiki/User:Raving_Kumquat)**
+
+## Using
 
 Rehost of the Cookie Monster add-on
 
@@ -11,4 +16,18 @@ javascript: (function () {
 
 	document.body.appendChild(jA);
 }());
+```
+
+## Contributing
+
+First install the dependencies :
+
+```
+npm install
+```
+
+Make an edit, then :
+
+```
+grunt
 ```
