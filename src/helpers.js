@@ -388,7 +388,7 @@ function _cup(e, t, n) {
 }
 
 CookieMonster.inStore = function(e) {
-	if (Game.UpgradesCookieMonster.inStore.indexOf(e) != -1) {
+	if (Game.UpgradesInStore.indexOf(e) != -1) {
 		return true
 	}
 	return false
