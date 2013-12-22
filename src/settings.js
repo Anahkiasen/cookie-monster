@@ -68,7 +68,7 @@ CookieMonster.loadSettings = function() {
 			settings[12] = 1
 		}
 	}
-	Show_Hide_CM_Bar()
+	CookieMonster.toggleBar()
 }
 
 CookieMonster.saveSettings = function() {
@@ -87,7 +87,7 @@ CookieMonster.saveSettings = function() {
 		localStorage.UpgradeIcons = settings[11];
 		localStorage.UpgradeDisplay = settings[12]
 	} else {}
-	Show_Hide_CM_Bar()
+	CookieMonster.toggleBar()
 }
 
 CookieMonster.getOptionState = function(e) {
@@ -180,38 +180,38 @@ CookieMonster.toggleOption = function(e) {
 	case "Upgrade Display (All)":
 		settings[12] = 0;
 		e.text("Upgrade Display (None)");
-		Update_Upgrade_Display();
+		CookieMonster.updateUpgradeDisplay();
 		break;
 	case "Upgrade Display (None)":
 		settings[12] = 1;
 		e.text("Upgrade Display (Normal)");
-		Update_Upgrade_Display();
+		CookieMonster.updateUpgradeDisplay();
 		break;
 	case "Upgrade Display (Normal)":
 		settings[12] = 2;
 		e.text("Upgrade Display (All)");
-		Update_Upgrade_Display();
+		CookieMonster.updateUpgradeDisplay();
 		break;
 	case "Short Numbers ON (B)":
 		settings[7] = 0;
 		e.text("Short Numbers OFF");
 		Game.RebuildStore();
 		Game.RebuildUpgrades();
-		Update_Table();
+		CookieMonster.updateTable();
 		break;
 	case "Short Numbers OFF":
 		settings[7] = 1;
 		e.text("Short Numbers ON (A)");
 		Game.RebuildStore();
 		Game.RebuildUpgrades();
-		Update_Table();
+		CookieMonster.updateTable();
 		break;
 	case "Short Numbers ON (A)":
 		settings[7] = 2;
 		e.text("Short Numbers ON (B)");
 		Game.RebuildStore();
 		Game.RebuildUpgrades();
-		Update_Table();
+		CookieMonster.updateTable();
 		break;
 	case "Lucky Alert (Both)":
 		settings[10] = 2;

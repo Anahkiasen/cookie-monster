@@ -1,8 +1,8 @@
-function cookies_to_h_chips(e) {
+CookieMonster.cookiesToHeavenly = function(e) {
 	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * e) / Math.pow(10, 6) - .5)
 }
 
-function h_chips_to_cookies(e) {
+CookieMonster.heavenlyToCookies = function(e) {
 	return 5 * Math.pow(10, 11) * e * (e + 1)
 }
 
@@ -387,8 +387,8 @@ function _cup(e, t, n) {
 	return false
 }
 
-function inStore(e) {
-	if (Game.UpgradesInStore.indexOf(e) != -1) {
+CookieMonster.inStore = function(e) {
+	if (Game.UpgradesCookieMonster.inStore.indexOf(e) != -1) {
 		return true
 	}
 	return false

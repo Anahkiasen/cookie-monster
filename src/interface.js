@@ -1,4 +1,4 @@
-function Fav_Icon_Spinner(e) {
+CookieMonster.faviconSpinner = function(e) {
 	if (e > 6) {
 		e = 1
 	}
@@ -6,14 +6,14 @@ function Fav_Icon_Spinner(e) {
 		$("#cm_favicon").attr("href", "http://frozenelm.com/cookiemonster/images/cm_gc_" + e + ".png");
 		e++;
 		setTimeout(function () {
-			Fav_Icon_Spinner(e)
+			CookieMonster.faviconSpinner(e)
 		}, 250)
 	} else {
 		$("#cm_favicon").attr("href", "http://orteil.dashnet.org/cookieclicker/img/favicon.ico")
 	}
 }
 
-function Show_Hide_CM_Bar() {
+CookieMonster.toggleBar = function() {
 	if (settings[5] == 0) {
 		$("#cookie_monster_bar").css("display", "none");
 		$("#game").css("bottom", "0px")
@@ -23,7 +23,7 @@ function Show_Hide_CM_Bar() {
 	}
 }
 
-function CM_Upgrade_Display() {
+CookieMonster.upgradeDisplay = function() {
 	switch (settings[12] * 1) {
 	case 1:
 		return "Normal";
@@ -36,7 +36,7 @@ function CM_Upgrade_Display() {
 	}
 }
 
-function Update_Upgrade_Display() {
+CookieMonster.updateUpgradeDisplay = function() {
 	var e = $("#upgrades");
 	switch (settings[12] * 1) {
 	case 1:
@@ -51,7 +51,7 @@ function Update_Upgrade_Display() {
 	}
 }
 
-function Make_Table() {
+CookieMonster.makeTable = function() {
 	var e = '<th align=left width=130 style="color:#FFFF00;"> ' + version + "</th>";
 	var t = "";
 	var n = "";
@@ -66,7 +66,7 @@ function Make_Table() {
 	$("#cookie_monster_bar").html("" + '<table style="width:100%; table-layout:fixed; margin-top:2px;">' + "<tr>" + e + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Bonus Income</th>' + n + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Base Cost Per Income</th>' + r + "</tr>" + '<tr><th align=right style="color:#4bb8f0;">Time Left</th>' + i + "</tr>" + "</table>")
 }
 
-function Update_Table() {
+CookieMonster.updateTable = function() {
 	Game.ObjectsById.forEach(function (e, t) {
 		var n = e.price;
 		var r = e.amount;
@@ -104,7 +104,7 @@ function Update_Table() {
 	})
 }
 
-function Colorize(e, t, n) {
+CookieMonster.colorize = function(e, t, n) {
 	var r = Game.UpgradesById[t];
 	var s = r.basePrice;
 	var o = new Array("FFFF00", "FFFF00");
@@ -114,31 +114,31 @@ function Colorize(e, t, n) {
 	for (i = 0; i < o.length; i++) {
 		if (u[i] < f[i]) {
 			o[i] = "4BB8F0";
-			if (inStore(r) && i == 0) {
+			if (CookieMonster.inStore(r) && i == 0) {
 				in_store[0]++
 			}
 		} else if (u[i] == f[i]) {
 			o[i] = "00FF00";
-			if (inStore(r) && i == 0) {
+			if (CookieMonster.inStore(r) && i == 0) {
 				in_store[1]++
 			}
 		} else if (u[i] == a[i]) {
 			o[i] = "FF0000";
-			if (inStore(r) && i == 0) {
+			if (CookieMonster.inStore(r) && i == 0) {
 				in_store[4]++
 			}
 		} else if (u[i] > a[i]) {
 			o[i] = "FF00FF";
-			if (inStore(r) && i == 0) {
+			if (CookieMonster.inStore(r) && i == 0) {
 				in_store[5]++
 			}
 		} else if (a[i] - u[i] < u[i] - f[i]) {
 			o[i] = "FF7F00";
-			if (inStore(r) && i == 0) {
+			if (CookieMonster.inStore(r) && i == 0) {
 				in_store[3]++
 			}
 		} else {
-			if (inStore(r) && i == 0) {
+			if (CookieMonster.inStore(r) && i == 0) {
 				in_store[2]++
 			}
 		}
@@ -146,8 +146,8 @@ function Colorize(e, t, n) {
 	for (i = 0; i < in_store.length; i++) {
 		$("#cm_up_q" + i).text(in_store[i])
 	}
-	if (settings[11] && inStore(r)) {
-		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>')
+	if (settings[11] && CookieMonster.inStore(r)) {
+		$("#upgrade" + Game.UpgradesCookieMonster.inStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>')
 	}
 	if ($("#cm_up_div_" + t).length == 1) {
 		var l = new Array(CookieMonster.lucky("reg", true), CookieMonster.lucky("frenzy", true));
@@ -186,7 +186,7 @@ function Colorize(e, t, n) {
 	}
 }
 
-function Organize_Object_List() {
+CookieMonster.organizeObjectList = function() {
 	var e = new Array;
 	Game.ObjectsById.forEach(function (t, n) {
 		var r = true;
@@ -208,7 +208,7 @@ function Organize_Object_List() {
 	return e
 }
 
-function CM_Short_Numbers() {
+CookieMonster.shortNumbers = function() {
 	switch (settings[7] * 1) {
 	case 1:
 		return "ON (A)";
@@ -238,7 +238,7 @@ CookieMonster.refresh = function() {
 	}
 }
 
-function Do_Emphasize() {
+CookieMonster.emphasize = function() {
 	var e = $("#cookie_monster_golden_overlay");
 	var t = $("#goldenCookie");
 	if (t.css("display") == "none" && !emphasize) {
@@ -249,7 +249,7 @@ function Do_Emphasize() {
 		emphasize = false;
 		if (settings[9] == 1) {
 			gc_avail = "(G) ";
-			Fav_Icon_Spinner(1)
+			CookieMonster.faviconSpinner(1)
 		}
 		if (settings[8] == 1) {
 			var n = new Audio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");

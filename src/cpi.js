@@ -55,7 +55,7 @@ function Test_True_CPI(e, t) {
 			}
 		}
 	}
-	var u = Organize_Object_List();
+	var u = CookieMonster.organizeObjectList();
 	var a = i;
 	var f = a / s;
 	var l = f;

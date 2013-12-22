@@ -154,7 +154,7 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 	if (r) {
 		return i
 	}
-	return tooltips[t] + Colorize(i, t, n)
+	return tooltips[t] + CookieMonster.colorize(i, t, n)
 }
 
 CookieMonster.manageBuildingTooltip = function(e) {
