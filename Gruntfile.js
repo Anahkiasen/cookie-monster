@@ -111,10 +111,11 @@ module.exports = function(grunt) {
 				unused   : true,
 				loopfunc : true,
 				evil     : true,
-				predef: ['Game', 'usr_clk', 'Beautify'],
+				predef: ['Game', 'usr_clk'],
 				globals : {
-					CookieMonster: true,
-					$ : false,
+					$             : false,
+					CookieMonster : true,
+					Beautify      : true,
 				}
 			},
 
@@ -129,12 +130,12 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', 'Build assets for local', [
 		'bower',
-		'jshint',
 		'js',
 		'uglify',
 	]);
 
 	grunt.registerTask('js', 'Build scripts', [
+		'jshint',
 		'concat',
 	]);
 };

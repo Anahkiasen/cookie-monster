@@ -1,3 +1,5 @@
+/* exported CookieMonster */
+
 var CookieMonster = {
 	// Runtime variables
 	version               : "v.1.038.01",
