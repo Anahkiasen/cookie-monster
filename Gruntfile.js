@@ -36,7 +36,7 @@ module.exports = function(grunt) {
 			},
 			scripts: {
 				files: '<%= src %>/**/*',
-				tasks: 'js',
+				tasks: ['js', 'uglify'],
 			},
 		},
 

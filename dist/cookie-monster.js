@@ -18,18 +18,21 @@ var CookieMonster = {
 	holdCPI               : [],
 	holdTC                : [],
 	goldenCookieAvailable : "",
-	settings              : [],
 	inStore               : new Array(0, 0, 0, 0, 0, 0),
 	sellOut               : 0,
 	upgradeCount          : 33,
+	loops                 : 0,
 	stsType               : new Array(
 		[" M", " B", " T", " Qa", " Qi", " Sx", " Sp", " Oc", " No", " Dc"],
 		[" M", " G", " T", " P", " E", " Z", " Y", " Oc", " No", " Dc"]),
-	loops                 : 0,
+
+	// Settings
+	settingsKeys : ['FlashScreen', 'CookieTimer', 'BuffBars', 'Refresh', 'CookieCD', 'CMBar', 'ColoredPrices', 'ShortNumbers', 'CookieSound', 'UpdateTitle', 'LuckyAlert', 'UpgradeIcons', 'UpgradeDisplay'],
+	settings     : [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1],
 
 	// Selectors
-	$monsterBar           : $("#cookie_monster_bar"),
-	$goldenCookie         : $("#goldenCookie"),
+	$monsterBar   : $("#cookie_monster_bar"),
+	$goldenCookie : $("#goldenCookie"),
 
 	// Colors
 	colors: {
@@ -1043,12 +1046,15 @@ CookieMonster.luckyReward = function(context) {
  *
  * @return {void}
  */
-CookieMonster.loadSetting = function(key, name, defaultValue) {
+CookieMonster.loadSetting = function(key, name) {
+	// If we have a value in memory, load it
 	if (localStorage[name] !== undefined) {
 		this.settings[key] = parseInt(localStorage[name], 10);
-	} else {
-		localStorage[name] = defaultValue;
-		this.settings[key] = defaultValue;
+	}
+
+	// Else save default
+	else {
+		localStorage[name] = this.settings[key];
 	}
 };
 
@@ -1058,22 +1064,8 @@ CookieMonster.loadSetting = function(key, name, defaultValue) {
  * @return {void}
  */
 CookieMonster.loadSettings = function() {
-	this.settings = [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1];
-
-	if (typeof Storage !== "undefined") {
-		this.loadSetting(0, 'FlashScreen', 1);
-		this.loadSetting(1, 'CookieTimer', 1);
-		this.loadSetting(2, 'BuffBars', 1);
-		this.loadSetting(3, 'Refresh', 1e3);
-		this.loadSetting(4, 'CookieCD', 1);
-		this.loadSetting(5, 'CMBar', 1);
-		this.loadSetting(6, 'ColoredPrices', 1);
-		this.loadSetting(7, 'ShortNumbers', 1);
-		this.loadSetting(8, 'CookieSound', 0);
-		this.loadSetting(9, 'UpdateTitle', 1);
-		this.loadSetting(10, 'LuckyAlert', 1);
-		this.loadSetting(11, 'UpgradeIcons', 1);
-		this.loadSetting(12, 'UpgradeDisplay', 1);
+	for (var i = 0; i < this.settingsKeys.length; i++) {
+		this.loadSetting(i, this.settingsKeys[i]);
 	}
 
 	this.toggleBar();
@@ -1086,19 +1078,9 @@ CookieMonster.loadSettings = function() {
  */
 CookieMonster.saveSettings = function() {
 	if (typeof Storage !== "undefined") {
-		localStorage.FlashScreen    = this.settings[0];
-		localStorage.CookieTimer    = this.settings[1];
-		localStorage.BuffBars       = this.settings[2];
-		localStorage.Refresh        = this.settings[3];
-		localStorage.CookieCD       = this.settings[4];
-		localStorage.CMBar          = this.settings[5];
-		localStorage.ColoredPrices  = this.settings[6];
-		localStorage.ShortNumbers   = this.settings[7];
-		localStorage.CookieSound    = this.settings[8];
-		localStorage.UpdateTitle    = this.settings[9];
-		localStorage.LuckyAlert     = this.settings[10];
-		localStorage.UpgradeIcons   = this.settings[11];
-		localStorage.UpgradeDisplay = this.settings[12];
+		for (var i = 0; i < this.settingsKeys.length; i++) {
+			localStorage[this.settingsKeys[i]] = this.settings[i];
+		}
 	}
 
 	this.toggleBar();
