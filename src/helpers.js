@@ -24,7 +24,7 @@ CookieMonster.cpc = function() {
 };
 
 CookieMonster.lgt = function(e) {
-	if (CookieMonster.checkAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
+	if (CookieMonster.hasAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
 		var t = [];
 		var n = [];
 		Game.UpgradesById.forEach(function (e, r) {
@@ -41,14 +41,23 @@ CookieMonster.lgt = function(e) {
 	return false;
 };
 
-CookieMonster.checkAchievement = function(e) {
-	var t = 0;
-	Game.AchievementsById.forEach(function (n) {
-		if (!n.won && n.name === e) {
-			t = 1;
+/**
+ * Check if the user has won an achievement
+ *
+ * @param {string} checkedAchievement
+ *
+ * @return {integer} Boolean in integer form
+ */
+CookieMonster.hasAchievement = function(checkedAchievement) {
+	var found = 0;
+
+	Game.AchievementsById.forEach(function (achievement) {
+		if (!achievement.won && achievement.name === checkedAchievement) {
+			found = 1;
 		}
 	});
-	return t;
+
+	return found;
 };
 
 CookieMonster.gpp = function() {
@@ -128,95 +137,6 @@ CookieMonster.inc = function(e) {
 	});
 
 	return t;
-};
-
-CookieMonster.baseTen = function(e) {
-	if (CookieMonster.checkAchievement("Base 10") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (e) {
-			t.push(e.name);
-			n.push(e.amount);
-		});
-		t.forEach(function (t, r) {
-			if (t === e) {
-				n[r]++;
-			}
-		});
-		var r = n.length * 10;
-		for (var i = 0; i < n.length; i++) {
-			if (n[i] < r) {
-				return false;
-			}
-			r = r - 10;
-		}
-		return true;
-	}
-	return false;
-};
-
-CookieMonster.mathematician = function(e) {
-	if (CookieMonster.checkAchievement("Mathematician") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (e) {
-			t.push(e.name);
-			n.push(e.amount);
-		});
-		t.forEach(function (t, r) {
-			if (t === e) {
-				n[r]++;
-			}
-		});
-		var r = 128;
-		for (var i = 0; i < n.length; i++) {
-			if (i > 2) {
-				r = r / 2;
-			}
-			if (n[i] < r) {
-				return false;
-			}
-		}
-		return true;
-	}
-	return false;
-};
-
-CookieMonster.oneWithEverything = function(e) {
-	if (CookieMonster.checkAchievement("One with everything") === 1) {
-		var t = [];
-		var n = [];
-
-		Game.ObjectsById.forEach(function (e) {
-			if (e.amount > 0) {
-				t.push(e.name);
-			} else {
-				n.push(e.name);
-			}
-		});
-		if (n.length === 1 && n[0] === e) {
-			return true;
-		}
-	}
-	return false;
-};
-
-CookieMonster.centennial = function(e) {
-	if (CookieMonster.checkAchievement("Centennial") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (e) {
-			if (e.amount >= 100) {
-				t.push(e.name);
-			} else {
-				n.push(e);
-			}
-		});
-		if (n.length === 1 && n[0].name === e && n[0].amount === 99) {
-			return true;
-		}
-	}
-	return false;
 };
 
 CookieMonster.checkUpgrade = function(e, t, n) {

@@ -118,13 +118,13 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 		i = CookieMonster.gpp();
 		break;
 	case 23:
-		s += CookieMonster.checkAchievement("Elder nap");
+		s += CookieMonster.hasAchievement("Elder nap");
 		if (Game.pledges === 4) {
-			s += CookieMonster.checkAchievement("Elder slumber");
+			s += CookieMonster.hasAchievement("Elder slumber");
 		}
 		break;
 	case 24:
-		s += CookieMonster.checkAchievement("Elder calm");
+		s += CookieMonster.hasAchievement("Elder calm");
 		break;
 	case 28:
 		i = CookieMonster.fte(1);
@@ -138,18 +138,18 @@ CookieMonster.manageTooltips = function(e, t, n, r) {
 	case 32:
 		i = CookieMonster.dhc(s, t, i);
 		if (CookieMonster.isHeavenlyKey(t)) {
-			s += CookieMonster.checkAchievement("Wholesome");
+			s += CookieMonster.hasAchievement("Wholesome");
 		}
 		break;
 	}
 	if (Game.UpgradesOwned === 19) {
-		s += CookieMonster.checkAchievement("Enhancer");
+		s += CookieMonster.hasAchievement("Enhancer");
 	}
 	if (Game.UpgradesOwned === 49) {
-		s += CookieMonster.checkAchievement("Augmenter");
+		s += CookieMonster.hasAchievement("Augmenter");
 	}
 	if (Game.UpgradesOwned === 99) {
-		s += CookieMonster.checkAchievement("Upgrader");
+		s += CookieMonster.hasAchievement("Upgrader");
 	}
 	i += CookieMonster.getAchievementWorth(s, t, i, 0);
 	if (r) {
