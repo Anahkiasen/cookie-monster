@@ -1,4 +1,4 @@
-function Load_Settings() {
+CookieMonster.loadSettings = function() {
 	settings = [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1];
 	if (typeof Storage !== "undefined") {
 		if (localStorage.FlashScreen != undefined) {
@@ -71,7 +71,7 @@ function Load_Settings() {
 	Show_Hide_CM_Bar()
 }
 
-function Save_Settings() {
+CookieMonster.saveSettings = function() {
 	if (typeof Storage !== "undefined") {
 		localStorage.FlashScreen = settings[0];
 		localStorage.CookieTimer = settings[1];
@@ -90,14 +90,14 @@ function Save_Settings() {
 	Show_Hide_CM_Bar()
 }
 
-function CM_Option_State(e) {
+CookieMonster.getOptionState = function(e) {
 	if (settings[e] == 0) {
 		return "OFF"
 	}
 	return "ON"
 }
 
-function CM_Option_Toggle(e) {
+CookieMonster.toggleOption = function(e) {
 	e = $(e);
 	var t = e.text();
 	switch (t) {
@@ -160,12 +160,12 @@ function CM_Option_Toggle(e) {
 	case "Colored Prices ON":
 		settings[6] = 0;
 		e.text("Colored Prices OFF");
-		Update_Tooltips("ob");
+		CookieMonster.updateTooltips("ob");
 		break;
 	case "Colored Prices OFF":
 		settings[6] = 1;
 		e.text("Colored Prices ON");
-		Update_Tooltips("ob");
+		CookieMonster.updateTooltips("ob");
 		break;
 	case "Upgrade Icons ON":
 		settings[11] = 0;
@@ -250,5 +250,5 @@ function CM_Option_Toggle(e) {
 		e.text("Refresh Rate (1 fps)");
 		break
 	}
-	Save_Settings()
+	CookieMonster.saveSettings()
 }
