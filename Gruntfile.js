@@ -110,7 +110,7 @@ module.exports = function(grunt) {
 				undef   : true,
 				unused  : true,
 				loopfunc: true,
-				predef: ['CookieMonster', 'Game', 'usr_clk'],
+				predef: ['CookieMonster', 'Game', 'usr_clk', 'Beautify'],
 				globals : {
 					$ : false,
 				}
