@@ -79,7 +79,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand : true,
 					cwd    : '<%= builds %>',
-					src    : ['*.js'],
+					src    : ['cookie-monster.js'],
 					dest   : '<%= builds %>',
 					ext    : '.min.js',
 				}],
