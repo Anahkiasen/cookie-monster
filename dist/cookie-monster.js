@@ -1081,10 +1081,10 @@ CookieMonster.makeTable = function() {
 
 	// Append each building type to the bar
 	Game.ObjectsById.forEach(function (building, key) {
-		thead    += '<th align="middle" id="cookie_monster_item_'     +key+ '" style="font-weight:bold;"></th>';
-		bonus    += '<td align="middle" id="cookie_monster_is_'       +key+ '"></td>';
-		baseCost += '<td align="middle" id="cookie_monster_baseCost_' +key+ '"></td>';
-		timeLeft += '<td align="middle" id="cookie_monster_tc_'       +key+ '"></td>';
+		thead    += '<th align="middle" id="cookie_monster_item_' +key+ '" style="font-weight:bold;"></th>';
+		bonus    += '<td align="middle" id="cookie_monster_is_'   +key+ '"></td>';
+		baseCost += '<td align="middle" id="cookie_monster_cpi_'  +key+ '"></td>';
+		timeLeft += '<td align="middle" id="cookie_monster_tc_'   +key+ '"></td>';
 	});
 
 	this.$monsterBar.html(
