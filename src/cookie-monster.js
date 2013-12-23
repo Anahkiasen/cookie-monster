@@ -1,5 +1,10 @@
 /* exported CookieMonster */
 
+/**
+ * The CookieMonster plugin
+ *
+ * @type {Object}
+ */
 var CookieMonster = {
 
 	// Runtime variables
@@ -22,8 +27,8 @@ var CookieMonster = {
 	// Upgrades
 	////////////////////////////////////////////////////////////////////
 
-	inStore               : new Array(0, 0, 0, 0, 0, 0),
-	upgradeCount          : 33,
+	inStore      : new Array(0, 0, 0, 0, 0, 0),
+	upgradeCount : 33,
 
 	// Settings
 	////////////////////////////////////////////////////////////////////
