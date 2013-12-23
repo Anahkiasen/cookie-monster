@@ -2069,13 +2069,13 @@ CookieMonster.start = function() {
  * @return {void}
  */
 CookieMonster.mainLoop = function() {
-	this.updateTable();
-	this.updateTooltips('all');
-	this.doEmphasize();
-	this.manageBuffs();
-	this.loops++;
+	CookieMonster.updateTable();
+	CookieMonster.updateTooltips('all');
+	CookieMonster.doEmphasize();
+	CookieMonster.manageBuffs();
+	CookieMonster.loops++;
 
-	if (this.loops === 1) {
+	if (CookieMonster.loops === 1) {
 		Game.RebuildStore();
 	}
 
