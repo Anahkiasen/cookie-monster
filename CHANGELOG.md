@@ -1,3 +1,10 @@
+# 1.040 Versions
+
+## 1.040.01 _(12/23/2013)_
+
+* Fixed some bugs related to the Grandmapocalypse
+* Fixed a bug where the Golden Cookie sound would crash the application
+
 # 1.038 Versions
 
 ## 1.038.01 _(10/15/2013)_
@@ -13,6 +20,7 @@
 	* Note that, with the new update to the game, golden cookies now have a minimum and maximum time before they spawn (this makes cookie spawns unpredictable between the 2 values)
 
 # 1.037 Versions
+
 ## 1.037.01 _(10/02/2013)_
 
 * **Lucky Alert** will now tell you if you are currently under the required amount
@@ -21,6 +29,7 @@
 * Fixed an issue that was causing NaN values after the "Sextillion Fingers" upgrade
 
 # 1.036 Versions
+
 ## 1.036.08 _(09/24/2013)_
 
 * Added a new setting to the "**Cookie Monster Settings**" section on the Menu page
@@ -42,6 +51,7 @@
 
 * Added a new setting to the "**Cookie Monster Settings**" section on the Menu page
 	* ​**Upgrade Icons** _- Displays a small square icon on the Upgrade to better display the Cost Per Income color value_
+
 ## 1.036.06 _(09/20/2013)_
 
 * Re-enabled Cookie Sound and Favicon changes _~"hooray!"_
@@ -54,6 +64,7 @@
 		* **Off** - Does not display anything
 * Fixed an issue that was causing the colored numbers in the store area to have red and orange values reversed
 **Note:** I am aware that the Lucky Alert Notes may go off the bottom of the page and not be visible for the Antimatter condenser, I'll figure something out in the near future
+
 ## 1.036.05 _(09/17/2013)_
 
 * When a Golden Cookie or Red Cookie spawns, the Favicon will change
@@ -166,7 +177,6 @@
 * Added the calculations for [[Heavenly Chips]] that were added in v.1.035
 * Fixed tooltips and calculations for all cookie production modifiers that were changed in v.1.035
 * The Donate button and Advertisements are no longer hidden
-
 
 # 1.034 Versions
 
