@@ -19,6 +19,10 @@ javascript: (function () {
 }());
 ```
 
+## Bugs and suggestions
+
+Any bug or suggestion should be opened as an issue [in the repository](https://github.com/Anahkiasen/cookie-monster/issues) for easier tracking. This allows me to close issues once they're fixed.
+
 ## Contributing
 
 To contribute to the project, you'll find the files you want to edit in `src/`, split by what the methods are related to. If you're not familiar with [Git](http://git-scm.com/), the simplest way to contribute is to go into a file, click the _Edit_ button at the top, edit the code, and click on **"Propose file change"**.
