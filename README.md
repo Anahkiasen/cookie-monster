@@ -7,21 +7,21 @@
 
 ## Using
 
-Rehost of the Cookie Monster add-on
+Re-host of the Cookie Monster add-on
 
 ```js
 javascript: (function () {
-	var jA = document.createElement('script');
-	jA.setAttribute('type', 'text/javascript');
-	jA.setAttribute('src', 'https://raw.github.com/Anahkiasen/cookie-monster/master/dist/cookie-monster.js?' + new Date().getTime());
+  var jA = document.createElement('script');
+  jA.setAttribute('type', 'text/javascript');
+  jA.setAttribute('src', 'https://raw.github.com/Anahkiasen/cookie-monster/master/dist/cookie-monster.js?' + new Date().getTime());
 
-	document.body.appendChild(jA);
+  document.body.appendChild(jA);
 }());
 ```
 
 ## Contributing
 
-To contribute to the project, you'll find the files you want to edit in `src/`, splitted by what the methods are related to. If you're not familiar with [Git](http://git-scm.com/), the simplest way to contribute is to go into a file, click the _Edit_ button at the top, edit the code, and click on **"Propose file change"**.
+To contribute to the project, you'll find the files you want to edit in `src/`, split by what the methods are related to. If you're not familiar with [Git](http://git-scm.com/), the simplest way to contribute is to go into a file, click the _Edit_ button at the top, edit the code, and click on **"Propose file change"**.
 
 ### Setup the repository
 
