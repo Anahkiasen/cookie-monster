@@ -54,14 +54,353 @@ var CookieMonster = {
 	////////////////////////////////////////////////////////////////////
 
 	colors: {
-		yellow : 'FFFF00',
-		green  : '00FF00',
-		red    : 'FF0000',
 		blue   : '4BB8F0',
-		purple : 'FF00FF',
+		green  : '00FF00',
 		orange : 'FF7F00',
+		purple : 'FF00FF',
+		red    : 'FF0000',
+		yellow : 'FFFF00',
 	}
 
+};
+/**
+ * Get the current frenzy multiplier
+ *
+ * @return {integer}
+ */
+CookieMonster.getFrenzyMultiplier = function() {
+	return (Game.frenzy > 0) ? Game.frenzyPower : 1;
+};
+
+CookieMonster.manageBuffs = function() {
+	var buff       = "";
+	var color      = "";
+	var multiplier = 0;
+	var i          = 13 + 13 * Game.Has("Get lucky");
+	var s          = new Array(Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime);
+	var o          = parseInt($("#cookie_monster_timer_bars_div").css("width"));
+
+	switch (Game.frenzyPower) {
+		case 7:
+			multiplier = 77 + 77 * Game.Has("Get lucky");
+			buff       = "Frenzy";
+			color      = this.colors.yellow;
+			break;
+
+		case 666:
+			multiplier = 6 + 6 * Game.Has("Get lucky");
+			buff       = "Blood Frenzy";
+			color      = this.colors.green;
+			break;
+
+		// This is wrong but I'm not sure what to change it to
+		case 666:
+			multiplier = 66 + 66 * Game.Has("Get lucky");
+			buff       = "Clot";
+			color      = this.colors.red;
+			break;
+	}
+
+	if (Game.frenzy > 0 && this.settings[2] === 1) {
+		if ($("#cookie_monster_timer_" + color).length !== 1) {
+			$("#cookie_monster_timer_bars_div").append(
+				'<div id="cookie_monster_timer_' + color + '" style="padding:4px 0px 5px 0px;">'+
+				'<table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;">'+
+					'<tr>' +
+						'<td style="width:130px; text-align:right;">' + buff + "<td>" +
+						'<td>'+
+							'<div id="cmt_' + color + '" style="position:relative; background:#' + color + "; height:10px; width:" + Game.frenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;">'+
+								'<div id="cmt_time_' + color + '" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' +
+								multiplier +
+								'</div>'+
+							'</div>'+
+						'</td>'+
+						'<td style="width:55px;"></td>'+
+					'</tr>' +
+				'</table>'+
+			'</div>');
+
+		} else {
+			$("#cmt_" + color).css("width", Game.frenzy / s[2] * 100 + "%");
+			$("#cmt_time_" + color).text(Math.round(Game.frenzy / Game.fps));
+		}
+
+		$("#cookie_monster_timer_" + color).fadeIn(250);
+		var buffColors = ['FFFF00', '00FF00', 'FF0000'];
+		for (var thisColor in buffColors) {
+			this.fadeOutBar(buffColors[thisColor], color);
+		}
+	} else {
+		this.fadeOutBar(color);
+	}
+
+	var countdown = Math.round((s[2] - s[0]) / Game.fps);
+
+	if (Game.clickFrenzy > 0 && CookieMonster.settings[2] === 1) {
+		if ($("#cookie_monster_timer_"+this.colors.blue).length !== 1) {
+			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_4BB8F0" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Click Frenzy<td>' + '<td><div id="cmt_4BB8F0" style="position:relative; background:#4BB8F0; height:10px; width:' + Game.clickFrenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_4BB8F0" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + i + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
+		} else {
+			$("#cmt_"+this.colors.blue).css("width", Game.clickFrenzy / s[2] * 100 + "%");
+			$("#cmt_time_"+this.colors.blue).text(Math.round(Game.clickFrenzy / Game.fps));
+		}
+		$("#cookie_monster_timer_"+this.colors.blue).fadeIn(250);
+	} else {
+		this.fadeOutBar(this.colors.blue);
+	}
+
+	if (s[0] > 0 && CookieMonster.$goldenCookie.css("display") === "none" && CookieMonster.settings[4] === 1) {
+		if ($("#cookie_monster_timer_"+this.colors.purple).length !== 1) {
+			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_FF00FF" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Next Cookie<td>' + '<td><div id="cmt_FF00FF" style="position:relative; background:#aaaaaa; height:10px; width:100%; margin-left:4px; border:1px solid black;"><div id="cmt2_FF00FF" style="position:relative; background:#FF00FF; height:10px; width:100%; margin-left:0px; max-width:' + (o - 189) * 0.67 + 'px; float:right;"></div><div id="cmt_time_FF00FF" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + countdown + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
+		} else {
+			$("#cmt2_"+this.colors.purple).css("max-width", (o - 189) * 0.67 + "px");
+			$("#cmt_"+this.colors.purple).css("width", (s[2] - s[0]) / s[2] * 100 + "%");
+			$("#cmt_time_"+this.colors.purple).text(countdown);
+		}
+		$("#cookie_monster_timer_"+this.colors.purple).fadeIn(250);
+	} else {
+		this.fadeOutBar(this.colors.purple);
+	}
+
+	if (countdown > 0 && CookieMonster.$goldenCookie.css("display") === "none") {
+		this.goldenCookieAvailable = (this.settings[4] === 1) ? "(" + countdown + ") " : '';
+	}
+
+	$("#versionNumber").css("bottom", $("#cookie_monster_timer_bars_div").css("height"));
+};
+
+/**
+ * Fade out a bar of a certain color
+ *
+ * @param {string} color
+ *
+ * @return {void}
+ */
+CookieMonster.fadeOutBar = function(color, match) {
+	var $bar = $("#cookie_monster_timer_" + color);
+
+	if ($bar.length === 1 && $bar.css("opacity") === "1" && color !== match) {
+		$bar.stop(true, true).fadeOut(250);
+	}
+};
+/**
+ * Get the number of Heavenly Chips from a number of cookies (all time)
+ *
+ * @param {integer} cookiesNumber
+ *
+ * @return {integer}
+ */
+CookieMonster.cookiesToHeavenly = function(cookiesNumber) {
+	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * cookiesNumber) / Math.pow(10, 6) - 0.5);
+};
+
+/**
+ * Get the number of cookies required to have X chips
+ *
+ * @param {integer} chipsNumber
+ *
+ * @return {integer}
+ */
+CookieMonster.heavenlyToCookies = function(chipsNumber) {
+	return 5 * Math.pow(10, 11) * chipsNumber * (chipsNumber + 1);
+};
+
+/**
+ * Get the number of heavenly chips for a particular context
+ *
+ * @param {string} context [max,cur,next,time]
+ *
+ * @return {string}
+ */
+CookieMonster.getHeavenlyChip = function(context) {
+	var bakedAllTime = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
+	var r = this.cookiesToHeavenly(Game.cookiesReset);
+	var i = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned);
+
+	switch (context) {
+		case 'max':
+			return this.formatNumber(bakedAllTime) + " <small>(" + this.formatNumber(bakedAllTime * 2) + "%)</small>";
+
+		case 'cur':
+			return this.formatNumber(r) + " <small>(" + this.formatNumber(r * 2) + "%)</small>";
+
+		case 'next':
+			return this.formatNumber(Math.round(i));
+
+		case 'time':
+			return this.formatTime(Math.round(i / Game.cookiesPs), '');
+	}
+};
+
+CookieMonster.getAchievementWorth = function(e, t, n, r) {
+	var i = 0;
+	var s = this.getHeavenlyMultiplier();
+	if (r !== 0) {
+		s = r;
+	}
+	var o = 0;
+	var u = new Array(0, 0, 0, 0);
+	var a = Game.milkProgress;
+	var f = this.getFrenzyMultiplier();
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		var r = upgrade.desc.replace("[Research]<br>", "");
+		if (upgrade.bought && r.indexOf("Cookie production multiplier <b>+") !== -1) {
+			s += r.substr(33, r.indexOf("%", 33) - 33) * 1;
+		}
+		if (!upgrade.bought && r.indexOf("Cookie production multiplier <b>+") !== -1 && upgrade.id === t) {
+			o += r.substr(33, r.indexOf("%", 33) - 33) * 1;
+		}
+		if (upgrade.bought && upgrade.name === "Kitten helpers") {
+			u[0] = 0.05;
+		}
+		if (upgrade.bought && upgrade.name === "Kitten workers") {
+			u[1] = 0.1;
+		}
+		if (upgrade.bought && upgrade.name === "Kitten engineers") {
+			u[2] = 0.2;
+		}
+		if (upgrade.bought && upgrade.name === "Kitten overseers") {
+			u[3] = 0.2;
+		}
+	});
+	var l = 100 + s;
+	l = l * (1 + u[0] * a);
+	l = l * (1 + u[1] * a);
+	l = l * (1 + u[2] * a);
+	l = l * (1 + u[3] * a);
+	var c = n;
+	var h = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f;
+	a += e * 0.04;
+	l = 100 + s + o;
+	l = l * (1 + u[0] * a);
+	l = l * (1 + u[1] * a);
+	l = l * (1 + u[2] * a);
+	l = l * (1 + u[3] * a);
+	var p = 0;
+	switch (Game.UpgradesById[t].name) {
+		case "Kitten helpers":
+			p = 0.05;
+			break;
+		case "Kitten workers":
+			p = 0.1;
+			break;
+		case "Kitten engineers":
+			p = 0.2;
+			break;
+		case "Kitten overseers":
+			p = 0.2;
+			break;
+	}
+	l = l * (1 + p * a);
+	i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
+	var d = this.inc(i + h);
+	if (d > 0) {
+		a += d * 0.04;
+		l = 100 + s + o;
+		l = l * (1 + u[0] * a);
+		l = l * (1 + u[1] * a);
+		l = l * (1 + u[2] * a);
+		l = l * (1 + u[3] * a);
+		l = l * (1 + p * a);
+		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
+	}
+	if (r !== 0) {
+		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f;
+	}
+	if (Game.Has("Elder Covenant")) {
+		i *= 0.95;
+	}
+	return i;
+};
+
+/**
+ * Get the current heavenly multiplier
+ *
+ * @return {integer}
+ */
+CookieMonster.getHeavenlyMultiplier = function() {
+	var chips     = Game.prestige["Heavenly chips"] * 2;
+	var potential = 0;
+
+	if (Game.Has("Heavenly chip secret")) {
+		potential += 0.05;
+	}
+	if (Game.Has("Heavenly cookie stand")) {
+		potential += 0.2;
+	}
+	if (Game.Has("Heavenly bakery")) {
+		potential += 0.25;
+	}
+	if (Game.Has("Heavenly confectionery")) {
+		potential += 0.25;
+	}
+	if (Game.Has("Heavenly key")) {
+		potential += 0.25;
+	}
+
+	return chips * potential;
+};
+/**
+ * Get the lucky reward for a particular situation
+ *
+ * @param {string} context [regular,max]
+ * @param {[type]} raw     Return in text form or formatted
+ *
+ * @return {String}
+ */
+CookieMonster.lucky = function(context, raw) {
+	var reward =  Math.round((this.getFrenzyRate(context) * 1200 + 13) / 0.1);
+
+	if (!raw) {
+		if (reward <= Game.cookies) {
+			reward = '<span style="color:#' +this.colors.green+ '; font-weight:bold;">' + this.formatNumber(reward) + "</span>";
+		}
+		else {
+			reward = this.formatNumber(reward);
+		}
+	}
+
+	return reward;
+};
+
+/**
+ * Get the (MAX) lucky reward for a particular situation
+ *
+ * @param {string} context [current,max,max_frenzy]
+ *
+ * @return {string}
+ */
+CookieMonster.luckyReward = function(context) {
+	var reward = this.getFrenzyRate(context);
+
+	var number = [Math.round(reward * 1200 + 13), Math.round(Game.cookies * 0.1 + 13)];
+	if (context === 'max' || context === 'frenzy') {
+		if (Math.round((reward * 1200 + 13) / 0.1) > Game.cookies) {
+			return this.formatNumber(number[0]);
+		}
+	}
+
+	return this.formatNumber(Math.min.apply(Math, number));
+};
+
+/**
+ * Get the frenzy Cookie/s for a context
+ *
+ * @param {String} context
+ *
+ * @return {Integer}
+ */
+CookieMonster.getFrenzyRate = function(context) {
+	var reward = Game.cookiesPs;
+
+	if (Game.frenzy > 0 && context !== 'current') {
+		reward = reward / Game.frenzyPower;
+	}
+	if (context === 'frenzy') {
+		reward = reward * 7;
+	}
+
+	return reward;
 };
 /**
  * Format a number to a string (adds separators, convert units, etc)
@@ -405,283 +744,6 @@ CookieMonster.formatTime = function(time, compressed) {
 	return formated;
 };
 /**
- * Get the current frenzy multiplier
- *
- * @return {integer}
- */
-CookieMonster.getFrenzyMultiplier = function() {
-	return (Game.frenzy > 0) ? Game.frenzyPower : 1;
-};
-
-CookieMonster.manageBuffs = function() {
-	var buff       = "";
-	var color      = "";
-	var multiplier = 0;
-	var i          = 13 + 13 * Game.Has("Get lucky");
-	var s          = new Array(Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime);
-	var o          = parseInt($("#cookie_monster_timer_bars_div").css("width"));
-
-	switch (Game.frenzyPower) {
-		case 7:
-			multiplier = 77 + 77 * Game.Has("Get lucky");
-			buff       = "Frenzy";
-			color      = this.colors.yellow;
-			break;
-
-		case 666:
-			multiplier = 6 + 6 * Game.Has("Get lucky");
-			buff       = "Blood Frenzy";
-			color      = this.colors.green;
-			break;
-
-		// This is wrong but I'm not sure what to change it to
-		case 666:
-			multiplier = 66 + 66 * Game.Has("Get lucky");
-			buff       = "Clot";
-			color      = this.colors.red;
-			break;
-	}
-
-	if (Game.frenzy > 0 && this.settings[2] === 1) {
-		if ($("#cookie_monster_timer_" + color).length !== 1) {
-			$("#cookie_monster_timer_bars_div").append(
-				'<div id="cookie_monster_timer_' + color + '" style="padding:4px 0px 5px 0px;">'+
-				'<table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;">'+
-					'<tr>' +
-						'<td style="width:130px; text-align:right;">' + buff + "<td>" +
-						'<td>'+
-							'<div id="cmt_' + color + '" style="position:relative; background:#' + color + "; height:10px; width:" + Game.frenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;">'+
-								'<div id="cmt_time_' + color + '" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' +
-								multiplier +
-								'</div>'+
-							'</div>'+
-						'</td>'+
-						'<td style="width:55px;"></td>'+
-					'</tr>' +
-				'</table>'+
-			'</div>');
-
-		} else {
-			$("#cmt_" + color).css("width", Game.frenzy / s[2] * 100 + "%");
-			$("#cmt_time_" + color).text(Math.round(Game.frenzy / Game.fps));
-		}
-
-		$("#cookie_monster_timer_" + color).fadeIn(250);
-		var buffColors = ['FFFF00', '00FF00', 'FF0000'];
-		for (var thisColor in buffColors) {
-			this.fadeOutBar(buffColors[thisColor], color);
-		}
-	} else {
-		this.fadeOutBar(color);
-	}
-
-	var countdown = Math.round((s[2] - s[0]) / Game.fps);
-
-	if (Game.clickFrenzy > 0 && CookieMonster.settings[2] === 1) {
-		if ($("#cookie_monster_timer_"+this.colors.blue).length !== 1) {
-			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_4BB8F0" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Click Frenzy<td>' + '<td><div id="cmt_4BB8F0" style="position:relative; background:#4BB8F0; height:10px; width:' + Game.clickFrenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_4BB8F0" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + i + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
-		} else {
-			$("#cmt_"+this.colors.blue).css("width", Game.clickFrenzy / s[2] * 100 + "%");
-			$("#cmt_time_"+this.colors.blue).text(Math.round(Game.clickFrenzy / Game.fps));
-		}
-		$("#cookie_monster_timer_"+this.colors.blue).fadeIn(250);
-	} else {
-		this.fadeOutBar(this.colors.blue);
-	}
-
-	if (s[0] > 0 && CookieMonster.$goldenCookie.css("display") === "none" && CookieMonster.settings[4] === 1) {
-		if ($("#cookie_monster_timer_"+this.colors.purple).length !== 1) {
-			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_FF00FF" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Next Cookie<td>' + '<td><div id="cmt_FF00FF" style="position:relative; background:#aaaaaa; height:10px; width:100%; margin-left:4px; border:1px solid black;"><div id="cmt2_FF00FF" style="position:relative; background:#FF00FF; height:10px; width:100%; margin-left:0px; max-width:' + (o - 189) * 0.67 + 'px; float:right;"></div><div id="cmt_time_FF00FF" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + countdown + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
-		} else {
-			$("#cmt2_"+this.colors.purple).css("max-width", (o - 189) * 0.67 + "px");
-			$("#cmt_"+this.colors.purple).css("width", (s[2] - s[0]) / s[2] * 100 + "%");
-			$("#cmt_time_"+this.colors.purple).text(countdown);
-		}
-		$("#cookie_monster_timer_"+this.colors.purple).fadeIn(250);
-	} else {
-		this.fadeOutBar(this.colors.purple);
-	}
-
-	if (countdown > 0 && CookieMonster.$goldenCookie.css("display") === "none") {
-		this.goldenCookieAvailable = (this.settings[4] === 1) ? "(" + countdown + ") " : '';
-	}
-
-	$("#versionNumber").css("bottom", $("#cookie_monster_timer_bars_div").css("height"));
-};
-
-/**
- * Fade out a bar of a certain color
- *
- * @param {string} color
- *
- * @return {void}
- */
-CookieMonster.fadeOutBar = function(color, match) {
-	var $bar = $("#cookie_monster_timer_" + color);
-
-	if ($bar.length === 1 && $bar.css("opacity") === "1" && color !== match) {
-		$bar.stop(true, true).fadeOut(250);
-	}
-};
-/**
- * Get the number of Heavenly Chips from a number of cookies (all time)
- *
- * @param {integer} cookiesNumber
- *
- * @return {integer}
- */
-CookieMonster.cookiesToHeavenly = function(cookiesNumber) {
-	return Math.floor(Math.sqrt(2.5 * Math.pow(10, 11) + 2 * cookiesNumber) / Math.pow(10, 6) - 0.5);
-};
-
-/**
- * Get the number of cookies required to have X chips
- *
- * @param {integer} chipsNumber
- *
- * @return {integer}
- */
-CookieMonster.heavenlyToCookies = function(chipsNumber) {
-	return 5 * Math.pow(10, 11) * chipsNumber * (chipsNumber + 1);
-};
-
-/**
- * Get the number of heavenly chips for a particular context
- *
- * @param {string} context [max,cur,next,time]
- *
- * @return {string}
- */
-CookieMonster.getHeavenlyChip = function(context) {
-	var bakedAllTime = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
-	var r = this.cookiesToHeavenly(Game.cookiesReset);
-	var i = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned);
-
-	switch (context) {
-		case 'max':
-			return this.formatNumber(bakedAllTime) + " <small>(" + this.formatNumber(bakedAllTime * 2) + "%)</small>";
-
-		case 'cur':
-			return this.formatNumber(r) + " <small>(" + this.formatNumber(r * 2) + "%)</small>";
-
-		case 'next':
-			return this.formatNumber(Math.round(i));
-
-		case 'time':
-			return this.formatTime(Math.round(i / Game.cookiesPs), '');
-	}
-};
-
-CookieMonster.getAchievementWorth = function(e, t, n, r) {
-	var i = 0;
-	var s = this.getHeavenlyMultiplier();
-	if (r !== 0) {
-		s = r;
-	}
-	var o = 0;
-	var u = new Array(0, 0, 0, 0);
-	var a = Game.milkProgress;
-	var f = this.getFrenzyMultiplier();
-
-	Game.UpgradesById.forEach(function (upgrade) {
-		var r = upgrade.desc.replace("[Research]<br>", "");
-		if (upgrade.bought && r.indexOf("Cookie production multiplier <b>+") !== -1) {
-			s += r.substr(33, r.indexOf("%", 33) - 33) * 1;
-		}
-		if (!upgrade.bought && r.indexOf("Cookie production multiplier <b>+") !== -1 && upgrade.id === t) {
-			o += r.substr(33, r.indexOf("%", 33) - 33) * 1;
-		}
-		if (upgrade.bought && upgrade.name === "Kitten helpers") {
-			u[0] = 0.05;
-		}
-		if (upgrade.bought && upgrade.name === "Kitten workers") {
-			u[1] = 0.1;
-		}
-		if (upgrade.bought && upgrade.name === "Kitten engineers") {
-			u[2] = 0.2;
-		}
-		if (upgrade.bought && upgrade.name === "Kitten overseers") {
-			u[3] = 0.2;
-		}
-	});
-	var l = 100 + s;
-	l = l * (1 + u[0] * a);
-	l = l * (1 + u[1] * a);
-	l = l * (1 + u[2] * a);
-	l = l * (1 + u[3] * a);
-	var c = n;
-	var h = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f;
-	a += e * 0.04;
-	l = 100 + s + o;
-	l = l * (1 + u[0] * a);
-	l = l * (1 + u[1] * a);
-	l = l * (1 + u[2] * a);
-	l = l * (1 + u[3] * a);
-	var p = 0;
-	switch (Game.UpgradesById[t].name) {
-		case "Kitten helpers":
-			p = 0.05;
-			break;
-		case "Kitten workers":
-			p = 0.1;
-			break;
-		case "Kitten engineers":
-			p = 0.2;
-			break;
-		case "Kitten overseers":
-			p = 0.2;
-			break;
-	}
-	l = l * (1 + p * a);
-	i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
-	var d = this.inc(i + h);
-	if (d > 0) {
-		a += d * 0.04;
-		l = 100 + s + o;
-		l = l * (1 + u[0] * a);
-		l = l * (1 + u[1] * a);
-		l = l * (1 + u[2] * a);
-		l = l * (1 + u[3] * a);
-		l = l * (1 + p * a);
-		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
-	}
-	if (r !== 0) {
-		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f;
-	}
-	if (Game.Has("Elder Covenant")) {
-		i *= 0.95;
-	}
-	return i;
-};
-
-/**
- * Get the current heavenly multiplier
- *
- * @return {integer}
- */
-CookieMonster.getHeavenlyMultiplier = function() {
-	var chips     = Game.prestige["Heavenly chips"] * 2;
-	var potential = 0;
-
-	if (Game.Has("Heavenly chip secret")) {
-		potential += 0.05;
-	}
-	if (Game.Has("Heavenly cookie stand")) {
-		potential += 0.2;
-	}
-	if (Game.Has("Heavenly bakery")) {
-		potential += 0.25;
-	}
-	if (Game.Has("Heavenly confectionery")) {
-		potential += 0.25;
-	}
-	if (Game.Has("Heavenly key")) {
-		potential += 0.25;
-	}
-
-	return chips * potential;
-};
-/**
  * Changes the favicon according to current state
  *
  * @param {integer} frame The current sprite of the favicon
@@ -961,68 +1023,6 @@ CookieMonster.doEmphasize = function() {
 	}
 };
 /**
- * Get the (MAX) lucky reward for a particular situation
- *
- * @param {string} context [regular,max]
- * @param {[type]} raw     Return in text form or formatted
- *
- * @return {String}
- */
-CookieMonster.lucky = function(context, raw) {
-	var reward =  Math.round((this.getFrenzyRate(context) * 1200 + 13) / 0.1);
-
-	if (!raw) {
-		if (reward <= Game.cookies) {
-			reward = '<span style="color:#' +this.colors.green+ '; font-weight:bold;">' + this.formatNumber(reward) + "</span>";
-		}
-		else {
-			reward = this.formatNumber(reward);
-		}
-	}
-
-	return reward;
-};
-
-/**
- * Get the (MAX) lucky reward for a particular situation
- *
- * @param {string} context [current,max,max_frenzy]
- *
- * @return {string}
- */
-CookieMonster.luckyReward = function(context) {
-	var reward = this.getFrenzyRate(context);
-
-	var number = [Math.round(reward * 1200 + 13), Math.round(Game.cookies * 0.1 + 13)];
-	if (context === 'max' || context === 'frenzy') {
-		if (Math.round((reward * 1200 + 13) / 0.1) > Game.cookies) {
-			return this.formatNumber(number[0]);
-		}
-	}
-
-	return this.formatNumber(Math.min.apply(Math, number));
-};
-
-/**
- * Get the frenzy Cookie/s for a context
- *
- * @param {String} context
- *
- * @return {Integer}
- */
-CookieMonster.getFrenzyRate = function(context) {
-	var reward = Game.cookiesPs;
-
-	if (Game.frenzy > 0 && context !== 'current') {
-		reward = reward / Game.frenzyPower;
-	}
-	if (context === 'frenzy') {
-		reward = reward * 7;
-	}
-
-	return reward;
-};
-/**
  * Load a setting from localStorage
  *
  * @param {integer} key
@@ -1245,6 +1245,10 @@ CookieMonster.toggleOption = function(option) {
 
 	this.saveSettings();
 };
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////////// OPTION VALUES //////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 /**
  * Get a text version of the current short numbers option
@@ -1566,6 +1570,179 @@ CookieMonster.manageBuildingTooltip = function(e) {
 		$("#product" + t).find(".price").first().css("color", "");
 	}
 };
+/**
+ * Hook CookieMonster onto various parts of the Cookie Clicker code
+ *
+ * @return {void}
+ */
+CookieMonster.update = function() {
+	Game.Logic = new Function("", Game.Logic.toString().replace(".title=", ".title=CookieMonster.goldenCookieAvailable+").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
+	var e = "\n\n'<div class=\"subsection\">'+" + '\'<div class="title"><span style="color:#4bb8f0;">Cookie Monster Goodies</span></div>\'+' + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> ' + CookieMonster.lucky('regular', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.lucky('frenzy', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> ' + CookieMonster.luckyReward('max') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX) (Frenzy):</b> ' + CookieMonster.luckyReward('frenzy') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (CUR):</b> ' + CookieMonster.luckyReward('current') + '</div>'+" + "'</br><div class=\"listing\"><b>Heavenly Chips (MAX):</b> ' + CookieMonster.getHeavenlyChip('max') + '</div>'+" + "'<div class=\"listing\"><b>Heavenly Chips (CUR):</b> ' + CookieMonster.getHeavenlyChip('cur') + '</div>'+" + "'<div class=\"listing\"><b>Cookies To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('next') + '</div>'+" + "'<div class=\"listing\"><b>Time To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('time') + '</div>'+" + "'</div>'+";
+	Game.UpdateMenu = new Function("", Game.UpdateMenu.toString().replace("Statistics</div>'+", "Statistics</div>'+" + e).replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
+	var t = "\n'<div class=\"subsection\">'+" + '\'<div class="title"><span style="color:#4bb8f0;">Cookie Monster Settings</span></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Flash Screen \' + CookieMonster.getOptionState(0) + \'</a><label>Flashes the screen when a Golden Cookie or Red Cookie appears</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Cookie Timer \' + CookieMonster.getOptionState(1) + \'</a><label>Displays a timer on Golden Cookies and Red Cookies</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Cookie Sound \' + CookieMonster.getOptionState(8) + \'</a><label>Plays a sound when a Golden Cookie or Red Cookie appears</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Next Cookie Timer \' + CookieMonster.getOptionState(4) + \'</a><label>Displays a countdown bar and updates the Title for when the next Cookie will appear</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Update Title \' + CookieMonster.getOptionState(9) + \'</a><label>Updates the Title to display if a Cookie is waiting to be clicked</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Buff Bars \' + CookieMonster.getOptionState(2) + \'</a><label>Displays a countdown bar for each effect currently active</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Bottom Bar \' + CookieMonster.getOptionState(5) + \'</a><label>Displays a bar at the bottom of the screen that shows all Building information</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Colored Prices \' + CookieMonster.getOptionState(6) + \'</a><label>Changes the colors of all Building prices to correspond with their Cost Per Income</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Upgrade Icons \' + CookieMonster.getOptionState(11) + \'</a><label>Displays a small square icon on the Upgrade to better display the Cost Per Income color value</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Short Numbers \' + CookieMonster.getShortNumbers() + \'</a><label>Formats all numbers to be shorter when displayed</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Upgrade Display (\' + CookieMonster.getUpgradeDisplay() + \')</a><label>Changes how the store displays Upgrades</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Lucky Alert (\' + CookieMonster.getLuckyAlert() + \')</a><label>Changes the tooltip to display if you would be under the number of cookies required for "Lucky!"</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Refresh Rate (\' + CookieMonster.getRefreshRate() + \' fps)</a><label>The rate at which Cookie Monster updates data (higher rates may slow the game)</label></div>\'+' + "'</div>'+";
+	Game.UpdateMenu = new Function("", Game.UpdateMenu.toString().replace("OFF')+'</div>'+", "OFF')+'</div>'+" + t).replace("startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);", "startDate = CookieMonster.formatTime(((new Date).getTime() - Game.startDate) / 1000, '');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
+	var n = "\n" + "var cm_id = from.id;" + '\nif(cm_id === "") { cm_id = $(from).parents(".product").prop("id"); }' + '\nif(cm_id === "product5" || cm_id === "product6" || cm_id === "product7" || cm_id === "product8" || cm_id === "product9") { y -= 100; }' + '\nif(cm_id === "product8" || cm_id === "product9") { y -= 13; }' + '\nif(cm_id === "product9" && CookieMonster.settings[7] === 0) { y -= 13; }' + "\n";
+	Game.tooltip.draw = new Function("from,text,x,y,origin", Game.tooltip.draw.toString().replace("implemented');}", "implemented');}" + n).replace("this.on=1;", "this.on=1;\nCookieMonster.updateTooltips('all');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
+	Game.Reset = new Function("bypass", Game.Reset.toString().replace("Game.researchT=0;", "Game.researchT=0;\n$('#cookie_monster_timer_bars_div').text('');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
+	Game.LoadSave = new Function("data", Game.LoadSave.toString().replace("Game.Popup('Game loaded');", "Game.Popup('Game loaded');\n$('#cookie_monster_timer_bars_div').text('');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
+	Game.RebuildStore = new Function("", Game.RebuildStore.toString().replace("l('products').innerHTML=str;", "l('products').innerHTML=str;\nCookieMonster.updateTooltips('objects');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
+	Game.Draw = new Function("", Game.Draw.toString().replace("Beautify(Math.round(Game.cookiesd))", "CookieMonster.formatNumberB(Game.cookiesd)").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
+	var r = "return CookieMonster.formatNumber(what);";
+	Beautify = new Function("what,floats", Beautify.toString().replace("var str='';", r + "\nvar str='';").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
+};
+
+/**
+ * Setup CookieMonster
+ *
+ * @return {void}
+ */
+CookieMonster.start = function() {
+	// Cancel if already loaded
+	if (this.$monsterBar.length !== 0) {
+		return alert("Cookie Monster " + this.version + "\n\nCookie Monster is already loaded, silly!");
+	}
+
+	$('#topBar').css('display', 'none');
+	$('#tooltip').css({
+		'margin-top'     : '32px',
+		'pointer-events' : 'none',
+	});
+	$("#cookies").css({
+		'background'    : 'rgba(0, 0, 0, 0.75)',
+		'border-top'    : '1px solid black',
+		'border-bottom' : '1px solid black',
+	});
+
+	this.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
+
+	// Style main game window
+	$("#game").css({
+		'-webkit-user-select'   : 'none',
+		'-moz-user-select'      : 'none',
+		'-ms-user-select'       : 'none',
+		'user-select'           : 'none',
+		'top'                   : '0px',
+		'bottom'                : '57px',
+	});
+
+	// Style store
+	$("#storeTitle").css({
+		'font-size'     : '18px',
+		'padding'       : '4px 8px 2px 8px',
+		'border-bottom' : '1px solid black',
+	})
+	.after(
+	'<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0, 0, 0, 0.6); border-bottom: 1px solid black; cursor:default;">'+
+		'<tr>'+
+			'<td align=center style="color:#' +this.colors.blue+   '; padding:2px;" id="cm_up_q0">0</td>' +
+			'<td align=center style="color:#' +this.colors.green+  '; padding:2px;" id="cm_up_q1">0</td>' +
+			'<td align=center style="color:#' +this.colors.yellow+ '; padding:2px;" id="cm_up_q2">0</td>' +
+			'<td align=center style="color:#' +this.colors.orange+ '; padding:2px;" id="cm_up_q3">0</td>' +
+			'<td align=center style="color:#' +this.colors.red+    '; padding:2px;" id="cm_up_q4">0</td>' +
+			'<td align=center style="color:#' +this.colors.purple+ '; padding:2px;" id="cm_up_q5">0</td>' +
+		'</tr>'+
+	'</table>');
+
+	// Add Cookie Monster elements
+	$('body').append('<div id="cookie_monster_bar"></div><div id="cookie_monster_overlay"></div><div id="cookie_monster_golden_overlay" onclick="Game.goldenCookie.click();"></div>');
+	$("#sectionLeft").append('<div id="cookie_monster_timer_bars_div"></div>');
+
+	// Style Cookie Monster elements
+	$('#cookie_monster_bar').css({
+		'background-color' : '#4D4548',
+		'background-image' : 'linear-gradient(to bottom, #4d4548, #000000)',
+		'border-top'       : '1px solid black',
+		'bottom'           : '0px',
+		'cursor'           : 'default',
+		'height'           : '56px',
+		'left'             : '0px',
+		'position'         : 'absolute',
+		'text-shadow'      : '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
+		'width'            : '100%',
+		'z-index'          : '1000',
+	});
+	$('#cookie_monster_overlay').css({
+		'background'     : 'white',
+		'display'        : 'none',
+		'height'         : '100%',
+		'pointer-events' : 'none',
+		'position'       : 'fixed',
+		'width'          : '100%',
+		'z-index'        : '1000000',
+	});
+	$('#cookie_monster_golden_overlay').css({
+		'cursor'         : 'pointer',
+		'display'        : 'none',
+		'font-family'    : 'Kavoon, Georgia, serif',
+		'font-size'      : '32px',
+		'height'         : '96px',
+		'opacity'        : '0',
+		'pointer-events' : 'none',
+		'position'       : 'fixed',
+		'text-align'     : 'center',
+		'text-shadow'    : '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
+		'width'          : '96px',
+		'z-index'        : '1000002',
+	});
+	$('#cookie_monster_timer_bars_div').css({
+		'background'     : 'rgba(0, 0, 0, 0.6)',
+		'border-top'     : '1px solid black',
+		'bottom'         : '-1px',
+		'font-family'    : 'Kavoon, Georgia, serif',
+		'font-size'      : '16px',
+		'left'           : '0px',
+		'pointer-events' : 'none',
+		'position'       : 'absolute',
+		'text-align'     : 'center',
+		'width'          : '100%',
+		'z-index'        : '1000',
+	});
+
+	// Add ID to favicon
+	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
+
+	// Refrehs selector
+	this.$monsterBar = $('#cookie_monster_bar');
+
+	this.makeTable();
+	this.saveTooltips();
+	this.update();
+	this.loadSettings();
+	this.setupTooltips();
+	this.mainLoop();
+
+	Game.Popup('<span style="color:#' +this.colors.yellow+ '; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + this.version + " Loaded!</span>");
+};
+
+/**
+ * Executes the main updating loop to refrsh CookieMonster
+ *
+ * @return {void}
+ */
+CookieMonster.mainLoop = function() {
+	this.updateTable();
+	this.updateTooltips("all");
+	this.doEmphasize();
+	this.manageBuffs();
+	this.loops++;
+
+	if (this.loops === 1) {
+		Game.RebuildStore();
+	}
+
+	setTimeout(function () {
+		CookieMonster.mainLoop();
+	}, this.settings[3]);
+};
+
+// Runtime
+//////////////////////////////////////////////////////////////////////
+
+if (document.title.indexOf("Cookie Clicker") !== -1 && $("#game").length !== 0) {
+	CookieMonster.start();
+} else {
+	alert("Cookie Monster " + CookieMonster.version + "\n\nThese aren't the droids you're looking for.");
+}
 CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
 	var r = 0;
 	var i = 0;
@@ -1844,176 +2021,3 @@ CookieMonster.centennial = function(building) {
 	}
 	return false;
 };
-/**
- * Hook CookieMonster onto various parts of the Cookie Clicker code
- *
- * @return {void}
- */
-CookieMonster.update = function() {
-	Game.Logic = new Function("", Game.Logic.toString().replace(".title=", ".title=CookieMonster.goldenCookieAvailable+").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-	var e = "\n\n'<div class=\"subsection\">'+" + '\'<div class="title"><span style="color:#4bb8f0;">Cookie Monster Goodies</span></div>\'+' + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> ' + CookieMonster.lucky('regular', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.lucky('frenzy', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> ' + CookieMonster.luckyReward('max') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX) (Frenzy):</b> ' + CookieMonster.luckyReward('frenzy') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (CUR):</b> ' + CookieMonster.luckyReward('current') + '</div>'+" + "'</br><div class=\"listing\"><b>Heavenly Chips (MAX):</b> ' + CookieMonster.getHeavenlyChip('max') + '</div>'+" + "'<div class=\"listing\"><b>Heavenly Chips (CUR):</b> ' + CookieMonster.getHeavenlyChip('cur') + '</div>'+" + "'<div class=\"listing\"><b>Cookies To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('next') + '</div>'+" + "'<div class=\"listing\"><b>Time To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('time') + '</div>'+" + "'</div>'+";
-	Game.UpdateMenu = new Function("", Game.UpdateMenu.toString().replace("Statistics</div>'+", "Statistics</div>'+" + e).replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-	var t = "\n'<div class=\"subsection\">'+" + '\'<div class="title"><span style="color:#4bb8f0;">Cookie Monster Settings</span></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Flash Screen \' + CookieMonster.getOptionState(0) + \'</a><label>Flashes the screen when a Golden Cookie or Red Cookie appears</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Cookie Timer \' + CookieMonster.getOptionState(1) + \'</a><label>Displays a timer on Golden Cookies and Red Cookies</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Cookie Sound \' + CookieMonster.getOptionState(8) + \'</a><label>Plays a sound when a Golden Cookie or Red Cookie appears</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Next Cookie Timer \' + CookieMonster.getOptionState(4) + \'</a><label>Displays a countdown bar and updates the Title for when the next Cookie will appear</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Update Title \' + CookieMonster.getOptionState(9) + \'</a><label>Updates the Title to display if a Cookie is waiting to be clicked</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Buff Bars \' + CookieMonster.getOptionState(2) + \'</a><label>Displays a countdown bar for each effect currently active</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Bottom Bar \' + CookieMonster.getOptionState(5) + \'</a><label>Displays a bar at the bottom of the screen that shows all Building information</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Colored Prices \' + CookieMonster.getOptionState(6) + \'</a><label>Changes the colors of all Building prices to correspond with their Cost Per Income</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Upgrade Icons \' + CookieMonster.getOptionState(11) + \'</a><label>Displays a small square icon on the Upgrade to better display the Cost Per Income color value</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Short Numbers \' + CookieMonster.getShortNumbers() + \'</a><label>Formats all numbers to be shorter when displayed</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Upgrade Display (\' + CookieMonster.getUpgradeDisplay() + \')</a><label>Changes how the store displays Upgrades</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Lucky Alert (\' + CookieMonster.getLuckyAlert() + \')</a><label>Changes the tooltip to display if you would be under the number of cookies required for "Lucky!"</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Refresh Rate (\' + CookieMonster.getRefreshRate() + \' fps)</a><label>The rate at which Cookie Monster updates data (higher rates may slow the game)</label></div>\'+' + "'</div>'+";
-	Game.UpdateMenu = new Function("", Game.UpdateMenu.toString().replace("OFF')+'</div>'+", "OFF')+'</div>'+" + t).replace("startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);", "startDate = CookieMonster.formatTime(((new Date).getTime() - Game.startDate) / 1000, '');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-	var n = "\n" + "var cm_id = from.id;" + '\nif(cm_id === "") { cm_id = $(from).parents(".product").prop("id"); }' + '\nif(cm_id === "product5" || cm_id === "product6" || cm_id === "product7" || cm_id === "product8" || cm_id === "product9") { y -= 100; }' + '\nif(cm_id === "product8" || cm_id === "product9") { y -= 13; }' + '\nif(cm_id === "product9" && CookieMonster.settings[7] === 0) { y -= 13; }' + "\n";
-	Game.tooltip.draw = new Function("from,text,x,y,origin", Game.tooltip.draw.toString().replace("implemented');}", "implemented');}" + n).replace("this.on=1;", "this.on=1;\nCookieMonster.updateTooltips('all');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-	Game.Reset = new Function("bypass", Game.Reset.toString().replace("Game.researchT=0;", "Game.researchT=0;\n$('#cookie_monster_timer_bars_div').text('');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-	Game.LoadSave = new Function("data", Game.LoadSave.toString().replace("Game.Popup('Game loaded');", "Game.Popup('Game loaded');\n$('#cookie_monster_timer_bars_div').text('');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-	Game.RebuildStore = new Function("", Game.RebuildStore.toString().replace("l('products').innerHTML=str;", "l('products').innerHTML=str;\nCookieMonster.updateTooltips('objects');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-	Game.Draw = new Function("", Game.Draw.toString().replace("Beautify(Math.round(Game.cookiesd))", "CookieMonster.formatNumberB(Game.cookiesd)").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-	var r = "return CookieMonster.formatNumber(what);";
-	Beautify = new Function("what,floats", Beautify.toString().replace("var str='';", r + "\nvar str='';").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-};
-
-/**
- * Setup CookieMonster
- *
- * @return {void}
- */
-CookieMonster.start = function() {
-	// Cancel if already loaded
-	if (this.$monsterBar.length !== 0) {
-		return alert("Cookie Monster " + this.version + "\n\nCookie Monster is already loaded, silly!");
-	}
-
-	$('#topBar').css('display', 'none');
-	$('#tooltip').css({
-		'margin-top'     : '32px',
-		'pointer-events' : 'none',
-	});
-	$("#cookies").css({
-		'background'    : 'rgba(0, 0, 0, 0.75)',
-		'border-top'    : '1px solid black',
-		'border-bottom' : '1px solid black',
-	});
-
-	this.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
-
-	// Style main game window
-	$("#game").css({
-		'-webkit-user-select'   : 'none',
-		'-moz-user-select'      : 'none',
-		'-ms-user-select'       : 'none',
-		'user-select'           : 'none',
-		'top'                   : '0px',
-		'bottom'                : '57px',
-	});
-
-	// Style store
-	$("#storeTitle").css({
-		'font-size'     : '18px',
-		'padding'       : '4px 8px 2px 8px',
-		'border-bottom' : '1px solid black',
-	})
-	.after(
-	'<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0, 0, 0, 0.6); border-bottom: 1px solid black; cursor:default;">'+
-		'<tr>'+
-			'<td align=center style="color:#4bb8f0; padding:2px;" id="cm_up_q0">0</td>' +
-			'<td align=center style="color:#00ff00; padding:2px;" id="cm_up_q1">0</td>' +
-			'<td align=center style="color:#ffff00; padding:2px;" id="cm_up_q2">0</td>' +
-			'<td align=center style="color:#ff7f00; padding:2px;" id="cm_up_q3">0</td>' +
-			'<td align=center style="color:#ff0000; padding:2px;" id="cm_up_q4">0</td>' +
-			'<td align=center style="color:#'+this.colors.purple+'; padding:2px;" id="cm_up_q5">0</td>' +
-		'</tr>'+
-	'</table>');
-
-	// Add Cookie Monster elements
-	$('body').append('<div id="cookie_monster_bar"></div><div id="cookie_monster_overlay"></div><div id="cookie_monster_golden_overlay" onclick="Game.goldenCookie.click();"></div>');
-	$("#sectionLeft").append('<div id="cookie_monster_timer_bars_div"></div>');
-
-	// Style Cookie Monster elements
-	$('#cookie_monster_bar').css({
-		'background-color' : '#4D4548',
-		'background-image' : 'linear-gradient(to bottom, #4d4548, #000000)',
-		'border-top'       : '1px solid black',
-		'bottom'           : '0px',
-		'cursor'           : 'default',
-		'height'           : '56px',
-		'left'             : '0px',
-		'position'         : 'absolute',
-		'text-shadow'      : '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
-		'width'            : '100%',
-		'z-index'          : '1000',
-	});
-	$('#cookie_monster_overlay').css({
-		'background'     : 'white',
-		'display'        : 'none',
-		'height'         : '100%',
-		'pointer-events' : 'none',
-		'position'       : 'fixed',
-		'width'          : '100%',
-		'z-index'        : '1000000',
-	});
-	$('#cookie_monster_golden_overlay').css({
-		'cursor'         : 'pointer',
-		'display'        : 'none',
-		'font-family'    : 'Kavoon, Georgia, serif',
-		'font-size'      : '32px',
-		'height'         : '96px',
-		'opacity'        : '0',
-		'pointer-events' : 'none',
-		'position'       : 'fixed',
-		'text-align'     : 'center',
-		'text-shadow'    : '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
-		'width'          : '96px',
-		'z-index'        : '1000002',
-	});
-	$('#cookie_monster_timer_bars_div').css({
-		'background'     : 'rgba(0, 0, 0, 0.6)',
-		'border-top'     : '1px solid black',
-		'bottom'         : '-1px',
-		'font-family'    : 'Kavoon, Georgia, serif',
-		'font-size'      : '16px',
-		'left'           : '0px',
-		'pointer-events' : 'none',
-		'position'       : 'absolute',
-		'text-align'     : 'center',
-		'width'          : '100%',
-		'z-index'        : '1000',
-	});
-
-	// Add ID to favicon
-	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
-
-	// Refrehs selector
-	this.$monsterBar = $('#cookie_monster_bar');
-
-	this.makeTable();
-	this.saveTooltips();
-	this.update();
-	this.loadSettings();
-	this.setupTooltips();
-	this.mainLoop();
-
-	Game.Popup('<span style="color:#' +this.colors.yellow+ '; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + this.version + " Loaded!</span>");
-};
-
-/**
- * Executes the main updating loop to refrsh CookieMonster
- *
- * @return {void}
- */
-CookieMonster.mainLoop = function() {
-	this.updateTable();
-	this.updateTooltips("all");
-	this.doEmphasize();
-	this.manageBuffs();
-	this.loops++;
-
-	if (this.loops === 1) {
-		Game.RebuildStore();
-	}
-
-	setTimeout(function () {
-		CookieMonster.mainLoop();
-	}, this.settings[3]);
-};
-
-// Runtime
-//////////////////////////////////////////////////////////////////////
-
-if (document.title.indexOf("Cookie Clicker") !== -1 && $("#game").length !== 0) {
-	CookieMonster.start();
-} else {
-	alert("Cookie Monster " + CookieMonster.version + "\n\nThese aren't the droids you're looking for.");
-}
