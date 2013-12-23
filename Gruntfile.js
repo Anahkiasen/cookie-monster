@@ -102,11 +102,10 @@ module.exports = function(grunt) {
 				unused   : true,
 				loopfunc : true,
 				evil     : true,
-				predef: ['Game', 'realAudio'],
+				predef: ['Game', 'realAudio', 'Beautify'],
 				globals : {
 					$             : false,
 					CookieMonster : true,
-					Beautify      : true,
 				}
 			},
 
