@@ -1,5 +1,7 @@
 # CookieMonster
 
+Re-host of the Cookie Monster add-on
+
 ## Contributors
 
 - **Original author : [Raving_Kumquat](http://cookieclicker.wikia.com/wiki/User:Raving_Kumquat)**
@@ -7,7 +9,7 @@
 
 ## Using
 
-Re-host of the Cookie Monster add-on
+Simply use like the previous plugin, create a bookmark and set this as the URL. Then when in the game, click on that bookmark.
 
 ```js
 javascript: (function () {
