@@ -21,16 +21,22 @@ var CookieMonster = {
 	emphasize             : true,
 	tooltips              : [],
 	buildingTooltips      : [],
-	holdItem              : [],
-	holdIs                : [],
-	holdCPI               : [],
-	holdTC                : [],
 	goldenCookieAvailable : '',
 	loops                 : 0,
 	humanNumbers          : new Array(
 		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
 		[' M', ' G', ' T', ' P', ' E', ' Z', ' Y', ' Oc', ' No', ' Dc']
 	),
+
+	// Stored informations
+	////////////////////////////////////////////////////////////////////
+
+	bottomBar: {
+		items    : [],
+		bonus    : [],
+		cpi      : [],
+		timeLeft : [],
+	},
 
 	// Upgrades
 	////////////////////////////////////////////////////////////////////
@@ -402,6 +408,284 @@ CookieMonster.getFrenzyRate = function(context) {
 
 	return reward;
 };
+CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
+	var r = 0;
+	var i = 0;
+
+	var upgrades = {
+		'Cursor': {
+			0   : 'Click',
+			1   : 'Double-click',
+			49  : 'Mouse wheel',
+			99  : 'Of Mice and Men',
+			199 : 'The Digital',
+		},
+		'Grandma': {
+			0   : 'Grandma\'s Cookies',
+			49  : 'Sloppy kisses',
+			99  : 'Retirement home',
+			149 : 'Friend of the ancients',
+			199 : 'Ruler of the ancients',
+		},
+		'Farm': {
+			0  : 'My first farm',
+			49 : 'Reap what you sow',
+			99 : 'Farm ill',
+		},
+		'Factory': {
+			0  : 'Production chain',
+			49 : 'Industrial revolution',
+			99 : 'Global warming',
+		},
+		'Mine': {
+			0  : 'You know the drill',
+			49 : 'Excavation site',
+			99 : 'Hollow the planet',
+		},
+		'Shipment': {
+			0  : 'Expedition',
+			49 : 'Galactic highway',
+			99 : 'Far far away',
+		},
+		'Alchemy lab': {
+			0  : 'Transmutation',
+			49 : 'Transmogrification',
+			99 : 'Gold member',
+		},
+		'Portal': {
+			0  : 'A whole new world',
+			49 : 'Now you\'re thinking',
+			99 : 'Dimensional shift',
+		},
+		'Time machine': {
+			0  : 'Time warp',
+			49 : 'Alternate timeline',
+			99 : 'Rewriting history',
+		},
+		'Antimatter condenser': {
+			0  : 'Antibatter',
+			49 : 'Quirky quarks',
+			99 : 'It does matter!',
+		}
+	};
+
+	i += this.hasAchievement(upgrades[building][currentNumber]);
+
+	switch (building) {
+		case "Grandma":
+			r += this.getTotalGrandmaModifiers(currentNumber) * Game.globalCpsMult;
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Farm":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Factory":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Mine":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Shipment":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Alchemy lab":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Portal":
+			r += this.getTotalPortalModifiers() * Game.globalCpsMult;
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Time machine":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case "Antimatter condenser":
+			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+	}
+
+	if (Game.BuildingsOwned === 99) {
+		i += this.hasAchievement("Builder");
+	}
+	if (Game.BuildingsOwned === 399) {
+		i += this.hasAchievement("Architect");
+	}
+	if (Game.BuildingsOwned === 799) {
+		i += this.hasAchievement("Engineer");
+	}
+	if (this.oneWithEverything(building)) {
+		i++;
+	}
+	if (this.mathematician(building)) {
+		i++;
+	}
+	if (this.baseTen(building)) {
+		i++;
+	}
+	if (this.centennial(building)) {
+		i++;
+	}
+
+	return r + this.getAchievementWorth(i, 0, r + n, 0);
+};
+
+//////////////////////////////////////////////////////////////////////
+/////////////////////////////// MODIFIERS ////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+CookieMonster.getTotalCursorModifiers = function() {
+	var modifier = 0;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf("The mouse and cursors gain") !== -1) {
+			var r = 31;
+			if (upgrade.desc.indexOf(" another ") !== -1) {
+				r += 8;
+			}
+			modifier += upgrade.desc.substr(r, upgrade.desc.indexOf("<", r) - r) * 1;
+		}
+	});
+
+	return modifier * Game.ObjectsById[0].amount;
+};
+
+CookieMonster.getTotalGrandmaModifiers = function(currentNumber) {
+	var t = 0.5;
+	var n = 0;
+	var r = 1;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.name === "Forwards from grandma") {
+			t += 0.3;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+			r = r * 2;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+			r = r * 4;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf("for every 50 grandmas") !== -1) {
+			n += (currentNumber + 1) * 0.02 * (currentNumber + 1) - currentNumber * 0.02 * currentNumber;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
+			n += Game.ObjectsById[7].amount * 0.05;
+		}
+	});
+
+	return t * r + n * r;
+};
+
+CookieMonster.getTotalPortalModifiers = function() {
+	var modifier = 0;
+	var total    = 1;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+			total = total * 2;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+			total = total * 4;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
+			modifier += Game.ObjectsById[1].amount * 0.05;
+		}
+	});
+
+	return modifier * total;
+};
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////// BUILDING SCHEMAS ////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+CookieMonster.baseTen = function(building) {
+	if (this.hasAchievement("Base 10") === 1) {
+		var t = [];
+		var n = [];
+		Game.ObjectsById.forEach(function (building) {
+			t.push(building.name);
+			n.push(building.amount);
+		});
+		t.forEach(function (t, r) {
+			if (t === building) {
+				n[r]++;
+			}
+		});
+		var r = n.length * 10;
+		for (var i = 0; i < n.length; i++) {
+			if (n[i] < r) {
+				return false;
+			}
+			r = r - 10;
+		}
+		return true;
+	}
+
+	return false;
+};
+
+CookieMonster.mathematician = function(building) {
+	if (this.hasAchievement("Mathematician") === 1) {
+		var t = [];
+		var n = [];
+		Game.ObjectsById.forEach(function (building) {
+			t.push(building.name);
+			n.push(building.amount);
+		});
+		t.forEach(function (t, r) {
+			if (t === building) {
+				n[r]++;
+			}
+		});
+		var r = 128;
+		for (var i = 0; i < n.length; i++) {
+			if (i > 2) {
+				r = r / 2;
+			}
+			if (n[i] < r) {
+				return false;
+			}
+		}
+		return true;
+	}
+	return false;
+};
+
+CookieMonster.oneWithEverything = function(building) {
+	if (this.hasAchievement("One with everything") === 1) {
+		var t = [];
+		var n = [];
+
+		Game.ObjectsById.forEach(function (building) {
+			if (building.amount > 0) {
+				t.push(building.name);
+			} else {
+				n.push(building.name);
+			}
+		});
+		if (n.length === 1 && n[0] === building) {
+			return true;
+		}
+	}
+	return false;
+};
+
+CookieMonster.centennial = function(building) {
+	if (this.hasAchievement("Centennial") === 1) {
+		var t = [];
+		var n = [];
+		Game.ObjectsById.forEach(function (building) {
+			if (building.amount >= 100) {
+				t.push(building.name);
+			} else {
+				n.push(building);
+			}
+		});
+		if (n.length === 1 && n[0].name === building && n[0].amount === 99) {
+			return true;
+		}
+	}
+	return false;
+};
 /**
  * Format a number to a string (adds separators, convert units, etc)
  *
@@ -452,6 +736,17 @@ CookieMonster.toHumanNumber = function(number, round) {
 		return Math.round(number);
 	}
 
+	return this.roundDecimal(number);
+};
+
+/**
+ * Round a number to the nearest decimal
+ *
+ * @param {Integer} number
+ *
+ * @return {Integer}
+ */
+CookieMonster.roundDecimal = function(number) {
 	return Math.round(number * 100) / 100;
 };
 /**
@@ -744,6 +1039,123 @@ CookieMonster.formatTime = function(time, compressed) {
 	return formated;
 };
 /**
+ * Update the stored informations about a building
+ *
+ * @param {Integer} building
+ * @param {Array}   informations
+ */
+CookieMonster.setBuildingInformations = function (building, informations) {
+	this.bottomBar.items[building]    = informations.items;
+	this.bottomBar.bonus[building]    = informations.bonus;
+	this.bottomBar.cpi[building]      = informations.cpi;
+	this.bottomBar.timeLeft[building] = informations.timeLeft;
+};
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////////// DOM MODIFIERS //////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Toggle the visibility of the Bottom Bar
+ *
+ * @return {void}
+ */
+CookieMonster.toggleBar = function() {
+	var toggle = this.getBooleanSetting('CMBar');
+	var bottom = !toggle ? 0 : 57;
+
+	this.$monsterBar.toggle(toggle);
+	$('#game').css('bottom', bottom+'px');
+};
+
+/**
+ * Create the Bottom Bar
+ *
+ * @return {void}
+ */
+CookieMonster.makeTable = function() {
+	var thead    = '<th align="left"  style="color:#' + this.colors.yellow + ';" width=130> ' + this.version + "</th>";
+	var bonus    = '<th align="right" style="color:#' + this.colors.blue   + ';">Bonus Income</th>';
+	var baseCost = '<th align="right" style="color:#' + this.colors.blue   + ';">Base Cost Per Income</th>';
+	var timeLeft = '<th align="right" style="color:#' + this.colors.blue   + ';">Time Left</th>';
+
+	// Append each building type to the bar
+	Game.ObjectsById.forEach(function (building, key) {
+		thead    += '<th align="middle" id="cookie_monster_item_'     +key+ '" style="font-weight:bold;"></th>';
+		bonus    += '<td align="middle" id="cookie_monster_is_'       +key+ '"></td>';
+		baseCost += '<td align="middle" id="cookie_monster_baseCost_' +key+ '"></td>';
+		timeLeft += '<td align="middle" id="cookie_monster_tc_'       +key+ '"></td>';
+	});
+
+	this.$monsterBar.html(
+		'<table style="width:100%; table-layout:fixed; margin-top:2px;">'+
+			'<tr>'+thead+'</tr>'+
+			'<tr>'+bonus+'</tr>'+
+			'<tr>'+baseCost+'</tr>'+
+			'<tr>'+timeLeft+'</tr>'+
+		'</table>');
+
+	this.$monsterBar = $('#cookie_monster_bar');
+};
+
+/**
+ * Update the contents of the Bottom Bar
+ *
+ * @return {void}
+ */
+CookieMonster.updateTable = function() {
+	var that = this;
+
+	// Here we loop over the information we have, and building a multidimensionnal
+	// array of it, by building key
+	Game.ObjectsById.forEach(function (building, key) {
+		var price = building.price;
+		var owned = building.amount;
+		var s = building.storedCps * Game.globalCpsMult;
+		if (building.name === "Grandma") {
+			s = 0;
+		}
+
+		// Compute informations
+		var bonus = that.roundDecimal(s + that.getUpgradeBonuses(building.name, owned, s));
+		var cpi   = that.roundDecimal(price / bonus);
+		var count = '(<span style="color: #' +that.colors.blue+ ';">' + that.formatNumber(owned) + '</span>)';
+
+		that.setBuildingInformations(key, {
+			items    : building.name.split(' ')[0] + ' ' + count,
+			bonus    : that.roundDecimal(bonus),
+			cpi      : that.roundDecimal(cpi),
+			timeLeft : Math.round(that.secondsLeft(key, "object")),
+		});
+	});
+
+	// Then we loop over the created array, format the information
+	// and update the DOM
+	Game.ObjectsById.forEach(function (building, key) {
+		var colors       = [that.colors.yellow, that.colors.yellow];
+		var informations = [that.bottomBar.cpi[key], that.bottomBar.timeLeft[key]];
+		var worst        = [Math.max.apply(Math, that.bottomBar.cpi), Math.max.apply(Math, that.bottomBar.timeLeft)];
+		var best         = [Math.min.apply(Math, that.bottomBar.cpi), Math.min.apply(Math, that.bottomBar.timeLeft)];
+
+		// Compute correct colors
+		for (var i = 0; i < colors.length; i++) {
+			if (informations[i] === best[i]) {
+				colors[i] = that.colors.green;
+			} else if (informations[i] === worst[i]) {
+				colors[i] = that.colors.red;
+			} else if (worst[i] - informations[i] < informations[i] - best[i]) {
+				colors[i] = that.colors.orange;
+			}
+		}
+
+		// Update DOM
+		$('#cookie_monster_item_' + key).html(that.bottomBar.items[key]);
+		$('#cookie_monster_is_'   + key).html(that.formatNumber(that.bottomBar.bonus[key]));
+		$('#cookie_monster_cpi_'  + key).html('<span style="color:#' + colors[0] + ';">' + that.formatNumber(informations[0]) + '</span>');
+		$('#cookie_monster_tc_'   + key).html('<span style="color:#' + colors[1] + ';">' + that.formatTime(informations[1], 'min') + '</span>');
+	});
+};
+/**
  * Changes the favicon according to current state
  *
  * @param {integer} frame The current sprite of the favicon
@@ -764,19 +1176,6 @@ CookieMonster.faviconSpinner = function(frame) {
 	} else {
 		$("#cm_favicon").attr("href", "http://orteil.dashnet.org/cookieclicker/img/favicon.ico");
 	}
-};
-
-/**
- * Toggle the CookieMonster bottom bar
- *
- * @return {void}
- */
-CookieMonster.toggleBar = function() {
-	var toggle = this.getBooleanSetting('CMBar');
-	var bottom = !toggle ? 0 : 57;
-
-	this.$monsterBar.toggle(toggle);
-	$('#game').css('bottom', bottom+'px');
 };
 
 /**
@@ -805,90 +1204,14 @@ CookieMonster.updateUpgradeDisplay = function() {
 	$upgrades.css('cssText', 'height: ' +height+ ' !important;');
 };
 
-/**
- * Create the Bottom Bar
- *
- * @return {void}
- */
-CookieMonster.makeTable = function() {
-	var e = '<th align=left width=130 style="color:#' +this.colors.yellow+ ';"> ' + this.version + "</th>";
-	var n = "";
-	var r = "";
-	var i = "";
-
-	Game.ObjectsById.forEach(function (t, s) {
-		e += '<th align=middle id="cookie_monster_item_' + s + '" style="font-weight:bold;"></th>';
-		n += '<td align=middle id="cookie_monster_is_' + s + '"></td>';
-		r += '<td align=middle id="cookie_monster_cpi_' + s + '"></td>';
-		i += '<td align=middle id="cookie_monster_tc_' + s + '"></td>';
-	});
-
-	CookieMonster.$monsterBar.html(
-		'<table style="width:100%; table-layout:fixed; margin-top:2px;">' +
-			"<tr>" + e + '</tr>'+
-			'<tr>'+
-				'<th align=right style="color:#4bb8f0;">Bonus Income</th>' + n +
-			'</tr>' +
-			'<tr>'+
-				'<th align=right style="color:#4bb8f0;">Base Cost Per Income</th>' + r +
-			'</tr>' +
-			'<tr>' +
-				'<th align=right style="color:#4bb8f0;">Time Left</th>' + i +
-			'</tr>' +
-		"</table>");
-
-	CookieMonster.$monsterBar = $('#cookie_monster_bar');
-};
-
-CookieMonster.updateTable = function() {
-	Game.ObjectsById.forEach(function (e, t) {
-		var n = e.price;
-		var r = e.amount;
-		var s = e.storedCps * Game.globalCpsMult;
-		if (e.name === "Grandma") {
-			s = 0;
-		}
-		var o = Math.round((s + CookieMonster.getUpgradeBonuses(e.name, r, s)) * 100) / 100;
-		var u = Math.round(n / o * 100) / 100;
-		var a = e.name.replace(/([^\s]+)/, "");
-
-		CookieMonster.holdItem[t] = e.name.replace(a, "") + ' (<span style="color:#' +CookieMonster.colors.blue+ ';">' + CookieMonster.formatNumber(r) + "</span>)";
-		CookieMonster.holdIs[t]   = Math.round(o * 100) / 100;
-		CookieMonster.holdCPI[t]  = Math.round(u * 100) / 100;
-		CookieMonster.holdTC[t]   = Math.round(CookieMonster.secondsLeft(t, "object"));
-	});
-
-	Game.ObjectsById.forEach(function (e, t) {
-		var i = 0;
-		var n = new Array(CookieMonster.colors.yellow, CookieMonster.colors.yellow);
-		var r = new Array(CookieMonster.holdCPI[t], CookieMonster.holdTC[t]);
-		var s = new Array(Math.max.apply(Math, CookieMonster.holdCPI), Math.max.apply(Math, CookieMonster.holdTC));
-		var o = new Array(Math.min.apply(Math, CookieMonster.holdCPI), Math.min.apply(Math, CookieMonster.holdTC));
-
-		for (i = 0; i < n.length; i++) {
-			if (r[i] === o[i]) {
-				n[i] = CookieMonster.colors.green;
-			} else if (r[i] === s[i]) {
-				n[i] = CookieMonster.colors.red;
-			} else if (s[i] - r[i] < r[i] - o[i]) {
-				n[i] = CookieMonster.colors.orange;
-			}
-		}
-		$("#cookie_monster_item_" + t).html(CookieMonster.holdItem[t]);
-		$("#cookie_monster_is_" + t).html(CookieMonster.formatNumber(CookieMonster.holdIs[t]));
-		$("#cookie_monster_cpi_" + t).html('<span style="color:#' + n[0] + ';">' + CookieMonster.formatNumber(r[0]) + "</span>");
-		$("#cookie_monster_tc_" + t).html('<span style="color:#' + n[1] + ';">' + CookieMonster.formatTime(r[1], "min") + "</span>");
-	});
-};
-
 CookieMonster.colorize = function(e, t, n) {
 	var i = 0;
 	var r = Game.UpgradesById[t];
 	var s = r.basePrice;
 	var o = new Array(this.colors.yellow, this.colors.yellow);
-	var u = new Array(Math.round(s / e * 100) / 100, Math.round(this.secondsLeft(t, "upgrade")));
-	var a = new Array(Math.max.apply(Math, this.holdCPI), Math.max.apply(Math, this.holdTC));
-	var f = new Array(Math.min.apply(Math, this.holdCPI), Math.min.apply(Math, this.holdTC));
+	var u = new Array(this.roundDecimal(s / e), Math.round(this.secondsLeft(t, "upgrade")));
+	var a = new Array(Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.cpi));
+	var f = new Array(Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.cpi));
 
 	for (i = 0; i < o.length; i++) {
 		if (u[i] < f[i]) {
@@ -998,21 +1321,21 @@ CookieMonster.doEmphasize = function() {
 	}
 	if (t.css("display") !== "none" && this.emphasize) {
 		this.emphasize = false;
-		if (this.getSetting('UpdateTitle') === 1) {
+		if (this.getBooleanSetting('UpdateTitle')) {
 			this.goldenCookieAvailable = "(G) ";
 			this.faviconSpinner(1);
 		}
-		if (this.getSetting('CookieSound') === 1) {
+		if (this.getBooleanSetting('CookieSound')) {
 			var n = new realAudio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");
 			n.volume = 1;
 			n.play();
 		}
-		if (this.getSetting('FlashScreen') === 1) {
+		if (this.getBooleanSetting('FlashScreen')) {
 			$("#cookie_monster_overlay").fadeIn(100);
 			$("#cookie_monster_overlay").fadeOut(500);
 		}
 	}
-	if (t.css("display") !== "none" && this.getSetting('CookieTimer') === 1) {
+	if (t.css("display") !== "none" && this.getBooleanSetting('CookieTimer')) {
 		e.css({
 			display : 'block',
 			opacity : t.css('opacity'),
@@ -1142,151 +1465,151 @@ CookieMonster.toggleOption = function(option) {
 
 	switch ($option.text()) {
 		case "Flash Screen ON":
-			this.getSetting('FlashScreen') = 0;
+			this.setSetting('FlashScreen', 0);
 			$option.text("Flash Screen OFF");
 			break;
 		case "Flash Screen OFF":
-			this.getSetting('FlashScreen') = 1;
+			this.setSetting('FlashScreen', 1);
 			$option.text("Flash Screen ON");
 			break;
 		case "Cookie Sound ON":
-			this.getSetting('CookieSound') = 0;
+			this.setSetting('CookieSound', 0);
 			$option.text("Cookie Sound OFF");
 			break;
 		case "Cookie Sound OFF":
-			this.getSetting('CookieSound') = 1;
+			this.setSetting('CookieSound', 1);
 			$option.text("Cookie Sound ON");
 			break;
 		case "Cookie Timer ON":
-			this.getSetting('CookieTimer') = 0;
+			this.setSetting('CookieTimer', 0);
 			$option.text("Cookie Timer OFF");
 			break;
 		case "Cookie Timer OFF":
-			this.getSetting('CookieTimer') = 1;
+			this.setSetting('CookieTimer', 1);
 			$option.text("Cookie Timer ON");
 			break;
 		case "Next Cookie Timer ON":
-			this.getSetting('CookieCD') = 0;
+			this.setSetting('CookieCD', 0);
 			$option.text("Next Cookie Timer OFF");
 			break;
 		case "Next Cookie Timer OFF":
-			this.getSetting('CookieCD') = 1;
+			this.setSetting('CookieCD', 1);
 			$option.text("Next Cookie Timer ON");
 			break;
 		case "Update Title ON":
-			this.getSetting('UpdateTitle') = 0;
+			this.setSetting('UpdateTitle', 0);
 			$option.text("Update Title OFF");
 			break;
 		case "Update Title OFF":
-			this.getSetting('UpdateTitle') = 1;
+			this.setSetting('UpdateTitle', 1);
 			$option.text("Update Title ON");
 			break;
 		case "Buff Bars ON":
-			this.getSetting('BuffBars') = 0;
+			this.setSetting('BuffBars', 0);
 			$option.text("Buff Bars OFF");
 			break;
 		case "Buff Bars OFF":
-			this.getSetting('BuffBars') = 1;
+			this.setSetting('BuffBars', 1);
 			$option.text("Buff Bars ON");
 			break;
 		case "Bottom Bar ON":
-			this.getSetting('CMBar') = 0;
+			this.setSetting('CMBar', 0);
 			$option.text("Bottom Bar OFF");
 			break;
 		case "Bottom Bar OFF":
-			this.getSetting('CMBar') = 1;
+			this.setSetting('CMBar', 1);
 			$option.text("Bottom Bar ON");
 			break;
 		case "Colored Prices ON":
-			this.getSetting('ColoredPrices') = 0;
+			this.setSetting('ColoredPrices', 0);
 			$option.text("Colored Prices OFF");
 			CookieMonster.updateTooltips("objects");
 			break;
 		case "Colored Prices OFF":
-			this.getSetting('ColoredPrices') = 1;
+			this.setSetting('ColoredPrices', 1);
 			$option.text("Colored Prices ON");
 			CookieMonster.updateTooltips("objects");
 			break;
 		case "Upgrade Icons ON":
-			this.getSetting('UpgradeIcons') = 0;
+			this.setSetting('UpgradeIcons', 0);
 			$option.text("Upgrade Icons OFF");
 			Game.RebuildUpgrades();
 			break;
 		case "Upgrade Icons OFF":
-			this.getSetting('UpgradeIcons') = 1;
+			this.setSetting('UpgradeIcons', 1);
 			$option.text("Upgrade Icons ON");
 			Game.RebuildUpgrades();
 			break;
 		case "Upgrade Display (All)":
-			this.getSetting('UpgradeDisplay') = 0;
+			this.setSetting('UpgradeDisplay', 0);
 			$option.text("Upgrade Display (None)");
 			CookieMonster.updateUpgradeDisplay();
 			break;
 		case "Upgrade Display (None)":
-			this.getSetting('UpgradeDisplay') = 1;
+			this.setSetting('UpgradeDisplay', 1);
 			$option.text("Upgrade Display (Normal)");
 			CookieMonster.updateUpgradeDisplay();
 			break;
 		case "Upgrade Display (Normal)":
-			this.getSetting('UpgradeDisplay') = 2;
+			this.setSetting('UpgradeDisplay', 2);
 			$option.text("Upgrade Display (All)");
 			CookieMonster.updateUpgradeDisplay();
 			break;
 		case "Short Numbers ON (B)":
-			this.getSetting('ShortNumbers') = 0;
+			this.setSetting('ShortNumbers', 0);
 			$option.text("Short Numbers OFF");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
 			CookieMonster.updateTable();
 			break;
 		case "Short Numbers OFF":
-			this.getSetting('ShortNumbers') = 1;
+			this.setSetting('ShortNumbers', 1);
 			$option.text("Short Numbers ON (A)");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
 			CookieMonster.updateTable();
 			break;
 		case "Short Numbers ON (A)":
-			this.getSetting('ShortNumbers') = 2;
+			this.setSetting('ShortNumbers', 2);
 			$option.text("Short Numbers ON (B)");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
 			CookieMonster.updateTable();
 			break;
 		case "Lucky Alert (Both)":
-			this.getSetting('LuckyAlert') = 2;
+			this.setSetting('LuckyAlert', 2);
 			$option.text("Lucky Alert (Icons)");
 			break;
 		case "Lucky Alert (Icons)":
-			this.getSetting('LuckyAlert') = 3;
+			this.setSetting('LuckyAlert', 3);
 			$option.text("Lucky Alert (Notes)");
 			break;
 		case "Lucky Alert (Notes)":
-			this.getSetting('LuckyAlert') = 0;
+			this.setSetting('LuckyAlert', 0);
 			$option.text("Lucky Alert (Off)");
 			break;
 		case "Lucky Alert (Off)":
-			this.getSetting('LuckyAlert') = 1;
+			this.setSetting('LuckyAlert', 1);
 			$option.text("Lucky Alert (Both)");
 			break;
 		case "Refresh Rate (1 fps)":
-			this.getSetting('Refresh') = 500;
+			this.setSetting('Refresh', 500);
 			$option.text("Refresh Rate (2 fps)");
 			break;
 		case "Refresh Rate (2 fps)":
-			this.getSetting('Refresh') = 250;
+			this.setSetting('Refresh', 250);
 			$option.text("Refresh Rate (4 fps)");
 			break;
 		case "Refresh Rate (4 fps)":
-			this.getSetting('Refresh') = 100;
+			this.setSetting('Refresh', 100);
 			$option.text("Refresh Rate (10 fps)");
 			break;
 		case "Refresh Rate (10 fps)":
-			this.getSetting('Refresh') = 33;
+			this.setSetting('Refresh', 33);
 			$option.text("Refresh Rate (30 fps)");
 			break;
 		case "Refresh Rate (30 fps)":
-			this.getSetting('Refresh') = 1e3;
+			this.setSetting('Refresh', 1e3);
 			$option.text("Refresh Rate (1 fps)");
 			break;
 	}
@@ -1575,9 +1898,9 @@ CookieMonster.manageBuildingTooltip = function(e) {
 	}
 
 	var u = new Array(this.colors.yellow, this.colors.yellow);
-	var a = new Array(this.holdCPI[t], this.holdTC[t]);
-	var f = new Array(Math.max.apply(Math, this.holdCPI), Math.max.apply(Math, this.holdTC));
-	var l = new Array(Math.min.apply(Math, this.holdCPI), Math.min.apply(Math, this.holdTC));
+	var a = new Array(this.bottomBar.cpi[t], this.bottomBar.timeLeft[t]);
+	var f = new Array(Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.timeLeft));
+	var l = new Array(Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.timeLeft));
 	for (i = 0; i < u.length; i++) {
 		if (a[i] === l[i]) {
 			u[i] = this.colors.green;
@@ -1591,7 +1914,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 	if ($("#cm_ob_div_" + t).length === 1) {
 		$("#cm_ob_div_" + t).css("border", "1px solid #" + u[0]);
 		$("#cm_ob_div_" + t).css("display", "");
-		$("#cm_ob_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#4bb8f0; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(this.holdIs[t]) + '</div><div style="position:absolute; top:34px; left:4px; color:#4bb8f0; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + u[0] + ';">' + this.formatNumber(a[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#4bb8f0; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + u[1] + ';">' + this.formatTime(a[1], "") + "</div>");
+		$("#cm_ob_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#4bb8f0; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(this.bottomBar.bonus[t]) + '</div><div style="position:absolute; top:34px; left:4px; color:#4bb8f0; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + u[0] + ';">' + this.formatNumber(a[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#4bb8f0; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + u[1] + ';">' + this.formatTime(a[1], "") + "</div>");
 		$("#cm_ob_warning_amount").text("Deficit: " + this.formatNumber(o[0]));
 		$("#cm_ob_caution_amount").text("Deficit: " + this.formatNumber(o[1]));
 
@@ -1612,7 +1935,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 		}
 	}
 
-	if (this.getSetting('ColoredPrices') === 1) {
+	if (this.getBooleanSetting('ColoredPrices')) {
 		$("#product" + t).find(".price").first().css("color", "#" + u[0]);
 	} else {
 		$("#product" + t).find(".price").first().css("color", "");
@@ -1791,281 +2114,3 @@ if (document.title.indexOf("Cookie Clicker") !== -1 && $("#game").length !== 0) 
 } else {
 	alert("Cookie Monster " + CookieMonster.version + "\n\nThese aren't the droids you're looking for.");
 }
-CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
-	var r = 0;
-	var i = 0;
-
-	var upgrades = {
-		'Cursor': {
-			0   : 'Click',
-			1   : 'Double-click',
-			49  : 'Mouse wheel',
-			99  : 'Of Mice and Men',
-			199 : 'The Digital',
-		},
-		'Grandma': {
-			0   : 'Grandma\'s Cookies',
-			49  : 'Sloppy kisses',
-			99  : 'Retirement home',
-			149 : 'Friend of the ancients',
-			199 : 'Ruler of the ancients',
-		},
-		'Farm': {
-			0  : 'My first farm',
-			49 : 'Reap what you sow',
-			99 : 'Farm ill',
-		},
-		'Factory': {
-			0  : 'Production chain',
-			49 : 'Industrial revolution',
-			99 : 'Global warming',
-		},
-		'Mine': {
-			0  : 'You know the drill',
-			49 : 'Excavation site',
-			99 : 'Hollow the planet',
-		},
-		'Shipment': {
-			0  : 'Expedition',
-			49 : 'Galactic highway',
-			99 : 'Far far away',
-		},
-		'Alchemy lab': {
-			0  : 'Transmutation',
-			49 : 'Transmogrification',
-			99 : 'Gold member',
-		},
-		'Portal': {
-			0  : 'A whole new world',
-			49 : 'Now you\'re thinking',
-			99 : 'Dimensional shift',
-		},
-		'Time machine': {
-			0  : 'Time warp',
-			49 : 'Alternate timeline',
-			99 : 'Rewriting history',
-		},
-		'Antimatter condenser': {
-			0  : 'Antibatter',
-			49 : 'Quirky quarks',
-			99 : 'It does matter!',
-		}
-	};
-
-	i += this.hasAchievement(upgrades[building][currentNumber]);
-
-	switch (building) {
-		case "Grandma":
-			r += this.getTotalGrandmaModifiers(currentNumber) * Game.globalCpsMult;
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case "Farm":
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case "Factory":
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case "Mine":
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case "Shipment":
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case "Alchemy lab":
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case "Portal":
-			r += this.getTotalPortalModifiers() * Game.globalCpsMult;
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case "Time machine":
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case "Antimatter condenser":
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-	}
-
-	if (Game.BuildingsOwned === 99) {
-		i += this.hasAchievement("Builder");
-	}
-	if (Game.BuildingsOwned === 399) {
-		i += this.hasAchievement("Architect");
-	}
-	if (Game.BuildingsOwned === 799) {
-		i += this.hasAchievement("Engineer");
-	}
-	if (this.oneWithEverything(building)) {
-		i++;
-	}
-	if (this.mathematician(building)) {
-		i++;
-	}
-	if (this.baseTen(building)) {
-		i++;
-	}
-	if (this.centennial(building)) {
-		i++;
-	}
-
-	return r + this.getAchievementWorth(i, 0, r + n, 0);
-};
-
-//////////////////////////////////////////////////////////////////////
-/////////////////////////////// MODIFIERS ////////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-CookieMonster.getTotalCursorModifiers = function() {
-	var modifier = 0;
-
-	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf("The mouse and cursors gain") !== -1) {
-			var r = 31;
-			if (upgrade.desc.indexOf(" another ") !== -1) {
-				r += 8;
-			}
-			modifier += upgrade.desc.substr(r, upgrade.desc.indexOf("<", r) - r) * 1;
-		}
-	});
-
-	return modifier * Game.ObjectsById[0].amount;
-};
-
-CookieMonster.getTotalGrandmaModifiers = function(currentNumber) {
-	var t = 0.5;
-	var n = 0;
-	var r = 1;
-
-	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.name === "Forwards from grandma") {
-			t += 0.3;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			r = r * 2;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			r = r * 4;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("for every 50 grandmas") !== -1) {
-			n += (currentNumber + 1) * 0.02 * (currentNumber + 1) - currentNumber * 0.02 * currentNumber;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
-			n += Game.ObjectsById[7].amount * 0.05;
-		}
-	});
-
-	return t * r + n * r;
-};
-
-CookieMonster.getTotalPortalModifiers = function() {
-	var modifier = 0;
-	var total    = 1;
-
-	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			total = total * 2;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			total = total * 4;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
-			modifier += Game.ObjectsById[1].amount * 0.05;
-		}
-	});
-
-	return modifier * total;
-};
-
-//////////////////////////////////////////////////////////////////////
-//////////////////////////// BUILDING SCHEMAS ////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-CookieMonster.baseTen = function(building) {
-	if (this.hasAchievement("Base 10") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (building) {
-			t.push(building.name);
-			n.push(building.amount);
-		});
-		t.forEach(function (t, r) {
-			if (t === building) {
-				n[r]++;
-			}
-		});
-		var r = n.length * 10;
-		for (var i = 0; i < n.length; i++) {
-			if (n[i] < r) {
-				return false;
-			}
-			r = r - 10;
-		}
-		return true;
-	}
-
-	return false;
-};
-
-CookieMonster.mathematician = function(building) {
-	if (this.hasAchievement("Mathematician") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (building) {
-			t.push(building.name);
-			n.push(building.amount);
-		});
-		t.forEach(function (t, r) {
-			if (t === building) {
-				n[r]++;
-			}
-		});
-		var r = 128;
-		for (var i = 0; i < n.length; i++) {
-			if (i > 2) {
-				r = r / 2;
-			}
-			if (n[i] < r) {
-				return false;
-			}
-		}
-		return true;
-	}
-	return false;
-};
-
-CookieMonster.oneWithEverything = function(building) {
-	if (this.hasAchievement("One with everything") === 1) {
-		var t = [];
-		var n = [];
-
-		Game.ObjectsById.forEach(function (building) {
-			if (building.amount > 0) {
-				t.push(building.name);
-			} else {
-				n.push(building.name);
-			}
-		});
-		if (n.length === 1 && n[0] === building) {
-			return true;
-		}
-	}
-	return false;
-};
-
-CookieMonster.centennial = function(building) {
-	if (this.hasAchievement("Centennial") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (building) {
-			if (building.amount >= 100) {
-				t.push(building.name);
-			} else {
-				n.push(building);
-			}
-		});
-		if (n.length === 1 && n[0].name === building && n[0].amount === 99) {
-			return true;
-		}
-	}
-	return false;
-};
