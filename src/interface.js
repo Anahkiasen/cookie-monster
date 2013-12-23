@@ -258,7 +258,7 @@ CookieMonster.doEmphasize = function() {
 			this.faviconSpinner(1);
 		}
 		if (this.settings[8] === 1) {
-			var n = new Audio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");
+			var n = new realAudio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");
 			n.volume = 1;
 			n.play();
 		}
