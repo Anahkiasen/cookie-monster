@@ -50,14 +50,14 @@
 ## 1.036.07 _(09/20/2013)_
 
 * Added a new setting to the "**Cookie Monster Settings**" section on the Menu page
-	* ​**Upgrade Icons** _- Displays a small square icon on the Upgrade to better display the Cost Per Income color value_
+	* ​**Upgrade Icons _- Displays a small square icon on the Upgrade to better display the Cost Per Income color value_
 
 ## 1.036.06 _(09/20/2013)_
 
 * Re-enabled Cookie Sound and Favicon changes _~"hooray!"_
 * Added a little square in the upper left of all Upgrades to better display thier Cost Per Income color value
 * Added a new setting to the "**Cookie Monster Settings**" section on the Menu page
-	* **​Lucky Alert** _- Changes the tooltip to display if you would be under the number of cookies required for "Lucky!"_
+	* **​Lucky Alert _- Changes the tooltip to display if you would be under the number of cookies required for "Lucky!"_
 		* ​**Both** - Displays both the Warning/Cautions Icons and the Notes
 		* **Icons **- Displays Warning/Cautions Icons only
 		* **Notes** - Displays Warning/Cautions Notes only
@@ -102,6 +102,7 @@
 * Added tooltips to Buildings
 * Modified the function for displaying "Game started" to show days, hours, minutes, seconds
 * Modified the function for Building tooltips to offset upwards when half way down the list so the tooltip does not go off the screen
+
 ## 1.036.02 _(09/16/2013)_
 
 * ​Updated the calculations for the Achievements "Mathematician" and "Base 10" to factor-in the Antimatter Condenser
@@ -124,8 +125,8 @@
 * Fixed an error that was causing Time To Next Chip to display incorrectly _~(I hope)_
 * Changed the names of some buildings displayed on the bottom bar to save a little bit of space
 
-
 # 1.035 Versions
+
 ## 1.035.04 _(09/11/2013)_
 
 * Added the **Next Cookie Bar** which shows how much time you have until a new Cookie spawns
@@ -142,6 +143,7 @@
 
 * Changed the refresh rate to 4 times per second, down from 30
 * Changed how the "Time To Next Chip" text display is formatted
+
 ## 1.035.02 _(09/11/2013)_
 
 * Added a "Seconds Left" row on the bottom bar that shows how many seconds it will take before you can afford to purchase it (without clicking or selling buildings)
@@ -180,14 +182,14 @@
 
 # 1.034 Versions
 
-## 1.034.02** _(09/06/2013)_
+## 1.034.02 _(09/06/2013)_
 
 * Fixed an issue that was causing the "Bingo center/Research facility" Upgrade to not be calculated.
 
-## 1.034.01** _(09/06/2013)_
+## 1.034.01 _(09/06/2013)_
 
 * Added a number of "Overlooked Calculations"
 
-## 1.034.00** _(09/05/2013)_
+## 1.034.00 _(09/05/2013)_
 
 * Made Cookie Monster public
