@@ -184,7 +184,7 @@ CookieMonster.colorize = function(e, t, n) {
 		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
 	}
 	if ($("#cm_up_div_" + t).length === 1) {
-		var l = new Array(this.lucky("reg", true), this.lucky("frenzy", true));
+		var l = new Array(this.lucky('regular', true), this.lucky("frenzy", true));
 		var c = new Array("none", "none");
 		var h = new Array(0, 0);
 		if (Game.cookies - s < l[0]) {

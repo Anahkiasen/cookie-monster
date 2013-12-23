@@ -176,7 +176,7 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 
 CookieMonster.manageBuildingTooltip = function(e) {
 	var t = e.id;
-	var n = new Array(this.lucky("reg", true), this.lucky("frenzy", true));
+	var n = new Array(this.lucky('regular', true), this.lucky("frenzy", true));
 	var r = new Array("none", "none");
 	var o = new Array(0, 0);
 	var i;
