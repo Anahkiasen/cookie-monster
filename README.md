@@ -33,7 +33,7 @@ npm install
 Make the edits you want, and rebuild the assets by running Grunt :
 
 ```bash
-grunt
+./node_modules/.bin/grunt
 ```
 
 Then commit your changes and push :
