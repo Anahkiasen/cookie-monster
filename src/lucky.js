@@ -1,5 +1,5 @@
 /**
- * Get the (MAX) lucky reward for a particular situation
+ * Get the lucky reward for a particular situation
  *
  * @param {string} context [regular,max]
  * @param {[type]} raw     Return in text form or formatted
