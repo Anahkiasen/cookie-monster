@@ -8,8 +8,11 @@ u[o]&&(delete u[o],c?delete n[l]:typeof n.removeAttribute!==i?n.removeAttribute(
 /* exported CookieMonster */
 
 var CookieMonster = {
+
 	// Runtime variables
-	version               : "v.1.038.01",
+	////////////////////////////////////////////////////////////////////
+
+	version               : "v.1.040.01",
 	emphasize             : true,
 	tooltips              : [],
 	buildingTooltips      : [],
@@ -18,22 +21,32 @@ var CookieMonster = {
 	holdCPI               : [],
 	holdTC                : [],
 	goldenCookieAvailable : "",
-	inStore               : new Array(0, 0, 0, 0, 0, 0),
-	upgradeCount          : 33,
 	loops                 : 0,
 	stsType               : new Array(
 		[" M", " B", " T", " Qa", " Qi", " Sx", " Sp", " Oc", " No", " Dc"],
 		[" M", " G", " T", " P", " E", " Z", " Y", " Oc", " No", " Dc"]),
 
+	// Upgrades
+	////////////////////////////////////////////////////////////////////
+
+	inStore               : new Array(0, 0, 0, 0, 0, 0),
+	upgradeCount          : 33,
+
 	// Settings
+	////////////////////////////////////////////////////////////////////
+
 	settingsKeys : ['FlashScreen', 'CookieTimer', 'BuffBars', 'Refresh', 'CookieCD', 'CMBar', 'ColoredPrices', 'ShortNumbers', 'CookieSound', 'UpdateTitle', 'LuckyAlert', 'UpgradeIcons', 'UpgradeDisplay'],
 	settings     : [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1],
 
 	// Selectors
+	////////////////////////////////////////////////////////////////////
+
 	$monsterBar   : $("#cookie_monster_bar"),
 	$goldenCookie : $("#goldenCookie"),
 
 	// Colors
+	////////////////////////////////////////////////////////////////////
+
 	colors: {
 		yellow : 'FFFF00',
 		green  : '00FF00',
@@ -42,6 +55,7 @@ var CookieMonster = {
 		purple : 'FF00FF',
 		orange : 'FF7F00',
 	}
+
 };
 /**
  * Get the current frenzy multiplier
