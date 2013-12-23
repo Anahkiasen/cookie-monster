@@ -115,7 +115,7 @@ CookieMonster.start = function() {
 	this.update();
 	this.loadSettings();
 	this.setupTooltips();
-	this.mainLoop();
+	window.requestAnimationFrame(this.mainLoop);
 
 	Game.Popup('<span style="color:#' +this.colors.yellow+ '; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + this.version + " Loaded!</span>");
 };
@@ -136,9 +136,8 @@ CookieMonster.mainLoop = function() {
 		Game.RebuildStore();
 	}
 
-	setTimeout(function () {
-		CookieMonster.mainLoop();
-	}, this.getSetting('Refresh'));
+	// Use animationFrame if available
+	window.requestAnimationFrame(CookieMonster.mainLoop);
 };
 
 //////////////////////////////////////////////////////////////////////
