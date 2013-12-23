@@ -71,7 +71,7 @@ CookieMonster.manageBuffs = function() {
 
 	var countdown = Math.round((s[2] - s[0]) / Game.fps);
 
-	if (Game.clickFrenzy > 0 && CookieMonster.settings[2] === 1) {
+	if (Game.clickFrenzy > 0 && this.getBooleanSetting('BuffBars')) {
 		if ($("#cookie_monster_timer_"+this.colors.blue).length !== 1) {
 			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_4BB8F0" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Click Frenzy<td>' + '<td><div id="cmt_4BB8F0" style="position:relative; background:#4BB8F0; height:10px; width:' + Game.clickFrenzy / s[2] * 100 + '%; margin-left:4px; border:1px solid black;"><div id="cmt_time_4BB8F0" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + i + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
 		} else {
@@ -83,7 +83,7 @@ CookieMonster.manageBuffs = function() {
 		this.fadeOutBar(this.colors.blue);
 	}
 
-	if (s[0] > 0 && CookieMonster.$goldenCookie.css("display") === "none" && CookieMonster.settings[4] === 1) {
+	if (s[0] > 0 && CookieMonster.$goldenCookie.css("display") === "none" && this.getBooleanSetting('CookieCD')) {
 		if ($("#cookie_monster_timer_"+this.colors.purple).length !== 1) {
 			$("#cookie_monster_timer_bars_div").append('<div id="cookie_monster_timer_FF00FF" style="padding:4px 0px 5px 0px;"><table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit;  width:100%;"><tr>' + '<td style="width:130px; text-align:right;">Next Cookie<td>' + '<td><div id="cmt_FF00FF" style="position:relative; background:#aaaaaa; height:10px; width:100%; margin-left:4px; border:1px solid black;"><div id="cmt2_FF00FF" style="position:relative; background:#FF00FF; height:10px; width:100%; margin-left:0px; max-width:' + (o - 189) * 0.67 + 'px; float:right;"></div><div id="cmt_time_FF00FF" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">' + countdown + "</div></div></td>" + '<td style="width:55px;"></td>' + "</table></div>");
 		} else {
