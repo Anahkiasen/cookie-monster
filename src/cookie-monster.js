@@ -14,16 +14,22 @@ var CookieMonster = {
 	emphasize             : true,
 	tooltips              : [],
 	buildingTooltips      : [],
-	holdItem              : [],
-	holdIs                : [],
-	holdCPI               : [],
-	holdTC                : [],
 	goldenCookieAvailable : '',
 	loops                 : 0,
 	humanNumbers          : new Array(
 		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
 		[' M', ' G', ' T', ' P', ' E', ' Z', ' Y', ' Oc', ' No', ' Dc']
 	),
+
+	// Stored informations
+	////////////////////////////////////////////////////////////////////
+
+	bottomBar: {
+		items    : [],
+		bonus    : [],
+		cpi      : [],
+		timeLeft : [],
+	},
 
 	// Upgrades
 	////////////////////////////////////////////////////////////////////

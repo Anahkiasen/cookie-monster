@@ -198,9 +198,9 @@ CookieMonster.manageBuildingTooltip = function(e) {
 	}
 
 	var u = new Array(this.colors.yellow, this.colors.yellow);
-	var a = new Array(this.holdCPI[t], this.holdTC[t]);
-	var f = new Array(Math.max.apply(Math, this.holdCPI), Math.max.apply(Math, this.holdTC));
-	var l = new Array(Math.min.apply(Math, this.holdCPI), Math.min.apply(Math, this.holdTC));
+	var a = new Array(this.bottomBar.cpi[t], this.bottomBar.timeLeft[t]);
+	var f = new Array(Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.timeLeft));
+	var l = new Array(Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.timeLeft));
 	for (i = 0; i < u.length; i++) {
 		if (a[i] === l[i]) {
 			u[i] = this.colors.green;
@@ -214,7 +214,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 	if ($("#cm_ob_div_" + t).length === 1) {
 		$("#cm_ob_div_" + t).css("border", "1px solid #" + u[0]);
 		$("#cm_ob_div_" + t).css("display", "");
-		$("#cm_ob_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#4bb8f0; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(this.holdIs[t]) + '</div><div style="position:absolute; top:34px; left:4px; color:#4bb8f0; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + u[0] + ';">' + this.formatNumber(a[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#4bb8f0; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + u[1] + ';">' + this.formatTime(a[1], "") + "</div>");
+		$("#cm_ob_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#4bb8f0; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(this.bottomBar.bonus[t]) + '</div><div style="position:absolute; top:34px; left:4px; color:#4bb8f0; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + u[0] + ';">' + this.formatNumber(a[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#4bb8f0; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + u[1] + ';">' + this.formatTime(a[1], "") + "</div>");
 		$("#cm_ob_warning_amount").text("Deficit: " + this.formatNumber(o[0]));
 		$("#cm_ob_caution_amount").text("Deficit: " + this.formatNumber(o[1]));
 

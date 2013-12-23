@@ -52,9 +52,9 @@ CookieMonster.colorize = function(e, t, n) {
 	var r = Game.UpgradesById[t];
 	var s = r.basePrice;
 	var o = new Array(this.colors.yellow, this.colors.yellow);
-	var u = new Array(Math.round(s / e * 100) / 100, Math.round(this.secondsLeft(t, "upgrade")));
-	var a = new Array(Math.max.apply(Math, this.holdCPI), Math.max.apply(Math, this.holdTC));
-	var f = new Array(Math.min.apply(Math, this.holdCPI), Math.min.apply(Math, this.holdTC));
+	var u = new Array(this.roundDecimal(s / e), Math.round(this.secondsLeft(t, "upgrade")));
+	var a = new Array(Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.cpi));
+	var f = new Array(Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.cpi));
 
 	for (i = 0; i < o.length; i++) {
 		if (u[i] < f[i]) {
