@@ -8,7 +8,7 @@
 
 Rehost of the Cookie Monster add-on
 
-```
+```js
 javascript: (function () {
 	var jA = document.createElement('script');
 	jA.setAttribute('type', 'text/javascript');
