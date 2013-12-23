@@ -1,84 +1,91 @@
-CookieMonster.factorTime = function(e) {
-	var t = Game.cookies - e;
-	var n = Game.cookiesPs;
-
-	if (n === 0) {
-		return 1;
+/**
+ * Computes the time (s) required to buy a building/upgrade
+ *
+ * @param {Integer} object
+ * @param {String}  type
+ *
+ * @return {Integer}
+ */
+CookieMonster.secondsLeft = function(object, type) {
+	// Get the price of the object we want
+	var basePrice = 0;
+	if (type === 'object') {
+		basePrice = Game.ObjectsById[object].price;
+	}	else if (type === 'upgrade') {
+		basePrice = Game.UpgradesById[object].basePrice;
 	}
-	if (t < 0) {
-		var r = e / n;
-		return 1 - t * -1 / n / r;
-	}
 
-	return 1;
-};
+	// Get the amount of cookies needed
+	var realPrice = Game.cookies - basePrice;
 
-CookieMonster.secondsLeft = function(e, t) {
-	var n = 0;
-	if (t === "ob") {
-		n = Game.ObjectsById[e].price;
-	}
-	if (t === "up") {
-		n = Game.UpgradesById[e].basePrice;
-	}
-	var r = Game.cookies - n;
-	var i = Game.cookiesPs;
-
-	if (i === 0) {
+	// If we're not making any cookies, or have
+	// enough already, return 0
+	if (Game.cookiesPs === 0 || realPrice > 0) {
 		return 0;
 	}
-	if (r < 0) {
-		var o = r * -1 / i;
-		return o;
-	}
 
-	return 0;
+	return Math.abs(realPrice) / Game.cookiesPs;
 };
 
-CookieMonster.formatTime = function(e, t) {
-	e = Math.round(e);
-	if (e === Infinity) {
+/**
+ * Format a time (s) to an human-readable format
+ *
+ * @param {Integer} time
+ * @param {String}  compressed  Compressed output (minutes => m, etc.)
+ *
+ * @return {String}
+ */
+CookieMonster.formatTime = function(time, compressed) {
+	time = Math.round(time);
+
+	// Take care of special cases
+	if (time === Infinity) {
 		return "Never";
-	}
-	if (e === 0) {
+	} else if (time === 0) {
 		return "Done!";
-	}
-	if (e / 86400 > 1e3) {
+	} else if (time / 86400 > 1e3) {
 		return "> 1,000 days";
 	}
-	var n = parseInt(e / 86400) % 999;
-	var r = parseInt(e / 3600) % 24;
-	var i = parseInt(e / 60) % 60;
-	var s = e % 60;
-	var o = new Array(" days, ", " hours, ", " minutes, ", " seconds");
-	if (t !== "min") {
-		if (n === 1) {
-			o[0] = " day, ";
+
+	// Compute each units separately
+	var days    = parseInt(time / 86400) % 999;
+	var hours   = parseInt(time / 3600) % 24;
+	var minutes = parseInt(time / 60) % 60;
+	var seconds = time % 60;
+
+	// Format units
+	var units = new Array(" days, ", " hours, ", " minutes, ", " seconds");
+	if (compressed !== "min") {
+		if (days === 1) {
+			units[0] = " day, ";
 		}
-		if (r === 1) {
-			o[1] = " hour, ";
+		if (hours === 1) {
+			units[1] = " hour, ";
 		}
-		if (i === 1) {
-			o[2] = " minute, ";
+		if (minutes === 1) {
+			units[2] = " minute, ";
 		}
-		if (s === 1) {
-			o[3] = " second";
+		if (seconds === 1) {
+			units[3] = " second";
 		}
 	} else {
-		o = new Array("d, ", "h, ", "m, ", "s");
+		units = new Array("d, ", "h, ", "m, ", "seconds");
 	}
-	var u = "";
-	if (n > 0) {
-		u = u + n + o[0];
+
+	// Create final string
+	var formated = '';
+	if (days > 0) {
+		formated += days + units[0];
 	}
-	if (n > 0 || r > 0) {
-		u = u + r + o[1];
+	if (days > 0 || hours > 0) {
+		formated += hours + units[1];
 	}
-	if (n > 0 || r > 0 || i > 0) {
-		u = u + i + o[2];
+	if (days > 0 || hours > 0 || minutes > 0) {
+		formated += minutes + units[2];
 	}
-	if (n > 0 || r > 0 || i > 0 || s > 0) {
-		u = u + s + o[3];
+	if (days > 0 || hours > 0 || minutes > 0 || seconds > 0) {
+		formated += seconds + units[3];
 	}
-	return u;
+
+	return formated;
 };

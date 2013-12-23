@@ -110,7 +110,7 @@ CookieMonster.updateTable = function() {
 		CookieMonster.holdItem[t] = e.name.replace(a, "") + ' (<span style="color:#' +CookieMonster.colors.blue+ ';">' + CookieMonster.formatNumber(r) + "</span>)";
 		CookieMonster.holdIs[t]   = Math.round(o * 100) / 100;
 		CookieMonster.holdCPI[t]  = Math.round(u * 100) / 100;
-		CookieMonster.holdTC[t]   = Math.round(CookieMonster.secondsLeft(t, "ob"));
+		CookieMonster.holdTC[t]   = Math.round(CookieMonster.secondsLeft(t, "object"));
 	});
 
 	Game.ObjectsById.forEach(function (e, t) {
@@ -141,7 +141,7 @@ CookieMonster.colorize = function(e, t, n) {
 	var r = Game.UpgradesById[t];
 	var s = r.basePrice;
 	var o = new Array(this.colors.yellow, this.colors.yellow);
-	var u = new Array(Math.round(s / e * 100) / 100, Math.round(this.secondsLeft(t, "up")));
+	var u = new Array(Math.round(s / e * 100) / 100, Math.round(this.secondsLeft(t, "upgrade")));
 	var a = new Array(Math.max.apply(Math, this.holdCPI), Math.max.apply(Math, this.holdTC));
 	var f = new Array(Math.min.apply(Math, this.holdCPI), Math.min.apply(Math, this.holdTC));
 
