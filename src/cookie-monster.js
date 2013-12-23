@@ -20,7 +20,7 @@ var CookieMonster = {
 	holdTC                : [],
 	goldenCookieAvailable : "",
 	loops                 : 0,
-	stsType               : new Array(
+	humanNumbers          : new Array(
 		[" M", " B", " T", " Qa", " Qi", " Sx", " Sp", " Oc", " No", " Dc"],
 		[" M", " G", " T", " P", " E", " Z", " Y", " Oc", " No", " Dc"]),
 
