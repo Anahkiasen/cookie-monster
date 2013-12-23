@@ -1,8 +1,9 @@
 # CookieMonster
 
-## Authors
+## Contributors
 
 **Original author : [Raving_Kumquat](http://cookieclicker.wikia.com/wiki/User:Raving_Kumquat)**
+**Maintainer : [Maxime Fabre](https://github.com/Anahkiasen)**
 
 ## Using
 
