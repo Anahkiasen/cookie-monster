@@ -1,12 +1,3 @@
-CookieMonster.dhc = function(e, t, n) {
-	var r = Game.UpgradesById[t];
-	var i = r.desc.indexOf("<b>") + 3;
-	var s = r.desc.indexOf("%");
-	var o = r.desc.substr(i, s - i) * 1;
-	var u = CookieMonster.getAchievementWorth(e, t, n, Game.prestige["Heavenly chips"] * 2 * (o / 100));
-	return u - Game.cookiesPs;
-};
-
 /**
  * Check if the upgrade ID is the one for Heavenly Key
  *
@@ -16,24 +7,6 @@ CookieMonster.dhc = function(e, t, n) {
  */
 CookieMonster.isHeavenlyKey = function(upgrade) {
 	return (Game.UpgradesById[upgrade].name === "Heavenly key");
-};
-
-CookieMonster.lgt = function(e) {
-	if (CookieMonster.hasAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
-		var t = [];
-		var n = [];
-		Game.UpgradesById.forEach(function (upgrade, key) {
-			if (upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
-				t.push(key);
-			} else if (!upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
-				n.push(key);
-			}
-		});
-		if (n.length === 1 && n[0] === e) {
-			return true;
-		}
-	}
-	return false;
 };
 
 /**
@@ -54,6 +27,45 @@ CookieMonster.hasAchievement = function(checkedAchievement) {
 
 	return found;
 };
+
+/**
+ * Check if an upgrade is in store
+ *
+ * @param {Array} upgrade
+ *
+ * @return {Boolean}
+ */
+CookieMonster.isInStore = function(upgrade) {
+	return Game.UpgradesInStore.indexOf(upgrade) !== -1;
+};
+
+CookieMonster.dhc = function(e, t, n) {
+	var r = Game.UpgradesById[t];
+	var i = r.desc.indexOf("<b>") + 3;
+	var s = r.desc.indexOf("%");
+	var o = r.desc.substr(i, s - i) * 1;
+	var u = CookieMonster.getAchievementWorth(e, t, n, Game.prestige["Heavenly chips"] * 2 * (o / 100));
+	return u - Game.cookiesPs;
+};
+
+CookieMonster.lgt = function(e) {
+	if (CookieMonster.hasAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
+		var t = [];
+		var n = [];
+		Game.UpgradesById.forEach(function (upgrade, key) {
+			if (upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
+				t.push(key);
+			} else if (!upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
+				n.push(key);
+			}
+		});
+		if (n.length === 1 && n[0] === e) {
+			return true;
+		}
+	}
+	return false;
+};
+
 
 CookieMonster.gpp = function() {
 	var multiplier = 1;
@@ -183,15 +195,4 @@ CookieMonster.checkUpgrade = function(e, t, n) {
 	}
 
 	return false;
-};
-
-/**
- * Check if an upgrade is in store
- *
- * @param {Array} upgrade
- *
- * @return {Boolean}
- */
-CookieMonster.isInStore = function(upgrade) {
-	return Game.UpgradesInStore.indexOf(upgrade) !== -1;
 };

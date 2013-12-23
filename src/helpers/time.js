@@ -11,7 +11,7 @@ CookieMonster.secondsLeft = function(object, type) {
 	var basePrice = 0;
 	if (type === 'object') {
 		basePrice = Game.ObjectsById[object].price;
-	}	else if (type === 'upgrade') {
+	} else if (type === 'upgrade') {
 		basePrice = Game.UpgradesById[object].basePrice;
 	}
 
@@ -54,7 +54,7 @@ CookieMonster.formatTime = function(time, compressed) {
 	var seconds = time % 60;
 
 	// Format units
-	var units = new Array(" days, ", " hours, ", " minutes, ", " seconds");
+	var units = [" days, ", " hours, ", " minutes, ", " seconds"];
 	if (compressed !== "min") {
 		if (days === 1) {
 			units[0] = " day, ";
@@ -69,7 +69,7 @@ CookieMonster.formatTime = function(time, compressed) {
 			units[3] = " second";
 		}
 	} else {
-		units = new Array("d, ", "h, ", "m, ", "seconds");
+		units = ["d, ", "h, ", "m, ", "seconds"];
 	}
 
 	// Create final string
