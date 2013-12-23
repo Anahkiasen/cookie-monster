@@ -7,12 +7,17 @@ u[o]&&(delete u[o],c?delete n[l]:typeof n.removeAttribute!==i?n.removeAttribute(
 
 /* exported CookieMonster */
 
+/**
+ * The CookieMonster plugin
+ *
+ * @type {Object}
+ */
 var CookieMonster = {
 
 	// Runtime variables
 	////////////////////////////////////////////////////////////////////
 
-	version               : "v.1.040.01",
+	version               : 'v.1.040.01',
 	emphasize             : true,
 	tooltips              : [],
 	buildingTooltips      : [],
@@ -20,17 +25,18 @@ var CookieMonster = {
 	holdIs                : [],
 	holdCPI               : [],
 	holdTC                : [],
-	goldenCookieAvailable : "",
+	goldenCookieAvailable : '',
 	loops                 : 0,
-	stsType               : new Array(
-		[" M", " B", " T", " Qa", " Qi", " Sx", " Sp", " Oc", " No", " Dc"],
-		[" M", " G", " T", " P", " E", " Z", " Y", " Oc", " No", " Dc"]),
+	humanNumbers          : new Array(
+		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
+		[' M', ' G', ' T', ' P', ' E', ' Z', ' Y', ' Oc', ' No', ' Dc']
+	),
 
 	// Upgrades
 	////////////////////////////////////////////////////////////////////
 
-	inStore               : new Array(0, 0, 0, 0, 0, 0),
-	upgradeCount          : 33,
+	inStore      : [0, 0, 0, 0, 0, 0],
+	upgradeCount : 33,
 
 	// Settings
 	////////////////////////////////////////////////////////////////////
@@ -56,6 +62,347 @@ var CookieMonster = {
 		orange : 'FF7F00',
 	}
 
+};
+/**
+ * Format a number to a string (adds separators, convert units, etc)
+ *
+ * @param {String|Integer} number
+ *
+ * @return {String}
+ */
+CookieMonster.formatNumber = function(number) {
+	return this.toHumanNumber(number, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+/**
+ * Rounds a number and format it to string
+ *
+ * @param {String|Integer} number
+ *
+ * @return {String}
+ */
+CookieMonster.formatNumberB = function(number) {
+	return this.toHumanNumber(number, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
+/**
+ * Formats a raw number to an human-readable one
+ *
+ * @param {Integer} number
+ * @param {Boolean} round
+ *
+ * @return {Integer|String}
+ */
+CookieMonster.toHumanNumber = function(number, round) {
+	var shortNumbers = this.settings[7] - 1;
+
+	if (shortNumbers > -1) {
+		var r = 1e33;
+		for (var i = this.humanNumbers[shortNumbers].length - 1; i >= 0; i--) {
+			var s = (number / r % 999).toFixed(3);
+			if (s >= 1) {
+				return s + this.humanNumbers[shortNumbers][i];
+			}
+			r /= 1e3;
+		}
+	}
+
+	// Round the number off
+	// Else we'll return the number rounded off to nearest decimal
+	if (round) {
+		return Math.round(number);
+	}
+
+	return Math.round(number * 100) / 100;
+};
+/**
+ * Check if the upgrade ID is the one for Heavenly Key
+ *
+ * @param {integer} upgrade
+ *
+ * @return {Boolean}
+ */
+CookieMonster.isHeavenlyKey = function(upgrade) {
+	return (Game.UpgradesById[upgrade].name === "Heavenly key");
+};
+
+/**
+ * Check if the user has won an achievement
+ *
+ * @param {string} checkedAchievement
+ *
+ * @return {integer} Boolean in integer form
+ */
+CookieMonster.hasAchievement = function(checkedAchievement) {
+	var found = 0;
+
+	Game.AchievementsById.forEach(function (achievement) {
+		if (!achievement.won && achievement.name === checkedAchievement) {
+			found = 1;
+		}
+	});
+
+	return found;
+};
+
+/**
+ * Check if an upgrade is in store
+ *
+ * @param {Array} upgrade
+ *
+ * @return {Boolean}
+ */
+CookieMonster.isInStore = function(upgrade) {
+	return Game.UpgradesInStore.indexOf(upgrade) !== -1;
+};
+
+CookieMonster.dhc = function(e, t, n) {
+	var r = Game.UpgradesById[t];
+	var i = r.desc.indexOf("<b>") + 3;
+	var s = r.desc.indexOf("%");
+	var o = r.desc.substr(i, s - i) * 1;
+	var u = CookieMonster.getAchievementWorth(e, t, n, Game.prestige["Heavenly chips"] * 2 * (o / 100));
+	return u - Game.cookiesPs;
+};
+
+CookieMonster.lgt = function(e) {
+	if (CookieMonster.hasAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
+		var t = [];
+		var n = [];
+		Game.UpgradesById.forEach(function (upgrade, key) {
+			if (upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
+				t.push(key);
+			} else if (!upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
+				n.push(key);
+			}
+		});
+		if (n.length === 1 && n[0] === e) {
+			return true;
+		}
+	}
+	return false;
+};
+
+
+CookieMonster.gpp = function() {
+	var multiplier = 1;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+			multiplier = multiplier * 2;
+		}
+
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+			multiplier = multiplier * 4;
+		}
+	});
+
+	return Game.ObjectsById[7].amount * 0.05 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
+};
+
+CookieMonster.gpg = function() {
+	var multiplier = 1;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
+			multiplier = multiplier * 2;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
+			multiplier = multiplier * 4;
+		}
+	});
+
+	return Game.ObjectsById[1].amount * 0.02 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
+};
+
+CookieMonster.mcg = function(e) {
+	var t = Game.UpgradesById[e].desc;
+	var n = 31;
+	if (t.indexOf(" another ") !== -1) {
+		n += 8;
+	}
+	var r = t.substr(n, t.indexOf("<", n) - n) * 1;
+	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
+};
+
+CookieMonster.bte = function(e) {
+	return Game.ObjectsById[e].storedTotalCps * Game.globalCpsMult;
+};
+
+CookieMonster.fte = function(e) {
+	return Game.ObjectsById[e].storedTotalCps * 3 * Game.globalCpsMult;
+};
+
+CookieMonster.bam = function(building, cookiesPerSecond, buildingKey) {
+	var multiplier = 1;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf(building + " are <b>twice</b> as efficient.") !== -1) {
+			multiplier = multiplier * 2;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf(building + " are <b>4 times</b> as efficient.") !== -1) {
+			multiplier = multiplier * 4;
+		}
+	});
+
+	return cookiesPerSecond * multiplier * Game.ObjectsById[buildingKey].amount * Game.globalCpsMult;
+};
+
+CookieMonster.inc = function(e) {
+	var t = 0;
+
+	Game.AchievementsById.forEach(function (achievement) {
+		var i = achievement.desc.replace(/,/g, "");
+		if (!achievement.won && i.indexOf(" per second.") !== -1) {
+			if (e >= i.substr(8, i.indexOf("</b>", 8) - 8) * 1) {
+				t++;
+			}
+		}
+	});
+
+	return t;
+};
+
+CookieMonster.checkUpgrade = function(e, t, n) {
+	var upgrade = Game.UpgradesById[t];
+	if (upgrade.desc.indexOf("cm_up_div_") === -1 && !n) {
+		return false;
+	}
+
+	var upgrades = [
+		"Reinforced index finger",
+		"The mouse and cursors are <b>twice</b> as efficient.",
+		"The mouse and cursors gain",
+		"Forwards from grandma",
+		"Grandmas are <b>twice</b> as efficient.",
+		"Cheap hoes",
+		"Farms are <b>twice</b> as efficient.",
+		"Sturdier conveyor belts",
+		"Factories are <b>twice</b> as efficient.",
+		"Sugar gas",
+		"Mines are <b>twice</b> as efficient.",
+		"Vanilla nebulae",
+		"Shipments are <b>twice</b> as efficient.",
+		"Antimony",
+		"Alchemy labs are <b>twice</b> as efficient.",
+		"Ancient tablet",
+		"Portals are <b>twice</b> as efficient.",
+		"Flux capacitors",
+		"Time machines are <b>twice</b> as efficient.",
+		"the more milk you have",
+		"Cookie production multiplier <b>+",
+		"for every 50 grandmas",
+		"for every 20 portals",
+		"Elder Pledge",
+		"Elder Covenant",
+		"Sacrificial rolling pins",
+		"Golden cookie",
+		"Clicking gains <b>+1% of your CpS</b>.",
+		"Grandmas are <b>4 times</b> as efficient.",
+		"Antimatter condensers are <b>twice</b> as efficient.",
+		"Sugar bosons",
+		"Revoke Elder Covenant",
+		"heavenly chips",
+	];
+
+	// Get description and check it against current upgrade
+	var description = upgrades[e];
+	if (!upgrade.bought && (upgrade.name === description || upgrade.desc.indexOf(description) !== -1)) {
+		return true;
+	}
+
+	return false;
+};
+/**
+ * Computes the time (s) required to buy a building/upgrade
+ *
+ * @param {Integer} object
+ * @param {String}  type
+ *
+ * @return {Integer}
+ */
+CookieMonster.secondsLeft = function(object, type) {
+	// Get the price of the object we want
+	var basePrice = 0;
+	if (type === 'object') {
+		basePrice = Game.ObjectsById[object].price;
+	} else if (type === 'upgrade') {
+		basePrice = Game.UpgradesById[object].basePrice;
+	}
+
+	// Get the amount of cookies needed
+	var realPrice = Game.cookies - basePrice;
+
+	// If we're not making any cookies, or have
+	// enough already, return 0
+	if (Game.cookiesPs === 0 || realPrice > 0) {
+		return 0;
+	}
+
+	return Math.abs(realPrice) / Game.cookiesPs;
+};
+
+/**
+ * Format a time (s) to an human-readable format
+ *
+ * @param {Integer} time
+ * @param {String}  compressed  Compressed output (minutes => m, etc.)
+ *
+ * @return {String}
+ */
+CookieMonster.formatTime = function(time, compressed) {
+	time = Math.round(time);
+
+	// Take care of special cases
+	if (time === Infinity) {
+		return "Never";
+	} else if (time === 0) {
+		return "Done!";
+	} else if (time / 86400 > 1e3) {
+		return "> 1,000 days";
+	}
+
+	// Compute each units separately
+	var days    = parseInt(time / 86400) % 999;
+	var hours   = parseInt(time / 3600) % 24;
+	var minutes = parseInt(time / 60) % 60;
+	var seconds = time % 60;
+
+	// Format units
+	var units = [" days, ", " hours, ", " minutes, ", " seconds"];
+	if (compressed !== "min") {
+		if (days === 1) {
+			units[0] = " day, ";
+		}
+		if (hours === 1) {
+			units[1] = " hour, ";
+		}
+		if (minutes === 1) {
+			units[2] = " minute, ";
+		}
+		if (seconds === 1) {
+			units[3] = " second";
+		}
+	} else {
+		units = ["d, ", "h, ", "m, ", "seconds"];
+	}
+
+	// Create final string
+	var formated = '';
+	if (days > 0) {
+		formated += days + units[0];
+	}
+	if (days > 0 || hours > 0) {
+		formated += hours + units[1];
+	}
+	if (days > 0 || hours > 0 || minutes > 0) {
+		formated += minutes + units[2];
+	}
+	if (days > 0 || hours > 0 || minutes > 0 || seconds > 0) {
+		formated += seconds + units[3];
+	}
+
+	return formated;
 };
 /**
  * Get the current frenzy multiplier
@@ -334,203 +681,6 @@ CookieMonster.getHeavenlyMultiplier = function() {
 
 	return chips * potential;
 };
-CookieMonster.dhc = function(e, t, n) {
-	var r = Game.UpgradesById[t];
-	var i = r.desc.indexOf("<b>") + 3;
-	var s = r.desc.indexOf("%");
-	var o = r.desc.substr(i, s - i) * 1;
-	var u = CookieMonster.getAchievementWorth(e, t, n, Game.prestige["Heavenly chips"] * 2 * (o / 100));
-	return u - Game.cookiesPs;
-};
-
-/**
- * Check if the upgrade ID is the one for Heavenly Key
- *
- * @param {integer} upgrade
- *
- * @return {Boolean}
- */
-CookieMonster.isHeavenlyKey = function(upgrade) {
-	return (Game.UpgradesById[upgrade].name === "Heavenly key");
-};
-
-CookieMonster.lgt = function(e) {
-	if (CookieMonster.hasAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
-		var t = [];
-		var n = [];
-		Game.UpgradesById.forEach(function (upgrade, key) {
-			if (upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
-				t.push(key);
-			} else if (!upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
-				n.push(key);
-			}
-		});
-		if (n.length === 1 && n[0] === e) {
-			return true;
-		}
-	}
-	return false;
-};
-
-/**
- * Check if the user has won an achievement
- *
- * @param {string} checkedAchievement
- *
- * @return {integer} Boolean in integer form
- */
-CookieMonster.hasAchievement = function(checkedAchievement) {
-	var found = 0;
-
-	Game.AchievementsById.forEach(function (achievement) {
-		if (!achievement.won && achievement.name === checkedAchievement) {
-			found = 1;
-		}
-	});
-
-	return found;
-};
-
-CookieMonster.gpp = function() {
-	var multiplier = 1;
-
-	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			multiplier = multiplier * 2;
-		}
-
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			multiplier = multiplier * 4;
-		}
-	});
-
-	return Game.ObjectsById[7].amount * 0.05 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
-};
-
-CookieMonster.gpg = function() {
-	var multiplier = 1;
-
-	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			multiplier = multiplier * 2;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			multiplier = multiplier * 4;
-		}
-	});
-
-	return Game.ObjectsById[1].amount * 0.02 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
-};
-
-CookieMonster.mcg = function(e) {
-	var t = Game.UpgradesById[e].desc;
-	var n = 31;
-	if (t.indexOf(" another ") !== -1) {
-		n += 8;
-	}
-	var r = t.substr(n, t.indexOf("<", n) - n) * 1;
-	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
-};
-
-CookieMonster.bte = function(e) {
-	return Game.ObjectsById[e].storedTotalCps * Game.globalCpsMult;
-};
-
-CookieMonster.fte = function(e) {
-	return Game.ObjectsById[e].storedTotalCps * 3 * Game.globalCpsMult;
-};
-
-CookieMonster.bam = function(building, cookiesPerSecond, buildingKey) {
-	var multiplier = 1;
-
-	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf(building + " are <b>twice</b> as efficient.") !== -1) {
-			multiplier = multiplier * 2;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf(building + " are <b>4 times</b> as efficient.") !== -1) {
-			multiplier = multiplier * 4;
-		}
-	});
-
-	return cookiesPerSecond * multiplier * Game.ObjectsById[buildingKey].amount * Game.globalCpsMult;
-};
-
-CookieMonster.inc = function(e) {
-	var t = 0;
-
-	Game.AchievementsById.forEach(function (achievement) {
-		var i = achievement.desc.replace(/,/g, "");
-		if (!achievement.won && i.indexOf(" per second.") !== -1) {
-			if (e >= i.substr(8, i.indexOf("</b>", 8) - 8) * 1) {
-				t++;
-			}
-		}
-	});
-
-	return t;
-};
-
-CookieMonster.checkUpgrade = function(e, t, n) {
-	var upgrade = Game.UpgradesById[t];
-	if (upgrade.desc.indexOf("cm_up_div_") === -1 && !n) {
-		return false;
-	}
-
-	var upgrades = [
-		"Reinforced index finger",
-		"The mouse and cursors are <b>twice</b> as efficient.",
-		"The mouse and cursors gain",
-		"Forwards from grandma",
-		"Grandmas are <b>twice</b> as efficient.",
-		"Cheap hoes",
-		"Farms are <b>twice</b> as efficient.",
-		"Sturdier conveyor belts",
-		"Factories are <b>twice</b> as efficient.",
-		"Sugar gas",
-		"Mines are <b>twice</b> as efficient.",
-		"Vanilla nebulae",
-		"Shipments are <b>twice</b> as efficient.",
-		"Antimony",
-		"Alchemy labs are <b>twice</b> as efficient.",
-		"Ancient tablet",
-		"Portals are <b>twice</b> as efficient.",
-		"Flux capacitors",
-		"Time machines are <b>twice</b> as efficient.",
-		"the more milk you have",
-		"Cookie production multiplier <b>+",
-		"for every 50 grandmas",
-		"for every 20 portals",
-		"Elder Pledge",
-		"Elder Covenant",
-		"Sacrificial rolling pins",
-		"Golden cookie",
-		"Clicking gains <b>+1% of your CpS</b>.",
-		"Grandmas are <b>4 times</b> as efficient.",
-		"Antimatter condensers are <b>twice</b> as efficient.",
-		"Sugar bosons",
-		"Revoke Elder Covenant",
-		"heavenly chips",
-	];
-
-	// Get description and check it against current upgrade
-	var description = upgrades[e];
-	if (!upgrade.bought && (upgrade.name === description || upgrade.desc.indexOf(description) !== -1)) {
-		return true;
-	}
-
-	return false;
-};
-
-/**
- * Check if an upgrade is in store
- *
- * @param {Array} upgrade
- *
- * @return {Boolean}
- */
-CookieMonster.isInStore = function(upgrade) {
-	return Game.UpgradesInStore.indexOf(upgrade) !== -1;
-};
 /**
  * Changes the favicon according to current state
  *
@@ -643,7 +793,7 @@ CookieMonster.updateTable = function() {
 		CookieMonster.holdItem[t] = e.name.replace(a, "") + ' (<span style="color:#' +CookieMonster.colors.blue+ ';">' + CookieMonster.formatNumber(r) + "</span>)";
 		CookieMonster.holdIs[t]   = Math.round(o * 100) / 100;
 		CookieMonster.holdCPI[t]  = Math.round(u * 100) / 100;
-		CookieMonster.holdTC[t]   = Math.round(CookieMonster.secondsLeft(t, "ob"));
+		CookieMonster.holdTC[t]   = Math.round(CookieMonster.secondsLeft(t, "object"));
 	});
 
 	Game.ObjectsById.forEach(function (e, t) {
@@ -674,7 +824,7 @@ CookieMonster.colorize = function(e, t, n) {
 	var r = Game.UpgradesById[t];
 	var s = r.basePrice;
 	var o = new Array(this.colors.yellow, this.colors.yellow);
-	var u = new Array(Math.round(s / e * 100) / 100, Math.round(this.secondsLeft(t, "up")));
+	var u = new Array(Math.round(s / e * 100) / 100, Math.round(this.secondsLeft(t, "upgrade")));
 	var a = new Array(Math.max.apply(Math, this.holdCPI), Math.max.apply(Math, this.holdTC));
 	var f = new Array(Math.min.apply(Math, this.holdCPI), Math.min.apply(Math, this.holdTC));
 
@@ -717,7 +867,7 @@ CookieMonster.colorize = function(e, t, n) {
 		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
 	}
 	if ($("#cm_up_div_" + t).length === 1) {
-		var l = new Array(this.lucky("reg", true), this.lucky("frenzy", true));
+		var l = new Array(this.lucky('regular', true), this.lucky("frenzy", true));
 		var c = new Array("none", "none");
 		var h = new Array(0, 0);
 		if (Game.cookies - s < l[0]) {
@@ -810,53 +960,67 @@ CookieMonster.doEmphasize = function() {
 		e.css("display", "none");
 	}
 };
-CookieMonster.lucky = function(e, t) {
-	var n = Game.cookiesPs;
-	if (Game.frenzy > 0) {
-		n = n / Game.frenzyPower;
-	}
-	if (e === "frenzy") {
-		n = n * 7;
-	}
-	var r = Math.round((n * 1200 + 13) / 0.1);
+/**
+ * Get the (MAX) lucky reward for a particular situation
+ *
+ * @param {string} context [regular,max]
+ * @param {[type]} raw     Return in text form or formatted
+ *
+ * @return {String}
+ */
+CookieMonster.lucky = function(context, raw) {
+	var reward =  Math.round((this.getFrenzyRate(context) * 1200 + 13) / 0.1);
 
-	if (!t) {
-		if (r <= Game.cookies) {
-			r = '<span style="color:#00FF00; font-weight:bold;">' + CookieMonster.formatNumber(r) + "</span>";
+	if (!raw) {
+		if (reward <= Game.cookies) {
+			reward = '<span style="color:#' +this.colors.green+ '; font-weight:bold;">' + this.formatNumber(reward) + "</span>";
 		}
 		else {
-			r = CookieMonster.formatNumber(r);
+			reward = this.formatNumber(reward);
 		}
 	}
 
-	return r;
+	return reward;
 };
 
 /**
- * Get the lucky reward for a particular situation
+ * Get the (MAX) lucky reward for a particular situation
  *
- * @param {string} context [cur,max,max_frenzy]
+ * @param {string} context [current,max,max_frenzy]
  *
  * @return {string}
  */
 CookieMonster.luckyReward = function(context) {
-	var reward = Game.cookiesPs;
-
-	if (Game.frenzy > 0 && context !== "cur") {
-		reward = reward / Game.frenzyPower;
-	}
-	if (context === "max_frenzy") {
-		reward = reward * 7;
-	}
+	var reward = this.getFrenzyRate(context);
 
 	var number = [Math.round(reward * 1200 + 13), Math.round(Game.cookies * 0.1 + 13)];
-	if (context === "max" || context === "max_frenzy") {
+	if (context === 'max' || context === 'frenzy') {
 		if (Math.round((reward * 1200 + 13) / 0.1) > Game.cookies) {
 			return this.formatNumber(number[0]);
 		}
 	}
 
 	return this.formatNumber(Math.min.apply(Math, number));
+};
+
+/**
+ * Get the frenzy Cookie/s for a context
+ *
+ * @param {String} context
+ *
+ * @return {Integer}
+ */
+CookieMonster.getFrenzyRate = function(context) {
+	var reward = Game.cookiesPs;
+
+	if (Game.frenzy > 0 && context !== 'current') {
+		reward = reward / Game.frenzyPower;
+	}
+	if (context === 'frenzy') {
+		reward = reward * 7;
+	}
+
+	return reward;
 };
 /**
  * Load a setting from localStorage
@@ -1159,116 +1323,6 @@ CookieMonster.getLuckyAlert = function () {
 			return "Both";
 	}
 };
-CookieMonster.factorTime = function(e) {
-	var t = Game.cookies - e;
-	var n = Game.cookiesPs;
-
-	if (n === 0) {
-		return 1;
-	}
-	if (t < 0) {
-		var r = e / n;
-		return 1 - t * -1 / n / r;
-	}
-
-	return 1;
-};
-
-CookieMonster.secondsLeft = function(e, t) {
-	var n = 0;
-	if (t === "ob") {
-		n = Game.ObjectsById[e].price;
-	}
-	if (t === "up") {
-		n = Game.UpgradesById[e].basePrice;
-	}
-	var r = Game.cookies - n;
-	var i = Game.cookiesPs;
-
-	if (i === 0) {
-		return 0;
-	}
-	if (r < 0) {
-		var o = r * -1 / i;
-		return o;
-	}
-
-	return 0;
-};
-
-CookieMonster.sts = function(e, t) {
-	var n = this.settings[7];
-	if (n > 0) {
-		var r = 1e33;
-		for (var i = this.stsType[n - 1].length - 1; i >= 0; i--) {
-			var s = (e / r % 999).toFixed(3);
-			if (s >= 1) {
-				return s + this.stsType[n - 1][i];
-			}
-			r /= 1e3;
-		}
-	}
-	if (t) {
-		return Math.round(e);
-	}
-	return Math.round(e * 100) / 100;
-};
-
-CookieMonster.formatNumber = function(e) {
-	return this.sts(e, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-
-CookieMonster.formatNumberB = function(e) {
-	return this.sts(e, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-
-CookieMonster.formatTime = function(e, t) {
-	e = Math.round(e);
-	if (e === Infinity) {
-		return "Never";
-	}
-	if (e === 0) {
-		return "Done!";
-	}
-	if (e / 86400 > 1e3) {
-		return "> 1,000 days";
-	}
-	var n = parseInt(e / 86400) % 999;
-	var r = parseInt(e / 3600) % 24;
-	var i = parseInt(e / 60) % 60;
-	var s = e % 60;
-	var o = new Array(" days, ", " hours, ", " minutes, ", " seconds");
-	if (t !== "min") {
-		if (n === 1) {
-			o[0] = " day, ";
-		}
-		if (r === 1) {
-			o[1] = " hour, ";
-		}
-		if (i === 1) {
-			o[2] = " minute, ";
-		}
-		if (s === 1) {
-			o[3] = " second";
-		}
-	} else {
-		o = new Array("d, ", "h, ", "m, ", "s");
-	}
-	var u = "";
-	if (n > 0) {
-		u = u + n + o[0];
-	}
-	if (n > 0 || r > 0) {
-		u = u + r + o[1];
-	}
-	if (n > 0 || r > 0 || i > 0) {
-		u = u + i + o[2];
-	}
-	if (n > 0 || r > 0 || i > 0 || s > 0) {
-		u = u + s + o[3];
-	}
-	return u;
-};
 /**
  * Save the currently available tooltips
  *
@@ -1447,7 +1501,7 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 
 CookieMonster.manageBuildingTooltip = function(e) {
 	var t = e.id;
-	var n = new Array(this.lucky("reg", true), this.lucky("frenzy", true));
+	var n = new Array(this.lucky('regular', true), this.lucky("frenzy", true));
 	var r = new Array("none", "none");
 	var o = new Array(0, 0);
 	var i;
@@ -1797,7 +1851,7 @@ CookieMonster.centennial = function(building) {
  */
 CookieMonster.update = function() {
 	Game.Logic = new Function("", Game.Logic.toString().replace(".title=", ".title=CookieMonster.goldenCookieAvailable+").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
-	var e = "\n\n'<div class=\"subsection\">'+" + '\'<div class="title"><span style="color:#4bb8f0;">Cookie Monster Goodies</span></div>\'+' + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> ' + CookieMonster.lucky('reg', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.lucky('frenzy', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> ' + CookieMonster.luckyReward('max') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX) (Frenzy):</b> ' + CookieMonster.luckyReward('max_frenzy') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (CUR):</b> ' + CookieMonster.luckyReward('cur') + '</div>'+" + "'</br><div class=\"listing\"><b>Heavenly Chips (MAX):</b> ' + CookieMonster.getHeavenlyChip('max') + '</div>'+" + "'<div class=\"listing\"><b>Heavenly Chips (CUR):</b> ' + CookieMonster.getHeavenlyChip('cur') + '</div>'+" + "'<div class=\"listing\"><b>Cookies To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('next') + '</div>'+" + "'<div class=\"listing\"><b>Time To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('time') + '</div>'+" + "'</div>'+";
+	var e = "\n\n'<div class=\"subsection\">'+" + '\'<div class="title"><span style="color:#4bb8f0;">Cookie Monster Goodies</span></div>\'+' + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> ' + CookieMonster.lucky('regular', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.lucky('frenzy', false) + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> ' + CookieMonster.luckyReward('max') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (MAX) (Frenzy):</b> ' + CookieMonster.luckyReward('frenzy') + '</div>'+" + "'<div class=\"listing\"><b>\"Lucky!\" Reward (CUR):</b> ' + CookieMonster.luckyReward('current') + '</div>'+" + "'</br><div class=\"listing\"><b>Heavenly Chips (MAX):</b> ' + CookieMonster.getHeavenlyChip('max') + '</div>'+" + "'<div class=\"listing\"><b>Heavenly Chips (CUR):</b> ' + CookieMonster.getHeavenlyChip('cur') + '</div>'+" + "'<div class=\"listing\"><b>Cookies To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('next') + '</div>'+" + "'<div class=\"listing\"><b>Time To Next Chip:</b> ' + CookieMonster.getHeavenlyChip('time') + '</div>'+" + "'</div>'+";
 	Game.UpdateMenu = new Function("", Game.UpdateMenu.toString().replace("Statistics</div>'+", "Statistics</div>'+" + e).replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
 	var t = "\n'<div class=\"subsection\">'+" + '\'<div class="title"><span style="color:#4bb8f0;">Cookie Monster Settings</span></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Flash Screen \' + CookieMonster.getOptionState(0) + \'</a><label>Flashes the screen when a Golden Cookie or Red Cookie appears</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Cookie Timer \' + CookieMonster.getOptionState(1) + \'</a><label>Displays a timer on Golden Cookies and Red Cookies</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Cookie Sound \' + CookieMonster.getOptionState(8) + \'</a><label>Plays a sound when a Golden Cookie or Red Cookie appears</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Next Cookie Timer \' + CookieMonster.getOptionState(4) + \'</a><label>Displays a countdown bar and updates the Title for when the next Cookie will appear</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Update Title \' + CookieMonster.getOptionState(9) + \'</a><label>Updates the Title to display if a Cookie is waiting to be clicked</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Buff Bars \' + CookieMonster.getOptionState(2) + \'</a><label>Displays a countdown bar for each effect currently active</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Bottom Bar \' + CookieMonster.getOptionState(5) + \'</a><label>Displays a bar at the bottom of the screen that shows all Building information</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Colored Prices \' + CookieMonster.getOptionState(6) + \'</a><label>Changes the colors of all Building prices to correspond with their Cost Per Income</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Upgrade Icons \' + CookieMonster.getOptionState(11) + \'</a><label>Displays a small square icon on the Upgrade to better display the Cost Per Income color value</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Short Numbers \' + CookieMonster.getShortNumbers() + \'</a><label>Formats all numbers to be shorter when displayed</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Upgrade Display (\' + CookieMonster.getUpgradeDisplay() + \')</a><label>Changes how the store displays Upgrades</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Lucky Alert (\' + CookieMonster.getLuckyAlert() + \')</a><label>Changes the tooltip to display if you would be under the number of cookies required for "Lucky!"</label></div>\'+' + '\'<div class="listing"><a class="option" onclick="CookieMonster.toggleOption(this);">Refresh Rate (\' + CookieMonster.getRefreshRate() + \' fps)</a><label>The rate at which Cookie Monster updates data (higher rates may slow the game)</label></div>\'+' + "'</div>'+";
 	Game.UpdateMenu = new Function("", Game.UpdateMenu.toString().replace("OFF')+'</div>'+", "OFF')+'</div>'+" + t).replace("startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);", "startDate = CookieMonster.formatTime(((new Date).getTime() - Game.startDate) / 1000, '');").replace(/^function[^{]+{/i, "").replace(/}[^}]*$/i, ""));
