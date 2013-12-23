@@ -218,7 +218,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 		$("#cm_ob_warning_amount").text("Deficit: " + this.formatNumber(o[0]));
 		$("#cm_ob_caution_amount").text("Deficit: " + this.formatNumber(o[1]));
 
-		if (this.settings[10] === 1 || this.settings[10] === 2) {
+		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
 			$("#cm_ob_lucky_div_warning").css("display", r[0]);
 			$("#cm_ob_lucky_div_caution").css("display", r[1]);
 		} else {
@@ -226,7 +226,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 			$("#cm_ob_lucky_div_caution").css("display", "none");
 		}
 
-		if (this.settings[10] === 1 || this.settings[10] === 3) {
+		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 3) {
 			$("#cm_ob_note_div_warning").css("display", r[0]);
 			$("#cm_ob_note_div_caution").css("display", r[1]);
 		} else {
@@ -235,7 +235,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 		}
 	}
 
-	if (this.settings[6] === 1) {
+	if (this.getBooleanSetting('ColoredPrices')) {
 		$("#product" + t).find(".price").first().css("color", "#" + u[0]);
 	} else {
 		$("#product" + t).find(".price").first().css("color", "");

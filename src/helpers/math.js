@@ -29,7 +29,7 @@ CookieMonster.formatNumberB = function(number) {
  * @return {Integer|String}
  */
 CookieMonster.toHumanNumber = function(number, round) {
-	var shortNumbers = this.settings[7] - 1;
+	var shortNumbers = this.getSetting('ShortNumbers') - 1;
 
 	if (shortNumbers > -1) {
 		var r = 1e33;

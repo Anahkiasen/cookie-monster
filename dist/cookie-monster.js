@@ -101,7 +101,7 @@ CookieMonster.manageBuffs = function() {
 			break;
 	}
 
-	if (Game.frenzy > 0 && this.settings[2] === 1) {
+	if (Game.frenzy > 0 && this.getSetting('BuffBars', true)) {
 		if ($("#cookie_monster_timer_" + color).length !== 1) {
 			$("#cookie_monster_timer_bars_div").append(
 				'<div id="cookie_monster_timer_' + color + '" style="padding:4px 0px 5px 0px;">'+
@@ -162,7 +162,7 @@ CookieMonster.manageBuffs = function() {
 	}
 
 	if (countdown > 0 && CookieMonster.$goldenCookie.css("display") === "none") {
-		this.goldenCookieAvailable = (this.settings[4] === 1) ? "(" + countdown + ") " : '';
+		this.goldenCookieAvailable = (this.getBooleanSetting('CookieCD')) ? "(" + countdown + ") " : '';
 	}
 
 	$("#versionNumber").css("bottom", $("#cookie_monster_timer_bars_div").css("height"));
@@ -433,7 +433,7 @@ CookieMonster.formatNumberB = function(number) {
  * @return {Integer|String}
  */
 CookieMonster.toHumanNumber = function(number, round) {
-	var shortNumbers = this.settings[7] - 1;
+	var shortNumbers = this.getSetting('ShortNumbers') - 1;
 
 	if (shortNumbers > -1) {
 		var r = 1e33;
@@ -772,10 +772,10 @@ CookieMonster.faviconSpinner = function(frame) {
  * @return {void}
  */
 CookieMonster.toggleBar = function() {
-	var toggle = this.settings[5] === 0;
-	var bottom = toggle ? 0 : 57;
+	var toggle = this.getBooleanSetting('CMBar');
+	var bottom = !toggle ? 0 : 57;
 
-	this.$monsterBar.toggle(!toggle);
+	this.$monsterBar.toggle(toggle);
 	$('#game').css('bottom', bottom+'px');
 };
 
@@ -788,7 +788,7 @@ CookieMonster.updateUpgradeDisplay = function() {
 	var $upgrades = $("#upgrades");
 	var height;
 
-	switch (this.settings[12] * 1) {
+	switch (this.getSetting('UpgradeDisplay') * 1) {
 		case 1:
 			height = '';
 			break;
@@ -925,7 +925,7 @@ CookieMonster.colorize = function(e, t, n) {
 	for (i = 0; i < this.inStore.length; i++) {
 		$("#cm_up_q" + i).text(this.inStore[i]);
 	}
-	if (this.settings[11] && this.isInStore(r)) {
+	if (this.getSetting('UpgradeIcons') && this.isInStore(r)) {
 		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
 	}
 	if ($("#cm_up_div_" + t).length === 1) {
@@ -946,14 +946,14 @@ CookieMonster.colorize = function(e, t, n) {
 		$("#cm_up_warning_amount").text("Deficit: " + this.formatNumber(h[0]));
 		$("#cm_up_caution_amount").text("Deficit: " + this.formatNumber(h[1]));
 
-		if (this.settings[10] === 1 || this.settings[10] === 2) {
+		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
 			$("#cm_up_lucky_div_warning").css("display", c[0]);
 			$("#cm_up_lucky_div_caution").css("display", c[1]);
 		} else {
 			$("#cm_up_lucky_div_warning").css("display", "none");
 			$("#cm_up_lucky_div_caution").css("display", "none");
 		}
-		if (this.settings[10] === 1 || this.settings[10] === 3) {
+		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 3) {
 			$("#cm_up_note_div_warning").css("display", c[0]);
 			$("#cm_up_note_div_caution").css("display", c[1]);
 		} else {
@@ -998,25 +998,27 @@ CookieMonster.doEmphasize = function() {
 	}
 	if (t.css("display") !== "none" && this.emphasize) {
 		this.emphasize = false;
-		if (this.settings[9] === 1) {
+		if (this.getSetting('UpdateTitle') === 1) {
 			this.goldenCookieAvailable = "(G) ";
 			this.faviconSpinner(1);
 		}
-		if (this.settings[8] === 1) {
+		if (this.getSetting('CookieSound') === 1) {
 			var n = new realAudio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");
 			n.volume = 1;
 			n.play();
 		}
-		if (this.settings[0] === 1) {
+		if (this.getSetting('FlashScreen') === 1) {
 			$("#cookie_monster_overlay").fadeIn(100);
 			$("#cookie_monster_overlay").fadeOut(500);
 		}
 	}
-	if (t.css("display") !== "none" && this.settings[1] === 1) {
-		e.css("display", "block");
-		e.css("opacity", t.css("opacity"));
-		e.css("left", t.css("left"));
-		e.css("top", t.css("top"));
+	if (t.css("display") !== "none" && this.getSetting('CookieTimer') === 1) {
+		e.css({
+			display : 'block',
+			opacity : t.css('opacity'),
+			left    : t.css('left'),
+			top     : t.css('top'),
+		});
 		e.html('<div style="position:absolute; top:30px; width:96px; height:36px;">' + Math.round(Game.goldenCookie.life / Game.fps) + "</div>");
 	} else {
 		e.css("display", "none");
@@ -1071,6 +1073,48 @@ CookieMonster.saveSettings = function() {
 	this.toggleBar();
 };
 
+//////////////////////////////////////////////////////////////////////
+////////////////////////// GETTERS AND SETTERS ///////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Set a setting by name
+ *
+ * @param {String} setting
+ * @param {Mixed}  value
+ */
+CookieMonster.setSetting = function(setting, value) {
+	this.settings[this.settingsKeys.indexOf(setting)] = value;
+};
+
+/**
+ * Get an option's value by name
+ *
+ * @param {String}  setting
+ * @param {Boolean} asBoolean
+ *
+ * @return {Mixed}
+ */
+CookieMonster.getSetting = function(setting, asBoolean) {
+	setting = this.settings[this.settingsKeys.indexOf(setting)];
+	if (typeof asBoolean === 'undefined') {
+		asBoolean = false;
+	}
+
+	return asBoolean ? setting === 1 : setting;
+};
+
+/**
+ * Alias for getSetting(setting, true)
+ *
+ * @param {String} setting
+ *
+ * @return {Mixed}
+ */
+CookieMonster.getBooleanSetting = function (setting) {
+	return this.getSetting(setting, true);
+};
+
 /**
  * Get the text version state of an option
  *
@@ -1081,6 +1125,10 @@ CookieMonster.saveSettings = function() {
 CookieMonster.getOptionState = function(key) {
 	return (this.settings[key] === 0) ? 'OFF' : 'ON';
 };
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////// OPTIONS /////////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 /**
  * Toggle an option's status
@@ -1094,151 +1142,151 @@ CookieMonster.toggleOption = function(option) {
 
 	switch ($option.text()) {
 		case "Flash Screen ON":
-			this.settings[0] = 0;
+			this.getSetting('FlashScreen') = 0;
 			$option.text("Flash Screen OFF");
 			break;
 		case "Flash Screen OFF":
-			this.settings[0] = 1;
+			this.getSetting('FlashScreen') = 1;
 			$option.text("Flash Screen ON");
 			break;
 		case "Cookie Sound ON":
-			this.settings[8] = 0;
+			this.getSetting('CookieSound') = 0;
 			$option.text("Cookie Sound OFF");
 			break;
 		case "Cookie Sound OFF":
-			this.settings[8] = 1;
+			this.getSetting('CookieSound') = 1;
 			$option.text("Cookie Sound ON");
 			break;
 		case "Cookie Timer ON":
-			this.settings[1] = 0;
+			this.getSetting('CookieTimer') = 0;
 			$option.text("Cookie Timer OFF");
 			break;
 		case "Cookie Timer OFF":
-			this.settings[1] = 1;
+			this.getSetting('CookieTimer') = 1;
 			$option.text("Cookie Timer ON");
 			break;
 		case "Next Cookie Timer ON":
-			this.settings[4] = 0;
+			this.getSetting('CookieCD') = 0;
 			$option.text("Next Cookie Timer OFF");
 			break;
 		case "Next Cookie Timer OFF":
-			this.settings[4] = 1;
+			this.getSetting('CookieCD') = 1;
 			$option.text("Next Cookie Timer ON");
 			break;
 		case "Update Title ON":
-			this.settings[9] = 0;
+			this.getSetting('UpdateTitle') = 0;
 			$option.text("Update Title OFF");
 			break;
 		case "Update Title OFF":
-			this.settings[9] = 1;
+			this.getSetting('UpdateTitle') = 1;
 			$option.text("Update Title ON");
 			break;
 		case "Buff Bars ON":
-			this.settings[2] = 0;
+			this.getSetting('BuffBars') = 0;
 			$option.text("Buff Bars OFF");
 			break;
 		case "Buff Bars OFF":
-			this.settings[2] = 1;
+			this.getSetting('BuffBars') = 1;
 			$option.text("Buff Bars ON");
 			break;
 		case "Bottom Bar ON":
-			this.settings[5] = 0;
+			this.getSetting('CMBar') = 0;
 			$option.text("Bottom Bar OFF");
 			break;
 		case "Bottom Bar OFF":
-			this.settings[5] = 1;
+			this.getSetting('CMBar') = 1;
 			$option.text("Bottom Bar ON");
 			break;
 		case "Colored Prices ON":
-			this.settings[6] = 0;
+			this.getSetting('ColoredPrices') = 0;
 			$option.text("Colored Prices OFF");
 			CookieMonster.updateTooltips("objects");
 			break;
 		case "Colored Prices OFF":
-			this.settings[6] = 1;
+			this.getSetting('ColoredPrices') = 1;
 			$option.text("Colored Prices ON");
 			CookieMonster.updateTooltips("objects");
 			break;
 		case "Upgrade Icons ON":
-			this.settings[11] = 0;
+			this.getSetting('UpgradeIcons') = 0;
 			$option.text("Upgrade Icons OFF");
 			Game.RebuildUpgrades();
 			break;
 		case "Upgrade Icons OFF":
-			this.settings[11] = 1;
+			this.getSetting('UpgradeIcons') = 1;
 			$option.text("Upgrade Icons ON");
 			Game.RebuildUpgrades();
 			break;
 		case "Upgrade Display (All)":
-			this.settings[12] = 0;
+			this.getSetting('UpgradeDisplay') = 0;
 			$option.text("Upgrade Display (None)");
 			CookieMonster.updateUpgradeDisplay();
 			break;
 		case "Upgrade Display (None)":
-			this.settings[12] = 1;
+			this.getSetting('UpgradeDisplay') = 1;
 			$option.text("Upgrade Display (Normal)");
 			CookieMonster.updateUpgradeDisplay();
 			break;
 		case "Upgrade Display (Normal)":
-			this.settings[12] = 2;
+			this.getSetting('UpgradeDisplay') = 2;
 			$option.text("Upgrade Display (All)");
 			CookieMonster.updateUpgradeDisplay();
 			break;
 		case "Short Numbers ON (B)":
-			this.settings[7] = 0;
+			this.getSetting('ShortNumbers') = 0;
 			$option.text("Short Numbers OFF");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
 			CookieMonster.updateTable();
 			break;
 		case "Short Numbers OFF":
-			this.settings[7] = 1;
+			this.getSetting('ShortNumbers') = 1;
 			$option.text("Short Numbers ON (A)");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
 			CookieMonster.updateTable();
 			break;
 		case "Short Numbers ON (A)":
-			this.settings[7] = 2;
+			this.getSetting('ShortNumbers') = 2;
 			$option.text("Short Numbers ON (B)");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
 			CookieMonster.updateTable();
 			break;
 		case "Lucky Alert (Both)":
-			this.settings[10] = 2;
+			this.getSetting('LuckyAlert') = 2;
 			$option.text("Lucky Alert (Icons)");
 			break;
 		case "Lucky Alert (Icons)":
-			this.settings[10] = 3;
+			this.getSetting('LuckyAlert') = 3;
 			$option.text("Lucky Alert (Notes)");
 			break;
 		case "Lucky Alert (Notes)":
-			this.settings[10] = 0;
+			this.getSetting('LuckyAlert') = 0;
 			$option.text("Lucky Alert (Off)");
 			break;
 		case "Lucky Alert (Off)":
-			this.settings[10] = 1;
+			this.getSetting('LuckyAlert') = 1;
 			$option.text("Lucky Alert (Both)");
 			break;
 		case "Refresh Rate (1 fps)":
-			this.settings[3] = 500;
+			this.getSetting('Refresh') = 500;
 			$option.text("Refresh Rate (2 fps)");
 			break;
 		case "Refresh Rate (2 fps)":
-			this.settings[3] = 250;
+			this.getSetting('Refresh') = 250;
 			$option.text("Refresh Rate (4 fps)");
 			break;
 		case "Refresh Rate (4 fps)":
-			this.settings[3] = 100;
+			this.getSetting('Refresh') = 100;
 			$option.text("Refresh Rate (10 fps)");
 			break;
 		case "Refresh Rate (10 fps)":
-			this.settings[3] = 33;
+			this.getSetting('Refresh') = 33;
 			$option.text("Refresh Rate (30 fps)");
 			break;
 		case "Refresh Rate (30 fps)":
-			this.settings[3] = 1e3;
+			this.getSetting('Refresh') = 1e3;
 			$option.text("Refresh Rate (1 fps)");
 			break;
 	}
@@ -1256,7 +1304,7 @@ CookieMonster.toggleOption = function(option) {
  * @return {string}
  */
 CookieMonster.getShortNumbers = function() {
-	switch (this.settings[7] * 1) {
+	switch (this.getSetting('ShortNumbers') * 1) {
 		case 1:
 			return "ON (A)";
 		case 2:
@@ -1274,7 +1322,7 @@ CookieMonster.getShortNumbers = function() {
  * @return {string}
  */
 CookieMonster.getRefreshRate = function() {
-	switch (this.settings[3] * 1) {
+	switch (this.getSetting('Refresh') * 1) {
 		case 1e3:
 			return "1";
 		case 500:
@@ -1296,7 +1344,7 @@ CookieMonster.getRefreshRate = function() {
  * @return {string}
  */
 CookieMonster.getUpgradeDisplay = function() {
-	switch (this.settings[12] * 1) {
+	switch (this.getSetting('UpgradeDisplay') * 1) {
 		case 1:
 			return "Normal";
 		case 2:
@@ -1314,7 +1362,7 @@ CookieMonster.getUpgradeDisplay = function() {
  * @return {string}
  */
 CookieMonster.getLuckyAlert = function () {
-	switch (this.settings[10] * 1) {
+	switch (this.getSetting('LuckyAlert') * 1) {
 		case 1:
 			return "Both";
 		case 2:
@@ -1547,7 +1595,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 		$("#cm_ob_warning_amount").text("Deficit: " + this.formatNumber(o[0]));
 		$("#cm_ob_caution_amount").text("Deficit: " + this.formatNumber(o[1]));
 
-		if (this.settings[10] === 1 || this.settings[10] === 2) {
+		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
 			$("#cm_ob_lucky_div_warning").css("display", r[0]);
 			$("#cm_ob_lucky_div_caution").css("display", r[1]);
 		} else {
@@ -1555,7 +1603,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 			$("#cm_ob_lucky_div_caution").css("display", "none");
 		}
 
-		if (this.settings[10] === 1 || this.settings[10] === 3) {
+		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 3) {
 			$("#cm_ob_note_div_warning").css("display", r[0]);
 			$("#cm_ob_note_div_caution").css("display", r[1]);
 		} else {
@@ -1564,7 +1612,7 @@ CookieMonster.manageBuildingTooltip = function(e) {
 		}
 	}
 
-	if (this.settings[6] === 1) {
+	if (this.getSetting('ColoredPrices') === 1) {
 		$("#product" + t).find(".price").first().css("color", "#" + u[0]);
 	} else {
 		$("#product" + t).find(".price").first().css("color", "");
@@ -1732,7 +1780,7 @@ CookieMonster.mainLoop = function() {
 
 	setTimeout(function () {
 		CookieMonster.mainLoop();
-	}, this.settings[3]);
+	}, this.getSetting('Refresh'));
 };
 
 // Runtime

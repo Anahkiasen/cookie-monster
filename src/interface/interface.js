@@ -27,10 +27,10 @@ CookieMonster.faviconSpinner = function(frame) {
  * @return {void}
  */
 CookieMonster.toggleBar = function() {
-	var toggle = this.settings[5] === 0;
-	var bottom = toggle ? 0 : 57;
+	var toggle = this.getBooleanSetting('CMBar');
+	var bottom = !toggle ? 0 : 57;
 
-	this.$monsterBar.toggle(!toggle);
+	this.$monsterBar.toggle(toggle);
 	$('#game').css('bottom', bottom+'px');
 };
 
@@ -43,7 +43,7 @@ CookieMonster.updateUpgradeDisplay = function() {
 	var $upgrades = $("#upgrades");
 	var height;
 
-	switch (this.settings[12] * 1) {
+	switch (this.getSetting('UpgradeDisplay') * 1) {
 		case 1:
 			height = '';
 			break;
@@ -180,7 +180,7 @@ CookieMonster.colorize = function(e, t, n) {
 	for (i = 0; i < this.inStore.length; i++) {
 		$("#cm_up_q" + i).text(this.inStore[i]);
 	}
-	if (this.settings[11] && this.isInStore(r)) {
+	if (this.getSetting('UpgradeIcons') && this.isInStore(r)) {
 		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
 	}
 	if ($("#cm_up_div_" + t).length === 1) {
@@ -201,14 +201,14 @@ CookieMonster.colorize = function(e, t, n) {
 		$("#cm_up_warning_amount").text("Deficit: " + this.formatNumber(h[0]));
 		$("#cm_up_caution_amount").text("Deficit: " + this.formatNumber(h[1]));
 
-		if (this.settings[10] === 1 || this.settings[10] === 2) {
+		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
 			$("#cm_up_lucky_div_warning").css("display", c[0]);
 			$("#cm_up_lucky_div_caution").css("display", c[1]);
 		} else {
 			$("#cm_up_lucky_div_warning").css("display", "none");
 			$("#cm_up_lucky_div_caution").css("display", "none");
 		}
-		if (this.settings[10] === 1 || this.settings[10] === 3) {
+		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 3) {
 			$("#cm_up_note_div_warning").css("display", c[0]);
 			$("#cm_up_note_div_caution").css("display", c[1]);
 		} else {
@@ -253,25 +253,27 @@ CookieMonster.doEmphasize = function() {
 	}
 	if (t.css("display") !== "none" && this.emphasize) {
 		this.emphasize = false;
-		if (this.settings[9] === 1) {
+		if (this.getBooleanSetting('UpdateTitle')) {
 			this.goldenCookieAvailable = "(G) ";
 			this.faviconSpinner(1);
 		}
-		if (this.settings[8] === 1) {
+		if (this.getBooleanSetting('CookieSound')) {
 			var n = new realAudio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");
 			n.volume = 1;
 			n.play();
 		}
-		if (this.settings[0] === 1) {
+		if (this.getBooleanSetting('FlashScreen')) {
 			$("#cookie_monster_overlay").fadeIn(100);
 			$("#cookie_monster_overlay").fadeOut(500);
 		}
 	}
-	if (t.css("display") !== "none" && this.settings[1] === 1) {
-		e.css("display", "block");
-		e.css("opacity", t.css("opacity"));
-		e.css("left", t.css("left"));
-		e.css("top", t.css("top"));
+	if (t.css("display") !== "none" && this.getBooleanSetting('CookieTimer')) {
+		e.css({
+			display : 'block',
+			opacity : t.css('opacity'),
+			left    : t.css('left'),
+			top     : t.css('top'),
+		});
 		e.html('<div style="position:absolute; top:30px; width:96px; height:36px;">' + Math.round(Game.goldenCookie.life / Game.fps) + "</div>");
 	} else {
 		e.css("display", "none");

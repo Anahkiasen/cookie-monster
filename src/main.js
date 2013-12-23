@@ -160,7 +160,7 @@ CookieMonster.mainLoop = function() {
 
 	setTimeout(function () {
 		CookieMonster.mainLoop();
-	}, this.settings[3]);
+	}, this.getSetting('Refresh'));
 };
 
 // Runtime

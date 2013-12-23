@@ -36,7 +36,7 @@ CookieMonster.manageBuffs = function() {
 			break;
 	}
 
-	if (Game.frenzy > 0 && this.settings[2] === 1) {
+	if (Game.frenzy > 0 && this.getSetting('BuffBars', true)) {
 		if ($("#cookie_monster_timer_" + color).length !== 1) {
 			$("#cookie_monster_timer_bars_div").append(
 				'<div id="cookie_monster_timer_' + color + '" style="padding:4px 0px 5px 0px;">'+
@@ -97,7 +97,7 @@ CookieMonster.manageBuffs = function() {
 	}
 
 	if (countdown > 0 && CookieMonster.$goldenCookie.css("display") === "none") {
-		this.goldenCookieAvailable = (this.settings[4] === 1) ? "(" + countdown + ") " : '';
+		this.goldenCookieAvailable = (this.getBooleanSetting('CookieCD')) ? "(" + countdown + ") " : '';
 	}
 
 	$("#versionNumber").css("bottom", $("#cookie_monster_timer_bars_div").css("height"));
