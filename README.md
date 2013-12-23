@@ -1,6 +1,6 @@
 # CookieMonster
 
-Re-host of the Cookie Monster add-on
+A rehosted, cleaned up and updated version of the CookieMonster plugin.
 
 ## Contributors
 
