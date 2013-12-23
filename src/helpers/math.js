@@ -48,5 +48,16 @@ CookieMonster.toHumanNumber = function(number, round) {
 		return Math.round(number);
 	}
 
+	return this.roundDecimal(number);
+};
+
+/**
+ * Round a number to the nearest decimal
+ *
+ * @param {Integer} number
+ *
+ * @return {Integer}
+ */
+CookieMonster.roundDecimal = function(number) {
 	return Math.round(number * 100) / 100;
 };
