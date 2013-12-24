@@ -77,8 +77,6 @@ CookieMonster.makeTable = function() {
 			'<tr>'+baseCost+'</tr>'+
 			'<tr>'+timeLeft+'</tr>'+
 		'</table>');
-
-	this.$monsterBar = $('#cookie_monster_bar');
 };
 
 /**

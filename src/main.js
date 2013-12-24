@@ -217,11 +217,11 @@ CookieMonster.update = function() {
 	}));
 
 	this.replaceNative('Reset', function (native) {
-		return native.replace("Game.researchT=0;", "Game.researchT=0;\n$('#cookie_monster_timer_bars_div').text('');");
+		return native.replace("Game.researchT=0;", "Game.researchT=0;\nCookieMonster.$monsterBar.text('');");
 	}, 'bypass');
 
 	this.replaceNative('LoadSave', function (native) {
-		return native.replace("Game.Popup('Game loaded');", "Game.Popup('Game loaded');\n$('#cookie_monster_timer_bars_div').text('');");
+		return native.replace("Game.Popup('Game loaded');", "Game.Popup('Game loaded');\nCookieMonster.$timerBars.text('');");
 	}, 'data');
 
 	this.replaceNative('RebuildStore', function (native) {
