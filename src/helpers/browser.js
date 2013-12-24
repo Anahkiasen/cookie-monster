@@ -6,7 +6,8 @@
  * @return {void}
  */
 CookieMonster.playSound = function(sound) {
-	var sound = new realAudio(sound);
+	sound = new realAudio(sound);
+
 	sound.volume = 1;
 	sound.play();
 };
