@@ -135,7 +135,7 @@ CookieMonster.manageBuffs = function() {
 			break;
 
 		// This is wrong but I'm not sure what to change it to
-		case 666:
+		case 0.5:
 			multiplier = 66 + 66 * Game.Has("Get lucky");
 			buff       = "Clot";
 			color      = this.colors.red;
