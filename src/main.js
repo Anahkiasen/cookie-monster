@@ -111,10 +111,10 @@ CookieMonster.start = function() {
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
 
 	// Refrehs selector
-	this.$overlay       = $('#cookie_monster_overlay');
 	this.$goldenOverlay = $('#cookie_monster_golden_overlay');
-	this.$monsterBar    = $("#cookie_monster_bar");
-	this.$goldenCookie  = $("#goldenCookie");
+	this.$monsterBar    = $('#cookie_monster_bar');
+	this.$overlay       = $('#cookie_monster_overlay');
+	this.$timerBars     = $('#cookie_monster_timer_bars_div');
 
 	this.makeTable();
 	this.saveTooltips();

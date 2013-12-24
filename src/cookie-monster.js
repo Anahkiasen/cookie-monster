@@ -46,10 +46,11 @@ var CookieMonster = {
 	// Selectors
 	////////////////////////////////////////////////////////////////////
 
-	$overlay       : $('#cookie_monster_overlay'),
+	$goldenCookie  : $('#goldenCookie'),
 	$goldenOverlay : $('#cookie_monster_golden_overlay'),
-	$monsterBar    : $("#cookie_monster_bar"),
-	$goldenCookie  : $("#goldenCookie"),
+	$monsterBar    : $('#cookie_monster_bar'),
+	$overlay       : $('#cookie_monster_overlay'),
+	$timerBars     : $('#cookie_monster_timer_bars_div'),
 
 	// Colors
 	////////////////////////////////////////////////////////////////////
