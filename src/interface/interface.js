@@ -1,27 +1,4 @@
 /**
- * Changes the favicon according to current state
- *
- * @param {integer} frame The current sprite of the favicon
- *
- * @return {void}
- */
-CookieMonster.faviconSpinner = function(frame) {
-	if (frame > 6) {
-		frame = 1;
-	}
-
-	if (this.goldenCookieAvailable === "(G) ") {
-		$("#cm_favicon").attr("href", "http://frozenelm.com/cookiemonster/images/cm_gc_" + frame + ".png");
-		frame++;
-		setTimeout(function () {
-			CookieMonster.faviconSpinner(frame);
-		}, 250);
-	} else {
-		$("#cm_favicon").attr("href", "http://orteil.dashnet.org/cookieclicker/img/favicon.ico");
-	}
-};
-
-/**
  * Update the stylings of the upgrades to the selected option
  *
  * @return {void}
@@ -153,40 +130,4 @@ CookieMonster.organizeObjectList = function() {
 		}
 	});
 	return e;
-};
-
-CookieMonster.doEmphasize = function() {
-	var e = $("#cookie_monster_golden_overlay");
-	var t = this.$goldenCookie;
-	if (t.css("display") === "none" && !this.emphasize) {
-		this.emphasize = true;
-		this.goldenCookieAvailable = "";
-	}
-	if (t.css("display") !== "none" && this.emphasize) {
-		this.emphasize = false;
-		if (this.getBooleanSetting('UpdateTitle')) {
-			this.goldenCookieAvailable = "(G) ";
-			this.faviconSpinner(1);
-		}
-		if (this.getBooleanSetting('CookieSound')) {
-			var n = new realAudio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");
-			n.volume = 1;
-			n.play();
-		}
-		if (this.getBooleanSetting('FlashScreen')) {
-			$("#cookie_monster_overlay").fadeIn(100);
-			$("#cookie_monster_overlay").fadeOut(500);
-		}
-	}
-	if (t.css("display") !== "none" && this.getBooleanSetting('CookieTimer')) {
-		e.css({
-			display : 'block',
-			opacity : t.css('opacity'),
-			left    : t.css('left'),
-			top     : t.css('top'),
-		});
-		e.html('<div style="position:absolute; top:30px; width:96px; height:36px;">' + Math.round(Game.goldenCookie.life / Game.fps) + "</div>");
-	} else {
-		e.css("display", "none");
-	}
 };

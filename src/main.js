@@ -69,7 +69,7 @@ CookieMonster.start = function() {
 		'width'            : '100%',
 		'z-index'          : '1000',
 	});
-	$('#cookie_monster_overlay').css({
+	this.$overlay.css({
 		'background'     : 'white',
 		'display'        : 'none',
 		'height'         : '100%',
@@ -130,7 +130,7 @@ CookieMonster.start = function() {
 CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();
 	CookieMonster.updateTooltips('all');
-	CookieMonster.doEmphasize();
+	CookieMonster.emphasizeGolden();
 	CookieMonster.manageBuffs();
 	CookieMonster.loops++;
 
