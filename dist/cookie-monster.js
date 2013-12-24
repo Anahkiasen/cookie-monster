@@ -125,8 +125,8 @@ CookieMonster.Emphasizers.updateTitle = function() {
 		return;
 	}
 
-	this.faviconSpinner(1);
 	CookieMonster.goldenCookieAvailable = "(G) ";
+	this.faviconSpinner(1);
 };
 
 /**
@@ -142,7 +142,7 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
 	}
 
 	if (CookieMonster.goldenCookieAvailable === "(G) ") {
-		CookieMonster.updateFavicon('http://frozenelm.com/cookiemonster/images/cm_gc_" + frame + ".png');
+		CookieMonster.updateFavicon('http://frozenelm.com/cookiemonster/images/cm_gc_' +frame+ '.png');
 		frame++;
 		setTimeout(function () {
 			CookieMonster.Emphasizers.faviconSpinner(frame);
@@ -2122,7 +2122,10 @@ CookieMonster.start = function() {
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
 
 	// Refrehs selector
-	this.$monsterBar = $('#cookie_monster_bar');
+	this.$overlay       = $('#cookie_monster_overlay');
+	this.$goldenOverlay = $('#cookie_monster_golden_overlay');
+	this.$monsterBar    = $("#cookie_monster_bar");
+	this.$goldenCookie  = $("#goldenCookie");
 
 	this.makeTable();
 	this.saveTooltips();
