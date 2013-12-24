@@ -694,6 +694,15 @@ CookieMonster.playSound = function(sound) {
 };
 
 /**
+ * Shortcut for playing the bell sound
+ *
+ * @return {void}
+ */
+CookieMonster.playBell = function() {
+	this.playSound('http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3');
+};
+
+/**
  * Update the favicon
  *
  * @param {String} favicon
