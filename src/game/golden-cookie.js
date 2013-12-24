@@ -27,6 +27,9 @@ CookieMonster.emphasizeGolden = function() {
 		this.Emphasizers.updateTitle();
 		this.Emphasizers.playSound();
 		this.Emphasizers.flashScreen();
+	}
+
+	if ($golden.is(':visible')) {
 		this.Emphasizers.displayTimer();
 	}
 };
@@ -43,7 +46,7 @@ CookieMonster.Emphasizers.displayTimer = function() {
 	}
 
 	CookieMonster.$goldenOverlay
-		.css(CookieMonster.$goldenCookie.css(['opacity', 'left', 'top']))
+		.css(CookieMonster.$goldenCookie.css(['opacity', 'top', 'left', 'top']))
 		.text(Math.round(Game.goldenCookie.life / Game.fps));
 };
 
@@ -199,8 +202,8 @@ CookieMonster.manageBuffs = function() {
 		this.fadeOutBar(this.colors.purple);
 	}
 
-	if (countdown > 0 && CookieMonster.$goldenCookie.css("display") === "none") {
-		this.goldenCookieAvailable = (this.getBooleanSetting('CookieCD')) ? "(" + countdown + ") " : '';
+	if (countdown > 0 && CookieMonster.$goldenCookie.is(':hidden')) {
+		this.goldenCookieAvailable = this.getBooleanSetting('CookieCD') ? "(" + countdown + ") " : '';
 	}
 
 	$("#versionNumber").css("bottom", $("#cookie_monster_timer_bars_div").css("height"));

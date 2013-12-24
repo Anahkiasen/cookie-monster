@@ -91,6 +91,7 @@ CookieMonster.start = function() {
 		'text-shadow'    : '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
 		'width'          : '96px',
 		'z-index'        : '1000002',
+		'padding-top'    : '30px',
 	});
 	$('#cookie_monster_timer_bars_div').css({
 		'background'     : 'rgba(0, 0, 0, 0.6)',
