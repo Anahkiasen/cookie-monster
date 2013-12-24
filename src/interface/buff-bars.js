@@ -13,6 +13,33 @@ CookieMonster.manageBuffs = function() {
 };
 
 //////////////////////////////////////////////////////////////////////
+///////////////////////////// DOM ELEMENTS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Create the bars container
+ *
+ * @return {void}
+ */
+CookieMonster.createBarsContainer = function() {
+	$("#sectionLeft").append('<div id="cookie_monster_timer_bars_div"></div>');
+
+	this.$timerBars = $('#cookie_monster_timer_bars_div').css({
+		'background'     : 'rgba(0, 0, 0, 0.6)',
+		'border-top'     : '1px solid black',
+		'bottom'         : '-1px',
+		'font-family'    : 'Kavoon, Georgia, serif',
+		'font-size'      : '16px',
+		'left'           : '0px',
+		'pointer-events' : 'none',
+		'position'       : 'absolute',
+		'text-align'     : 'center',
+		'width'          : '100%',
+		'z-index'        : '1000',
+	});
+};
+
+//////////////////////////////////////////////////////////////////////
 ////////////////////////////////// BARS //////////////////////////////
 //////////////////////////////////////////////////////////////////////
 

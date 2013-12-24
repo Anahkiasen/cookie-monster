@@ -16,6 +16,29 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Create the Bottom Bar
+ *
+ * @return {void}
+ */
+CookieMonster.createBottomBar = function() {
+	$('body').append('<div id="cookie_monster_bar"></div>');
+
+	this.$monsterBar = $('#cookie_monster_bar').css({
+		'background-color' : '#4D4548',
+		'background-image' : 'linear-gradient(to bottom, #4d4548, #000000)',
+		'border-top'       : '1px solid black',
+		'bottom'           : '0px',
+		'cursor'           : 'default',
+		'height'           : '56px',
+		'left'             : '0px',
+		'position'         : 'absolute',
+		'text-shadow'      : '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
+		'width'            : '100%',
+		'z-index'          : '1000',
+	});
+};
+
+/**
  * Toggle the visibility of the Bottom Bar
  *
  * @return {void}
@@ -25,7 +48,7 @@ CookieMonster.toggleBar = function() {
 	var bottom = !toggle ? 0 : 57;
 
 	this.$monsterBar.toggle(toggle);
-	$('#game').css('bottom', bottom+'px');
+	this.$game.css('bottom', bottom+'px');
 };
 
 /**
