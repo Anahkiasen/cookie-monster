@@ -53,8 +53,10 @@ var CookieMonster = {
 	// Selectors
 	////////////////////////////////////////////////////////////////////
 
-	$monsterBar   : $("#cookie_monster_bar"),
-	$goldenCookie : $("#goldenCookie"),
+	$overlay       : $('#cookie_monster_overlay'),
+	$goldenOverlay : $('#cookie_monster_golden_overlay'),
+	$monsterBar    : $("#cookie_monster_bar"),
+	$goldenCookie  : $("#goldenCookie"),
 
 	// Colors
 	////////////////////////////////////////////////////////////////////
@@ -77,6 +79,109 @@ var CookieMonster = {
 CookieMonster.getFrenzyMultiplier = function() {
 	return (Game.frenzy > 0) ? Game.frenzyPower : 1;
 };
+
+/**
+ * Emphasize the apparition of a Golden Cookie
+ *
+ * @return {void}
+ */
+CookieMonster.emphasizeGolden = function() {
+	var $golden = this.$goldenCookie;
+
+	if ($golden.is(':hidden') && !this.emphasize) {
+		this.emphasize = true;
+		this.$goldenOverlay.hide();
+
+		this.goldenCookieAvailable = '';
+	} else if ($golden.is(':visible') && this.emphasize) {
+		this.emphasize = false;
+		this.$goldenOverlay.show();
+
+		this.Emphasizers.updateTitle();
+		this.Emphasizers.playSound();
+		this.Emphasizers.flashScreen();
+		this.Emphasizers.displayTimer();
+	}
+};
+
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// EMPHASIZERS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+CookieMonster.Emphasizers = {};
+
+CookieMonster.Emphasizers.displayTimer = function() {
+	if (CookieMonster.getBooleanSetting('CookieTimer')) {
+		return;
+	}
+
+	CookieMonster.$goldenOverlay
+		.css(CookieMonster.$goldenCookie.css(['opacity', 'left', 'top']))
+		.html('<div style="position:absolute; top:30px; width:96px; height:36px;">' + Math.round(Game.goldenCookie.life / Game.fps) + "</div>");
+};
+
+CookieMonster.Emphasizers.updateTitle = function() {
+	if (!CookieMonster.getBooleanSetting('UpdateTitle')) {
+		return;
+	}
+
+	this.faviconSpinner(1);
+	CookieMonster.goldenCookieAvailable = "(G) ";
+};
+
+/**
+ * Changes the favicon according to current state
+ *
+ * @param {integer} frame The current sprite of the favicon
+ *
+ * @return {void}
+ */
+CookieMonster.Emphasizers.faviconSpinner = function(frame) {
+	if (frame > 6) {
+		frame = 1;
+	}
+
+	if (CookieMonster.goldenCookieAvailable === "(G) ") {
+		CookieMonster.updateFavicon('http://frozenelm.com/cookiemonster/images/cm_gc_" + frame + ".png');
+		frame++;
+		setTimeout(function () {
+			CookieMonster.Emphasizers.faviconSpinner(frame);
+		}, 250);
+	} else {
+		CookieMonster.updateFavicon('http://orteil.dashnet.org/cookieclicker/img/favicon.ico');
+	}
+};
+
+/**
+ * Play the Golden Cookie sound
+ *
+ * @return {void}
+ */
+CookieMonster.Emphasizers.playSound = function() {
+	if (!CookieMonster.getBooleanSetting('CookieSound')) {
+		return;
+	}
+
+	CookieMonster.playSound('http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3');
+};
+
+/**
+ * Flash the screen
+ *
+ * @return {void}
+ */
+CookieMonster.Emphasizers.flashScreen = function() {
+	if (!CookieMonster.getBooleanSetting('FlashScreen')) {
+		return;
+	}
+
+	CookieMonster.$overlay.fadeIn(100);
+	CookieMonster.$overlay.fadeOut(500);
+};
+
+//////////////////////////////////////////////////////////////////////
+/////////////////////////////// BUFF BARS ////////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 CookieMonster.manageBuffs = function() {
 	var buff       = "";
@@ -687,6 +792,29 @@ CookieMonster.centennial = function(building) {
 	return false;
 };
 /**
+ * Play a sound
+ *
+ * @param {String} sound
+ *
+ * @return {void}
+ */
+CookieMonster.playSound = function(sound) {
+	var sound = new realAudio(sound);
+	sound.volume = 1;
+	sound.play();
+};
+
+/**
+ * Update the favicon
+ *
+ * @param {String} favicon
+ *
+ * @return {void}
+ */
+CookieMonster.updateFavicon = function (favicon) {
+	$('#cm_favicon').attr('href', favicon);
+};
+/**
  * Format a number to a string (adds separators, convert units, etc)
  *
  * @param {String|Integer} number
@@ -1156,29 +1284,6 @@ CookieMonster.updateTable = function() {
 	});
 };
 /**
- * Changes the favicon according to current state
- *
- * @param {integer} frame The current sprite of the favicon
- *
- * @return {void}
- */
-CookieMonster.faviconSpinner = function(frame) {
-	if (frame > 6) {
-		frame = 1;
-	}
-
-	if (this.goldenCookieAvailable === "(G) ") {
-		$("#cm_favicon").attr("href", "http://frozenelm.com/cookiemonster/images/cm_gc_" + frame + ".png");
-		frame++;
-		setTimeout(function () {
-			CookieMonster.faviconSpinner(frame);
-		}, 250);
-	} else {
-		$("#cm_favicon").attr("href", "http://orteil.dashnet.org/cookieclicker/img/favicon.ico");
-	}
-};
-
-/**
  * Update the stylings of the upgrades to the selected option
  *
  * @return {void}
@@ -1310,42 +1415,6 @@ CookieMonster.organizeObjectList = function() {
 		}
 	});
 	return e;
-};
-
-CookieMonster.doEmphasize = function() {
-	var e = $("#cookie_monster_golden_overlay");
-	var t = this.$goldenCookie;
-	if (t.css("display") === "none" && !this.emphasize) {
-		this.emphasize = true;
-		this.goldenCookieAvailable = "";
-	}
-	if (t.css("display") !== "none" && this.emphasize) {
-		this.emphasize = false;
-		if (this.getBooleanSetting('UpdateTitle')) {
-			this.goldenCookieAvailable = "(G) ";
-			this.faviconSpinner(1);
-		}
-		if (this.getBooleanSetting('CookieSound')) {
-			var n = new realAudio("http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3");
-			n.volume = 1;
-			n.play();
-		}
-		if (this.getBooleanSetting('FlashScreen')) {
-			$("#cookie_monster_overlay").fadeIn(100);
-			$("#cookie_monster_overlay").fadeOut(500);
-		}
-	}
-	if (t.css("display") !== "none" && this.getBooleanSetting('CookieTimer')) {
-		e.css({
-			display : 'block',
-			opacity : t.css('opacity'),
-			left    : t.css('left'),
-			top     : t.css('top'),
-		});
-		e.html('<div style="position:absolute; top:30px; width:96px; height:36px;">' + Math.round(Game.goldenCookie.life / Game.fps) + "</div>");
-	} else {
-		e.css("display", "none");
-	}
 };
 /**
  * Load a setting from localStorage
@@ -2012,7 +2081,7 @@ CookieMonster.start = function() {
 		'width'            : '100%',
 		'z-index'          : '1000',
 	});
-	$('#cookie_monster_overlay').css({
+	this.$overlay.css({
 		'background'     : 'white',
 		'display'        : 'none',
 		'height'         : '100%',
@@ -2073,7 +2142,7 @@ CookieMonster.start = function() {
 CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();
 	CookieMonster.updateTooltips('all');
-	CookieMonster.doEmphasize();
+	CookieMonster.emphasizeGolden();
 	CookieMonster.manageBuffs();
 	CookieMonster.loops++;
 

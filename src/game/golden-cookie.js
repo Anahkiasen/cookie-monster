@@ -52,8 +52,8 @@ CookieMonster.Emphasizers.updateTitle = function() {
 		return;
 	}
 
+	this.faviconSpinner(1);
 	CookieMonster.goldenCookieAvailable = "(G) ";
-	CookieMonster.faviconSpinner(1);
 };
 
 /**
