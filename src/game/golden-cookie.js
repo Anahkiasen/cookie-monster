@@ -38,13 +38,13 @@ CookieMonster.emphasizeGolden = function() {
 CookieMonster.Emphasizers = {};
 
 CookieMonster.Emphasizers.displayTimer = function() {
-	if (CookieMonster.getBooleanSetting('CookieTimer')) {
+	if (!CookieMonster.getBooleanSetting('CookieTimer')) {
 		return;
 	}
 
 	CookieMonster.$goldenOverlay
 		.css(CookieMonster.$goldenCookie.css(['opacity', 'left', 'top']))
-		.html('<div style="position:absolute; top:30px; width:96px; height:36px;">' + Math.round(Game.goldenCookie.life / Game.fps) + "</div>");
+		.text(Math.round(Game.goldenCookie.life / Game.fps));
 };
 
 CookieMonster.Emphasizers.updateTitle = function() {
