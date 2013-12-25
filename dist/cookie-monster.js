@@ -53,6 +53,7 @@ var CookieMonster = {
 	// Selectors
 	////////////////////////////////////////////////////////////////////
 
+	$game          : $('#game'),
 	$goldenCookie  : $('#goldenCookie'),
 	$goldenOverlay : $('#cookie_monster_golden_overlay'),
 	$monsterBar    : $('#cookie_monster_bar'),
@@ -81,6 +82,60 @@ CookieMonster.getFrenzyMultiplier = function() {
 	return (Game.frenzy > 0) ? Game.frenzyPower : 1;
 };
 
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// DOM ELEMENTS //////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Create the overlay for the Golden Cookie
+ *
+ * @return {void}
+ */
+CookieMonster.createGoldenOverlay = function() {
+	$('body').append('<div id="cookie_monster_golden_overlay" onclick="Game.goldenCookie.click();"></div>');
+
+	this.$goldenOverlay = $('#cookie_monster_golden_overlay').css({
+		'cursor'         : 'pointer',
+		'display'        : 'none',
+		'font-family'    : 'Kavoon, Georgia, serif',
+		'font-size'      : '32px',
+		'height'         : '96px',
+		'opacity'        : '0',
+		'pointer-events' : 'none',
+		'position'       : 'fixed',
+		'text-align'     : 'center',
+		'text-shadow'    : '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
+		'width'          : '96px',
+		'z-index'        : '1000002',
+		'padding-top'    : '30px',
+	});
+};
+
+/**
+ * Create the flashing overlay
+ *
+ * @return {void}
+ */
+CookieMonster.createOverlay = function() {
+	$('body').append('<div id="cookie_monster_overlay"></div>');
+
+	this.$overlay = $('#cookie_monster_overlay').css({
+		'background'     : 'white',
+		'display'        : 'none',
+		'height'         : '100%',
+		'pointer-events' : 'none',
+		'position'       : 'fixed',
+		'width'          : '100%',
+		'z-index'        : '1000000',
+	});
+};
+
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// EMPHASIZERS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+CookieMonster.Emphasizers = {};
+
 /**
  * Emphasize the apparition of a Golden Cookie
  *
@@ -107,12 +162,6 @@ CookieMonster.emphasizeGolden = function() {
 		this.Emphasizers.displayTimer();
 	}
 };
-
-//////////////////////////////////////////////////////////////////////
-////////////////////////////// EMPHASIZERS ///////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-CookieMonster.Emphasizers = {};
 
 CookieMonster.Emphasizers.displayTimer = function() {
 	if (!CookieMonster.getBooleanSetting('CookieTimer')) {
@@ -688,7 +737,8 @@ CookieMonster.centennial = function(building) {
  * @return {void}
  */
 CookieMonster.playSound = function(sound) {
-	var sound = new realAudio(sound);
+	sound = new realAudio(sound);
+
 	sound.volume = 1;
 	sound.play();
 };
@@ -1082,6 +1132,29 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Create the Bottom Bar
+ *
+ * @return {void}
+ */
+CookieMonster.createBottomBar = function() {
+	$('body').append('<div id="cookie_monster_bar"></div>');
+
+	this.$monsterBar = $('#cookie_monster_bar').css({
+		'background-color' : '#4D4548',
+		'background-image' : 'linear-gradient(to bottom, #4d4548, #000000)',
+		'border-top'       : '1px solid black',
+		'bottom'           : '0px',
+		'cursor'           : 'default',
+		'height'           : '56px',
+		'left'             : '0px',
+		'position'         : 'absolute',
+		'text-shadow'      : '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
+		'width'            : '100%',
+		'z-index'          : '1000',
+	});
+};
+
+/**
  * Toggle the visibility of the Bottom Bar
  *
  * @return {void}
@@ -1091,7 +1164,7 @@ CookieMonster.toggleBar = function() {
 	var bottom = !toggle ? 0 : 57;
 
 	this.$monsterBar.toggle(toggle);
-	$('#game').css('bottom', bottom+'px');
+	this.$game.css('bottom', bottom+'px');
 };
 
 /**
@@ -1120,8 +1193,6 @@ CookieMonster.makeTable = function() {
 			'<tr>'+baseCost+'</tr>'+
 			'<tr>'+timeLeft+'</tr>'+
 		'</table>');
-
-	this.$monsterBar = $('#cookie_monster_bar');
 };
 
 /**
@@ -1193,6 +1264,33 @@ CookieMonster.manageBuffs = function() {
 
 	// Offset version number
 	$('#versionNumber').css('bottom', this.$timerBars.css('height'));
+};
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////////// DOM ELEMENTS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Create the bars container
+ *
+ * @return {void}
+ */
+CookieMonster.createBarsContainer = function() {
+	$("#sectionLeft").append('<div id="cookie_monster_timer_bars_div"></div>');
+
+	this.$timerBars = $('#cookie_monster_timer_bars_div').css({
+		'background'     : 'rgba(0, 0, 0, 0.6)',
+		'border-top'     : '1px solid black',
+		'bottom'         : '-1px',
+		'font-family'    : 'Kavoon, Georgia, serif',
+		'font-size'      : '16px',
+		'left'           : '0px',
+		'pointer-events' : 'none',
+		'position'       : 'absolute',
+		'text-align'     : 'center',
+		'width'          : '100%',
+		'z-index'        : '1000',
+	});
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -1843,6 +1941,29 @@ CookieMonster.getLuckyAlert = function () {
 	}
 };
 /**
+ * Create the various upgrade counters above the store
+ *
+ * @return {void}
+ */
+CookieMonster.createStoreCounters = function() {
+	$("#storeTitle").css({
+		'font-size'     : '18px',
+		'padding'       : '4px 8px 2px 8px',
+		'border-bottom' : '1px solid black',
+	})
+	.after(
+	'<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0, 0, 0, 0.6); border-bottom: 1px solid black; cursor:default;">'+
+		'<tr>'+
+			'<td align=center style="color:#' +this.colors.blue+   '; padding:2px;" id="cm_up_q0">0</td>' +
+			'<td align=center style="color:#' +this.colors.green+  '; padding:2px;" id="cm_up_q1">0</td>' +
+			'<td align=center style="color:#' +this.colors.yellow+ '; padding:2px;" id="cm_up_q2">0</td>' +
+			'<td align=center style="color:#' +this.colors.orange+ '; padding:2px;" id="cm_up_q3">0</td>' +
+			'<td align=center style="color:#' +this.colors.red+    '; padding:2px;" id="cm_up_q4">0</td>' +
+			'<td align=center style="color:#' +this.colors.purple+ '; padding:2px;" id="cm_up_q5">0</td>' +
+		'</tr>'+
+	'</table>');
+};
+/**
  * Save the currently available tooltips
  *
  * @return {void}
@@ -2097,7 +2218,10 @@ CookieMonster.start = function() {
 		return;
 	}
 
+	// Remove top bar
 	$('#topBar').css('display', 'none');
+
+	// Style some elements
 	$('#tooltip').css({
 		'margin-top'     : '32px',
 		'pointer-events' : 'none',
@@ -2107,11 +2231,7 @@ CookieMonster.start = function() {
 		'border-top'    : '1px solid black',
 		'border-bottom' : '1px solid black',
 	});
-
-	this.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
-
-	// Style main game window
-	$("#game").css({
+	this.$game.css({
 		'-webkit-user-select'   : 'none',
 		'-moz-user-select'      : 'none',
 		'-ms-user-select'       : 'none',
@@ -2120,94 +2240,27 @@ CookieMonster.start = function() {
 		'bottom'                : '57px',
 	});
 
-	// Style store
-	$("#storeTitle").css({
-		'font-size'     : '18px',
-		'padding'       : '4px 8px 2px 8px',
-		'border-bottom' : '1px solid black',
-	})
-	.after(
-	'<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0, 0, 0, 0.6); border-bottom: 1px solid black; cursor:default;">'+
-		'<tr>'+
-			'<td align=center style="color:#' +this.colors.blue+   '; padding:2px;" id="cm_up_q0">0</td>' +
-			'<td align=center style="color:#' +this.colors.green+  '; padding:2px;" id="cm_up_q1">0</td>' +
-			'<td align=center style="color:#' +this.colors.yellow+ '; padding:2px;" id="cm_up_q2">0</td>' +
-			'<td align=center style="color:#' +this.colors.orange+ '; padding:2px;" id="cm_up_q3">0</td>' +
-			'<td align=center style="color:#' +this.colors.red+    '; padding:2px;" id="cm_up_q4">0</td>' +
-			'<td align=center style="color:#' +this.colors.purple+ '; padding:2px;" id="cm_up_q5">0</td>' +
-		'</tr>'+
-	'</table>');
+	// Move golden cookie one depth behind
+	this.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
 
 	// Add Cookie Monster elements
-	$('body').append('<div id="cookie_monster_bar"></div><div id="cookie_monster_overlay"></div><div id="cookie_monster_golden_overlay" onclick="Game.goldenCookie.click();"></div>');
-	$("#sectionLeft").append('<div id="cookie_monster_timer_bars_div"></div>');
-
-	// Style Cookie Monster elements
-	$('#cookie_monster_bar').css({
-		'background-color' : '#4D4548',
-		'background-image' : 'linear-gradient(to bottom, #4d4548, #000000)',
-		'border-top'       : '1px solid black',
-		'bottom'           : '0px',
-		'cursor'           : 'default',
-		'height'           : '56px',
-		'left'             : '0px',
-		'position'         : 'absolute',
-		'text-shadow'      : '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
-		'width'            : '100%',
-		'z-index'          : '1000',
-	});
-	this.$overlay.css({
-		'background'     : 'white',
-		'display'        : 'none',
-		'height'         : '100%',
-		'pointer-events' : 'none',
-		'position'       : 'fixed',
-		'width'          : '100%',
-		'z-index'        : '1000000',
-	});
-	$('#cookie_monster_golden_overlay').css({
-		'cursor'         : 'pointer',
-		'display'        : 'none',
-		'font-family'    : 'Kavoon, Georgia, serif',
-		'font-size'      : '32px',
-		'height'         : '96px',
-		'opacity'        : '0',
-		'pointer-events' : 'none',
-		'position'       : 'fixed',
-		'text-align'     : 'center',
-		'text-shadow'    : '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
-		'width'          : '96px',
-		'z-index'        : '1000002',
-		'padding-top'    : '30px',
-	});
-	$('#cookie_monster_timer_bars_div').css({
-		'background'     : 'rgba(0, 0, 0, 0.6)',
-		'border-top'     : '1px solid black',
-		'bottom'         : '-1px',
-		'font-family'    : 'Kavoon, Georgia, serif',
-		'font-size'      : '16px',
-		'left'           : '0px',
-		'pointer-events' : 'none',
-		'position'       : 'absolute',
-		'text-align'     : 'center',
-		'width'          : '100%',
-		'z-index'        : '1000',
-	});
+	this.createBottomBar();
+	this.createOverlay();
+	this.createGoldenOverlay();
+	this.createBarsContainer();
+	this.createStoreCounters();
 
 	// Add ID to favicon
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
 
-	// Refrehs selector
-	this.$goldenOverlay = $('#cookie_monster_golden_overlay');
-	this.$monsterBar    = $('#cookie_monster_bar');
-	this.$overlay       = $('#cookie_monster_overlay');
-	this.$timerBars     = $('#cookie_monster_timer_bars_div');
-
+	// Setup Cookie Monster
 	this.makeTable();
 	this.saveTooltips();
 	this.update();
 	this.loadSettings();
 	this.setupTooltips();
+
+	// Start the loop
 	window.requestAnimationFrame(this.mainLoop);
 
 	Game.Popup('<span style="color:#' +this.colors.yellow+ '; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + this.version + " Loaded!</span>");
@@ -2372,11 +2425,11 @@ CookieMonster.update = function() {
 	}));
 
 	this.replaceNative('Reset', function (native) {
-		return native.replace("Game.researchT=0;", "Game.researchT=0;\n$('#cookie_monster_timer_bars_div').text('');");
+		return native.replace("Game.researchT=0;", "Game.researchT=0;\nCookieMonster.$monsterBar.text('');");
 	}, 'bypass');
 
 	this.replaceNative('LoadSave', function (native) {
-		return native.replace("Game.Popup('Game loaded');", "Game.Popup('Game loaded');\n$('#cookie_monster_timer_bars_div').text('');");
+		return native.replace("Game.Popup('Game loaded');", "Game.Popup('Game loaded');\nCookieMonster.$timerBars.text('');");
 	}, 'data');
 
 	this.replaceNative('RebuildStore', function (native) {
@@ -2403,7 +2456,7 @@ CookieMonster.update = function() {
  */
 CookieMonster.shouldRun = function() {
 	// Check if we're in Cookie Clicker
-	if (document.title.indexOf('Cookie Clicker') === -1 || $('#game').length === 0) {
+	if (document.title.indexOf('Cookie Clicker') === -1 || this.$game.length === 0) {
 		return this.displayError("These aren't the droids you're looking for.");
 	}
 
