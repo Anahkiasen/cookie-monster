@@ -2008,7 +2008,7 @@ CookieMonster.setupTooltips = function() {
  */
 CookieMonster.updateTooltips = function(which) {
 	if (which === "all" || which === "upgrades") {
-		this.inStore = new Array(0, 0, 0, 0, 0, 0);
+		this.inStore = [0, 0, 0, 0, 0, 0];
 
 		Game.UpgradesById.forEach(function (upgrade, key) {
 			for (var upgradeKey = 0; upgradeKey < CookieMonster.upgradeCount; upgradeKey++) {
@@ -2018,9 +2018,7 @@ CookieMonster.updateTooltips = function(which) {
 				}
 			}
 		});
-	}
-
-	if (which === "all" || which === "objects") {
+	} else  if (which === "all" || which === "objects") {
 		Game.ObjectsById.forEach(function (object) {
 			CookieMonster.manageBuildingTooltip(object);
 		});
@@ -2261,7 +2259,7 @@ CookieMonster.start = function() {
 	this.setupTooltips();
 
 	// Start the loop
-	window.requestAnimationFrame(this.mainLoop);
+	this.mainLoop();
 
 	Game.Popup('<span style="color:#' +this.colors.yellow+ '; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + this.version + " Loaded!</span>");
 };
@@ -2283,7 +2281,9 @@ CookieMonster.mainLoop = function() {
 	}
 
 	// Use animationFrame if available
-	window.requestAnimationFrame(CookieMonster.mainLoop);
+	setTimeout(function() {
+		CookieMonster.mainLoop();
+	}, CookieMonster.getSetting('Refresh'));
 };
 
 //////////////////////////////////////////////////////////////////////

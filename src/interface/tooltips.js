@@ -43,7 +43,7 @@ CookieMonster.setupTooltips = function() {
  */
 CookieMonster.updateTooltips = function(which) {
 	if (which === "all" || which === "upgrades") {
-		this.inStore = new Array(0, 0, 0, 0, 0, 0);
+		this.inStore = [0, 0, 0, 0, 0, 0];
 
 		Game.UpgradesById.forEach(function (upgrade, key) {
 			for (var upgradeKey = 0; upgradeKey < CookieMonster.upgradeCount; upgradeKey++) {
@@ -53,9 +53,7 @@ CookieMonster.updateTooltips = function(which) {
 				}
 			}
 		});
-	}
-
-	if (which === "all" || which === "objects") {
+	} else  if (which === "all" || which === "objects") {
 		Game.ObjectsById.forEach(function (object) {
 			CookieMonster.manageBuildingTooltip(object);
 		});
