@@ -18,7 +18,18 @@ CookieMonster.playSound = function(sound) {
  * @return {void}
  */
 CookieMonster.playBell = function() {
-	this.playSound('http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3');
+	this.playSound('http://autopergamene.eu/cookie-monster/mp3/bell.mp3');
+};
+
+/**
+ * Get the full path to an image
+ *
+ * @param {String} image
+ *
+ * @return {String}
+ */
+CookieMonster.getImage = function(image) {
+	return 'http://autopergamene.eu/cookie-monster/img/'+image+'.png';
 };
 
 /**

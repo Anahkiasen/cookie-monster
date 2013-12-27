@@ -57,12 +57,13 @@ var CookieMonster = {
 	////////////////////////////////////////////////////////////////////
 
 	colors: {
-		blue   : '4BB8F0',
-		green  : '00FF00',
-		orange : 'FF7F00',
-		purple : 'FF00FF',
-		red    : 'FF0000',
-		yellow : 'FFFF00',
+		blue    : '4BB8F0',
+		green   : '00FF00',
+		orange  : 'FF7F00',
+		purple  : 'FF00FF',
+		red     : 'FF0000',
+		yellow  : 'FFFF00',
+		greyTen : '222222',
 	}
 
 };
