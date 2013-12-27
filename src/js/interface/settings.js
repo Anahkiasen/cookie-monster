@@ -174,12 +174,12 @@ CookieMonster.toggleOption = function(option) {
 		case "Colored Prices ON":
 			this.setSetting('ColoredPrices', 0);
 			$option.text("Colored Prices OFF");
-			CookieMonster.updateTooltips("objects");
+			this.updateTooltips("objects");
 			break;
 		case "Colored Prices OFF":
 			this.setSetting('ColoredPrices', 1);
 			$option.text("Colored Prices ON");
-			CookieMonster.updateTooltips("objects");
+			this.updateTooltips("objects");
 			break;
 		case "Upgrade Icons ON":
 			this.setSetting('UpgradeIcons', 0);
@@ -194,38 +194,38 @@ CookieMonster.toggleOption = function(option) {
 		case "Upgrade Display (All)":
 			this.setSetting('UpgradeDisplay', 0);
 			$option.text("Upgrade Display (None)");
-			CookieMonster.updateUpgradeDisplay();
+			this.updateUpgradeDisplay();
 			break;
 		case "Upgrade Display (None)":
 			this.setSetting('UpgradeDisplay', 1);
 			$option.text("Upgrade Display (Normal)");
-			CookieMonster.updateUpgradeDisplay();
+			this.updateUpgradeDisplay();
 			break;
 		case "Upgrade Display (Normal)":
 			this.setSetting('UpgradeDisplay', 2);
 			$option.text("Upgrade Display (All)");
-			CookieMonster.updateUpgradeDisplay();
+			this.updateUpgradeDisplay();
 			break;
 		case "Short Numbers ON (B)":
 			this.setSetting('ShortNumbers', 0);
 			$option.text("Short Numbers OFF");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
-			CookieMonster.updateTable();
+			this.updateTable();
 			break;
 		case "Short Numbers OFF":
 			this.setSetting('ShortNumbers', 1);
 			$option.text("Short Numbers ON (A)");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
-			CookieMonster.updateTable();
+			this.updateTable();
 			break;
 		case "Short Numbers ON (A)":
 			this.setSetting('ShortNumbers', 2);
 			$option.text("Short Numbers ON (B)");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
-			CookieMonster.updateTable();
+			this.updateTable();
 			break;
 		case "Lucky Alert (Both)":
 			this.setSetting('LuckyAlert', 2);

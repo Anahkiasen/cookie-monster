@@ -28,22 +28,22 @@ CookieMonster.heavenlyToCookies = function(chipsNumber) {
  * @return {string}
  */
 CookieMonster.getHeavenlyChip = function(context) {
-	var bakedAllTime = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
-	var r = this.cookiesToHeavenly(Game.cookiesReset);
-	var i = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned);
+	var nextReset     = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
+	var currentAmount = this.cookiesToHeavenly(Game.cookiesReset);
+	var nextChip      = this.heavenlyToCookies(nextReset + 1) - (Game.cookiesReset + Game.cookiesEarned);
 
 	switch (context) {
 		case 'max':
-			return this.formatNumber(bakedAllTime) + " <small>(" + this.formatNumber(bakedAllTime * 2) + "%)</small>";
+			return this.formatNumber(nextReset) + " <small>(" + this.formatNumber(nextReset * 2) + "%)</small>";
 
 		case 'cur':
-			return this.formatNumber(r) + " <small>(" + this.formatNumber(r * 2) + "%)</small>";
+			return this.formatNumber(currentAmount) + " <small>(" + this.formatNumber(currentAmount * 2) + "%)</small>";
 
 		case 'next':
-			return this.formatNumber(Math.round(i));
+			return this.formatNumber(Math.round(nextChip));
 
 		case 'time':
-			return this.formatTime(Math.round(i / Game.cookiesPs), '');
+			return this.formatTime(Math.round(nextChip / Game.cookiesPs), '');
 	}
 };
 
