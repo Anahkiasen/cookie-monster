@@ -32,56 +32,77 @@ CookieMonster.hasntAchievement = function(checkedAchievement) {
 //////////////////////////// BUILDING SCHEMAS ////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-CookieMonster.baseTen = function(building) {
-	if (this.hasntAchievement("Base 10")) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (building) {
-			t.push(building.name);
-			n.push(building.amount);
-		});
-		t.forEach(function (t, r) {
-			if (t === building) {
-				n[r]++;
-			}
-		});
-		var r = n.length * 10;
-		for (var i = 0; i < n.length; i++) {
-			if (n[i] < r) {
-				return false;
-			}
-			r = r - 10;
-		}
-		return true;
+/**
+ * Check if a given building would unlock Base 10 when bought
+ *
+ * @param {String} checkedBuilding
+ *
+ * @return {Boolean}
+ */
+CookieMonster.baseTen = function(checkedBuilding) {
+	if (this.hasAchievement('Base 10')) {
+		return false;
 	}
 
-	return false;
+	var t = [];
+	var n = [];
+	Game.ObjectsById.forEach(function (building) {
+		t.push(building.name);
+		n.push(building.amount);
+	});
+	t.forEach(function (t, r) {
+		if (t === checkedBuilding) {
+			n[r]++;
+		}
+	});
+
+	var r = n.length * 10;
+	for (var i = 0; i < n.length; i++) {
+		if (n[i] < r) {
+			return false;
+		}
+		r = r - 10;
+	}
+
+	return true;
 };
 
-CookieMonster.mathematician = function(building) {
-	if (this.hasntAchievement("Mathematician")) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (building) {
-			t.push(building.name);
-			n.push(building.amount);
-		});
-		t.forEach(function (t, r) {
-			if (t === building) {
-				n[r]++;
-			}
-		});
-		var r = 128;
-		for (var i = 0; i < n.length; i++) {
-			if (i > 2) {
-				r = r / 2;
-			}
-			if (n[i] < r) {
-				return false;
-			}
-		}
-		return true;
+/**
+ * Check if a given building would unlock Mathematician when bought
+ *
+ * @param {String} checkedBuilding
+ *
+ * @return {Boolean}
+ */
+CookieMonster.mathematician = function(checkedBuilding) {
+	if (this.hasAchievement('Mathematician')) {
+		return false;
 	}
+
+	var names   = [];
+	var amounts = [];
+	Game.ObjectsById.forEach(function (building) {
+		names.push(building.name);
+		amounts.push(building.amount);
+	});
+	names.forEach(function (name, key) {
+		if (name === checkedBuilding) {
+			amounts[key]++;
+		}
+	});
+
+	var base = 128;
+	for (var i = 0; i < amounts.length; i++) {
+		var amount = amounts[i] + 1;
+
+		if (i > 2) {
+			base = base / 2;
+		}
+		if (amount === base) {
+			return true;
+		}
+	}
+
 	return false;
 };
 
@@ -110,7 +131,7 @@ CookieMonster.oneWithEverything = function(checkedBuilding) {
 };
 
 /**
- * Check if a given building will unlock Centennial when bought
+ * Check if a given building would unlock Centennial when bought
  *
  * @param {String} checkedBuilding
  *
