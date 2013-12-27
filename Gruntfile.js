@@ -6,6 +6,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-mocha-test');
 
 	// Project configuration.
 	grunt.initConfig({
@@ -43,6 +44,16 @@ module.exports = function(grunt) {
 			scripts: {
 				files: '<%= paths.original.js %>/**/*',
 				tasks: ['js', 'uglify'],
+			},
+		},
+
+		mochaTest: {
+			options: {
+				reporter: 'spec'
+			},
+
+			dest: {
+				src: ['tests/*.js'],
 			},
 		},
 
@@ -129,6 +140,10 @@ module.exports = function(grunt) {
 		'bower',
 		'js',
 		'uglify',
+	]);
+
+	grunt.registerTask('test', 'Run the tests', [
+		'mochaTest',
 	]);
 
 	grunt.registerTask('js', 'Build scripts', [

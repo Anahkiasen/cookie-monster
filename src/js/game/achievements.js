@@ -93,12 +93,10 @@ CookieMonster.mathematician = function(checkedBuilding) {
 
 	var base = 128;
 	for (var i = 0; i < amounts.length; i++) {
-		var amount = amounts[i] + 1;
-
 		if (i > 2) {
 			base = base / 2;
 		}
-		if (amount === base) {
+		if (amounts[i] === base) {
 			return true;
 		}
 	}
@@ -128,6 +126,8 @@ CookieMonster.oneWithEverything = function(checkedBuilding) {
 	if (todo.length === 1 && todo[0] === checkedBuilding) {
 		return true;
 	}
+
+	return false;
 };
 
 /**
