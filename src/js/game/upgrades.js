@@ -59,7 +59,7 @@ CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
 		}
 	};
 
-	i += this.hasAchievement(upgrades[building][currentNumber]);
+	i += this.hasntAchievement(upgrades[building][currentNumber]);
 
 	switch (building) {
 		case "Grandma":
@@ -94,13 +94,13 @@ CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
 	}
 
 	if (Game.BuildingsOwned === 99) {
-		i += this.hasAchievement("Builder");
+		i += this.hasntAchievement("Builder");
 	}
 	if (Game.BuildingsOwned === 399) {
-		i += this.hasAchievement("Architect");
+		i += this.hasntAchievement("Architect");
 	}
 	if (Game.BuildingsOwned === 799) {
-		i += this.hasAchievement("Engineer");
+		i += this.hasntAchievement("Engineer");
 	}
 	if (this.oneWithEverything(building)) {
 		i++;
@@ -188,7 +188,7 @@ CookieMonster.getTotalPortalModifiers = function() {
 //////////////////////////////////////////////////////////////////////
 
 CookieMonster.baseTen = function(building) {
-	if (this.hasAchievement("Base 10") === 1) {
+	if (this.hasntAchievement("Base 10")) {
 		var t = [];
 		var n = [];
 		Game.ObjectsById.forEach(function (building) {
@@ -214,7 +214,7 @@ CookieMonster.baseTen = function(building) {
 };
 
 CookieMonster.mathematician = function(building) {
-	if (this.hasAchievement("Mathematician") === 1) {
+	if (this.hasntAchievement("Mathematician")) {
 		var t = [];
 		var n = [];
 		Game.ObjectsById.forEach(function (building) {
@@ -241,7 +241,7 @@ CookieMonster.mathematician = function(building) {
 };
 
 CookieMonster.oneWithEverything = function(building) {
-	if (this.hasAchievement("One with everything") === 1) {
+	if (this.hasntAchievement("One with everything")) {
 		var t = [];
 		var n = [];
 
@@ -260,19 +260,20 @@ CookieMonster.oneWithEverything = function(building) {
 };
 
 CookieMonster.centennial = function(building) {
-	if (this.hasAchievement("Centennial") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (building) {
-			if (building.amount >= 100) {
-				t.push(building.name);
-			} else {
-				n.push(building);
-			}
-		});
-		if (n.length === 1 && n[0].name === building && n[0].amount === 99) {
-			return true;
-		}
+	if (this.hasAchievement('Centennial')) {
+		return false;
 	}
-	return false;
+
+	var t = [];
+	var n = [];
+	Game.ObjectsById.forEach(function (building) {
+		if (building.amount >= 100) {
+			t.push(building.name);
+		} else {
+			n.push(building);
+		}
+	});
+	if (n.length === 1 && n[0].name === building && n[0].amount === 99) {
+		return true;
+	}
 };

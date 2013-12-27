@@ -10,25 +10,6 @@ CookieMonster.isHeavenlyKey = function(upgrade) {
 };
 
 /**
- * Check if the user has won an achievement
- *
- * @param {string} checkedAchievement
- *
- * @return {integer} Boolean in integer form
- */
-CookieMonster.hasAchievement = function(checkedAchievement) {
-	var found = 0;
-
-	Game.AchievementsById.forEach(function (achievement) {
-		if (!achievement.won && achievement.name === checkedAchievement) {
-			found = 1;
-		}
-	});
-
-	return found;
-};
-
-/**
  * Check if an upgrade is in store
  *
  * @param {Array} upgrade
@@ -49,7 +30,7 @@ CookieMonster.dhc = function(e, t, n) {
 };
 
 CookieMonster.lgt = function(e) {
-	if (CookieMonster.hasAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
+	if (CookieMonster.hasntAchievement("Elder") && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
 		var t = [];
 		var n = [];
 		Game.UpgradesById.forEach(function (upgrade, key) {
