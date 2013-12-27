@@ -18,6 +18,12 @@ module.exports = function(grunt) {
 		builds     : 'dist',
 		components : 'bower_components',
 
+		paths: {
+			original: {
+				js: '<%= src %>/js',
+			}
+		},
+
 		//////////////////////////////////////////////////////////////////
 		/////////////////////////////// TASKS ////////////////////////////
 		//////////////////////////////////////////////////////////////////
@@ -35,7 +41,7 @@ module.exports = function(grunt) {
 				tasks: 'default',
 			},
 			scripts: {
-				files: '<%= src %>/**/*',
+				files: '<%= paths.original.js %>/**/*',
 				tasks: ['js', 'uglify'],
 			},
 		},
@@ -56,10 +62,10 @@ module.exports = function(grunt) {
 				files: {
 					'<%= builds %>/cookie-monster.js': [
 						'<%= components %>/jquery/jquery.min.js',
-						'<%= src %>/cookie-monster.js',
-						'<%= src %>/**/*.js',
-						'<%= src %>/upgrades.js',
-						'<%= src %>/main.js',
+						'<%= paths.original.js %>/cookie-monster.js',
+						'<%= paths.original.js %>/**/*.js',
+						'<%= paths.original.js %>/upgrades.js',
+						'<%= paths.original.js %>/main.js',
 					],
 				},
 			}
@@ -110,7 +116,7 @@ module.exports = function(grunt) {
 				}
 			},
 
-			all: ['<%= src %>/*.js'],
+			all: ['<%= paths.original.js %>/*.js'],
 		},
 
 	});
