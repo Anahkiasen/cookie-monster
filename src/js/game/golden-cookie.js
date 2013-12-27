@@ -140,7 +140,7 @@ CookieMonster.Emphasizers.playSound = function() {
 		return;
 	}
 
-	CookieMonster.playSound('http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3');
+	CookieMonster.playBell();
 };
 
 /**
