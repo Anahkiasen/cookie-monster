@@ -134,25 +134,3 @@ CookieMonster.colorize = function(e, t, n) {
 			'</div>';
 	}
 };
-
-CookieMonster.organizeObjectList = function() {
-	var e = [];
-	Game.ObjectsById.forEach(function (t) {
-		var r = true;
-		if (e.length > 0) {
-			e.forEach(function (n, i) {
-				if (t.price < n.price && r) {
-					r = false;
-					e.splice(i, 0, t);
-					e.join();
-				}
-			});
-			if (r) {
-				e.push(t);
-			}
-		} else {
-			e.push(t);
-		}
-	});
-	return e;
-};
