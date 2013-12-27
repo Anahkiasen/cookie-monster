@@ -53,7 +53,8 @@ CookieMonster.updateTooltips = function(which) {
 				}
 			}
 		});
-	} else  if (which === "all" || which === "objects") {
+	}
+	if (which === "all" || which === "objects") {
 		Game.ObjectsById.forEach(function (object) {
 			CookieMonster.manageBuildingTooltip(object);
 		});

@@ -1544,8 +1544,9 @@ CookieMonster.colorize = function(e, t, n) {
 		$("#cm_up_div_" + t).css("border", "1px solid #" + o[0]);
 		$("#cm_up_div_" + t).css("display", "");
 		$("#cm_up_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#4bb8f0; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(Math.round(e * 100) / 100) + '</div><div style="position:absolute; top:34px; left:4px; color:#4bb8f0; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + o[0] + ';">' + this.formatNumber(u[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#4bb8f0; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + o[1] + ';">' + this.formatTime(u[1], "min") + "</div>");
-		$("#cm_up_warning_amount").text("Deficit: " + this.formatNumber(h[0]));
-		$("#cm_up_caution_amount").text("Deficit: " + this.formatNumber(h[1]));
+
+		$('#cm_up_warning_amount').text('Deficit: ' + this.formatNumber(h[0]));
+		$('#cm_up_caution_amount').text('Deficit: ' + this.formatNumber(h[1]));
 
 		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
 			$("#cm_up_lucky_div_warning").css("display", c[0]);
@@ -2018,7 +2019,8 @@ CookieMonster.updateTooltips = function(which) {
 				}
 			}
 		});
-	} else  if (which === "all" || which === "objects") {
+	}
+	if (which === "all" || which === "objects") {
 		Game.ObjectsById.forEach(function (object) {
 			CookieMonster.manageBuildingTooltip(object);
 		});
