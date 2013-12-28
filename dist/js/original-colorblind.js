@@ -1073,7 +1073,7 @@ function Manage_Building_Tooltip(e) {
 	var l = new Array(Math.min.apply(Math, hold_cpi), Math.min.apply(Math, hold_tc));
 	for (i = 0; i < u.length; i++) {
 		if (a[i] == l[i]) {
-			u[i] = "00FF00"
+			u[i] = "76b7e1"
 		} else if (a[i] == f[i]) {
 			u[i] = "FF0000"
 		} else if (f[i] - a[i] < a[i] - l[i]) {
