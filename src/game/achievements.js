@@ -144,12 +144,14 @@ CookieMonster.centennial = function(checkedBuilding) {
 
 	var todo = [];
 	Game.ObjectsById.forEach(function (building) {
-		if (building.amount < 100) {
-			todo.push(building);
+		if (building.amount === 99) {
+			todo.push(building.name);
 		}
 	});
 
-	if (todo.length === 1 && todo[0].name === checkedBuilding && todo[0].amount === 99) {
+	if (todo.length === 1 && todo[0] === checkedBuilding) {
 		return true;
 	}
+
+	return false;
 };
