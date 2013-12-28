@@ -64,14 +64,170 @@ var CookieMonster = {
 	////////////////////////////////////////////////////////////////////
 
 	colors: {
-		blue   : '4BB8F0',
-		green  : '00FF00',
-		orange : 'FF7F00',
-		purple : 'FF00FF',
-		red    : 'FF0000',
-		yellow : 'FFFF00',
+		blue    : '4BB8F0',
+		green   : '00FF00',
+		orange  : 'FF7F00',
+		purple  : 'FF00FF',
+		red     : 'FF0000',
+		yellow  : 'FFFF00',
+		greyTen : '222222',
 	}
 
+};
+/**
+ * Check if the user has won an achievement
+ *
+ * @param {String} checkedAchievement
+ *
+ * @return {Boolean}
+ */
+CookieMonster.hasAchievement = function(checkedAchievement) {
+	var found = 0;
+
+	Game.AchievementsById.forEach(function (achievement) {
+		if (achievement.won && achievement.name === checkedAchievement) {
+			found = 1;
+		}
+	});
+
+	return found === 1;
+};
+
+/**
+ * Check if the user hasn't won an achievement
+ *
+ * @param {string} checkedAchievement
+ *
+ * @return {Boolean}
+ */
+CookieMonster.hasntAchievement = function(checkedAchievement) {
+	return !this.hasAchievement(checkedAchievement);
+};
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////// BUILDING SCHEMAS ////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Check if a given building would unlock Base 10 when bought
+ *
+ * @param {String} checkedBuilding
+ *
+ * @return {Boolean}
+ */
+CookieMonster.baseTen = function(checkedBuilding) {
+	if (this.hasAchievement('Base 10')) {
+		return false;
+	}
+
+	var t = [];
+	var n = [];
+	Game.ObjectsById.forEach(function (building) {
+		t.push(building.name);
+		n.push(building.amount);
+	});
+	t.forEach(function (t, r) {
+		if (t === checkedBuilding) {
+			n[r]++;
+		}
+	});
+
+	var r = n.length * 10;
+	for (var i = 0; i < n.length; i++) {
+		if (n[i] < r) {
+			return false;
+		}
+		r = r - 10;
+	}
+
+	return true;
+};
+
+/**
+ * Check if a given building would unlock Mathematician when bought
+ *
+ * @param {String} checkedBuilding
+ *
+ * @return {Boolean}
+ */
+CookieMonster.mathematician = function(checkedBuilding) {
+	if (this.hasAchievement('Mathematician')) {
+		return false;
+	}
+
+	var names   = [];
+	var amounts = [];
+	Game.ObjectsById.forEach(function (building) {
+		names.push(building.name);
+		amounts.push(building.amount);
+	});
+	names.forEach(function (name, key) {
+		if (name === checkedBuilding) {
+			amounts[key]++;
+		}
+	});
+
+	var base = 128;
+	for (var i = 0; i < amounts.length; i++) {
+		if (i > 2) {
+			base = base / 2;
+		}
+		if (amounts[i] === base) {
+			return true;
+		}
+	}
+
+	return false;
+};
+
+/**
+ * Check if a given building would unlock OWE when bought
+ *
+ * @param {String} checkedBuilding
+ *
+ * @return {Boolean}
+ */
+CookieMonster.oneWithEverything = function(checkedBuilding) {
+	if (this.hasAchievement('One with everything')) {
+		return false;
+	}
+
+	var todo = [];
+	Game.ObjectsById.forEach(function (building) {
+		if (building.amount === 0) {
+			todo.push(building.name);
+		}
+	});
+
+	if (todo.length === 1 && todo[0] === checkedBuilding) {
+		return true;
+	}
+
+	return false;
+};
+
+/**
+ * Check if a given building would unlock Centennial when bought
+ *
+ * @param {String} checkedBuilding
+ *
+ * @return {Boolean}
+ */
+CookieMonster.centennial = function(checkedBuilding) {
+	if (this.hasAchievement('Centennial')) {
+		return false;
+	}
+
+	var todo = [];
+	Game.ObjectsById.forEach(function (building) {
+		if (building.amount < 100) {
+			todo.push(building);
+		}
+	});
+
+	if (todo.length === 1 && todo[0].name === checkedBuilding && todo[0].amount === 99) {
+		return true;
+	}
 };
 /**
  * Get the current frenzy multiplier
@@ -215,7 +371,7 @@ CookieMonster.Emphasizers.playSound = function() {
 		return;
 	}
 
-	CookieMonster.playSound('http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3');
+	CookieMonster.playBell();
 };
 
 /**
@@ -261,22 +417,22 @@ CookieMonster.heavenlyToCookies = function(chipsNumber) {
  * @return {string}
  */
 CookieMonster.getHeavenlyChip = function(context) {
-	var bakedAllTime = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
-	var r = this.cookiesToHeavenly(Game.cookiesReset);
-	var i = this.heavenlyToCookies(bakedAllTime + 1) - (Game.cookiesReset + Game.cookiesEarned);
+	var nextReset     = this.cookiesToHeavenly(Game.cookiesReset + Game.cookiesEarned);
+	var currentAmount = this.cookiesToHeavenly(Game.cookiesReset);
+	var nextChip      = this.heavenlyToCookies(nextReset + 1) - (Game.cookiesReset + Game.cookiesEarned);
 
 	switch (context) {
 		case 'max':
-			return this.formatNumber(bakedAllTime) + " <small>(" + this.formatNumber(bakedAllTime * 2) + "%)</small>";
+			return this.formatNumber(nextReset) + " <small>(" + this.formatNumber(nextReset * 2) + "%)</small>";
 
 		case 'cur':
-			return this.formatNumber(r) + " <small>(" + this.formatNumber(r * 2) + "%)</small>";
+			return this.formatNumber(currentAmount) + " <small>(" + this.formatNumber(currentAmount * 2) + "%)</small>";
 
 		case 'next':
-			return this.formatNumber(Math.round(i));
+			return this.formatNumber(Math.round(nextChip));
 
 		case 'time':
-			return this.formatTime(Math.round(i / Game.cookiesPs), '');
+			return this.formatTime(Math.round(nextChip / Game.cookiesPs), '');
 	}
 };
 
@@ -512,7 +668,7 @@ CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
 		}
 	};
 
-	i += this.hasAchievement(upgrades[building][currentNumber]);
+	i += this.hasntAchievement(upgrades[building][currentNumber]);
 
 	switch (building) {
 		case "Grandma":
@@ -547,13 +703,13 @@ CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
 	}
 
 	if (Game.BuildingsOwned === 99) {
-		i += this.hasAchievement("Builder");
+		i += this.hasntAchievement("Builder");
 	}
 	if (Game.BuildingsOwned === 399) {
-		i += this.hasAchievement("Architect");
+		i += this.hasntAchievement("Architect");
 	}
 	if (Game.BuildingsOwned === 799) {
-		i += this.hasAchievement("Engineer");
+		i += this.hasntAchievement("Engineer");
 	}
 	if (this.oneWithEverything(building)) {
 		i++;
@@ -635,100 +791,6 @@ CookieMonster.getTotalPortalModifiers = function() {
 
 	return modifier * total;
 };
-
-//////////////////////////////////////////////////////////////////////
-//////////////////////////// BUILDING SCHEMAS ////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-CookieMonster.baseTen = function(building) {
-	if (this.hasAchievement("Base 10") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (building) {
-			t.push(building.name);
-			n.push(building.amount);
-		});
-		t.forEach(function (t, r) {
-			if (t === building) {
-				n[r]++;
-			}
-		});
-		var r = n.length * 10;
-		for (var i = 0; i < n.length; i++) {
-			if (n[i] < r) {
-				return false;
-			}
-			r = r - 10;
-		}
-		return true;
-	}
-
-	return false;
-};
-
-CookieMonster.mathematician = function(building) {
-	if (this.hasAchievement("Mathematician") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (building) {
-			t.push(building.name);
-			n.push(building.amount);
-		});
-		t.forEach(function (t, r) {
-			if (t === building) {
-				n[r]++;
-			}
-		});
-		var r = 128;
-		for (var i = 0; i < n.length; i++) {
-			if (i > 2) {
-				r = r / 2;
-			}
-			if (n[i] < r) {
-				return false;
-			}
-		}
-		return true;
-	}
-	return false;
-};
-
-CookieMonster.oneWithEverything = function(building) {
-	if (this.hasAchievement("One with everything") === 1) {
-		var t = [];
-		var n = [];
-
-		Game.ObjectsById.forEach(function (building) {
-			if (building.amount > 0) {
-				t.push(building.name);
-			} else {
-				n.push(building.name);
-			}
-		});
-		if (n.length === 1 && n[0] === building) {
-			return true;
-		}
-	}
-	return false;
-};
-
-CookieMonster.centennial = function(building) {
-	if (this.hasAchievement("Centennial") === 1) {
-		var t = [];
-		var n = [];
-		Game.ObjectsById.forEach(function (building) {
-			if (building.amount >= 100) {
-				t.push(building.name);
-			} else {
-				n.push(building);
-			}
-		});
-		if (n.length === 1 && n[0].name === building && n[0].amount === 99) {
-			return true;
-		}
-	}
-	return false;
-};
 /**
  * Play a sound
  *
@@ -749,7 +811,18 @@ CookieMonster.playSound = function(sound) {
  * @return {void}
  */
 CookieMonster.playBell = function() {
-	this.playSound('http://frozenelm.com/cookiemonster/sounds/ba%20dink.mp3');
+	this.playSound('http://autopergamene.eu/cookie-monster/mp3/bell.mp3');
+};
+
+/**
+ * Get the full path to an image
+ *
+ * @param {String} image
+ *
+ * @return {String}
+ */
+CookieMonster.getImage = function(image) {
+	return 'http://autopergamene.eu/cookie-monster/img/'+image+'.png';
 };
 
 /**
@@ -837,25 +910,6 @@ CookieMonster.isHeavenlyKey = function(upgrade) {
 };
 
 /**
- * Check if the user has won an achievement
- *
- * @param {string} checkedAchievement
- *
- * @return {integer} Boolean in integer form
- */
-CookieMonster.hasAchievement = function(checkedAchievement) {
-	var found = 0;
-
-	Game.AchievementsById.forEach(function (achievement) {
-		if (!achievement.won && achievement.name === checkedAchievement) {
-			found = 1;
-		}
-	});
-
-	return found;
-};
-
-/**
  * Check if an upgrade is in store
  *
  * @param {Array} upgrade
@@ -876,7 +930,7 @@ CookieMonster.dhc = function(e, t, n) {
 };
 
 CookieMonster.lgt = function(e) {
-	if (CookieMonster.hasAchievement("Elder") === 1 && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
+	if (CookieMonster.hasntAchievement("Elder") && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
 		var t = [];
 		var n = [];
 		Game.UpgradesById.forEach(function (upgrade, key) {
@@ -1564,31 +1618,33 @@ CookieMonster.colorize = function(e, t, n) {
 		}
 	}
 	if (n) {
-		o = "000000";
-		return '<div id="cm_up_lucky_div_' + t + '" style="position:absolute; top:-25px; left:-12px; height:32px;">' + '<div id="cm_up_lucky_div_warning" style="background:url(http://frozenelm.com/images/cookiemonster/warning.png); position:relative; float:left; height:32px; width:32px; display:none;"></div>' + '<div id="cm_up_lucky_div_caution" style="background:url(http://frozenelm.com/images/cookiemonster/caution.png); position:relative; float:left; height:32px; width:32px; display:none;"></div>' + "</div>" + '<div id="cm_up_div_' + t + '" style="position:relative; height:96px; background:#222222; border:1px solid #' + o + '; margin:6px -6px -6px -6px; display:none;"></div>' + '<div id="cm_up_note_div_' + t + '" style="position:absolute; left:0px; margin-top:10px; color:white;">' + '<div id="cm_up_note_div_warning" style="background:#222222; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #FF0000;"><b style="color:#FF0000;">Warning:</b> Purchase of this item will put you under the number of Cookies required for "Lucky!"</br><span id="cm_up_warning_amount"></span>' + '<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="http://frozenelm.com/images/cookiemonster/warning.png" height=16px width=16px></div></div>' + '<div id="cm_up_note_div_caution" style="background:#222222; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #FFFF00;"><b style="color:#FFFF00;">Caution:</b> Purchase of this item will put you under the number of Cookies required for "Lucky!" (Frenzy)</br><span id="cm_up_caution_amount"></span>' + '<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="http://frozenelm.com/images/cookiemonster/caution.png" height=16px width=16px></div></div>' + "</div>";
-	}
-};
+		var warning = this.getImage('warning');
+		var caution = this.getImage('caution');
 
-CookieMonster.organizeObjectList = function() {
-	var e = [];
-	Game.ObjectsById.forEach(function (t) {
-		var r = true;
-		if (e.length > 0) {
-			e.forEach(function (n, i) {
-				if (t.price < n.price && r) {
-					r = false;
-					e.splice(i, 0, t);
-					e.join();
-				}
-			});
-			if (r) {
-				e.push(t);
-			}
-		} else {
-			e.push(t);
-		}
-	});
-	return e;
+		return
+			'<div id="cm_up_lucky_div_' +t+ '" style="position:absolute; top:-25px; left:-12px; height:32px;">'+
+				'<div id="cm_up_lucky_div_warning" style="background:url(' +warning+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>'+
+				'<div id="cm_up_lucky_div_caution" style="background:url(' +caution+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>'+
+			'</div>'+
+			'<div id="cm_up_div_' +t+ '" style="position:relative; height:96px; background:#' +this.colors.greyTen+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
+			'<div id="cm_up_note_div_' +t+ '" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
+				'<div id="cm_up_note_div_warning" style="background:#' +this.colors.greyTen+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.colors.red+ ';">'+
+					'<b style="color:#' +this.colors.red+ ';">Warning:</b>'+
+					'Purchase of this item will put you under the number of Cookies required for "Lucky!"<br>'+
+				'<span id="cm_up_warning_amount"></span>'+
+				'<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;">'+
+					'<img src="' +warning+ '" height="16px" width="16px"></div>'+
+			'</div>'+
+			'<div id="cm_up_note_div_caution" style="background:#' +this.colors.greyTen+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.colors.yellow+ ';">'+
+				'<b style="color:#' +this.colors.yellow+ ';">Caution:</b>'+
+				'Purchase of this item will put you under the number of Cookies required for "Lucky!" (Frenzy)<br>'+
+				'<span id="cm_up_caution_amount"></span>'+
+				'<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;">'+
+					'<img src="' +caution+ '" height="16px" width="16px">'+
+				'</div>'+
+			'</div>'+
+			'</div>';
+	}
 };
 /**
  * Load a setting from localStorage
@@ -1766,12 +1822,12 @@ CookieMonster.toggleOption = function(option) {
 		case "Colored Prices ON":
 			this.setSetting('ColoredPrices', 0);
 			$option.text("Colored Prices OFF");
-			CookieMonster.updateTooltips("objects");
+			this.updateTooltips("objects");
 			break;
 		case "Colored Prices OFF":
 			this.setSetting('ColoredPrices', 1);
 			$option.text("Colored Prices ON");
-			CookieMonster.updateTooltips("objects");
+			this.updateTooltips("objects");
 			break;
 		case "Upgrade Icons ON":
 			this.setSetting('UpgradeIcons', 0);
@@ -1786,38 +1842,38 @@ CookieMonster.toggleOption = function(option) {
 		case "Upgrade Display (All)":
 			this.setSetting('UpgradeDisplay', 0);
 			$option.text("Upgrade Display (None)");
-			CookieMonster.updateUpgradeDisplay();
+			this.updateUpgradeDisplay();
 			break;
 		case "Upgrade Display (None)":
 			this.setSetting('UpgradeDisplay', 1);
 			$option.text("Upgrade Display (Normal)");
-			CookieMonster.updateUpgradeDisplay();
+			this.updateUpgradeDisplay();
 			break;
 		case "Upgrade Display (Normal)":
 			this.setSetting('UpgradeDisplay', 2);
 			$option.text("Upgrade Display (All)");
-			CookieMonster.updateUpgradeDisplay();
+			this.updateUpgradeDisplay();
 			break;
 		case "Short Numbers ON (B)":
 			this.setSetting('ShortNumbers', 0);
 			$option.text("Short Numbers OFF");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
-			CookieMonster.updateTable();
+			this.updateTable();
 			break;
 		case "Short Numbers OFF":
 			this.setSetting('ShortNumbers', 1);
 			$option.text("Short Numbers ON (A)");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
-			CookieMonster.updateTable();
+			this.updateTable();
 			break;
 		case "Short Numbers ON (A)":
 			this.setSetting('ShortNumbers', 2);
 			$option.text("Short Numbers ON (B)");
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
-			CookieMonster.updateTable();
+			this.updateTable();
 			break;
 		case "Lucky Alert (Both)":
 			this.setSetting('LuckyAlert', 2);
@@ -2098,13 +2154,13 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 			i = this.gpp();
 			break;
 		case 23:
-			s += this.hasAchievement("Elder nap");
+			s += this.hasntAchievement("Elder nap");
 			if (Game.pledges === 4) {
-				s += this.hasAchievement("Elder slumber");
+				s += this.hasntAchievement("Elder slumber");
 			}
 			break;
 		case 24:
-			s += this.hasAchievement("Elder calm");
+			s += this.hasntAchievement("Elder calm");
 			break;
 		case 28:
 			i = this.fte(1);
@@ -2118,18 +2174,18 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 		case 32:
 			i = this.dhc(s, t, i);
 			if (this.isHeavenlyKey(t)) {
-				s += this.hasAchievement("Wholesome");
+				s += this.hasntAchievement("Wholesome");
 			}
 			break;
 	}
 	if (Game.UpgradesOwned === 19) {
-		s += this.hasAchievement("Enhancer");
+		s += this.hasntAchievement("Enhancer");
 	}
 	if (Game.UpgradesOwned === 49) {
-		s += this.hasAchievement("Augmenter");
+		s += this.hasntAchievement("Augmenter");
 	}
 	if (Game.UpgradesOwned === 99) {
-		s += this.hasAchievement("Upgrader");
+		s += this.hasntAchievement("Upgrader");
 	}
 	i += this.getAchievementWorth(s, t, i, 0);
 	if (r) {
