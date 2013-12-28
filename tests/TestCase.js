@@ -13,7 +13,7 @@ var TestCase = {
 	 *
 	 * @return {Void}
 	 */
-	achievement: function(method, name, yep, nope) {
+	achievement: function(method, name, cases) {
 		var achievements = {};
 
 		describe('#'+method, function() {
@@ -23,16 +23,16 @@ var TestCase = {
 				assert.equal(false, CookieMonster[method]('Antimatter condenser'));
 			});
 
-			it('Should return true when next building unlocks', function() {
+			it('Should return whether achievement unlocks', function() {
 				achievements[name] = false;
 				Mock.achievements(achievements);
-				Mock.amounts(yep);
-				assert.equal(true, CookieMonster[method]('Antimatter condenser'));
-			});
 
-			it('Should return false when next building doesnt unlock', function() {
-				Mock.amounts(nope);
-				assert.equal(false, CookieMonster[method]('Antimatter condenser'));
+				cases.forEach(function(testCase) {
+					var message = 'Expected '+(testCase.result ? 'true' : 'false')+ ', got ' +(testCase.result ? 'false' : 'true')+ ' with '+testCase.amounts;
+
+					Mock.amounts(testCase.amounts);
+					assert.equal(testCase.result, CookieMonster[method]('Antimatter condenser'), message);
+				});
 			});
 		});
 	},

@@ -44,24 +44,24 @@ CookieMonster.baseTen = function(checkedBuilding) {
 		return false;
 	}
 
-	var t = [];
-	var n = [];
+	var names    = [];
+	var amounts = [];
 	Game.ObjectsById.forEach(function (building) {
-		t.push(building.name);
-		n.push(building.amount);
+		names.push(building.name);
+		amounts.push(building.amount);
 	});
-	t.forEach(function (t, r) {
-		if (t === checkedBuilding) {
-			n[r]++;
+	names.forEach(function (names, key) {
+		if (names === checkedBuilding) {
+			amounts[key]++;
 		}
 	});
 
-	var r = n.length * 10;
-	for (var i = 0; i < n.length; i++) {
-		if (n[i] < r) {
+	var base = amounts.length * 10;
+	for (var i = 0; i < amounts.length; i++) {
+		if (amounts[i] < base || amounts[i] > base) {
 			return false;
 		}
-		r = r - 10;
+		base -= 10;
 	}
 
 	return true;
