@@ -17,13 +17,13 @@ var TestCase = {
 		var achievements = {};
 
 		describe('#'+method, function() {
-			it('Should return false if achievement unlocked', function() {
+			it('can return if achievement unlocked', function() {
 				achievements[name] = true;
 				Mock.achievements(achievements);
 				assert.equal(false, CookieMonster[method]('Antimatter condenser'));
 			});
 
-			it('Should return whether achievement unlocks', function() {
+			it('can return whether next building unlocks achievement', function() {
 				achievements[name] = false;
 				Mock.achievements(achievements);
 

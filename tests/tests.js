@@ -18,6 +18,7 @@ CookieMonster = require('../src/cookie-monster.js');
 
 // Modules
 require('../src/game/achievements.js');
+require('../src/game/lucky.js');
 require('../src/helpers/misc.js');
 
 //////////////////////////////////////////////////////////////////////
@@ -25,10 +26,37 @@ require('../src/helpers/misc.js');
 //////////////////////////////////////////////////////////////////////
 
 describe('CookieMonster', function () {
+
+	beforeEach(function() {
+		Game.cookiesPs   = 10;
+		Game.frenzyPower = 1;
+	});
+
+	// Lucky
+	////////////////////////////////////////////////////////////////////
+
+	describe('#getFrenzyRate', function() {
+		Game.frenzy = 1;
+
+		it('Can return current multiplier', function() {
+			Game.frenzyPower = 0.5;
+			assert.equal(24013, CookieMonster.getFrenzyRate('foobar'));
+		});
+
+		it('Can return frenzy multiplier', function() {
+			Game.frenzyPower = 2;
+			assert.equal(42013, CookieMonster.getFrenzyRate('frenzy'));
+		});
+	});
+
+	// Achievements
+	////////////////////////////////////////////////////////////////////
+
 	describe('#hasAchievement', function () {
-		it('Should return if achievement is unlocked', function () {
+		it('Can return if achievement is unlocked', function () {
 			Mock.achievements({Mathematician: false, 'One with everything': true});
 
+			assert.equal(true, CookieMonster.hasntAchievement('Mathematician'));
 			assert.equal(false, CookieMonster.hasAchievement('Mathematician'));
 			assert.equal(true, CookieMonster.hasAchievement('One with everything'));
 		});

@@ -7,7 +7,7 @@
  * @return {String}
  */
 CookieMonster.lucky = function(context, raw) {
-	var reward =  Math.round((this.getFrenzyRate(context) * 1200 + 13) / 0.1);
+	var reward = Math.round(this.getFrenzyRate(context) / 0.1);
 
 	if (!raw) {
 		if (reward <= Game.cookies) {
@@ -31,9 +31,9 @@ CookieMonster.lucky = function(context, raw) {
 CookieMonster.luckyReward = function(context) {
 	var reward = this.getFrenzyRate(context);
 
-	var number = [Math.round(reward * 1200 + 13), Math.round(Game.cookies * 0.1 + 13)];
+	var number = [Math.round(reward), Math.round(Game.cookies * 0.1 + 13)];
 	if (context === 'max' || context === 'frenzy') {
-		if (Math.round((reward * 1200 + 13) / 0.1) > Game.cookies) {
+		if (Math.round(reward / 0.1) > Game.cookies) {
 			return this.formatNumber(number[0]);
 		}
 	}
@@ -58,5 +58,5 @@ CookieMonster.getFrenzyRate = function(context) {
 		reward = reward * 7;
 	}
 
-	return reward;
+	return reward * 1200 + 13;
 };
