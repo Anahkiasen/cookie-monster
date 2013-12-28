@@ -57,10 +57,10 @@ CookieMonster.toggleBar = function() {
  * @return {void}
  */
 CookieMonster.makeTable = function() {
-	var thead    = '<th align="left"  style="color:#' + this.colors.yellow + ';" width=130> ' + this.version + "</th>";
-	var bonus    = '<th align="right" style="color:#' + this.colors.blue   + ';">Bonus Income</th>';
-	var baseCost = '<th align="right" style="color:#' + this.colors.blue   + ';">Base Cost Per Income</th>';
-	var timeLeft = '<th align="right" style="color:#' + this.colors.blue   + ';">Time Left</th>';
+	var thead    = '<th align="left"  style="color:#' + this.color('yellow') + ';" width=130> ' + this.version + "</th>";
+	var bonus    = '<th align="right" style="color:#' + this.color('blue')   + ';">Bonus Income</th>';
+	var baseCost = '<th align="right" style="color:#' + this.color('blue')   + ';">Base Cost Per Income</th>';
+	var timeLeft = '<th align="right" style="color:#' + this.color('blue')   + ';">Time Left</th>';
 
 	// Append each building type to the bar
 	Game.ObjectsById.forEach(function (building, key) {

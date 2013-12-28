@@ -11,7 +11,7 @@ CookieMonster.lucky = function(context, raw) {
 
 	if (!raw) {
 		if (reward <= Game.cookies) {
-			reward = '<span style="color:#' +this.colors.green+ '; font-weight:bold;">' + this.formatNumber(reward) + "</span>";
+			reward = '<span style="color:#' +this.color('green')+ '; font-weight:bold;">' + this.formatNumber(reward) + "</span>";
 		}
 		else {
 			reward = this.formatNumber(reward);

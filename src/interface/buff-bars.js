@@ -58,19 +58,19 @@ CookieMonster.manageFrenzyBars = function() {
 		case 7:
 			multiplier = 77 + 77 * Game.Has("Get lucky");
 			frenzyName = "Frenzy";
-			color      = this.colors.yellow;
+			color      = this.color('yellow');
 			break;
 
 		case 666:
 			multiplier = 6 + 6 * Game.Has("Get lucky");
 			frenzyName = "Blood Frenzy";
-			color      = this.colors.green;
+			color      = this.color('green');
 			break;
 
 		case 0.5:
 			multiplier = 66 + 66 * Game.Has("Get lucky");
 			frenzyName = "Clot";
-			color      = this.colors.red;
+			color      = this.color('red');
 			break;
 	}
 
@@ -82,7 +82,7 @@ CookieMonster.manageFrenzyBars = function() {
 	this.updateBar(frenzyName, color, Game.frenzy);
 
 	// No idea what that does
-	var buffColors = [this.colors.yellow, this.colors.green, this.colors.red];
+	var buffColors = [this.color('yellow'), this.color('green'), this.color('red')];
 	for (var thisColor in buffColors) {
 		this.fadeOutBar(buffColors[thisColor], color);
 	}
@@ -95,10 +95,10 @@ CookieMonster.manageFrenzyBars = function() {
  */
 CookieMonster.manageClickingFrenzy = function() {
 	if (Game.clickFrenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
-		return this.fadeOutBar(this.colors.blue);
+		return this.fadeOutBar(this.color('blue'));
 	}
 
-	this.updateBar('Click frenzy', this.colors.blue, Game.clickFrenzy);
+	this.updateBar('Click frenzy', this.color('blue'), Game.clickFrenzy);
 };
 
 /**
@@ -119,11 +119,11 @@ CookieMonster.manageNextCookie = function() {
 
 	// Cancel if disabled
 	if (timers[0] <= 0 || CookieMonster.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieCD')) {
-		return this.fadeOutBar(this.colors.purple);
+		return this.fadeOutBar(this.color('purple'));
 	}
 
-	this.updateBar('Next Cookie', this.colors.purple, width, width / timers[2] * 100);
-	$('#cmt2_'+this.colors.purple).css('max-width', (barsWidth - 189) * 0.67 + "px");
+	this.updateBar('Next Cookie', this.color('purple'), width, width / timers[2] * 100);
+	$('#cmt2_'+this.color('purple')).css('max-width', (barsWidth - 189) * 0.67 + "px");
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -168,7 +168,7 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 CookieMonster.createBar = function (name, color) {
 	var secondBar = '';
 	if (name === 'Next Cookie') {
-		secondBar = '<div id="cmt2_'+this.colors.purple+'" style="position:relative; background:#' +this.colors.purple+'; height:10px; width:100%; margin-left:0px; max-width:0px; float:right;"></div>';
+		secondBar = '<div id="cmt2_'+this.color('purple')+'" style="position:relative; background:#' +this.color('purple')+'; height:10px; width:100%; margin-left:0px; max-width:0px; float:right;"></div>';
 	}
 
 	this.$timerBars.append(

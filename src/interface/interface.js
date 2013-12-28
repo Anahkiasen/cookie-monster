@@ -28,34 +28,34 @@ CookieMonster.colorize = function(e, t, n) {
 	var i = 0;
 	var r = Game.UpgradesById[t];
 	var s = r.basePrice;
-	var o = new Array(this.colors.yellow, this.colors.yellow);
+	var o = new Array(this.color('yellow'), this.color('yellow'));
 	var u = new Array(this.roundDecimal(s / e), Math.round(this.secondsLeft(t, "upgrade")));
 	var a = new Array(Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.cpi));
 	var f = new Array(Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.cpi));
 
 	for (i = 0; i < o.length; i++) {
 		if (u[i] < f[i]) {
-			o[i] = this.colors.blue;
+			o[i] = this.color('blue');
 			if (this.isInStore(r) && i === 0) {
 				this.inStore[0]++;
 			}
 		} else if (u[i] === f[i]) {
-			o[i] = this.colors.green;
+			o[i] = this.color('green');
 			if (this.isInStore(r) && i === 0) {
 				this.inStore[1]++;
 			}
 		} else if (u[i] === a[i]) {
-			o[i] = this.colors.red;
+			o[i] = this.color('red');
 			if (this.isInStore(r) && i === 0) {
 				this.inStore[4]++;
 			}
 		} else if (u[i] > a[i]) {
-			o[i] = this.colors.purple;
+			o[i] = this.color('purple');
 			if (this.isInStore(r) && i === 0) {
 				this.inStore[5]++;
 			}
 		} else if (a[i] - u[i] < u[i] - f[i]) {
-			o[i] = this.colors.orange;
+			o[i] = this.color('orange');
 			if (this.isInStore(r) && i === 0) {
 				this.inStore[3]++;
 			}
@@ -114,17 +114,17 @@ CookieMonster.colorize = function(e, t, n) {
 				'<div id="cm_up_lucky_div_warning" style="background:url(' +warning+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>'+
 				'<div id="cm_up_lucky_div_caution" style="background:url(' +caution+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>'+
 			'</div>'+
-			'<div id="cm_up_div_' +t+ '" style="position:relative; height:96px; background:#' +this.colors.greyTen+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
+			'<div id="cm_up_div_' +t+ '" style="position:relative; height:96px; background:#' +this.color('greyTen')+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
 			'<div id="cm_up_note_div_' +t+ '" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
-				'<div id="cm_up_note_div_warning" style="background:#' +this.colors.greyTen+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.colors.red+ ';">'+
-					'<b style="color:#' +this.colors.red+ ';">Warning:</b>'+
+				'<div id="cm_up_note_div_warning" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('red')+ ';">'+
+					'<b style="color:#' +this.color('red')+ ';">Warning:</b>'+
 					'Purchase of this item will put you under the number of Cookies required for "Lucky!"<br>'+
 				'<span id="cm_up_warning_amount"></span>'+
 				'<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;">'+
 					'<img src="' +warning+ '" height="16px" width="16px"></div>'+
 			'</div>'+
-			'<div id="cm_up_note_div_caution" style="background:#' +this.colors.greyTen+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.colors.yellow+ ';">'+
-				'<b style="color:#' +this.colors.yellow+ ';">Caution:</b>'+
+			'<div id="cm_up_note_div_caution" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('yellow')+ ';">'+
+				'<b style="color:#' +this.color('yellow')+ ';">Caution:</b>'+
 				'Purchase of this item will put you under the number of Cookies required for "Lucky!" (Frenzy)<br>'+
 				'<span id="cm_up_caution_amount"></span>'+
 				'<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;">'+
