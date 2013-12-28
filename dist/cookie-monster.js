@@ -63,6 +63,8 @@ var CookieMonster = {
 	// Colors
 	////////////////////////////////////////////////////////////////////
 
+	colorblind: false,
+
 	colors: {
 		blue    : '4BB8F0',
 		green   : '00FF00',
@@ -71,9 +73,24 @@ var CookieMonster = {
 		red     : 'FF0000',
 		yellow  : 'FFFF00',
 		greyTen : '222222',
+	},
+
+	colorsBlind: {
+		blue    : '4BB8F0',
+		green   : '76b7e1',
+		orange  : 'FF7F00',
+		purple  : 'FF00FF',
+		red     : 'FF0000',
+		yellow  : 'FFFF00',
+		greyTen : '222222',
 	}
 
 };
+
+// Export module
+if (typeof module !== 'undefined') {
+	module.exports = CookieMonster;
+}
 /**
  * Check if the user has won an achievement
  *
@@ -120,24 +137,24 @@ CookieMonster.baseTen = function(checkedBuilding) {
 		return false;
 	}
 
-	var t = [];
-	var n = [];
+	var names    = [];
+	var amounts = [];
 	Game.ObjectsById.forEach(function (building) {
-		t.push(building.name);
-		n.push(building.amount);
+		names.push(building.name);
+		amounts.push(building.amount);
 	});
-	t.forEach(function (t, r) {
-		if (t === checkedBuilding) {
-			n[r]++;
+	names.forEach(function (names, key) {
+		if (names === checkedBuilding) {
+			amounts[key]++;
 		}
 	});
 
-	var r = n.length * 10;
-	for (var i = 0; i < n.length; i++) {
-		if (n[i] < r) {
+	var base = amounts.length * 10;
+	for (var i = 0; i < amounts.length; i++) {
+		if (amounts[i] < base || amounts[i] > base) {
 			return false;
 		}
-		r = r - 10;
+		base -= 10;
 	}
 
 	return true;
@@ -172,12 +189,12 @@ CookieMonster.mathematician = function(checkedBuilding) {
 		if (i > 2) {
 			base = base / 2;
 		}
-		if (amounts[i] === base) {
-			return true;
+		if (amounts[i] < base) {
+			return false;
 		}
 	}
 
-	return false;
+	return true;
 };
 
 /**
@@ -220,14 +237,16 @@ CookieMonster.centennial = function(checkedBuilding) {
 
 	var todo = [];
 	Game.ObjectsById.forEach(function (building) {
-		if (building.amount < 100) {
-			todo.push(building);
+		if (building.amount === 99) {
+			todo.push(building.name);
 		}
 	});
 
-	if (todo.length === 1 && todo[0].name === checkedBuilding && todo[0].amount === 99) {
+	if (todo.length === 1 && todo[0] === checkedBuilding) {
 		return true;
 	}
+
+	return false;
 };
 /**
  * Get the current frenzy multiplier
@@ -898,6 +917,20 @@ CookieMonster.toHumanNumber = function(number, round) {
 CookieMonster.roundDecimal = function(number) {
 	return Math.round(number * 100) / 100;
 };
+/**
+ * Get a color for regular or colorblind people
+ *
+ * @param {String} color
+ *
+ * @return {String}
+ */
+CookieMonster.color = function(color, hex) {
+	var colors = this.colorblind ? this.colorsBlind : this.colors;
+	var color = colors[color];
+
+	return hex ? '#'+color : color;
+};
+
 /**
  * Check if the upgrade ID is the one for Heavenly Key
  *

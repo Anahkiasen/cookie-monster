@@ -24,7 +24,7 @@ module.exports = function(grunt) {
 				js: '<%= src %>',
 			},
 			compiled: {
-				js: '<%= builds %>/js',
+				js: '<%= builds %>',
 			}
 		},
 
