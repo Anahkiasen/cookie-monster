@@ -1,4 +1,4 @@
-# CookieMonster
+# CookieMonster [![Build Status](https://travis-ci.org/Anahkiasen/cookie-monster.png?branch=testing)](https://travis-ci.org/Anahkiasen/cookie-monster)
 
 A rehosted, cleaned up and updated version of the CookieMonster plugin.
 
