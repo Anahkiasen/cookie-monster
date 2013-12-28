@@ -5,7 +5,7 @@ var Mock   = require('./Mock.js');
 // Game
 Game          = {};
 CookieMonster = {};
-require('../src/js/game/achievements.js');
+require('../src/game/achievements.js');
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////////// TESTS //////////////////////////////
@@ -52,7 +52,7 @@ describe('CookieMonster', function () {
 		});
 
 		it('Should return false when next building doesnt unlock', function() {
-			Mock.amounts([128, 128, 128, 64, 32, 16, 8, 4, 2, 1]);
+			Mock.amounts([128, 128, 128, 64, 32, 16, 8, 4, 0, 1]);
 			assert.equal(false, CookieMonster.mathematician('Antimatter condenser'));
 		});
 	});

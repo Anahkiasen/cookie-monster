@@ -96,12 +96,12 @@ CookieMonster.mathematician = function(checkedBuilding) {
 		if (i > 2) {
 			base = base / 2;
 		}
-		if (amounts[i] === base) {
-			return true;
+		if (amounts[i] < base) {
+			return false;
 		}
 	}
 
-	return false;
+	return true;
 };
 
 /**
