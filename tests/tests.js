@@ -3,10 +3,22 @@ var assert = require('assert');
 var Mock   = require('./Mock.js');
 var Test   = require('./TestCase.js');
 
+// Browser
+var jsdom    = require("jsdom").jsdom;
+var document = jsdom('<html><head></head><body></body></html>');
+var window   = document.createWindow();
+
+// jQuery
+jQuery = require('jquery');
+$      = jQuery(window);
+
 // Game
 Game          = {};
-CookieMonster = {};
+CookieMonster = require('../src/cookie-monster.js');
+
+// Modules
 require('../src/game/achievements.js');
+require('../src/helpers/misc.js');
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////////// TESTS //////////////////////////////
@@ -19,6 +31,17 @@ describe('CookieMonster', function () {
 
 			assert.equal(false, CookieMonster.hasAchievement('Mathematician'));
 			assert.equal(true, CookieMonster.hasAchievement('One with everything'));
+		});
+	});
+
+	describe('#color', function() {
+		it('Can get regular color', function () {
+			assert.equal('00FF00', CookieMonster.color('green'));
+		});
+
+		it('Can get colorblind color', function () {
+			CookieMonster.colorblind = true;
+			assert.equal('76b7e1', CookieMonster.color('green'));
 		});
 	});
 

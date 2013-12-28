@@ -9,7 +9,11 @@
     "grunt-contrib-jshint": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
-    "mocha": "*",
     "grunt-mocha-test": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "jquery": "*",
+    "jsdom": "*"
   }
 }

@@ -1,4 +1,18 @@
 /**
+ * Get a color for regular or colorblind people
+ *
+ * @param {String} color
+ *
+ * @return {String}
+ */
+CookieMonster.color = function(color, hex) {
+	var colors = this.colorblind ? this.colorsBlind : this.colors;
+	var color = colors[color];
+
+	return hex ? '#'+color : color;
+};
+
+/**
  * Check if the upgrade ID is the one for Heavenly Key
  *
  * @param {integer} upgrade

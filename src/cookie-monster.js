@@ -56,6 +56,8 @@ var CookieMonster = {
 	// Colors
 	////////////////////////////////////////////////////////////////////
 
+	colorblind: false,
+
 	colors: {
 		blue    : '4BB8F0',
 		green   : '00FF00',
@@ -64,6 +66,21 @@ var CookieMonster = {
 		red     : 'FF0000',
 		yellow  : 'FFFF00',
 		greyTen : '222222',
+	},
+
+	colorsBlind: {
+		blue    : '4BB8F0',
+		green   : '76b7e1',
+		orange  : 'FF7F00',
+		purple  : 'FF00FF',
+		red     : 'FF0000',
+		yellow  : 'FFFF00',
+		greyTen : '222222',
 	}
 
 };
+
+// Export module
+if (typeof module !== 'undefined') {
+	module.exports = CookieMonster;
+}
