@@ -9,4 +9,7 @@
 	.text-#{$color} {
 		color: $value;
 	}
+	.border-#{$color} {
+		border-color: $value !important;
+	}
 }

@@ -213,8 +213,8 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('js', 'Build scripts', [
 		'jshint',
-		'test',
 		'concat:js',
 		'uglify',
+		'test',
 	]);
 };

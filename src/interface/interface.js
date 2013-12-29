@@ -118,31 +118,6 @@ CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 		}
 	}
 	if (returnHtml) {
-		var warning = this.getImage('warning');
-		var caution = this.getImage('caution');
-
-		return
-			'<div id="cm_up_lucky_div_' +upgradeKey+ '" style="position:absolute; top:-25px; left:-12px; height:32px;">'+
-				'<div id="cm_up_lucky_div_warning" style="background:url(' +warning+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>'+
-				'<div id="cm_up_lucky_div_caution" style="background:url(' +caution+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>'+
-			'</div>'+
-			'<div id="cm_up_div_' +upgradeKey+ '" style="position:relative; height:96px; background:#' +this.color('greyTen')+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
-			'<div id="cm_up_note_div_' +upgradeKey+ '" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
-				'<div id="cm_up_note_div_warning" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('red')+ ';">'+
-					'<b style="color:#' +this.color('red')+ ';">Warning:</b>'+
-					'Purchase of this item will put you under the number of Cookies required for "Lucky!"<br>'+
-				'<span id="cm_up_warning_amount"></span>'+
-				'<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;">'+
-					'<img src="' +warning+ '" height="16px" width="16px"></div>'+
-			'</div>'+
-			'<div id="cm_up_note_div_caution" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('yellow')+ ';">'+
-				'<b style="color:#' +this.color('yellow')+ ';">Caution:</b>'+
-				'Purchase of this item will put you under the number of Cookies required for "Lucky!" (Frenzy)<br>'+
-				'<span id="cm_up_caution_amount"></span>'+
-				'<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;">'+
-					'<img src="' +caution+ '" height="16px" width="16px">'+
-				'</div>'+
-			'</div>'+
-			'</div>';
+		return this.makeTooltip('up', upgradeKey);
 	}
 };
