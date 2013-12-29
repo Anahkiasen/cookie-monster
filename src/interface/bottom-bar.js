@@ -100,7 +100,7 @@ CookieMonster.updateTable = function() {
 		// Compute informations
 		var bonus = that.roundDecimal(s + that.getUpgradeBonuses(building.name, owned, s));
 		var cpi   = that.roundDecimal(price / bonus);
-		var count = '(<span style="color: #' +that.colors.blue+ ';">' + that.formatNumber(owned) + '</span>)';
+		var count = '(<span style="color: #' +that.color('blue')+ ';">' + that.formatNumber(owned) + '</span>)';
 
 		that.setBuildingInformations(key, {
 			items    : building.name.split(' ')[0] + ' ' + count,
@@ -113,7 +113,7 @@ CookieMonster.updateTable = function() {
 	// Then we loop over the created array, format the information
 	// and update the DOM
 	Game.ObjectsById.forEach(function (building, key) {
-		var colors       = [that.colors.yellow, that.colors.yellow];
+		var colors       = [that.color('yellow'), that.color('yellow')];
 		var informations = [that.bottomBar.cpi[key], that.bottomBar.timeLeft[key]];
 		var worst        = [Math.max.apply(Math, that.bottomBar.cpi), Math.max.apply(Math, that.bottomBar.timeLeft)];
 		var best         = [Math.min.apply(Math, that.bottomBar.cpi), Math.min.apply(Math, that.bottomBar.timeLeft)];
@@ -121,11 +121,11 @@ CookieMonster.updateTable = function() {
 		// Compute correct colors
 		for (var i = 0; i < colors.length; i++) {
 			if (informations[i] === best[i]) {
-				colors[i] = that.colors.green;
+				colors[i] = that.color('green');
 			} else if (informations[i] === worst[i]) {
-				colors[i] = that.colors.red;
+				colors[i] = that.color('red');
 			} else if (worst[i] - informations[i] < informations[i] - best[i]) {
-				colors[i] = that.colors.orange;
+				colors[i] = that.color('orange');
 			}
 		}
 

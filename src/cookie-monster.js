@@ -54,6 +54,7 @@ var CookieMonster = {
 		'LuckyAlert'     : 1,
 		'UpgradeIcons'   : 1,
 		'UpgradeDisplay' : 1,
+		'Colorblind'     : 0,
 	},
 
 	// Selectors
@@ -68,8 +69,6 @@ var CookieMonster = {
 
 	// Colors
 	////////////////////////////////////////////////////////////////////
-
-	colorblind: false,
 
 	colors: {
 		blue    : '4BB8F0',

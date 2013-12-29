@@ -165,7 +165,7 @@ describe('CookieMonster', function () {
 		});
 
 		it('Can get colorblind color', function () {
-			CookieMonster.colorblind = true;
+			CookieMonster.setSetting('Colorblind', true);
 			assert.equal('76b7e1', CookieMonster.color('green'));
 		});
 	});

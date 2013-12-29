@@ -130,7 +130,7 @@ CookieMonster.update = function() {
 	this.replaceNative('UpdateMenu', function (native) {
 		return native.replace("Statistics</div>'+", "Statistics</div>'+\n\n"+
 			"'<div class=\"subsection\">" +
-				"<div class=\"title\"><span style=\"color:#' +CookieMonster.colors.blue+ ';\">Cookie Monster Goodies</span></div>"+
+				"<div class=\"title\"><span style=\"color:#' +CookieMonster.color('blue')+ ';\">Cookie Monster Goodies</span></div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> '          + CookieMonster.lucky('regular', false) + '</div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.lucky('frenzy', false) + '</div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> '              + CookieMonster.luckyReward('max') + '</div>"+
@@ -196,6 +196,10 @@ CookieMonster.update = function() {
 		'<div class="listing">'+
 			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Refresh Rate (' + CookieMonster.getRefreshRate() + ' fps)</a>"+
 			"<label>The rate at which Cookie Monster updates data (higher rates may slow the game)</label>"+
+		"</div>"+
+		'<div class="listing">'+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Colorblind ' + CookieMonster.getOptionState('Colorblind') + '</a>"+
+			"<label>Use colorblind safe colors</label>"+
 		"</div>"+
 	"</div>'+";
 

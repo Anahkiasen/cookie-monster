@@ -6,7 +6,7 @@
  * @return {String}
  */
 CookieMonster.color = function(color, hex) {
-	var colors = this.colorblind ? this.colorsBlind : this.colors;
+	var colors = this.getSetting('Colorblind') ? this.colorsBlind : this.colors;
 	var color = colors[color];
 
 	return hex ? '#'+color : color;
