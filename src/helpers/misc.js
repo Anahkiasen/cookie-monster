@@ -20,26 +20,20 @@ CookieMonster.color = function(color, hex) {
  * @return {Boolean}
  */
 CookieMonster.isHeavenlyKey = function(upgrade) {
-	return (Game.UpgradesById[upgrade].name === "Heavenly key");
+	return Game.UpgradesById[upgrade].name === 'Heavenly key';
 };
 
-/**
- * Check if an upgrade is in store
- *
- * @param {Array} upgrade
- *
- * @return {Boolean}
- */
-CookieMonster.isInStore = function(upgrade) {
-	return Game.UpgradesInStore.indexOf(upgrade) !== -1;
-};
+//////////////////////////////////////////////////////////////////////
+//////////// THE "I HAVE NO FUCKING IDEA WHAT THESE DO" LAND /////////
+//////////////////////////////////////////////////////////////////////
 
-CookieMonster.dhc = function(e, t, n) {
-	var r = Game.UpgradesById[t];
-	var i = r.desc.indexOf("<b>") + 3;
-	var s = r.desc.indexOf("%");
-	var o = r.desc.substr(i, s - i) * 1;
-	var u = CookieMonster.getAchievementWorth(e, t, n, Game.prestige["Heavenly chips"] * 2 * (o / 100));
+CookieMonster.dhc = function(e, upgradeKey, n) {
+	var upgrade = Game.UpgradesById[upgradeKey];
+	var i = upgrade.desc.indexOf("<b>") + 3;
+	var s = upgrade.desc.indexOf("%");
+	var o = upgrade.desc.substr(i, s - i) * 1;
+	var u = CookieMonster.getAchievementWorth(e, upgradeKey, n, Game.prestige['Heavenly chips'] * 2 * (o / 100));
+
 	return u - Game.cookiesPs;
 };
 

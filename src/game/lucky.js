@@ -6,16 +6,14 @@
  *
  * @return {String}
  */
-CookieMonster.lucky = function(context, formatted) {
+CookieMonster.luckyReward = function(context, formatted) {
 	var reward = Math.round(this.getFrenzyRate(context) / 0.1);
 
 	if (formatted) {
-		var formattedReward = this.formatNumber(reward);
-
 		if (reward <= Game.cookies) {
-			reward = '<span style="color:#' +this.color('green')+ '; font-weight:bold;">' + formattedReward + "</span>";
+			reward = '<span style="color:#' +this.color('green')+ '; font-weight:bold;">' + this.formatNumber(reward) + "</span>";
 		} else {
-			reward = formattedReward;
+			reward = this.formatNumber(reward);
 		}
 	}
 
@@ -29,7 +27,7 @@ CookieMonster.lucky = function(context, formatted) {
  *
  * @return {String}
  */
-CookieMonster.luckyReward = function(context) {
+CookieMonster.maxLuckyReward = function(context) {
 	var reward = this.getFrenzyRate(context);
 
 	var number = [Math.round(reward), Math.round(Game.cookies * 0.1 + 13)];

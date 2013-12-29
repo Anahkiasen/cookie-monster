@@ -23,3 +23,14 @@ CookieMonster.createStoreCounters = function() {
 		'</tr>'+
 	'</table>');
 };
+
+/**
+ * Check if an upgrade is in store
+ *
+ * @param {Array} upgrade
+ *
+ * @return {Boolean}
+ */
+CookieMonster.isInStore = function(upgrade) {
+	return Game.UpgradesInStore.indexOf(upgrade) !== -1;
+};

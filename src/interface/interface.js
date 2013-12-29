@@ -4,7 +4,6 @@
  * @return {void}
  */
 CookieMonster.updateUpgradeDisplay = function() {
-	var $upgrades = $("#upgrades");
 	var height;
 
 	switch (this.getSetting('UpgradeDisplay') * 1) {
@@ -21,7 +20,7 @@ CookieMonster.updateUpgradeDisplay = function() {
 			break;
 	}
 
-	$upgrades.css('cssText', 'height: ' +height+ ' !important;');
+	$('#upgrades').css('height', height);
 };
 
 CookieMonster.colorize = function(e, t, n) {
@@ -72,7 +71,7 @@ CookieMonster.colorize = function(e, t, n) {
 		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
 	}
 	if ($("#cm_up_div_" + t).length === 1) {
-		var l = new Array(this.lucky('regular'), this.lucky('frenzy'));
+		var l = new Array(this.luckyReward('regular'), this.luckyReward('frenzy'));
 		var c = new Array("none", "none");
 		var h = new Array(0, 0);
 		if (Game.cookies - s < l[0]) {

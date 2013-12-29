@@ -46,10 +46,12 @@ var Mock = {
 			cookiesPs   : 10,
 			frenzyPower : 1,
 
+			prestige     : {},
 			UpgradesById : [{}],
 			ObjectsById  : [{name: 'Cursor', price: 15}],
 
 			RebuildStore : function() {},
+			Has          : function() {},
 		};
 	},
 

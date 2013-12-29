@@ -21,6 +21,34 @@ CookieMonster.heavenlyToCookies = function(chipsNumber) {
 };
 
 /**
+ * Get the current heavenly multiplier
+ *
+ * @return {integer}
+ */
+CookieMonster.getHeavenlyMultiplier = function() {
+	var chips     = Game.prestige['Heavenly chips'] * 2;
+	var potential = 0;
+
+	if (Game.Has('Heavenly chip secret')) {
+		potential += 0.05;
+	}
+	if (Game.Has('Heavenly cookie stand')) {
+		potential += 0.2;
+	}
+	if (Game.Has('Heavenly bakery')) {
+		potential += 0.25;
+	}
+	if (Game.Has('Heavenly confectionery')) {
+		potential += 0.25;
+	}
+	if (Game.Has('Heavenly key')) {
+		potential += 0.25;
+	}
+
+	return chips * potential;
+};
+
+/**
  * Get the number of heavenly chips for a particular context
  *
  * @param {string} context [max,cur,next,time]
@@ -127,32 +155,4 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 		i *= 0.95;
 	}
 	return i;
-};
-
-/**
- * Get the current heavenly multiplier
- *
- * @return {integer}
- */
-CookieMonster.getHeavenlyMultiplier = function() {
-	var chips     = Game.prestige["Heavenly chips"] * 2;
-	var potential = 0;
-
-	if (Game.Has("Heavenly chip secret")) {
-		potential += 0.05;
-	}
-	if (Game.Has("Heavenly cookie stand")) {
-		potential += 0.2;
-	}
-	if (Game.Has("Heavenly bakery")) {
-		potential += 0.25;
-	}
-	if (Game.Has("Heavenly confectionery")) {
-		potential += 0.25;
-	}
-	if (Game.Has("Heavenly key")) {
-		potential += 0.25;
-	}
-
-	return chips * potential;
 };

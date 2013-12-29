@@ -4,9 +4,9 @@ var Test = require('./TestCase.js');
 var chai = require('chai').should();
 
 // Browser
-var jsdom    = require("jsdom").jsdom;
-document     = jsdom('<html><head></head><body></body></html>');
-window       = document.createWindow();
+var jsdom = require('jsdom');
+document  = jsdom.jsdom('<html><head></head><body></body></html>');
+window    = document.createWindow();
 
 realAudio    = require('./Audio.js');
 localStorage = {};
@@ -51,12 +51,20 @@ module.exports = {
 	// Tests
 	////////////////////////////////////////////////////////////////////
 
-	'Achievements' : require('./game/achievements.js'),
-	'Browser'      : require('./helpers/browser.js'),
-	'Lucky'        : require('./game/lucky.js'),
-	'Math'         : require('./helpers/math.js'),
-	'Misc'         : require('./helpers/misc.js'),
-	'Settings'     : require('./interface/settings.js'),
-	'Time'         : require('./helpers/time.js'),
+	'Game': {
+		'Achievements' : require('./game/achievements.js'),
+		'Heavenly'     : require('./game/heavenly.js'),
+		'Lucky'        : require('./game/lucky.js'),
+	},
+	'Interface': {
+		// 'Bottom Bar' : require('./interface/bottom-bar.js'),
+		'Settings'   : require('./interface/settings.js'),
+	},
+	'Helpers': {
+		'Browser' : require('./helpers/browser.js'),
+		'Math'    : require('./helpers/math.js'),
+		'Misc'    : require('./helpers/misc.js'),
+		'Time'    : require('./helpers/time.js'),
+	},
 
 };

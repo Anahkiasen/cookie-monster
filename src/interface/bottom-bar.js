@@ -26,7 +26,7 @@ CookieMonster.createBottomBar = function() {
 	this.$monsterBar = $('#cookie_monster_bar').css({
 		'background-color' : '#4D4548',
 		'background-image' : 'linear-gradient(to bottom, #4D4548, #000000)',
-		'border-top'       : '1px solid black',
+		'border-top'       : '1px solid #000000',
 		'bottom'           : '0px',
 		'cursor'           : 'default',
 		'height'           : '56px',

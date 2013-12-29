@@ -434,6 +434,34 @@ CookieMonster.heavenlyToCookies = function(chipsNumber) {
 };
 
 /**
+ * Get the current heavenly multiplier
+ *
+ * @return {integer}
+ */
+CookieMonster.getHeavenlyMultiplier = function() {
+	var chips     = Game.prestige['Heavenly chips'] * 2;
+	var potential = 0;
+
+	if (Game.Has('Heavenly chip secret')) {
+		potential += 0.05;
+	}
+	if (Game.Has('Heavenly cookie stand')) {
+		potential += 0.2;
+	}
+	if (Game.Has('Heavenly bakery')) {
+		potential += 0.25;
+	}
+	if (Game.Has('Heavenly confectionery')) {
+		potential += 0.25;
+	}
+	if (Game.Has('Heavenly key')) {
+		potential += 0.25;
+	}
+
+	return chips * potential;
+};
+
+/**
  * Get the number of heavenly chips for a particular context
  *
  * @param {string} context [max,cur,next,time]
@@ -541,34 +569,6 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 	}
 	return i;
 };
-
-/**
- * Get the current heavenly multiplier
- *
- * @return {integer}
- */
-CookieMonster.getHeavenlyMultiplier = function() {
-	var chips     = Game.prestige["Heavenly chips"] * 2;
-	var potential = 0;
-
-	if (Game.Has("Heavenly chip secret")) {
-		potential += 0.05;
-	}
-	if (Game.Has("Heavenly cookie stand")) {
-		potential += 0.2;
-	}
-	if (Game.Has("Heavenly bakery")) {
-		potential += 0.25;
-	}
-	if (Game.Has("Heavenly confectionery")) {
-		potential += 0.25;
-	}
-	if (Game.Has("Heavenly key")) {
-		potential += 0.25;
-	}
-
-	return chips * potential;
-};
 /**
  * Get the lucky reward for a particular situation
  *
@@ -577,16 +577,14 @@ CookieMonster.getHeavenlyMultiplier = function() {
  *
  * @return {String}
  */
-CookieMonster.lucky = function(context, formatted) {
+CookieMonster.luckyReward = function(context, formatted) {
 	var reward = Math.round(this.getFrenzyRate(context) / 0.1);
 
 	if (formatted) {
-		var formattedReward = this.formatNumber(reward);
-
 		if (reward <= Game.cookies) {
-			reward = '<span style="color:#' +this.color('green')+ '; font-weight:bold;">' + formattedReward + "</span>";
+			reward = '<span style="color:#' +this.color('green')+ '; font-weight:bold;">' + this.formatNumber(reward) + "</span>";
 		} else {
-			reward = formattedReward;
+			reward = this.formatNumber(reward);
 		}
 	}
 
@@ -600,7 +598,7 @@ CookieMonster.lucky = function(context, formatted) {
  *
  * @return {String}
  */
-CookieMonster.luckyReward = function(context) {
+CookieMonster.maxLuckyReward = function(context) {
 	var reward = this.getFrenzyRate(context);
 
 	var number = [Math.round(reward), Math.round(Game.cookies * 0.1 + 13)];
@@ -951,26 +949,20 @@ CookieMonster.color = function(color, hex) {
  * @return {Boolean}
  */
 CookieMonster.isHeavenlyKey = function(upgrade) {
-	return (Game.UpgradesById[upgrade].name === "Heavenly key");
+	return Game.UpgradesById[upgrade].name === 'Heavenly key';
 };
 
-/**
- * Check if an upgrade is in store
- *
- * @param {Array} upgrade
- *
- * @return {Boolean}
- */
-CookieMonster.isInStore = function(upgrade) {
-	return Game.UpgradesInStore.indexOf(upgrade) !== -1;
-};
+//////////////////////////////////////////////////////////////////////
+//////////// THE "I HAVE NO FUCKING IDEA WHAT THESE DO" LAND /////////
+//////////////////////////////////////////////////////////////////////
 
-CookieMonster.dhc = function(e, t, n) {
-	var r = Game.UpgradesById[t];
-	var i = r.desc.indexOf("<b>") + 3;
-	var s = r.desc.indexOf("%");
-	var o = r.desc.substr(i, s - i) * 1;
-	var u = CookieMonster.getAchievementWorth(e, t, n, Game.prestige["Heavenly chips"] * 2 * (o / 100));
+CookieMonster.dhc = function(e, upgradeKey, n) {
+	var upgrade = Game.UpgradesById[upgradeKey];
+	var i = upgrade.desc.indexOf("<b>") + 3;
+	var s = upgrade.desc.indexOf("%");
+	var o = upgrade.desc.substr(i, s - i) * 1;
+	var u = CookieMonster.getAchievementWorth(e, upgradeKey, n, Game.prestige['Heavenly chips'] * 2 * (o / 100));
+
 	return u - Game.cookiesPs;
 };
 
@@ -1242,7 +1234,7 @@ CookieMonster.createBottomBar = function() {
 	this.$monsterBar = $('#cookie_monster_bar').css({
 		'background-color' : '#4D4548',
 		'background-image' : 'linear-gradient(to bottom, #4D4548, #000000)',
-		'border-top'       : '1px solid black',
+		'border-top'       : '1px solid #000000',
 		'bottom'           : '0px',
 		'cursor'           : 'default',
 		'height'           : '56px',
@@ -1562,7 +1554,6 @@ CookieMonster.fadeOutBar = function(color, match) {
  * @return {void}
  */
 CookieMonster.updateUpgradeDisplay = function() {
-	var $upgrades = $("#upgrades");
 	var height;
 
 	switch (this.getSetting('UpgradeDisplay') * 1) {
@@ -1579,7 +1570,7 @@ CookieMonster.updateUpgradeDisplay = function() {
 			break;
 	}
 
-	$upgrades.css('cssText', 'height: ' +height+ ' !important;');
+	$('#upgrades').css('height', height);
 };
 
 CookieMonster.colorize = function(e, t, n) {
@@ -1630,7 +1621,7 @@ CookieMonster.colorize = function(e, t, n) {
 		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
 	}
 	if ($("#cm_up_div_" + t).length === 1) {
-		var l = new Array(this.lucky('regular'), this.lucky('frenzy'));
+		var l = new Array(this.luckyReward('regular'), this.luckyReward('frenzy'));
 		var c = new Array("none", "none");
 		var h = new Array(0, 0);
 		if (Game.cookies - s < l[0]) {
@@ -2071,6 +2062,17 @@ CookieMonster.createStoreCounters = function() {
 		'</tr>'+
 	'</table>');
 };
+
+/**
+ * Check if an upgrade is in store
+ *
+ * @param {Array} upgrade
+ *
+ * @return {Boolean}
+ */
+CookieMonster.isInStore = function(upgrade) {
+	return Game.UpgradesInStore.indexOf(upgrade) !== -1;
+};
 /**
  * Save the currently available tooltips
  *
@@ -2248,7 +2250,7 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 
 CookieMonster.manageBuildingTooltip = function(building) {
 	var buildingKey = building.id;
-	var n = [this.lucky('regular'), this.lucky('frenzy')];
+	var n = [this.luckyReward('regular'), this.luckyReward('frenzy')];
 	var r = ['none', 'none'];
 	var o = [0, 0];
 
@@ -2443,11 +2445,11 @@ CookieMonster.update = function() {
 		return native.replace("Statistics</div>'+", "Statistics</div>'+\n\n"+
 			"'<div class=\"subsection\">" +
 				"<div class=\"title\"><span style=\"color:#' +CookieMonster.color('blue')+ ';\">Cookie Monster Goodies</span></div>"+
-				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> '          + CookieMonster.lucky('regular', true) + '</div>"+
-				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.lucky('frenzy', true) + '</div>"+
-				"<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> '              + CookieMonster.luckyReward('max') + '</div>"+
-				"<div class=\"listing\"><b>\"Lucky!\" Reward (MAX) (Frenzy):</b> '     + CookieMonster.luckyReward('frenzy') + '</div>"+
-				"<div class=\"listing\"><b>\"Lucky!\" Reward (CUR):</b> '              + CookieMonster.luckyReward('current') + '</div><br>"+
+				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> '          + CookieMonster.luckyReward('regular', true) + '</div>"+
+				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.luckyReward('frenzy', true) + '</div>"+
+				"<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> '              + CookieMonster.maxLuckyReward('max') + '</div>"+
+				"<div class=\"listing\"><b>\"Lucky!\" Reward (MAX) (Frenzy):</b> '     + CookieMonster.maxLuckyReward('frenzy') + '</div>"+
+				"<div class=\"listing\"><b>\"Lucky!\" Reward (CUR):</b> '              + CookieMonster.maxLuckyReward('current') + '</div><br>"+
 				"<div class=\"listing\"><b>Heavenly Chips (MAX):</b> '                 + CookieMonster.getHeavenlyChip('max') + '</div>"+
 				"<div class=\"listing\"><b>Heavenly Chips (CUR):</b> '                 + CookieMonster.getHeavenlyChip('cur') + '</div>"+
 				"<div class=\"listing\"><b>Cookies To Next Chip:</b> '                 + CookieMonster.getHeavenlyChip('next') + '</div>"+

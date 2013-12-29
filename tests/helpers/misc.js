@@ -11,4 +11,12 @@ module.exports = {
 		},
 	},
 
+	'#isHeavenlyKey': {
+		'Can check if upgrade is Heavenly Key': function() {
+			Game.UpgradesById = [{name: 'Foobar'}, {name: 'Heavenly key'}];
+			CookieMonster.isHeavenlyKey(0).should.be.false;
+			CookieMonster.isHeavenlyKey(1).should.be.true;
+		},
+	}
+
 };
