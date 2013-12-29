@@ -3,4 +3,5 @@ bower_components
 node_modules
 
 # Logs and caches
+.sass-cache
 npm-debug.log

@@ -2284,16 +2284,20 @@ CookieMonster.manageBuildingTooltip = function(building) {
 	// Create tooltips
 	if (building.desc === this.buildingTooltips[building.id]) {
 		building.desc +=
-			'<div id="cm_ob_div_' + buildingKey + '" style="position:relative; height:96px; background:#' +this.color('greyTen')+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
+			'<div class="cm-tooltip" id="cm_ob_div_' + buildingKey + '" style="position:relative; height:96px; background:#' +this.color('greyTen')+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
 			'<div id="cm_ob_lucky_div_' + buildingKey + '" style="position:absolute; top:-25px; left:-12px; height:32px;">' +
-				'<div id="cm_ob_lucky_div_warning" style="background:url(' +this.getImage('warning')+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>' +
-				'<div id="cm_ob_lucky_div_caution" style="background:url(' +this.getImage('caution')+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>' +
+				'<div class="cm-tooltip__image" id="cm_ob_lucky_div_warning" style="background:url(' +this.getImage('warning')+ ');"></div>' +
+				'<div class="cm-tooltip__image" id="cm_ob_lucky_div_caution" style="background:url(' +this.getImage('caution')+ ');"></div>' +
 			'</div>';
 			'<div id="cm_ob_note_div_' + buildingKey + '" style="position:absolute; left:0px; margin-top:10px; color:white;">' +
-				'<div id="cm_ob_note_div_warning" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('red')+ ';"><b style="color:#' +this.color('red')+ ';">Warning:</b> ' +this.texts.warning+ '</br><span id="cm_ob_warning_amount"></span>' +
-				'<div id="cm_ob_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="' +this.getImage('warning')+ '" height=16px width=16px></div></div>' +
-				'<div id="cm_ob_note_div_caution" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('yellow')+ ';"><b style="color:#' +this.color('yellow')+ ';">Caution:</b> ' +this.texts.warning+ ' (Frenzy)</br><span id="cm_ob_caution_amount"></span>' +
-				'<div id="cm_ob_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="' +this.getImage('caution')+ '" height=16px width=16px></div>'+
+				'<div id="cm_ob_note_div_warning" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('red')+ ';">'+
+					'<b style="color:#' +this.color('red')+ ';">Warning:</b> ' +this.texts.warning+ '</br><span id="cm_ob_warning_amount"></span>' +
+					'<div id="cm_ob_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="' +this.getImage('warning')+ '" height=16px width=16px></div>'+
+				'</div>' +
+				'<div id="cm_ob_note_div_caution" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('yellow')+ ';">'+
+					'<b style="color:#' +this.color('yellow')+ ';">Caution:</b> ' +this.texts.warning+ ' (Frenzy)</br><span id="cm_ob_caution_amount"></span>' +
+					'<div id="cm_ob_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="' +this.getImage('caution')+ '" height=16px width=16px></div>'+
+				'</div>'+
 			'</div>';
 
 		Game.RebuildStore();
@@ -2320,12 +2324,12 @@ CookieMonster.manageBuildingTooltip = function(building) {
 			'border'  : '1px solid #'+colors[0],
 			'display' : '',
 		}).html(
-			'<div style=" top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div>'+
-			'<div align=right style=" top:18px; left:4px; color:white;">' + this.formatNumber(this.bottomBar.bonus[buildingKey]) + '</div>'+
-			'<div style=" top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div>'+
-			'<div align=right style=" top:48px; left:4px; color:#' + colors[0] + ';">' + this.formatNumber(informations[0]) + '</div>'+
-			'<div style=" top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div>'+
-			'<div align=right style=" top:78px; left:4px; color:#' + colors[1] + ';">' + this.formatTime(informations[1]) + "</div>"
+			'<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div>'+
+			'<div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(this.bottomBar.bonus[buildingKey]) + '</div>'+
+			'<div style="position:absolute; top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div>'+
+			'<div align=right style="position:absolute; top:48px; left:4px; color:#' + colors[0] + ';">' + this.formatNumber(informations[0]) + '</div>'+
+			'<div style="position:absolute; top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div>'+
+			'<div align=right style="position:absolute; top:78px; left:4px; color:#' + colors[1] + ';">' + this.formatTime(informations[1]) + "</div>"
 		);
 
 		$('#cm_ob_warning_amount').text('Deficit: ' + this.formatNumber(deficits[0]));
@@ -2364,30 +2368,9 @@ CookieMonster.start = function() {
 		return;
 	}
 
-	// Remove top bar
-	$('#topBar').css('display', 'none');
-
-	// Style some elements
-	$('#tooltip').css({
-		'margin-top'     : '32px',
-		'pointer-events' : 'none',
-	});
-	$('#cookies').css({
-		'background'    : 'rgba(0, 0, 0, 0.75)',
-		'border-top'    : '1px solid black',
-		'border-bottom' : '1px solid black',
-	});
-	this.$game.css({
-		'-webkit-user-select'   : 'none',
-		'-moz-user-select'      : 'none',
-		'-ms-user-select'       : 'none',
-		'user-select'           : 'none',
-		'top'                   : '0px',
-		'bottom'                : '57px',
-	});
-
-	// Move golden cookie one depth behind
-	this.$goldenCookie.css('cssText', 'z-index: 1000001 !important;');
+	// Load stylesheet
+	//$('head').append('<link rel="stylesheet" href="https://raw.github.com/Anahkiasen/cookie-monster/master/dist/cookie-monster.min.css">');
+	$('head').append('<link rel="stylesheet" href="http://localhost/_github/cookie-monster/dist/cookie-monster.min.css">');
 
 	// Add Cookie Monster elements
 	this.createBottomBar();

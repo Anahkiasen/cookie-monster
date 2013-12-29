@@ -1,0 +1,27 @@
+// Original game elements
+//////////////////////////////////////////////////////////////////////
+
+#tooltip {
+	margin-top     : 32px;
+	pointer-events : none;
+}
+
+#cookies {
+	background    : rgba(black, 0.75);
+	border-top    : 1px solid black;
+	border-bottom : 1px solid black;
+}
+
+#topBar {
+	display : none;
+}
+
+#game {
+	@include user-select(none);
+	top    : 0px;
+	bottom : 57px;
+}
+
+#goldenCookie {
+	z-index : 1000001 !important;
+}

@@ -10,30 +10,9 @@ CookieMonster.start = function() {
 		return;
 	}
 
-	// Remove top bar
-	$('#topBar').css('display', 'none');
-
-	// Style some elements
-	$('#tooltip').css({
-		'margin-top'     : '32px',
-		'pointer-events' : 'none',
-	});
-	$('#cookies').css({
-		'background'    : 'rgba(0, 0, 0, 0.75)',
-		'border-top'    : '1px solid black',
-		'border-bottom' : '1px solid black',
-	});
-	this.$game.css({
-		'-webkit-user-select'   : 'none',
-		'-moz-user-select'      : 'none',
-		'-ms-user-select'       : 'none',
-		'user-select'           : 'none',
-		'top'                   : '0px',
-		'bottom'                : '57px',
-	});
-
-	// Move golden cookie one depth behind
-	this.$goldenCookie.css('cssText', 'z-index: 1000001 !important;');
+	// Load stylesheet
+	//$('head').append('<link rel="stylesheet" href="https://raw.github.com/Anahkiasen/cookie-monster/master/dist/cookie-monster.min.css">');
+	$('head').append('<link rel="stylesheet" href="http://localhost/_github/cookie-monster/dist/cookie-monster.min.css">');
 
 	// Add Cookie Monster elements
 	this.createBottomBar();

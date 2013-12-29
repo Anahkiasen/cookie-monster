@@ -1,0 +1,16 @@
+.cm-tooltip {
+	position   : relative;
+	height     : 96px;
+	background : $color-greyTen;
+	border     : 1px solid black;
+	margin     : 6px -6px -6px -6px;
+	display    : none;
+}
+
+.cm-tooltip__image {
+	position : relative;
+	float    : left;
+	height   : 32px;
+	width    : 32px;
+	display  : none;
+}

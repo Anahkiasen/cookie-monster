@@ -2,7 +2,10 @@ module.exports = function(grunt) {
 
 	// Load modules
 	grunt.loadNpmTasks('grunt-bower-task');
+	grunt.loadNpmTasks('grunt-contrib-compass');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-csslint');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
@@ -22,10 +25,13 @@ module.exports = function(grunt) {
 
 		paths: {
 			original: {
-				js: '<%= src %>',
+				css  : '<%= builds %>/css',
+				js   : '<%= src %>',
+				sass : '<%= builds %>/sass',
 			},
 			compiled: {
-				js: '<%= builds %>',
+				js  : '<%= builds %>',
+				css : '<%= builds %>/css',
 			},
 		},
 
@@ -44,6 +50,10 @@ module.exports = function(grunt) {
 			grunt: {
 				files: 'Gruntfile.js',
 				tasks: 'default',
+			},
+			stylesheets: {
+				files: '<%= paths.original.sass %>/**/*',
+				tasks: 'css',
 			},
 			scripts: {
 				files: ['<%= paths.original.js %>/**/*', '<%= tests %>/**/*.js'],
@@ -74,7 +84,12 @@ module.exports = function(grunt) {
 		},
 
 		concat: {
-			javascript: {
+			css: {
+				files: {
+					'<%= builds %>/cookie-monster.min.css': '<%= paths.original.css %>/styles.css',
+				}
+			},
+			js: {
 				files: {
 					'<%= paths.compiled.js %>/js/cookie-monster.js': [
 						'<%= paths.original.js %>/cookie-monster.js',
@@ -87,6 +102,16 @@ module.exports = function(grunt) {
 						'<%= paths.compiled.js %>/js/cookie-monster.js',
 					],
 				},
+			}
+		},
+
+		cssmin: {
+			minify: {
+				expand : true,
+				cwd    : '<%= builds %>',
+				src    : '*.css',
+				dest   : '<%= builds %>',
+				ext    : '.min.css'
 			}
 		},
 
@@ -138,6 +163,28 @@ module.exports = function(grunt) {
 			all: ['<%= paths.original.js %>/*.js'],
 		},
 
+		// Preprocessors
+		//////////////////////////////////////////////////////////////////
+
+		compass: {
+			options: {
+				appDir             : "<%= builds %>",
+				cssDir             : "css",
+				generatedImagesDir : "img/sprite/generated",
+				imagesDir          : "img",
+				outputStyle        : 'nested',
+				noLineComments     : true,
+				relativeAssets     : true,
+			},
+
+			clean: {
+				options: {
+					clean: true,
+				}
+			},
+			compile: {},
+		}
+
 	});
 
 	////////////////////////////////////////////////////////////////////
@@ -154,8 +201,14 @@ module.exports = function(grunt) {
 		'mochaTest',
 	]);
 
+	grunt.registerTask('css', 'Build stylesheets', [
+		'compass:compile',
+		'concat:css',
+		'cssmin',
+	]);
+
 	grunt.registerTask('js', 'Build scripts', [
-		'concat',
+		'concat:js',
 		'jshint',
 		'test',
 	]);
