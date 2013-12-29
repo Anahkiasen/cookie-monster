@@ -1,7 +1,7 @@
 // Mocha
-var assert = require('assert');
-var Mock   = require('./Mock.js');
-var Test   = require('./TestCase.js');
+var Mock = require('./Mock.js');
+var Test = require('./TestCase.js');
+var chai = require('chai').should();
 
 // Browser
 var jsdom    = require("jsdom").jsdom;

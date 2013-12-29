@@ -375,7 +375,7 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
 	}
 
 	if (CookieMonster.goldenCookieAvailable === "(G) ") {
-		CookieMonster.updateFavicon('http://frozenelm.com/cookiemonster/images/cm_gc_' +frame+ '.png');
+		CookieMonster.updateFavicon('cm_gc_' +frame);
 		frame++;
 		setTimeout(function () {
 			CookieMonster.Emphasizers.faviconSpinner(frame);
@@ -456,7 +456,7 @@ CookieMonster.getHeavenlyChip = function(context) {
 			return this.formatNumber(Math.round(nextChip));
 
 		case 'time':
-			return this.formatTime(Math.round(nextChip / Game.cookiesPs), '');
+			return this.formatTime(Math.round(nextChip / Game.cookiesPs));
 	}
 };
 
@@ -827,6 +827,8 @@ CookieMonster.playSound = function(sound) {
 
 	sound.volume = 1;
 	sound.play();
+
+	return sound;
 };
 
 /**
@@ -835,7 +837,7 @@ CookieMonster.playSound = function(sound) {
  * @return {void}
  */
 CookieMonster.playBell = function() {
-	this.playSound('http://autopergamene.eu/cookie-monster/mp3/bell.mp3');
+	return this.playSound('http://autopergamene.eu/cookie-monster/mp3/bell.mp3');
 };
 
 /**
@@ -846,7 +848,11 @@ CookieMonster.playBell = function() {
  * @return {String}
  */
 CookieMonster.getImage = function(image) {
-	return 'http://autopergamene.eu/cookie-monster/img/'+image+'.png';
+	if (image.indexOf('http') === -1) {
+		image = 'http://autopergamene.eu/cookie-monster/img/'+image+'.png';
+	}
+
+	return image;
 };
 
 /**
@@ -857,6 +863,8 @@ CookieMonster.getImage = function(image) {
  * @return {void}
  */
 CookieMonster.updateFavicon = function (favicon) {
+	favicon = this.getImage(favicon);
+
 	$('#cm_favicon').attr('href', favicon);
 };
 /**
@@ -1154,14 +1162,15 @@ CookieMonster.secondsLeft = function(object, type) {
  */
 CookieMonster.formatTime = function(time, compressed) {
 	time = Math.round(time);
+	if (typeof compressed === 'undefined') compressed = false;
 
 	// Take care of special cases
 	if (time === Infinity) {
-		return "Never";
+		return 'Never';
 	} else if (time === 0) {
-		return "Done!";
+		return 'Done!';
 	} else if (time / 86400 > 1e3) {
-		return "> 1,000 days";
+		return '> 1,000 days';
 	}
 
 	// Compute each units separately
@@ -1171,22 +1180,22 @@ CookieMonster.formatTime = function(time, compressed) {
 	var seconds = time % 60;
 
 	// Format units
-	var units = [" days, ", " hours, ", " minutes, ", " seconds"];
-	if (compressed !== "min") {
+	var units = [' days, ', ' hours, ', ' minutes, ', ' seconds'];
+	if (!compressed) {
 		if (days === 1) {
-			units[0] = " day, ";
+			units[0] = ' day, ';
 		}
 		if (hours === 1) {
-			units[1] = " hour, ";
+			units[1] = ' hour, ';
 		}
 		if (minutes === 1) {
-			units[2] = " minute, ";
+			units[2] = ' minute, ';
 		}
 		if (seconds === 1) {
-			units[3] = " second";
+			units[3] = ' second';
 		}
 	} else {
-		units = ["d, ", "h, ", "m, ", "seconds"];
+		units = ['d, ', 'h, ', 'm, ', 's'];
 	}
 
 	// Create final string
@@ -1341,7 +1350,7 @@ CookieMonster.updateTable = function() {
 		$('#cookie_monster_item_' + key).html(that.bottomBar.items[key]);
 		$('#cookie_monster_is_'   + key).html(that.formatNumber(that.bottomBar.bonus[key]));
 		$('#cookie_monster_cpi_'  + key).html('<span style="color:#' + colors[0] + ';">' + that.formatNumber(informations[0]) + '</span>');
-		$('#cookie_monster_tc_'   + key).html('<span style="color:#' + colors[1] + ';">' + that.formatTime(informations[1], 'min') + '</span>');
+		$('#cookie_monster_tc_'   + key).html('<span style="color:#' + colors[1] + ';">' + that.formatTime(informations[1], true) + '</span>');
 	});
 };
 /**
@@ -1635,7 +1644,7 @@ CookieMonster.colorize = function(e, t, n) {
 		}
 		$("#cm_up_div_" + t).css("border", "1px solid #" + o[0]);
 		$("#cm_up_div_" + t).css("display", "");
-		$("#cm_up_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(Math.round(e * 100) / 100) + '</div><div style="position:absolute; top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + o[0] + ';">' + this.formatNumber(u[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + o[1] + ';">' + this.formatTime(u[1], "min") + "</div>");
+		$("#cm_up_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(Math.round(e * 100) / 100) + '</div><div style="position:absolute; top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + o[0] + ';">' + this.formatNumber(u[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + o[1] + ';">' + this.formatTime(u[1], true) + "</div>");
 
 		$('#cm_up_warning_amount').text('Deficit: ' + this.formatNumber(h[0]));
 		$('#cm_up_caution_amount').text('Deficit: ' + this.formatNumber(h[1]));
@@ -2044,20 +2053,22 @@ CookieMonster.getLuckyAlert = function () {
  * @return {void}
  */
 CookieMonster.createStoreCounters = function() {
-	$("#storeTitle").css({
+	var padding = '2px';
+
+	$('#storeTitle').css({
 		'font-size'     : '18px',
 		'padding'       : '4px 8px 2px 8px',
 		'border-bottom' : '1px solid black',
 	})
 	.after(
-	'<table cellpadding=0 cellspacing=0 style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0, 0, 0, 0.6); border-bottom: 1px solid black; cursor:default;">'+
+	'<table cellpadding="0" cellspacing="0" style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0, 0, 0, 0.6); border-bottom: 1px solid black; cursor:default;">'+
 		'<tr>'+
-			'<td align=center style="color:#' +this.color('blue')+   '; padding:2px;" id="cm_up_q0">0</td>' +
-			'<td align=center style="color:#' +this.color('green')+  '; padding:2px;" id="cm_up_q1">0</td>' +
-			'<td align=center style="color:#' +this.color('yellow')+ '; padding:2px;" id="cm_up_q2">0</td>' +
-			'<td align=center style="color:#' +this.color('orange')+ '; padding:2px;" id="cm_up_q3">0</td>' +
-			'<td align=center style="color:#' +this.color('red')+    '; padding:2px;" id="cm_up_q4">0</td>' +
-			'<td align=center style="color:#' +this.color('purple')+ '; padding:2px;" id="cm_up_q5">0</td>' +
+			'<td align=center style="color:#' +this.color('blue')+   '; padding: ' +padding+ ';" id="cm_up_q0">0</td>' +
+			'<td align=center style="color:#' +this.color('green')+  '; padding: ' +padding+ ';" id="cm_up_q1">0</td>' +
+			'<td align=center style="color:#' +this.color('yellow')+ '; padding: ' +padding+ ';" id="cm_up_q2">0</td>' +
+			'<td align=center style="color:#' +this.color('orange')+ '; padding: ' +padding+ ';" id="cm_up_q3">0</td>' +
+			'<td align=center style="color:#' +this.color('red')+    '; padding: ' +padding+ ';" id="cm_up_q4">0</td>' +
+			'<td align=center style="color:#' +this.color('purple')+ '; padding: ' +padding+ ';" id="cm_up_q5">0</td>' +
 		'</tr>'+
 	'</table>');
 };
@@ -2276,7 +2287,7 @@ CookieMonster.manageBuildingTooltip = function(building) {
 	if ($("#cm_ob_div_" + buildingKey).length === 1) {
 		$("#cm_ob_div_" + buildingKey).css("border", "1px solid #" + colors[0]);
 		$("#cm_ob_div_" + buildingKey).css("display", "");
-		$("#cm_ob_div_" + buildingKey).html('<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(this.bottomBar.bonus[buildingKey]) + '</div><div style="position:absolute; top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + colors[0] + ';">' + this.formatNumber(informations[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + colors[1] + ';">' + this.formatTime(informations[1], "") + "</div>");
+		$("#cm_ob_div_" + buildingKey).html('<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(this.bottomBar.bonus[buildingKey]) + '</div><div style="position:absolute; top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + colors[0] + ';">' + this.formatNumber(informations[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + colors[1] + ';">' + this.formatTime(informations[1]) + "</div>");
 		$("#cm_ob_warning_amount").text("Deficit: " + this.formatNumber(o[0]));
 		$("#cm_ob_caution_amount").text("Deficit: " + this.formatNumber(o[1]));
 

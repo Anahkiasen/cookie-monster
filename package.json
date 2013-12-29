@@ -1,22 +1,23 @@
 {
-	"name": "cookie-monster",
-	"dependencies": {
-		"bower": "*",
-		"grunt": "*",
-		"grunt-cli": "*",
-		"grunt-bower-task": "*",
-		"grunt-contrib-concat": "*",
-		"grunt-contrib-jshint": "*",
-		"grunt-contrib-uglify": "*",
-		"grunt-contrib-watch": "*",
-		"grunt-mocha-test": "*"
-	},
-	"devDependencies": {
-		"mocha": "*",
-		"jquery": "*",
-		"jsdom": "*"
-	},
-	"scripts": {
-		"test": "./node_modules/.bin/grunt test"
-	}
+  "name": "cookie-monster",
+  "dependencies": {
+    "bower": "*",
+    "grunt": "*",
+    "grunt-cli": "*",
+    "grunt-bower-task": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-mocha-test": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "jquery": "*",
+    "jsdom": "*",
+    "chai": "*"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/grunt test"
+  }
 }

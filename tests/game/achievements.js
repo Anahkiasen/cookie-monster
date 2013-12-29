@@ -1,6 +1,5 @@
-var assert = require('assert');
-var Mock   = require('../Mock.js');
-var Test   = require('../TestCase.js');
+var Mock = require('../Mock.js');
+var Test = require('../TestCase.js');
 
 module.exports = {
 
@@ -8,20 +7,20 @@ module.exports = {
 		'Can return if achievement is unlocked': function () {
 			Mock.achievements({Mathematician: false, 'One with everything': true}),
 
-			assert.equal(true, CookieMonster.hasntAchievement('Mathematician'));
-			assert.equal(false, CookieMonster.hasAchievement('Mathematician'));
-			assert.equal(true, CookieMonster.hasAchievement('One with everything'));
+			CookieMonster.hasntAchievement('Mathematician').should.be.true;
+			CookieMonster.hasAchievement('Mathematician').should.be.false;
+			CookieMonster.hasAchievement('One with everything').should.be.true;
 		},
 	},
 
 	'#color': {
 		'Can get regular color': function () {
-			assert.equal('00FF00', CookieMonster.color('green'));
+			CookieMonster.color('green').should.equal('00FF00');
 		},
 
 		'Can get colorblind color': function () {
 			CookieMonster.setSetting('Colorblind', true);
-			assert.equal('76b7e1', CookieMonster.color('green'));
+			CookieMonster.color('green').should.equal('76b7e1');
 		},
 	},
 

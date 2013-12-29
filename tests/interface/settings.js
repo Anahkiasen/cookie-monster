@@ -1,11 +1,10 @@
-var assert = require('assert');
-
 module.exports = {
+
 	'#loadSettings': {
 		'Can load setting from localStorage': function() {
 			localStorage.FlashScreen = 0;
 			CookieMonster.loadSetting('FlashScreen');
-			assert.equal(0, CookieMonster.settings.FlashScreen);
+			CookieMonster.settings.FlashScreen.should.equal(0);
 		},
 	},
 
@@ -13,7 +12,7 @@ module.exports = {
 		'Can load all settings from localStorage': function() {
 			localStorage.FlashScreen = 0;
 			CookieMonster.loadSettings();
-			assert.equal(0, CookieMonster.settings.FlashScreen);
+			CookieMonster.settings.FlashScreen.should.equal(0);
 		},
 	},
 
@@ -22,52 +21,53 @@ module.exports = {
 			CookieMonster.settings.FlashScreen = 0;
 			CookieMonster.saveSettings();
 
-			assert.equal(0, localStorage.FlashScreen);
+			localStorage.FlashScreen.should.equal(0);
 		},
 	},
 
 	'#setSetting': {
 		'Can set a setting by name': function() {
 			CookieMonster.setSetting('FlashScreen', 0);
-			assert.equal(0, CookieMonster.getSetting('FlashScreen'));
+			CookieMonster.getSetting('FlashScreen').should.equal(0);
 		},
 	},
 
 	'#getSetting': {
 		'Can retrieve a setting by name': function() {
-			assert.equal(1, CookieMonster.settings.FlashScreen);
+			CookieMonster.settings.FlashScreen.should.equal(1);
 			CookieMonster.settings.FlashScreen = 0;
 
-			assert.equal(0, CookieMonster.getSetting('FlashScreen'));
+			CookieMonster.getSetting('FlashScreen').should.equal(0);
 		},
 	},
 
 	'#getBooleanSetting': {
 		'Can get setting in boolean form': function() {
-			assert.equal(true, CookieMonster.getBooleanSetting('FlashScreen'));
+			CookieMonster.getBooleanSetting('FlashScreen').should.equal(true);
 			CookieMonster.settings.FlashScreen = 0;
-			assert.equal(false, CookieMonster.getBooleanSetting('FlashScreen'));
+			CookieMonster.getBooleanSetting('FlashScreen').should.equal(false);
 		},
 	},
 
 	'#getOptionState': {
 		'Can get setting in text form': function() {
-			assert.equal('ON', CookieMonster.getOptionState('FlashScreen'));
+			CookieMonster.getOptionState('FlashScreen').should.equal('ON');
 			CookieMonster.settings.FlashScreen = 0;
-			assert.equal('OFF', CookieMonster.getOptionState('FlashScreen'));
+			CookieMonster.getOptionState('FlashScreen').should.equal('OFF');
 		},
 	},
 
 	'#getShortNumbers': {
 		'Can get Short Numbers option value': function() {
 			CookieMonster.settings.ShortNumbers = 0;
-			assert.equal('OFF', CookieMonster.getShortNumbers());
+			CookieMonster.getShortNumbers().should.equal('OFF');
 
 			CookieMonster.settings.ShortNumbers = 1;
-			assert.equal('ON (A)', CookieMonster.getShortNumbers());
+			CookieMonster.getShortNumbers().should.equal('ON (A)');
 
 			CookieMonster.settings.ShortNumbers = 2;
-			assert.equal('ON (B)', CookieMonster.getShortNumbers());
+			CookieMonster.getShortNumbers().should.equal('ON (B)');
 		},
 	},
+
 };

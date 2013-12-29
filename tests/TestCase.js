@@ -1,5 +1,4 @@
-var assert = require('assert');
-var Mock   = require('./Mock.js');
+var Mock = require('./Mock.js');
 
 var TestCase = {
 
@@ -20,7 +19,7 @@ var TestCase = {
 			'Can return if achievement unlocked': function() {
 				achievements[name] = true;
 				Mock.achievements(achievements);
-				assert.equal(false, CookieMonster[method]('Antimatter condenser'));
+				CookieMonster[method]('Antimatter condenser').should.be.false;
 			},
 
 			'Can return whether next building unlocks achievement': function() {
@@ -28,10 +27,8 @@ var TestCase = {
 				Mock.achievements(achievements);
 
 				cases.forEach(function(testCase) {
-					var message = 'Expected '+(testCase.result ? 'true' : 'false')+ ', got ' +(testCase.result ? 'false' : 'true')+ ' with '+testCase.amounts;
-
 					Mock.amounts(testCase.amounts);
-					assert.equal(testCase.result, CookieMonster[method]('Antimatter condenser'), message);
+					CookieMonster[method]('Antimatter condenser').should.equal(testCase.result);
 				});
 			},
 		};
