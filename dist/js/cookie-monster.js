@@ -2234,7 +2234,7 @@ CookieMonster.manageBuildingTooltip = function(building) {
 	// Create tooltips
 	if (building.desc === this.buildingTooltips[building.id]) {
 		building.desc +=
-			'<div class="cm-tooltip" id="cm_ob_div_' + buildingKey + '" style="position:relative; height:96px; background:#' +this.color('greyTen')+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
+			'<div class="cm-tooltip" id="cm_ob_div_' + buildingKey + '"></div>'+
 			'<div id="cm_ob_lucky_div_' + buildingKey + '" style="position:absolute; top:-25px; left:-12px; height:32px;">' +
 				'<div class="cm-tooltip__image" id="cm_ob_lucky_div_warning" style="background:url(' +this.getImage('warning')+ ');"></div>' +
 				'<div class="cm-tooltip__image" id="cm_ob_lucky_div_caution" style="background:url(' +this.getImage('caution')+ ');"></div>' +

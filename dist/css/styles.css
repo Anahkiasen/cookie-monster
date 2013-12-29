@@ -92,15 +92,13 @@
   height: 96px;
   background: #1a1a1a;
   border: 1px solid black;
-  margin: 6px -6px -6px -6px;
-  display: none; }
+  margin: 6px -6px -6px -6px; }
 
 .cm-tooltip__image {
   position: relative;
   float: left;
   height: 32px;
-  width: 32px;
-  display: none; }
+  width: 32px; }
 
 #storeTitle {
   font-size: 18px;
