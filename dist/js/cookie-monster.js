@@ -679,7 +679,7 @@ CookieMonster.getUpgradeBonuses = function(building, currentNumber, production) 
 
 	var achievement = upgrades[building][currentNumber];
 	if (achievement) {
-		i += this.hasntAchievement();
+		i += this.hasntAchievement(achievement);
 	}
 
 	switch (building) {
