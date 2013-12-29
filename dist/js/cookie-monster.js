@@ -1630,32 +1630,7 @@ CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 		}
 	}
 	if (returnHtml) {
-		var warning = this.getImage('warning');
-		var caution = this.getImage('caution');
-
-		return
-			'<div id="cm_up_lucky_div_' +upgradeKey+ '" style="position:absolute; top:-25px; left:-12px; height:32px;">'+
-				'<div id="cm_up_lucky_div_warning" style="background:url(' +warning+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>'+
-				'<div id="cm_up_lucky_div_caution" style="background:url(' +caution+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>'+
-			'</div>'+
-			'<div id="cm_up_div_' +upgradeKey+ '" style="position:relative; height:96px; background:#' +this.color('greyTen')+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
-			'<div id="cm_up_note_div_' +upgradeKey+ '" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
-				'<div id="cm_up_note_div_warning" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('red')+ ';">'+
-					'<b style="color:#' +this.color('red')+ ';">Warning:</b>'+
-					'Purchase of this item will put you under the number of Cookies required for "Lucky!"<br>'+
-				'<span id="cm_up_warning_amount"></span>'+
-				'<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;">'+
-					'<img src="' +warning+ '" height="16px" width="16px"></div>'+
-			'</div>'+
-			'<div id="cm_up_note_div_caution" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('yellow')+ ';">'+
-				'<b style="color:#' +this.color('yellow')+ ';">Caution:</b>'+
-				'Purchase of this item will put you under the number of Cookies required for "Lucky!" (Frenzy)<br>'+
-				'<span id="cm_up_caution_amount"></span>'+
-				'<div id="cm_up_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;">'+
-					'<img src="' +caution+ '" height="16px" width="16px">'+
-				'</div>'+
-			'</div>'+
-			'</div>';
+		return this.makeTooltip('up', upgradeKey);
 	}
 };
 /**
@@ -2058,6 +2033,43 @@ CookieMonster.saveTooltips = function() {
 	});
 };
 
+/**
+ * Create a tooltip for a type of object
+ *
+ * @param {String}  type
+ * @param {Integer} key
+ *
+ * @return {String}
+ */
+CookieMonster.makeTooltip = function(type, key) {
+	var warning = this.getImage('warning');
+	var caution = this.getImage('caution');
+	type = 'cm_'+type+'_';
+
+	return ''+
+		'<div id="' +type+ 'lucky_div_' + key + '" style="position:absolute; top:-25px; left:-12px; height:32px;">'+
+			'<div class="cm-tooltip__image" id="' +type+ 'lucky_div_warning" style="background:url(' +warning+ ');"></div>'+
+			'<div class="cm-tooltip__image" id="' +type+ 'lucky_div_caution" style="background:url(' +caution+ ');"></div>'+
+		'</div>'+
+		'<div class="cm-tooltip" id="' +type+ 'div_' + key + '"></div>'+
+		'<div id="' +type+ 'note_div_' + key + '" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
+			'<div id="' +type+ 'note_div_warning" class="cm-tooltip__warning border-red">'+
+				'<strong class="text-red">Warning:</strong>' +this.texts.warning+ '<br>'+
+				'<span id="' +type+ 'warning_amount"></span>'+
+				'<div id="' +type+ 'lucky_div_warning">'+
+					'<img src="' +warning+ '">'+
+				'</div>'+
+			'</div>'+
+			'<div id="' +type+ 'note_div_caution" class="cm-tooltip__warning border-yellow">'+
+				'<strong class="text-yellow">Caution:</strong>' +this.texts.warning+ ' (Frenzy)<br>'+
+				'<span id="' +type+ 'caution_amount"></span>'+
+				'<div id="' +type+ 'lucky_div_warning">'+
+					'<img src="' +caution+ '">'+
+				'</div>'+
+			'</div>'+
+		'</div>';
+};
+
 CookieMonster.setupTooltips = function() {
 	var needsRebuild = false;
 
@@ -2236,25 +2248,7 @@ CookieMonster.manageBuildingTooltip = function(building) {
 
 	// Create tooltips
 	if (building.desc === this.buildingTooltips[building.id]) {
-		building.desc +=
-			'<div class="cm-tooltip" id="cm_ob_div_' + buildingKey + '"></div>'+
-			'<div id="cm_ob_lucky_div_' + buildingKey + '" style="position:absolute; top:-25px; left:-12px; height:32px;">'+
-				'<div class="cm-tooltip__image" id="cm_ob_lucky_div_warning" style="background:url(' +this.getImage('warning')+ ')"></div>'+
-				'<div class="cm-tooltip__image" id="cm_ob_lucky_div_caution" style="background:url(' +this.getImage('caution')+ ')"></div>'+
-			'</div>'+
-			'<div id="cm_ob_note_div_' + buildingKey + '" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
-				'<div id="cm_ob_note_div_warning" class="cm-tooltip__warning" style="border-color: #' +this.color('red')+ ';">'+
-					'<b style="color:#' +this.color('red')+ ';">Warning:</b>' +this.texts.warning+ '<br>'+
-					'<span id="cm_ob_warning_amount"></span>'+
-					'<div id="cm_ob_lucky_div_warning"><img src="' +this.getImage('warning')+ '"></div>'+
-				'</div>'+
-				'<div id="cm_ob_note_div_caution" class="cm-tooltip__warning" style="border-color: #' +this.color('yellow')+ ';">'+
-					'<b style="color:#' +this.color('yellow')+ ';">Caution:</b>' +this.texts.warning+ ' (Frenzy)<br>'+
-					'<span id="cm_ob_caution_amount"></span>'+
-					'<div id="cm_ob_lucky_div_warning"><img src="' +this.getImage('caution')+ '"></div>'+
-				'</div>'+
-			'</div>';
-
+		building.desc += this.makeTooltip('ob', buildingKey);
 		Game.RebuildStore();
 	}
 

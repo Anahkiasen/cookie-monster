@@ -43,11 +43,17 @@ strong {
 .text-blue {
   color: #4bb8f0; }
 
+.border-blue {
+  border-color: #4bb8f0 !important; }
+
 .background-green {
   background: #76b7e1; }
 
 .text-green {
   color: #76b7e1; }
+
+.border-green {
+  border-color: #76b7e1 !important; }
 
 .background-orange {
   background: #ff7f00; }
@@ -55,11 +61,17 @@ strong {
 .text-orange {
   color: #ff7f00; }
 
+.border-orange {
+  border-color: #ff7f00 !important; }
+
 .background-purple {
   background: magenta; }
 
 .text-purple {
   color: magenta; }
+
+.border-purple {
+  border-color: magenta !important; }
 
 .background-red {
   background: red; }
@@ -67,17 +79,26 @@ strong {
 .text-red {
   color: red; }
 
+.border-red {
+  border-color: red !important; }
+
 .background-yellow {
   background: yellow; }
 
 .text-yellow {
   color: yellow; }
 
+.border-yellow {
+  border-color: yellow !important; }
+
 .background-greyTen {
   background: #1a1a1a; }
 
 .text-greyTen {
   color: #1a1a1a; }
+
+.border-greyTen {
+  border-color: #1a1a1a !important; }
 
 #cookie-monster__bottom-bar {
   background-color: #262224;
