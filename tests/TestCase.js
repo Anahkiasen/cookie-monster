@@ -16,14 +16,14 @@ var TestCase = {
 	achievement: function(method, name, cases) {
 		var achievements = {};
 
-		describe('#'+method, function() {
-			it('can return if achievement unlocked', function() {
+		return {
+			'Can return if achievement unlocked': function() {
 				achievements[name] = true;
 				Mock.achievements(achievements);
 				assert.equal(false, CookieMonster[method]('Antimatter condenser'));
-			});
+			},
 
-			it('can return whether next building unlocks achievement', function() {
+			'Can return whether next building unlocks achievement': function() {
 				achievements[name] = false;
 				Mock.achievements(achievements);
 
@@ -33,8 +33,8 @@ var TestCase = {
 					Mock.amounts(testCase.amounts);
 					assert.equal(testCase.result, CookieMonster[method]('Antimatter condenser'), message);
 				});
-			});
-		});
+			},
+		};
 	},
 
 };
