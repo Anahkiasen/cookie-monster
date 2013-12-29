@@ -75,12 +75,15 @@ module.exports = function(grunt) {
 		concat: {
 			javascript: {
 				files: {
-					'<%= paths.compiled.js %>/cookie-monster.js': [
-						'<%= components %>/jquery/jquery.min.js',
+					'<%= paths.compiled.js %>/js/cookie-monster.js': [
 						'<%= paths.original.js %>/cookie-monster.js',
 						'<%= paths.original.js %>/**/*.js',
 						'<%= paths.original.js %>/upgrades.js',
 						'<%= paths.original.js %>/main.js',
+					],
+					'<%= paths.compiled.js %>/cookie-monster.min.js': [
+						'<%= components %>/jquery/jquery.min.js',
+						'<%= paths.compiled.js %>/js/cookie-monster.js',
 					],
 				},
 			}
@@ -91,7 +94,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand : true,
 					cwd    : '<%= paths.compiled.js %>',
-					src    : ['cookie-monster.js'],
+					src    : ['cookie-monster.min.js'],
 					dest   : '<%= paths.compiled.js %>',
 					ext    : '.min.js',
 				}],

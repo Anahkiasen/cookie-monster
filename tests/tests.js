@@ -5,25 +5,17 @@ var Test   = require('./TestCase.js');
 
 // Browser
 var jsdom    = require("jsdom").jsdom;
-var document = jsdom('<html><head></head><body></body></html>');
-var window   = document.createWindow();
+document     = jsdom('<html><head></head><body></body></html>');
+window       = document.createWindow();
 localStorage = {};
 
 // jQuery
 jQuery = require('jquery');
 $      = jQuery(window);
 
-// Game
-Game          = {};
-CookieMonster = require('../src/cookie-monster.js');
-
 // Modules
-require('../src/game/achievements.js');
-require('../src/game/lucky.js');
-require('../src/helpers/misc.js');
-require('../src/interface/bottom-bar.js')
-require('../src/interface/tooltips.js');;
-require('../src/interface/settings.js');
+Game = '';
+CookieMonster = require('../dist/js/cookie-monster.js');
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////////// TESTS //////////////////////////////
@@ -34,6 +26,7 @@ describe('CookieMonster', function () {
 	beforeEach(function() {
 		Game         = Mock.game();
 		localStorage = {};
+
 		CookieMonster.settings = {
 			'FlashScreen'    : 1,
 			'CookieTimer'    : 1,

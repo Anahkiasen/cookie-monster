@@ -6,7 +6,7 @@
  * @return {void}
  */
 CookieMonster.start = function() {
-	if (!this.shouldRun) {
+	if (!this.shouldRun()) {
 		return;
 	}
 
@@ -274,7 +274,9 @@ CookieMonster.shouldRun = function() {
  * @return {Void}
  */
 CookieMonster.displayError = function(error) {
-	alert('Cookie Monster ' +this.version+ "\n\n" + error);
+	if (typeof alert !== 'undefined') {
+		alert('Cookie Monster ' +this.version+ "\n\n" + error);
+	}
 
 	return false;
 };
