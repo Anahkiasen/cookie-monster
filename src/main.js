@@ -131,8 +131,8 @@ CookieMonster.update = function() {
 		return native.replace("Statistics</div>'+", "Statistics</div>'+\n\n"+
 			"'<div class=\"subsection\">" +
 				"<div class=\"title\"><span style=\"color:#' +CookieMonster.color('blue')+ ';\">Cookie Monster Goodies</span></div>"+
-				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> '          + CookieMonster.lucky('regular', false) + '</div>"+
-				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.lucky('frenzy', false) + '</div>"+
+				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> '          + CookieMonster.lucky('regular', true) + '</div>"+
+				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.lucky('frenzy', true) + '</div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> '              + CookieMonster.luckyReward('max') + '</div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Reward (MAX) (Frenzy):</b> '     + CookieMonster.luckyReward('frenzy') + '</div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Reward (CUR):</b> '              + CookieMonster.luckyReward('current') + '</div><br>"+

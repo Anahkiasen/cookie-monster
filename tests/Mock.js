@@ -28,3 +28,16 @@ exports.achievements = function(achievements) {
 		Game.AchievementsById.push({name: key, won: achievements[key]});
 	}
 };
+
+/**
+ * Create a mocked instance of the Game
+ *
+ * @return {Array}
+ */
+exports.game = function() {
+	return {
+		cookiesPs    : 10,
+		frenzyPower  : 1,
+		RebuildStore : function() {},
+	};
+};

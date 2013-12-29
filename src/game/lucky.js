@@ -1,15 +1,15 @@
 /**
  * Get the lucky reward for a particular situation
  *
- * @param {String}  context [regular,max]
- * @param {Boolean} raw     Return in text form or formatted
+ * @param {String}  context   [regular,max]
+ * @param {Boolean} formatted Return in text form or formatted
  *
  * @return {String}
  */
-CookieMonster.lucky = function(context, raw) {
+CookieMonster.lucky = function(context, formatted) {
 	var reward = Math.round(this.getFrenzyRate(context) / 0.1);
 
-	if (!raw) {
+	if (formatted) {
 		if (reward <= Game.cookies) {
 			reward = '<span style="color:#' +this.color('green')+ '; font-weight:bold;">' + this.formatNumber(reward) + "</span>";
 		}

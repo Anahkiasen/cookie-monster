@@ -21,7 +21,8 @@ CookieMonster = require('../src/cookie-monster.js');
 require('../src/game/achievements.js');
 require('../src/game/lucky.js');
 require('../src/helpers/misc.js');
-require('../src/interface/bottom-bar.js');
+require('../src/interface/bottom-bar.js')
+require('../src/interface/tooltips.js');;
 require('../src/interface/settings.js');
 
 //////////////////////////////////////////////////////////////////////
@@ -31,7 +32,7 @@ require('../src/interface/settings.js');
 describe('CookieMonster', function () {
 
 	beforeEach(function() {
-		Game         = {};
+		Game         = Mock.game();
 		localStorage = {};
 		CookieMonster.settings = {
 			'FlashScreen'    : 1,
@@ -48,9 +49,6 @@ describe('CookieMonster', function () {
 			'UpgradeIcons'   : 1,
 			'UpgradeDisplay' : 1,
 		};
-
-		Game.cookiesPs   = 10;
-		Game.frenzyPower = 1;
 	});
 
 	// Settings
@@ -199,4 +197,5 @@ describe('CookieMonster', function () {
 			{result: false, amounts: [128, 128, 128, 64, 32, 16, 8, 4, 0, 1]},
 		]
 	);
+
 });
