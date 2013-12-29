@@ -2235,17 +2235,19 @@ CookieMonster.manageBuildingTooltip = function(building) {
 	if (building.desc === this.buildingTooltips[building.id]) {
 		building.desc +=
 			'<div class="cm-tooltip" id="cm_ob_div_' + buildingKey + '"></div>'+
-			'<div id="cm_ob_lucky_div_' + buildingKey + '" style="position:absolute; top:-25px; left:-12px; height:32px;">' +
-				'<div class="cm-tooltip__image" id="cm_ob_lucky_div_warning" style="background:url(' +this.getImage('warning')+ ');"></div>' +
-				'<div class="cm-tooltip__image" id="cm_ob_lucky_div_caution" style="background:url(' +this.getImage('caution')+ ');"></div>' +
-			'</div>';
-			'<div id="cm_ob_note_div_' + buildingKey + '" style="position:absolute; left:0px; margin-top:10px; color:white;">' +
-				'<div id="cm_ob_note_div_warning" class="cm-tooltip__warning" style="border-color: #' +this.color('red')+ '">'+
-					'<b style="color:#' +this.color('red')+ ';">Warning:</b> ' +this.texts.warning+ '<br><span id="cm_ob_warning_amount"></span>' +
+			'<div id="cm_ob_lucky_div_' + buildingKey + '" style="position:absolute; top:-25px; left:-12px; height:32px;">'+
+				'<div class="cm-tooltip__image" id="cm_ob_lucky_div_warning" style="background:url(' +this.getImage('warning')+ ')"></div>'+
+				'<div class="cm-tooltip__image" id="cm_ob_lucky_div_caution" style="background:url(' +this.getImage('caution')+ ')"></div>'+
+			'</div>'+
+			'<div id="cm_ob_note_div_' + buildingKey + '" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
+				'<div id="cm_ob_note_div_warning" class="cm-tooltip__warning" style="border-color: #' +this.color('red')+ ';">'+
+					'<b style="color:#' +this.color('red')+ ';">Warning:</b>' +this.texts.warning+ '<br>'+
+					'<span id="cm_ob_warning_amount"></span>'+
 					'<div id="cm_ob_lucky_div_warning"><img src="' +this.getImage('warning')+ '"></div>'+
-				'</div>' +
-				'<div id="cm_ob_note_div_caution" class="cm-tooltip__warning" style="border-color: #' +this.color('yellow')+ '">'+
-					'<b style="color:#' +this.color('yellow')+ ';">Caution:</b> ' +this.texts.warning+ ' (Frenzy)<br><span id="cm_ob_caution_amount"></span>' +
+				'</div>'+
+				'<div id="cm_ob_note_div_caution" class="cm-tooltip__warning" style="border-color: #' +this.color('yellow')+ ';">'+
+					'<b style="color:#' +this.color('yellow')+ ';">Caution:</b>' +this.texts.warning+ ' (Frenzy)<br>'+
+					'<span id="cm_ob_caution_amount"></span>'+
 					'<div id="cm_ob_lucky_div_warning"><img src="' +this.getImage('caution')+ '"></div>'+
 				'</div>'+
 			'</div>';
