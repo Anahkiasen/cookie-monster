@@ -1,8 +1,8 @@
 /**
  * Get the lucky reward for a particular situation
  *
- * @param {string} context [regular,max]
- * @param {[type]} raw     Return in text form or formatted
+ * @param {String}  context [regular,max]
+ * @param {Boolean} raw     Return in text form or formatted
  *
  * @return {String}
  */
@@ -24,9 +24,9 @@ CookieMonster.lucky = function(context, raw) {
 /**
  * Get the (MAX) lucky reward for a particular situation
  *
- * @param {string} context [current,max,max_frenzy]
+ * @param {String} context [current,max,max_frenzy]
  *
- * @return {string}
+ * @return {String}
  */
 CookieMonster.luckyReward = function(context) {
 	var reward = this.getFrenzyRate(context);

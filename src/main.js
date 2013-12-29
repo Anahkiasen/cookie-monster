@@ -144,7 +144,7 @@ CookieMonster.update = function() {
 	});
 
 	var cookieMonsterSettings = "\n'<div class=\"subsection\">" +
-		"<div class=\"title\"><span style=\"color:#4bb8f0;\">Cookie Monster Settings</span></div>"+
+		"<div class=\"title\"><span style=\"color:#' +CookieMonster.color('blue')+ ';\">Cookie Monster Settings</span></div>"+
 		'<div class="listing">'+
 			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Flash Screen ' + CookieMonster.getOptionState('FlashScreen') + '</a>"+
 			"<label>Flashes the screen when a Golden Cookie or Red Cookie appears</label>"+
