@@ -3,6 +3,7 @@
 ### 1.040.02 _(2013-12-29)_
 
 * Added back colorblind mode as an option
+* Fixed a miscalculation in Bonus Income
 
 ### 1.040.01 _(2013-12-23)_
 
