@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 				tasks: 'default',
 			},
 			scripts: {
-				files: ['<%= paths.original.js %>/**/*', '<%= tests %>/*.js'],
+				files: ['<%= paths.original.js %>/**/*', '<%= tests %>/**/*.js'],
 				tasks: ['js', 'uglify'],
 			},
 		},

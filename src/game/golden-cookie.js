@@ -120,7 +120,7 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
 	}
 
 	if (CookieMonster.goldenCookieAvailable === "(G) ") {
-		CookieMonster.updateFavicon('http://frozenelm.com/cookiemonster/images/cm_gc_' +frame+ '.png');
+		CookieMonster.updateFavicon('cm_gc_' +frame);
 		frame++;
 		setTimeout(function () {
 			CookieMonster.Emphasizers.faviconSpinner(frame);

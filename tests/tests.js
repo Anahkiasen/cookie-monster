@@ -7,6 +7,8 @@ var Test   = require('./TestCase.js');
 var jsdom    = require("jsdom").jsdom;
 document     = jsdom('<html><head></head><body></body></html>');
 window       = document.createWindow();
+
+realAudio    = require('./Audio.js');
 localStorage = {};
 
 // jQuery
@@ -49,6 +51,7 @@ module.exports = {
 	// Tests
 	////////////////////////////////////////////////////////////////////
 
+	'Browser'      : require('./helpers/browser.js'),
 	'Settings'     : require('./interface/settings.js'),
 	'Lucky'        : require('./game/lucky.js'),
 	'Achievements' : require('./game/achievements.js'),

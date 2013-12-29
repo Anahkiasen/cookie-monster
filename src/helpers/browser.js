@@ -10,6 +10,8 @@ CookieMonster.playSound = function(sound) {
 
 	sound.volume = 1;
 	sound.play();
+
+	return sound;
 };
 
 /**
@@ -18,7 +20,7 @@ CookieMonster.playSound = function(sound) {
  * @return {void}
  */
 CookieMonster.playBell = function() {
-	this.playSound('http://autopergamene.eu/cookie-monster/mp3/bell.mp3');
+	return this.playSound('http://autopergamene.eu/cookie-monster/mp3/bell.mp3');
 };
 
 /**
@@ -29,7 +31,11 @@ CookieMonster.playBell = function() {
  * @return {String}
  */
 CookieMonster.getImage = function(image) {
-	return 'http://autopergamene.eu/cookie-monster/img/'+image+'.png';
+	if (image.indexOf('http') === -1) {
+		image = 'http://autopergamene.eu/cookie-monster/img/'+image+'.png';
+	}
+
+	return image;
 };
 
 /**
@@ -40,5 +46,7 @@ CookieMonster.getImage = function(image) {
  * @return {void}
  */
 CookieMonster.updateFavicon = function (favicon) {
+	favicon = this.getImage(favicon);
+
 	$('#cm_favicon').attr('href', favicon);
 };
