@@ -69,8 +69,11 @@ CookieMonster.loadStyles = function() {
 CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();
 	CookieMonster.updateTooltips('all');
-	CookieMonster.emphasizeGolden();
 	CookieMonster.manageBuffs();
+
+	CookieMonster.emphasizeGolden();
+	CookieMonster.emphasizeSeason();
+
 	CookieMonster.loops++;
 
 	if (CookieMonster.loops === 1) {
@@ -128,7 +131,7 @@ CookieMonster.replaceNative = function(native, replaces, args) {
  */
 CookieMonster.update = function() {
 	this.replaceNative('Logic', function (native) {
-		return native.replace('.title=', '.title=CookieMonster.goldenCookieAvailable+');
+		return native.replace('.title=', '.title=CookieMonster.titleModifier+');
 	});
 	this.replaceNative('UpdateMenu', function (native) {
 		return native.replace("Statistics</div>'+", "Statistics</div>'+\n\n"+

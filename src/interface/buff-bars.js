@@ -7,6 +7,7 @@ CookieMonster.manageBuffs = function() {
 	this.manageFrenzyBars();
 	this.manageClickingFrenzy();
 	this.manageNextCookie();
+	this.manageNextReindeer();
 
 	// Offset version number
 	$('#versionNumber').css('bottom', this.$timerBars.css('height'));
@@ -83,10 +84,27 @@ CookieMonster.manageFrenzyBars = function() {
  */
 CookieMonster.manageClickingFrenzy = function() {
 	if (Game.clickFrenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
-		return this.fadeOutBar(this.color('blue'));
+		return this.fadeOutBar('blue');
 	}
 
-	this.updateBar('Click frenzy', this.color('blue'), Game.clickFrenzy);
+	this.updateBar('Click frenzy', 'blue', Game.clickFrenzy);
+};
+
+/**
+ * Manage the "Next Reindeer" bar
+ *
+ * @return {void}
+ */
+CookieMonster.manageNextReindeer = function() {
+	var timers = [Game.seasonPopup.time, Game.seasonPopup.minTime, Game.seasonPopup.maxTime];
+	var width  = timers[2] - timers[0];
+
+	// Hide if Reindeer on screen
+	if (timers[0] <= 0 || this.$reindeer.is(':visible')) {
+		return this.fadeOutBar('orange');
+	}
+
+	this.updateBar('Next Reindeer', 'orange', width, width / timers[2] * 100);
 };
 
 /**
@@ -101,16 +119,16 @@ CookieMonster.manageNextCookie = function() {
 	var countdown = Math.round(width / Game.fps);
 
 	// Update title
-	if (countdown > 0 && CookieMonster.$goldenCookie.is(':hidden')) {
-		this.goldenCookieAvailable = this.getBooleanSetting('CookieCD') ? "(" + countdown + ") " : '';
+	if (countdown > 0 && this.$goldenCookie.is(':hidden')) {
+		this.titleModifier = this.getBooleanSetting('CookieCD') ? '(' + countdown + ') ' : '';
 	}
 
 	// Cancel if disabled
-	if (timers[0] <= 0 || CookieMonster.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieCD')) {
-		return this.fadeOutBar(this.color('purple'));
+	if (timers[0] <= 0 || this.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieCD')) {
+		return this.fadeOutBar('purple');
 	}
 
-	this.updateBar('Next Cookie', this.color('purple'), width, width / timers[2] * 100);
+	this.updateBar('Next Cookie', 'purple', width, width / timers[2] * 100);
 	$('#cmt2_'+this.color('purple')).css('max-width', (barsWidth - 189) * 0.67 + "px");
 };
 
@@ -130,6 +148,8 @@ CookieMonster.manageNextCookie = function() {
  */
 CookieMonster.updateBar = function (name, color, timer, width) {
 	var $bar = $('#cookie-monster__timer-'+color);
+
+	// Create bar if it doesn't exist
 	if ($bar.length !== 1) {
 		this.createBar(name, color);
 	}
@@ -154,7 +174,9 @@ CookieMonster.updateBar = function (name, color, timer, width) {
  * @return {void}
  */
 CookieMonster.createBar = function (name, color) {
-	var secondBar = '';
+	var secondBar  = '';
+
+	// Add second bar for golden cookies
 	if (name === 'Next Cookie') {
 		secondBar = '<div class="cm-buff-bar__bar background-purple" id="cmt2_'+this.color('purple')+'"></div>';
 	}

@@ -11,16 +11,23 @@ var CookieMonster = {
 	////////////////////////////////////////////////////////////////////
 
 	version : 'v.1.040.01',
+	loops   : 0,
 
-	emphasize             : true,
-	tooltips              : [],
-	buildingTooltips      : [],
-	goldenCookieAvailable : '',
-	loops                 : 0,
-	humanNumbers          : new Array(
+	tooltips         : [],
+	buildingTooltips : [],
+	humanNumbers     : new Array(
 		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
 		[' M', ' G', ' T', ' P', ' E', ' Z', ' Y', ' Oc', ' No', ' Dc']
 	),
+
+	// Emphasizers
+	////////////////////////////////////////////////////////////////////
+
+	titleModifier : '',
+	onScreen      : {
+		golden : false,
+		season : false
+	},
 
 	// Stored informations
 	////////////////////////////////////////////////////////////////////
@@ -63,10 +70,11 @@ var CookieMonster = {
 
 	$game          : $('#game'),
 	$goldenCookie  : $('#goldenCookie'),
-	$goldenOverlay : $('#cookie-monster__golden-overlay'),
+	$flashOverlay : $('#cookie-monster__golden-overlay'),
 	$monsterBar    : $('#cookie-monster__bottom-bar'),
 	$overlay       : $('#cookie-monster__overlay'),
 	$timerBars     : $('#cookie-monster__buff-bars'),
+	$reindeer      : $('#seasonPopup'),
 
 	// Texts
 	////////////////////////////////////////////////////////////////////

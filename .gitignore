@@ -2,6 +2,9 @@
 bower_components
 node_modules
 
+# Assets
+dist/cookie-monster.js
+
 # Logs and caches
 .sass-cache
 npm-debug.log

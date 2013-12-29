@@ -19,7 +19,7 @@ CookieMonster.getFrenzyMultiplier = function() {
 CookieMonster.createGoldenOverlay = function() {
 	$('body').append('<div id="cookie-monster__golden-overlay" onclick="Game.goldenCookie.click();"></div>');
 
-	this.$goldenOverlay = $('#cookie-monster__golden-overlay');
+	this.$flashOverlay = $('#cookie-monster__golden-overlay');
 };
 
 /**
@@ -47,14 +47,14 @@ CookieMonster.Emphasizers = {};
 CookieMonster.emphasizeGolden = function() {
 	var $golden = this.$goldenCookie;
 
-	if ($golden.is(':hidden') && !this.emphasize) {
-		this.emphasize = true;
-		this.$goldenOverlay.hide();
+	if ($golden.is(':hidden') && this.onScreen.golden) {
+		this.onScreen.golden = false;
+		this.$flashOverlay.hide();
 
-		this.goldenCookieAvailable = '';
-	} else if ($golden.is(':visible') && this.emphasize) {
-		this.emphasize = false;
-		this.$goldenOverlay.show();
+		this.titleModifier = '';
+	} else if ($golden.is(':visible') && !this.onScreen.golden) {
+		this.onScreen.golden = true;
+		this.$flashOverlay.show();
 
 		this.Emphasizers.updateTitle();
 		this.Emphasizers.playSound();
@@ -62,16 +62,16 @@ CookieMonster.emphasizeGolden = function() {
 	}
 
 	if ($golden.is(':visible')) {
-		this.Emphasizers.displayTimer();
+		this.Emphasizers.displayGoldenTimer();
 	}
 };
 
-CookieMonster.Emphasizers.displayTimer = function() {
+CookieMonster.Emphasizers.displayGoldenTimer = function() {
 	if (!CookieMonster.getBooleanSetting('CookieTimer')) {
 		return;
 	}
 
-	CookieMonster.$goldenOverlay
+	CookieMonster.$flashOverlay
 		.css(CookieMonster.$goldenCookie.css(['opacity', 'top', 'left', 'top']))
 		.text(Math.round(Game.goldenCookie.life / Game.fps));
 };
@@ -81,7 +81,7 @@ CookieMonster.Emphasizers.updateTitle = function() {
 		return;
 	}
 
-	CookieMonster.goldenCookieAvailable = '(G) ';
+	CookieMonster.titleModifier = '(G) ';
 	this.faviconSpinner(1);
 };
 
@@ -97,7 +97,7 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
 		frame = 1;
 	}
 
-	if (CookieMonster.goldenCookieAvailable === '(G) ') {
+	if (CookieMonster.titleModifier === '(G) ') {
 		CookieMonster.updateFavicon('cm_gc_' +frame);
 		frame++;
 		setTimeout(function () {

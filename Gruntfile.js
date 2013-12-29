@@ -98,7 +98,7 @@ module.exports = function(grunt) {
 						'<%= paths.original.js %>/upgrades.js',
 						'<%= paths.original.js %>/main.js',
 					],
-					'<%= paths.compiled.js %>/cookie-monster.min.js': [
+					'<%= paths.compiled.js %>/cookie-monster.js': [
 						'<%= components %>/jquery/jquery.min.js',
 						'<%= paths.compiled.js %>/js/cookie-monster.js',
 					],
