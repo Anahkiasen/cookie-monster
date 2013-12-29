@@ -80,13 +80,13 @@ CookieMonster.updateTable = function() {
 	Game.ObjectsById.forEach(function (building, key) {
 		var price = building.price;
 		var owned = building.amount;
-		var s = building.storedCps * Game.globalCpsMult;
+		var production = building.storedCps * Game.globalCpsMult;
 		if (building.name === "Grandma") {
-			s = 0;
+			production = 0;
 		}
 
 		// Compute informations
-		var bonus = that.roundDecimal(s + that.getUpgradeBonuses(building.name, owned, s));
+		var bonus = that.roundDecimal(production + that.getUpgradeBonuses(building.name, owned, production));
 		var cpi   = that.roundDecimal(price / bonus);
 		var count = '(<span class="text-blue">' + that.formatNumber(owned) + '</span>)';
 

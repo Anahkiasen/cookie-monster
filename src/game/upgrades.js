@@ -1,4 +1,4 @@
-CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
+CookieMonster.getUpgradeBonuses = function(building, currentNumber, production) {
 	var r = 0;
 	var i = 0;
 
@@ -59,7 +59,10 @@ CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
 		}
 	};
 
-	i += this.hasntAchievement(upgrades[building][currentNumber]);
+	var achievement = upgrades[building][currentNumber];
+	if (achievement) {
+		i += this.hasntAchievement();
+	}
 
 	switch (building) {
 		case "Grandma":
@@ -115,7 +118,7 @@ CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
 		i++;
 	}
 
-	return r + this.getAchievementWorth(i, 0, r + n, 0);
+	return r + this.getAchievementWorth(i, 0, r + production, 0);
 };
 
 //////////////////////////////////////////////////////////////////////
