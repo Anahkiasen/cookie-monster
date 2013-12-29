@@ -40,8 +40,21 @@ var CookieMonster = {
 	// Settings
 	////////////////////////////////////////////////////////////////////
 
-	settingsKeys : ['FlashScreen', 'CookieTimer', 'BuffBars', 'Refresh', 'CookieCD', 'CMBar', 'ColoredPrices', 'ShortNumbers', 'CookieSound', 'UpdateTitle', 'LuckyAlert', 'UpgradeIcons', 'UpgradeDisplay'],
-	settings     : [1, 1, 1, 1e3, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+	settings: {
+		'FlashScreen'    : 1,
+		'CookieTimer'    : 1,
+		'BuffBars'       : 1,
+		'Refresh'        : 1e3,
+		'CookieCD'       : 1,
+		'CMBar'          : 1,
+		'ColoredPrices'  : 1,
+		'ShortNumbers'   : 1,
+		'CookieSound'    : 0,
+		'UpdateTitle'    : 1,
+		'LuckyAlert'     : 1,
+		'UpgradeIcons'   : 1,
+		'UpgradeDisplay' : 1,
+	},
 
 	// Selectors
 	////////////////////////////////////////////////////////////////////

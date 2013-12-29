@@ -7,15 +7,15 @@
  *
  * @return {void}
  */
-CookieMonster.loadSetting = function(key, name) {
+CookieMonster.loadSetting = function(name) {
 	// If we have a value in memory, load it
 	if (localStorage[name] !== undefined) {
-		this.settings[key] = parseInt(localStorage[name], 10);
+		this.settings[name] = parseInt(localStorage[name], 10);
 	}
 
 	// Else save default
 	else {
-		localStorage[name] = this.settings[key];
+		localStorage[name] = this.settings[name];
 	}
 };
 
@@ -25,8 +25,8 @@ CookieMonster.loadSetting = function(key, name) {
  * @return {void}
  */
 CookieMonster.loadSettings = function() {
-	for (var i = 0; i < this.settingsKeys.length; i++) {
-		this.loadSetting(i, this.settingsKeys[i]);
+	for (var setting in this.settings) {
+		this.loadSetting(setting);
 	}
 
 	this.toggleBar();
@@ -39,8 +39,8 @@ CookieMonster.loadSettings = function() {
  */
 CookieMonster.saveSettings = function() {
 	if (typeof Storage !== 'undefined' || typeof localStorage !== 'undefined') {
-		for (var i = 0; i < this.settingsKeys.length; i++) {
-			localStorage[this.settingsKeys[i]] = this.settings[i];
+		for (var setting in this.settings) {
+			localStorage[setting] = this.settings[setting];
 		}
 	}
 
@@ -58,7 +58,7 @@ CookieMonster.saveSettings = function() {
  * @param {Mixed}  value
  */
 CookieMonster.setSetting = function(setting, value) {
-	this.settings[this.settingsKeys.indexOf(setting)] = value;
+	this.settings[setting] = value;
 };
 
 /**
@@ -69,13 +69,8 @@ CookieMonster.setSetting = function(setting, value) {
  *
  * @return {Mixed}
  */
-CookieMonster.getSetting = function(setting, asBoolean) {
-	setting = this.settings[this.settingsKeys.indexOf(setting)];
-	if (typeof asBoolean === 'undefined') {
-		asBoolean = false;
-	}
-
-	return asBoolean ? setting === 1 : setting;
+CookieMonster.getSetting = function(setting) {
+	return this.settings[setting];
 };
 
 /**
@@ -86,18 +81,18 @@ CookieMonster.getSetting = function(setting, asBoolean) {
  * @return {Mixed}
  */
 CookieMonster.getBooleanSetting = function (setting) {
-	return this.getSetting(setting, true);
+	return this.getSetting(setting) ? true : false;
 };
 
 /**
  * Get the text version state of an option
  *
- * @param {integer} key
+ * @param {integer} name
  *
  * @return {string}
  */
-CookieMonster.getOptionState = function(key) {
-	return (this.settings[key] === 0) ? 'OFF' : 'ON';
+CookieMonster.getOptionState = function(name) {
+	return (this.settings[name] === 0) ? 'OFF' : 'ON';
 };
 
 //////////////////////////////////////////////////////////////////////
