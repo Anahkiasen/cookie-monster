@@ -42,4 +42,4 @@ var TestCase = {
 // Exports
 //////////////////////////////////////////////////////////////////////
 
-exports.achievement = TestCase.achievement;
+module.exports = TestCase;
