@@ -37,14 +37,15 @@ CookieMonster.secondsLeft = function(object, type) {
  */
 CookieMonster.formatTime = function(time, compressed) {
 	time = Math.round(time);
+	if (typeof compressed === 'undefined') compressed = false;
 
 	// Take care of special cases
 	if (time === Infinity) {
-		return "Never";
+		return 'Never';
 	} else if (time === 0) {
-		return "Done!";
+		return 'Done!';
 	} else if (time / 86400 > 1e3) {
-		return "> 1,000 days";
+		return '> 1,000 days';
 	}
 
 	// Compute each units separately
@@ -54,22 +55,22 @@ CookieMonster.formatTime = function(time, compressed) {
 	var seconds = time % 60;
 
 	// Format units
-	var units = [" days, ", " hours, ", " minutes, ", " seconds"];
-	if (compressed !== "min") {
+	var units = [' days, ', ' hours, ', ' minutes, ', ' seconds'];
+	if (!compressed) {
 		if (days === 1) {
-			units[0] = " day, ";
+			units[0] = ' day, ';
 		}
 		if (hours === 1) {
-			units[1] = " hour, ";
+			units[1] = ' hour, ';
 		}
 		if (minutes === 1) {
-			units[2] = " minute, ";
+			units[2] = ' minute, ';
 		}
 		if (seconds === 1) {
-			units[3] = " second";
+			units[3] = ' second';
 		}
 	} else {
-		units = ["d, ", "h, ", "m, ", "seconds"];
+		units = ['d, ', 'h, ', 'm, ', 's'];
 	}
 
 	// Create final string

@@ -133,6 +133,6 @@ CookieMonster.updateTable = function() {
 		$('#cookie_monster_item_' + key).html(that.bottomBar.items[key]);
 		$('#cookie_monster_is_'   + key).html(that.formatNumber(that.bottomBar.bonus[key]));
 		$('#cookie_monster_cpi_'  + key).html('<span style="color:#' + colors[0] + ';">' + that.formatNumber(informations[0]) + '</span>');
-		$('#cookie_monster_tc_'   + key).html('<span style="color:#' + colors[1] + ';">' + that.formatTime(informations[1], 'min') + '</span>');
+		$('#cookie_monster_tc_'   + key).html('<span style="color:#' + colors[1] + ';">' + that.formatTime(informations[1], true) + '</span>');
 	});
 };

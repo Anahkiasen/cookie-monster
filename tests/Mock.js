@@ -42,8 +42,13 @@ var Mock = {
 	 */
 	game: function() {
 		return {
-			cookiesPs    : 10,
-			frenzyPower  : 1,
+			cookies     : 20,
+			cookiesPs   : 10,
+			frenzyPower : 1,
+
+			UpgradesById : [{}],
+			ObjectsById  : [{name: 'Cursor', price: 15}],
+
 			RebuildStore : function() {},
 		};
 	},
