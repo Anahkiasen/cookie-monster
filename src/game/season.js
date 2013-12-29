@@ -14,8 +14,4 @@ CookieMonster.emphasizeSeason = function() {
 		this.Emphasizers.playSound();
 		this.Emphasizers.flashScreen();
 	}
-
-	if ($reindeer.is(':visible')) {
-		this.Emphasizers.displayGoldenTimer();
-	}
 };

@@ -129,11 +129,11 @@ CookieMonster.toggleOption = function(option) {
 			$option.text("Flash Screen ON");
 			break;
 		case "Cookie Sound ON":
-			this.setSetting('CookieSound', 0);
+			this.setSetting('Sounds', 0);
 			$option.text("Cookie Sound OFF");
 			break;
 		case "Cookie Sound OFF":
-			this.setSetting('CookieSound', 1);
+			this.setSetting('Sounds', 1);
 			$option.text("Cookie Sound ON");
 			break;
 		case "Cookie Timer ON":

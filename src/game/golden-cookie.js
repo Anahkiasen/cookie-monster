@@ -7,38 +7,6 @@ CookieMonster.getFrenzyMultiplier = function() {
 	return (Game.frenzy > 0) ? Game.frenzyPower : 1;
 };
 
-//////////////////////////////////////////////////////////////////////
-////////////////////////////// DOM ELEMENTS //////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-/**
- * Create the overlay for the Golden Cookie
- *
- * @return {void}
- */
-CookieMonster.createGoldenOverlay = function() {
-	$('body').append('<div id="cookie-monster__golden-overlay" onclick="Game.goldenCookie.click();"></div>');
-
-	this.$flashOverlay = $('#cookie-monster__golden-overlay');
-};
-
-/**
- * Create the flashing overlay
- *
- * @return {void}
- */
-CookieMonster.createOverlay = function() {
-	$('body').append('<div id="cookie-monster__overlay"></div>');
-
-	this.$overlay = $('#cookie-monster__overlay');
-};
-
-//////////////////////////////////////////////////////////////////////
-////////////////////////////// EMPHASIZERS ///////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-CookieMonster.Emphasizers = {};
-
 /**
  * Emphasize the apparition of a Golden Cookie
  *
@@ -66,71 +34,28 @@ CookieMonster.emphasizeGolden = function() {
 	}
 };
 
-CookieMonster.Emphasizers.displayGoldenTimer = function() {
-	if (!CookieMonster.getBooleanSetting('CookieTimer')) {
-		return;
-	}
-
-	CookieMonster.$flashOverlay
-		.css(CookieMonster.$goldenCookie.css(['opacity', 'top', 'left', 'top']))
-		.text(Math.round(Game.goldenCookie.life / Game.fps));
-};
-
-CookieMonster.Emphasizers.updateTitle = function() {
-	if (!CookieMonster.getBooleanSetting('UpdateTitle')) {
-		return;
-	}
-
-	CookieMonster.titleModifier = '(G) ';
-	this.faviconSpinner(1);
-};
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// DOM ELEMENTS //////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 /**
- * Changes the favicon according to current state
- *
- * @param {integer} frame The current sprite of the favicon
+ * Create the overlay for the Golden Cookie
  *
  * @return {void}
  */
-CookieMonster.Emphasizers.faviconSpinner = function(frame) {
-	if (frame > 6) {
-		frame = 1;
-	}
+CookieMonster.createFlashOverlay = function() {
+	$('body').append('<div id="cookie-monster__golden-overlay" onclick="Game.goldenCookie.click();"></div>');
 
-	if (CookieMonster.titleModifier === '(G) ') {
-		CookieMonster.updateFavicon('cm_gc_' +frame);
-		frame++;
-		setTimeout(function () {
-			CookieMonster.Emphasizers.faviconSpinner(frame);
-		}, 250);
-	} else {
-		CookieMonster.updateFavicon('http://orteil.dashnet.org/cookieclicker/img/favicon.ico');
-	}
+	this.$flashOverlay = $('#cookie-monster__golden-overlay');
 };
 
 /**
- * Play the Golden Cookie sound
+ * Create the flashing overlay
  *
  * @return {void}
  */
-CookieMonster.Emphasizers.playSound = function() {
-	if (!CookieMonster.getBooleanSetting('CookieSound')) {
-		return;
-	}
+CookieMonster.createOverlay = function() {
+	$('body').append('<div id="cookie-monster__overlay"></div>');
 
-	CookieMonster.playBell();
-};
-
-/**
- * Flash the screen
- *
- * @return {void}
- */
-CookieMonster.Emphasizers.flashScreen = function() {
-	if (!CookieMonster.getBooleanSetting('FlashScreen')) {
-		return;
-	}
-
-	CookieMonster.$overlay.fadeIn(100);
-	CookieMonster.$overlay.fadeOut(500);
+	this.$overlay = $('#cookie-monster__overlay');
 };

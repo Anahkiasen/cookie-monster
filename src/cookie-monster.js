@@ -57,7 +57,7 @@ var CookieMonster = {
 		'CMBar'          : 1,
 		'ColoredPrices'  : 1,
 		'ShortNumbers'   : 1,
-		'CookieSound'    : 0,
+		'Sounds'         : 0,
 		'UpdateTitle'    : 1,
 		'LuckyAlert'     : 1,
 		'UpgradeIcons'   : 1,

@@ -17,7 +17,7 @@ CookieMonster.start = function() {
 	// Add Cookie Monster elements
 	this.createBottomBar();
 	this.createOverlay();
-	this.createGoldenOverlay();
+	this.createFlashOverlay();
 	this.createBarsContainer();
 	this.createStoreCounters();
 
@@ -160,7 +160,7 @@ CookieMonster.update = function() {
 			"<label>Displays a timer on Golden Cookies and Red Cookies</label>"+
 		"</div>"+
 		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Cookie Sound ' + CookieMonster.getOptionState('CookieSound') + '</a>"+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Cookie Sound ' + CookieMonster.getOptionState('Sounds') + '</a>"+
 			"<label>Plays a sound when a Golden Cookie or Red Cookie appears</label>"+
 		"</div>"+
 		'<div class="listing">'+
