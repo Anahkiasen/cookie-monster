@@ -38,7 +38,7 @@ CookieMonster.loadSettings = function() {
  * @return {void}
  */
 CookieMonster.saveSettings = function() {
-	if (typeof Storage !== "undefined") {
+	if (typeof Storage !== 'undefined' || typeof localStorage !== 'undefined') {
 		for (var i = 0; i < this.settingsKeys.length; i++) {
 			localStorage[this.settingsKeys[i]] = this.settings[i];
 		}

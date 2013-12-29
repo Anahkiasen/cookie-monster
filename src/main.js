@@ -146,39 +146,39 @@ CookieMonster.update = function() {
 	var cookieMonsterSettings = "\n'<div class=\"subsection\">" +
 		"<div class=\"title\"><span style=\"color:#4bb8f0;\">Cookie Monster Settings</span></div>"+
 		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Flash Screen ' + CookieMonster.getOptionState(0) + '</a>"+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Flash Screen ' + CookieMonster.getOptionState('FlashScreen') + '</a>"+
 			"<label>Flashes the screen when a Golden Cookie or Red Cookie appears</label>"+
 		"</div>"+
 		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Cookie Timer ' + CookieMonster.getOptionState(1) + '</a>"+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Cookie Timer ' + CookieMonster.getOptionState('CookieTimer') + '</a>"+
 			"<label>Displays a timer on Golden Cookies and Red Cookies</label>"+
 		"</div>"+
 		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Cookie Sound ' + CookieMonster.getOptionState(8) + '</a>"+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Cookie Sound ' + CookieMonster.getOptionState('CookieSound') + '</a>"+
 			"<label>Plays a sound when a Golden Cookie or Red Cookie appears</label>"+
 		"</div>"+
 		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Next Cookie Timer ' + CookieMonster.getOptionState(4) + '</a>"+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Next Cookie Timer ' + CookieMonster.getOptionState('CookieCD') + '</a>"+
 			"<label>Displays a countdown bar and updates the Title for when the next Cookie will appear</label>"+
 		"</div>"+
 		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Update Title ' + CookieMonster.getOptionState(9) + '</a>"+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Update Title ' + CookieMonster.getOptionState('UpdateTitle') + '</a>"+
 			"<label>Updates the Title to display if a Cookie is waiting to be clicked</label>"+
 		"</div>"+
 		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Buff Bars ' + CookieMonster.getOptionState(2) + '</a>"+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Buff Bars ' + CookieMonster.getOptionState('BuffBars') + '</a>"+
 			"<label>Displays a countdown bar for each effect currently active</label>"+
 		"</div>"+
 		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Bottom Bar ' + CookieMonster.getOptionState(5) + '</a>"+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Bottom Bar ' + CookieMonster.getOptionState('CMBar') + '</a>"+
 			"<label>Displays a bar at the bottom of the screen that shows all Building information</label>"+
 		"</div>"+
 		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Colored Prices ' + CookieMonster.getOptionState(6) + '</a>"+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Colored Prices ' + CookieMonster.getOptionState('ColoredPrices') + '</a>"+
 			"<label>Changes the colors of all Building prices to correspond with their Cost Per Income</label>"+
 		"</div>"+
 		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Upgrade Icons ' + CookieMonster.getOptionState(11) + '</a>"+
+			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Upgrade Icons ' + CookieMonster.getOptionState('UpgradeIcons') + '</a>"+
 			"<label>Displays a small square icon on the Upgrade to better display the Cost Per Income color value</label>"+
 		"</div>"+
 		'<div class="listing">'+
