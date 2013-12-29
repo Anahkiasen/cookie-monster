@@ -581,11 +581,12 @@ CookieMonster.lucky = function(context, formatted) {
 	var reward = Math.round(this.getFrenzyRate(context) / 0.1);
 
 	if (formatted) {
+		var formattedReward = this.formatNumber(reward);
+
 		if (reward <= Game.cookies) {
-			reward = '<span style="color:#' +this.color('green')+ '; font-weight:bold;">' + this.formatNumber(reward) + "</span>";
-		}
-		else {
-			reward = this.formatNumber(reward);
+			reward = '<span style="color:#' +this.color('green')+ '; font-weight:bold;">' + formattedReward + "</span>";
+		} else {
+			reward = formattedReward;
 		}
 	}
 
