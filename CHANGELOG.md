@@ -1,5 +1,9 @@
 ## 1.040 Versions
 
+### 1.040.02 _(2013-12-29)_
+
+* Added back colorblind mode as an option
+
 ### 1.040.01 _(2013-12-23)_
 
 * Fixed some bugs related to the Grandmapocalypse
