@@ -197,6 +197,10 @@ module.exports = function(grunt) {
 		'js',
 	]);
 
+	grunt.registerTask('rebuild', 'Rebuild all assets', [
+		'js', 'css',
+	]);
+
 	grunt.registerTask('test', 'Run the tests', [
 		'mochaTest',
 	]);
