@@ -616,7 +616,7 @@ CookieMonster.getFrenzyRate = function(context) {
 
 	return reward * 1200 + 13;
 };
-CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
+CookieMonster.getUpgradeBonuses = function(building, currentNumber, production) {
 	var r = 0;
 	var i = 0;
 
@@ -677,7 +677,10 @@ CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
 		}
 	};
 
-	i += this.hasntAchievement(upgrades[building][currentNumber]);
+	var achievement = upgrades[building][currentNumber];
+	if (achievement) {
+		i += this.hasntAchievement();
+	}
 
 	switch (building) {
 		case "Grandma":
@@ -733,7 +736,7 @@ CookieMonster.getUpgradeBonuses = function(building, currentNumber, n) {
 		i++;
 	}
 
-	return r + this.getAchievementWorth(i, 0, r + n, 0);
+	return r + this.getAchievementWorth(i, 0, r + production, 0);
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -1274,13 +1277,13 @@ CookieMonster.updateTable = function() {
 	Game.ObjectsById.forEach(function (building, key) {
 		var price = building.price;
 		var owned = building.amount;
-		var s = building.storedCps * Game.globalCpsMult;
+		var production = building.storedCps * Game.globalCpsMult;
 		if (building.name === "Grandma") {
-			s = 0;
+			production = 0;
 		}
 
 		// Compute informations
-		var bonus = that.roundDecimal(s + that.getUpgradeBonuses(building.name, owned, s));
+		var bonus = that.roundDecimal(production + that.getUpgradeBonuses(building.name, owned, production));
 		var cpi   = that.roundDecimal(price / bonus);
 		var count = '(<span class="text-blue">' + that.formatNumber(owned) + '</span>)';
 
@@ -1538,7 +1541,7 @@ CookieMonster.updateUpgradeDisplay = function() {
 CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 	var upgrade = Game.UpgradesById[upgradeKey];
 	var price   = upgrade.basePrice;
-	var colors  = [this.color('yellow'), this.color('yellow')];
+	var colors  = ['yellow', 'yellow'];
 
 	var u = [this.roundDecimal(price / e), Math.round(this.secondsLeft(upgradeKey, 'upgrade'))];
 	var maxValues = [Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.cpi)];
@@ -1546,27 +1549,27 @@ CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 
 	for (var i = 0; i < colors.length; i++) {
 		if (u[i] < minValues[i]) {
-			colors[i] = this.color('blue');
+			colors[i] = 'blue';
 			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[0]++;
 			}
 		} else if (u[i] === minValues[i]) {
-			colors[i] = this.color('green');
+			colors[i] = 'green';
 			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[1]++;
 			}
 		} else if (u[i] === maxValues[i]) {
-			colors[i] = this.color('red');
+			colors[i] = 'red';
 			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[4]++;
 			}
 		} else if (u[i] > maxValues[i]) {
-			colors[i] = this.color('purple');
+			colors[i] = 'purple';
 			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[5]++;
 			}
 		} else if (maxValues[i] - u[i] < u[i] - minValues[i]) {
-			colors[i] = this.color('orange');
+			colors[i] = 'orange';
 			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[3]++;
 			}
@@ -1580,7 +1583,7 @@ CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 		$('#cm_up_q' + i).text(this.inStore[i]);
 	}
 	if (this.getSetting('UpgradeIcons') && this.isInStore(upgrade)) {
-		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div style="background-color:#' + colors[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
+		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div class="cookie-monster__upgrade background-' +colors[0]+ '"></div>');
 	}
 
 	var $upgrade = $('#cm_up_div_'+upgradeKey);
@@ -1598,17 +1601,17 @@ CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 			deficits[1] = this.formatNumber(rewards[1] - (Game.cookies - price));
 		}
 
-		$upgrade.css('border', '1px solid #' + colors[0]);
+		$upgrade.css('border', '1px solid #' + this.color(colors[0]));
 		$upgrade.css('display', '');
 		$upgrade.html(
 			'<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div>'+
 			'<div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(Math.round(e * 100) / 100) + '</div>'+
 
 			'<div style="position:absolute; top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div>'+
-			'<div align=right style="position:absolute; top:48px; left:4px; color:#' + colors[0] + ';">' + this.formatNumber(u[0]) + '</div>'+
+			'<div align=right style="position:absolute; top:48px; left:4px; color:#' + this.color(colors[0]) + ';">' + this.formatNumber(u[0]) + '</div>'+
 
 			'<div style="position:absolute; top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div>'+
-			'<div align=right style="position:absolute; top:78px; left:4px; color:#' + colors[1] + ';">' + this.formatTime(u[1], true) + '</div>'
+			'<div align=right style="position:absolute; top:78px; left:4px; color:#' + this.color(colors[1]) + ';">' + this.formatTime(u[1], true) + '</div>'
 		);
 
 		$('#cm_up_warning_amount').text('Deficit: ' + deficits[0]);
