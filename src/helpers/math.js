@@ -6,7 +6,7 @@
  * @return {String}
  */
 CookieMonster.formatNumber = function(number) {
-	return this.toHumanNumber(number, false).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return this.toHumanNumber(number);
 };
 
 /**
@@ -16,8 +16,8 @@ CookieMonster.formatNumber = function(number) {
  *
  * @return {String}
  */
-CookieMonster.formatNumberB = function(number) {
-	return this.toHumanNumber(number, true).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+CookieMonster.formatNumberRounded = function(number) {
+	return this.toHumanNumber(number, true);
 };
 
 /**
@@ -44,11 +44,9 @@ CookieMonster.toHumanNumber = function(number, round) {
 
 	// Round the number off
 	// Else we'll return the number rounded off to nearest decimal
-	if (round) {
-		return Math.round(number);
-	}
+	number = round ? Math.round(number) : this.roundDecimal(number);
 
-	return this.roundDecimal(number);
+	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 /**

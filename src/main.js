@@ -235,7 +235,7 @@ CookieMonster.update = function() {
 	});
 
 	this.replaceNative('Draw', function (native) {
-		return native.replace("Beautify(Math.round(Game.cookiesd))", "CookieMonster.formatNumberB(Game.cookiesd)");
+		return native.replace("Beautify(Math.round(Game.cookiesd))", "CookieMonster.formatNumberRounded(Game.cookiesd)");
 	});
 
 	Beautify = new Function('what,floats', this.replaceCode(Beautify, function (native) {

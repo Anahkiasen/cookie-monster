@@ -54,6 +54,7 @@ module.exports = {
 	'Achievements' : require('./game/achievements.js'),
 	'Browser'      : require('./helpers/browser.js'),
 	'Lucky'        : require('./game/lucky.js'),
+	'Math'         : require('./helpers/math.js'),
 	'Settings'     : require('./interface/settings.js'),
 	'Time'         : require('./helpers/time.js'),
 
