@@ -100,6 +100,22 @@
   height: 32px;
   width: 32px; }
 
+.cm-tooltip__warning {
+  background: #1a1a1a;
+  position: relative;
+  margin-top: 4px;
+  border: 1px solid black;
+  padding: 2px; }
+  .cm-tooltip__warning div {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    height: 32px;
+    width: 32px; }
+  .cm-tooltip__warning img {
+    width: 16px;
+    height: 16px; }
+
 #storeTitle {
   font-size: 18px;
   padding: 4px 8px 2px 8px;
