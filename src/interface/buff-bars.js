@@ -56,20 +56,20 @@ CookieMonster.manageFrenzyBars = function() {
 	// Detect what kind of frenzy we're in
 	switch (Game.frenzyPower) {
 		case 7:
-			multiplier = 77 + 77 * Game.Has("Get lucky");
-			frenzyName = "Frenzy";
+			multiplier = 77 + 77 * Game.Has('Get lucky');
+			frenzyName = 'Frenzy';
 			color      = this.color('yellow');
 			break;
 
 		case 666:
-			multiplier = 6 + 6 * Game.Has("Get lucky");
-			frenzyName = "Blood Frenzy";
+			multiplier = 6 + 6 * Game.Has('Get lucky');
+			frenzyName = 'Blood Frenzy';
 			color      = this.color('green');
 			break;
 
 		case 0.5:
-			multiplier = 66 + 66 * Game.Has("Get lucky");
-			frenzyName = "Clot";
+			multiplier = 66 + 66 * Game.Has('Get lucky');
+			frenzyName = 'Clot';
 			color      = this.color('red');
 			break;
 	}

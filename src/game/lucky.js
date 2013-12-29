@@ -29,8 +29,8 @@ CookieMonster.luckyReward = function(context, formatted) {
  */
 CookieMonster.maxLuckyReward = function(context) {
 	var reward = this.getFrenzyRate(context);
-
 	var number = [Math.round(reward), Math.round(Game.cookies * 0.1 + 13)];
+
 	if (context === 'max' || context === 'frenzy') {
 		if (Math.round(reward / 0.1) > Game.cookies) {
 			return this.formatNumber(number[0]);

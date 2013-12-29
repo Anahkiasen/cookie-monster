@@ -67,6 +67,13 @@ var CookieMonster = {
 	$overlay       : $('#cookie_monster_overlay'),
 	$timerBars     : $('#cookie_monster_timer_bars_div'),
 
+	// Texts
+	////////////////////////////////////////////////////////////////////
+
+	texts: {
+		warning: 'Purchase of this item will put you under the number of Cookies required for "Lucky!"',
+	},
+
 	// Colors
 	////////////////////////////////////////////////////////////////////
 
@@ -358,7 +365,7 @@ CookieMonster.Emphasizers.updateTitle = function() {
 		return;
 	}
 
-	CookieMonster.goldenCookieAvailable = "(G) ";
+	CookieMonster.goldenCookieAvailable = '(G) ';
 	this.faviconSpinner(1);
 };
 
@@ -374,7 +381,7 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
 		frame = 1;
 	}
 
-	if (CookieMonster.goldenCookieAvailable === "(G) ") {
+	if (CookieMonster.goldenCookieAvailable === '(G) ') {
 		CookieMonster.updateFavicon('cm_gc_' +frame);
 		frame++;
 		setTimeout(function () {
@@ -600,8 +607,8 @@ CookieMonster.luckyReward = function(context, formatted) {
  */
 CookieMonster.maxLuckyReward = function(context) {
 	var reward = this.getFrenzyRate(context);
-
 	var number = [Math.round(reward), Math.round(Game.cookies * 0.1 + 13)];
+
 	if (context === 'max' || context === 'frenzy') {
 		if (Math.round(reward / 0.1) > Game.cookies) {
 			return this.formatNumber(number[0]);
@@ -961,13 +968,13 @@ CookieMonster.dhc = function(e, upgradeKey, n) {
 	var i = upgrade.desc.indexOf("<b>") + 3;
 	var s = upgrade.desc.indexOf("%");
 	var o = upgrade.desc.substr(i, s - i) * 1;
-	var u = CookieMonster.getAchievementWorth(e, upgradeKey, n, Game.prestige['Heavenly chips'] * 2 * (o / 100));
+	var u = this.getAchievementWorth(e, upgradeKey, n, Game.prestige['Heavenly chips'] * 2 * (o / 100));
 
 	return u - Game.cookiesPs;
 };
 
 CookieMonster.lgt = function(e) {
-	if (CookieMonster.hasntAchievement("Elder") && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
+	if (this.hasntAchievement('Elder') && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
 		var t = [];
 		var n = [];
 		Game.UpgradesById.forEach(function (upgrade, key) {
@@ -1402,20 +1409,20 @@ CookieMonster.manageFrenzyBars = function() {
 	// Detect what kind of frenzy we're in
 	switch (Game.frenzyPower) {
 		case 7:
-			multiplier = 77 + 77 * Game.Has("Get lucky");
-			frenzyName = "Frenzy";
+			multiplier = 77 + 77 * Game.Has('Get lucky');
+			frenzyName = 'Frenzy';
 			color      = this.color('yellow');
 			break;
 
 		case 666:
-			multiplier = 6 + 6 * Game.Has("Get lucky");
-			frenzyName = "Blood Frenzy";
+			multiplier = 6 + 6 * Game.Has('Get lucky');
+			frenzyName = 'Blood Frenzy';
 			color      = this.color('green');
 			break;
 
 		case 0.5:
-			multiplier = 66 + 66 * Game.Has("Get lucky");
-			frenzyName = "Clot";
+			multiplier = 66 + 66 * Game.Has('Get lucky');
+			frenzyName = 'Clot';
 			color      = this.color('red');
 			break;
 	}
@@ -1573,98 +1580,109 @@ CookieMonster.updateUpgradeDisplay = function() {
 	$('#upgrades').css('height', height);
 };
 
-CookieMonster.colorize = function(e, t, n) {
-	var i = 0;
-	var r = Game.UpgradesById[t];
-	var s = r.basePrice;
-	var o = new Array(this.color('yellow'), this.color('yellow'));
-	var u = new Array(this.roundDecimal(s / e), Math.round(this.secondsLeft(t, "upgrade")));
-	var a = new Array(Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.cpi));
-	var f = new Array(Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.cpi));
+CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
+	var upgrade = Game.UpgradesById[upgradeKey];
+	var price   = upgrade.basePrice;
+	var colors  = [this.color('yellow'), this.color('yellow')];
 
-	for (i = 0; i < o.length; i++) {
-		if (u[i] < f[i]) {
-			o[i] = this.color('blue');
-			if (this.isInStore(r) && i === 0) {
+	var u = [this.roundDecimal(price / e), Math.round(this.secondsLeft(upgradeKey, 'upgrade'))];
+	var maxValues = [Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.cpi)];
+	var minValues = [Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.cpi)];
+
+	for (var i = 0; i < colors.length; i++) {
+		if (u[i] < minValues[i]) {
+			colors[i] = this.color('blue');
+			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[0]++;
 			}
-		} else if (u[i] === f[i]) {
-			o[i] = this.color('green');
-			if (this.isInStore(r) && i === 0) {
+		} else if (u[i] === minValues[i]) {
+			colors[i] = this.color('green');
+			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[1]++;
 			}
-		} else if (u[i] === a[i]) {
-			o[i] = this.color('red');
-			if (this.isInStore(r) && i === 0) {
+		} else if (u[i] === maxValues[i]) {
+			colors[i] = this.color('red');
+			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[4]++;
 			}
-		} else if (u[i] > a[i]) {
-			o[i] = this.color('purple');
-			if (this.isInStore(r) && i === 0) {
+		} else if (u[i] > maxValues[i]) {
+			colors[i] = this.color('purple');
+			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[5]++;
 			}
-		} else if (a[i] - u[i] < u[i] - f[i]) {
-			o[i] = this.color('orange');
-			if (this.isInStore(r) && i === 0) {
+		} else if (maxValues[i] - u[i] < u[i] - minValues[i]) {
+			colors[i] = this.color('orange');
+			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[3]++;
 			}
 		} else {
-			if (this.isInStore(r) && i === 0) {
+			if (this.isInStore(upgrade) && i === 0) {
 				this.inStore[2]++;
 			}
 		}
 	}
 	for (i = 0; i < this.inStore.length; i++) {
-		$("#cm_up_q" + i).text(this.inStore[i]);
+		$('#cm_up_q' + i).text(this.inStore[i]);
 	}
-	if (this.getSetting('UpgradeIcons') && this.isInStore(r)) {
-		$("#upgrade" + Game.UpgradesInStore.indexOf(r)).html('<div style="background-color:#' + o[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
+	if (this.getSetting('UpgradeIcons') && this.isInStore(upgrade)) {
+		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div style="background-color:#' + colors[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
 	}
-	if ($("#cm_up_div_" + t).length === 1) {
-		var l = new Array(this.luckyReward('regular'), this.luckyReward('frenzy'));
-		var c = new Array("none", "none");
-		var h = new Array(0, 0);
-		if (Game.cookies - s < l[0]) {
-			c[0] = "block";
-			h[0] = l[0] - (Game.cookies - s);
-		}
-		if (Game.cookies - s < l[1]) {
-			c[1] = "block";
-			h[1] = l[1] - (Game.cookies - s);
-		}
-		$("#cm_up_div_" + t).css("border", "1px solid #" + o[0]);
-		$("#cm_up_div_" + t).css("display", "");
-		$("#cm_up_div_" + t).html('<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(Math.round(e * 100) / 100) + '</div><div style="position:absolute; top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + o[0] + ';">' + this.formatNumber(u[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + o[1] + ';">' + this.formatTime(u[1], true) + "</div>");
+	if ($('#cm_up_div_' + upgradeKey).length === 1) {
+		var rewards  = [this.luckyReward('regular'), this.luckyReward('frenzy')];
+		var display  = [false, false];
+		var deficits = [0, 0];
 
-		$('#cm_up_warning_amount').text('Deficit: ' + this.formatNumber(h[0]));
-		$('#cm_up_caution_amount').text('Deficit: ' + this.formatNumber(h[1]));
+		if (Game.cookies - price < rewards[0]) {
+			display[0]  = true;
+			deficits[0] = this.formatNumber(rewards[0] - (Game.cookies - price));
+		}
+		if (Game.cookies - price < rewards[1]) {
+			display[1]  = true;
+			deficits[1] = this.formatNumber(rewards[1] - (Game.cookies - price));
+		}
+
+		$('#cm_up_div_' + upgradeKey).css('border', '1px solid #' + colors[0]);
+		$('#cm_up_div_' + upgradeKey).css('display', '');
+		$('#cm_up_div_' + upgradeKey).html(
+			'<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div>'+
+			'<div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(Math.round(e * 100) / 100) + '</div>'+
+
+			'<div style="position:absolute; top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div>'+
+			'<div align=right style="position:absolute; top:48px; left:4px; color:#' + colors[0] + ';">' + this.formatNumber(u[0]) + '</div>'+
+
+			'<div style="position:absolute; top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div>'+
+			'<div align=right style="position:absolute; top:78px; left:4px; color:#' + colors[1] + ';">' + this.formatTime(u[1], true) + '</div>'
+		);
+
+		$('#cm_up_warning_amount').text('Deficit: ' + deficits[0]);
+		$('#cm_up_caution_amount').text('Deficit: ' + deficits[1]);
 
 		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
-			$("#cm_up_lucky_div_warning").css("display", c[0]);
-			$("#cm_up_lucky_div_caution").css("display", c[1]);
+			$("#cm_up_lucky_div_warning").toggle(display[0]);
+			$("#cm_up_lucky_div_caution").toggle(display[1]);
 		} else {
-			$("#cm_up_lucky_div_warning").css("display", "none");
-			$("#cm_up_lucky_div_caution").css("display", "none");
+			$("#cm_up_lucky_div_warning").hide();
+			$("#cm_up_lucky_div_caution").hide();
 		}
 		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 3) {
-			$("#cm_up_note_div_warning").css("display", c[0]);
-			$("#cm_up_note_div_caution").css("display", c[1]);
+			$("#cm_up_note_div_warning").toggle(display[0]);
+			$("#cm_up_note_div_caution").toggle(display[1]);
 		} else {
-			$("#cm_up_note_div_warning").css("display", "none");
-			$("#cm_up_note_div_caution").css("display", "none");
+			$("#cm_up_note_div_warning").hide();
+			$("#cm_up_note_div_caution").hide();
 		}
 	}
-	if (n) {
+	if (returnHtml) {
 		var warning = this.getImage('warning');
 		var caution = this.getImage('caution');
 
 		return
-			'<div id="cm_up_lucky_div_' +t+ '" style="position:absolute; top:-25px; left:-12px; height:32px;">'+
+			'<div id="cm_up_lucky_div_' +upgradeKey+ '" style="position:absolute; top:-25px; left:-12px; height:32px;">'+
 				'<div id="cm_up_lucky_div_warning" style="background:url(' +warning+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>'+
 				'<div id="cm_up_lucky_div_caution" style="background:url(' +caution+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>'+
 			'</div>'+
-			'<div id="cm_up_div_' +t+ '" style="position:relative; height:96px; background:#' +this.color('greyTen')+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
-			'<div id="cm_up_note_div_' +t+ '" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
+			'<div id="cm_up_div_' +upgradeKey+ '" style="position:relative; height:96px; background:#' +this.color('greyTen')+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
+			'<div id="cm_up_note_div_' +upgradeKey+ '" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
 				'<div id="cm_up_note_div_warning" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('red')+ ';">'+
 					'<b style="color:#' +this.color('red')+ ';">Warning:</b>'+
 					'Purchase of this item will put you under the number of Cookies required for "Lucky!"<br>'+
@@ -2232,13 +2250,13 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 			break;
 	}
 	if (Game.UpgradesOwned === 19) {
-		s += this.hasntAchievement("Enhancer");
+		s += this.hasntAchievement('Enhancer');
 	}
 	if (Game.UpgradesOwned === 49) {
-		s += this.hasntAchievement("Augmenter");
+		s += this.hasntAchievement('Augmenter');
 	}
 	if (Game.UpgradesOwned === 99) {
-		s += this.hasntAchievement("Upgrader");
+		s += this.hasntAchievement('Upgrader');
 	}
 	i += this.getAchievementWorth(s, t, i, 0);
 	if (r) {
@@ -2250,67 +2268,89 @@ CookieMonster.manageTooltips = function(upgradeKey, t, n, r) {
 
 CookieMonster.manageBuildingTooltip = function(building) {
 	var buildingKey = building.id;
-	var n = [this.luckyReward('regular'), this.luckyReward('frenzy')];
-	var r = ['none', 'none'];
-	var o = [0, 0];
+	var rewards     = [this.luckyReward('regular'), this.luckyReward('frenzy')];
+	var display     = [false, false];
+	var deficits    = [0, 0];
 
-	if (Game.cookies - building.price < n[0]) {
-		r[0] = "block";
-		o[0] = n[0] - (Game.cookies - building.price);
+	if (Game.cookies - building.price < rewards[0]) {
+		display[0]  = true;
+		deficits[0] = rewards[0] - (Game.cookies - building.price);
 	}
-	if (Game.cookies - building.price < n[1]) {
-		r[1] = "block";
-		o[1] = n[1] - (Game.cookies - building.price);
+	if (Game.cookies - building.price < rewards[1]) {
+		display[1]  = true;
+		deficits[1] = rewards[1] - (Game.cookies - building.price);
 	}
 
+	// Create tooltips
 	if (building.desc === this.buildingTooltips[building.id]) {
-		building.desc += '<div id="cm_ob_div_' + buildingKey + '" style="position:relative; height:96px; background:#' +this.color('greyTen')+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>';
-		building.desc += '<div id="cm_ob_lucky_div_' + buildingKey + '" style="position:absolute; top:-25px; left:-12px; height:32px;">' + '<div id="cm_ob_lucky_div_warning" style="background:url(http://frozenelm.com/cookiemonster/images/warning.png); position:relative; float:left; height:32px; width:32px; display:none;"></div>' + '<div id="cm_ob_lucky_div_caution" style="background:url(http://frozenelm.com/cookiemonster/images/caution.png); position:relative; float:left; height:32px; width:32px; display:none;"></div>' + "</div>";
-		building.desc += '<div id="cm_ob_note_div_' + buildingKey + '" style="position:absolute; left:0px; margin-top:10px; color:white;">' + '<div id="cm_ob_note_div_warning" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('red')+ ';"><b style="color:#' +this.color('red')+ ';">Warning:</b> Purchase of this item will put you under the number of Cookies required for "Lucky!"</br><span id="cm_ob_warning_amount"></span>' + '<div id="cm_ob_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="http://frozenelm.com/cookiemonster/images/warning.png" height=16px width=16px></div></div>' + '<div id="cm_ob_note_div_caution" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('yellow')+ ';"><b style="color:#' +this.color('yellow')+ ';">Caution:</b> Purchase of this item will put you under the number of Cookies required for "Lucky!" (Frenzy)</br><span id="cm_ob_caution_amount"></span>' + '<div id="cm_ob_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="http://frozenelm.com/cookiemonster/images/caution.png" height=16px width=16px></div></div>' + "</div>";
+		building.desc +=
+			'<div id="cm_ob_div_' + buildingKey + '" style="position:relative; height:96px; background:#' +this.color('greyTen')+ '; border:1px solid #000000; margin:6px -6px -6px -6px; display:none;"></div>'+
+			'<div id="cm_ob_lucky_div_' + buildingKey + '" style="position:absolute; top:-25px; left:-12px; height:32px;">' +
+				'<div id="cm_ob_lucky_div_warning" style="background:url(' +this.getImage('warning')+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>' +
+				'<div id="cm_ob_lucky_div_caution" style="background:url(' +this.getImage('caution')+ '); position:relative; float:left; height:32px; width:32px; display:none;"></div>' +
+			'</div>';
+			'<div id="cm_ob_note_div_' + buildingKey + '" style="position:absolute; left:0px; margin-top:10px; color:white;">' +
+				'<div id="cm_ob_note_div_warning" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('red')+ ';"><b style="color:#' +this.color('red')+ ';">Warning:</b> ' +this.texts.warning+ '</br><span id="cm_ob_warning_amount"></span>' +
+				'<div id="cm_ob_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="' +this.getImage('warning')+ '" height=16px width=16px></div></div>' +
+				'<div id="cm_ob_note_div_caution" style="background:#' +this.color('greyTen')+ '; position:relative; display:none; margin-top:4px; padding:2px; border:1px solid #' +this.color('yellow')+ ';"><b style="color:#' +this.color('yellow')+ ';">Caution:</b> ' +this.texts.warning+ ' (Frenzy)</br><span id="cm_ob_caution_amount"></span>' +
+				'<div id="cm_ob_lucky_div_warning" style="position:absolute; left:-10px; top:-10px; height:32px; width:32px;"><img src="' +this.getImage('caution')+ '" height=16px width=16px></div>'+
+			'</div>';
+
 		Game.RebuildStore();
 	}
 
-	var colors = [this.color('yellow'), this.color('yellow')];
+	var colors       = [this.color('yellow'), this.color('yellow')];
 	var informations = [this.bottomBar.cpi[buildingKey], this.bottomBar.timeLeft[buildingKey]];
-	var f = [Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.timeLeft)];
-	var l = [Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.timeLeft)];
+	var maxValues    = [Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.timeLeft)];
+	var minValues    = [Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.timeLeft)];
 
 	for (var i = 0; i < colors.length; i++) {
-		if (informations[i] === l[i]) {
+		if (informations[i] === minValues[i]) {
 			colors[i] = this.color('green');
-		} else if (informations[i] === f[i]) {
+		} else if (informations[i] === maxValues[i]) {
 			colors[i] = this.color('red');
-		} else if (f[i] - informations[i] < informations[i] - l[i]) {
+		} else if (maxValues[i] - informations[i] < informations[i] - minValues[i]) {
 			colors[i] = this.color('orange');
 		}
 	}
 
-	if ($("#cm_ob_div_" + buildingKey).length === 1) {
-		$("#cm_ob_div_" + buildingKey).css("border", "1px solid #" + colors[0]);
-		$("#cm_ob_div_" + buildingKey).css("display", "");
-		$("#cm_ob_div_" + buildingKey).html('<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div><div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(this.bottomBar.bonus[buildingKey]) + '</div><div style="position:absolute; top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div><div align=right style="position:absolute; top:48px; left:4px; color:#' + colors[0] + ';">' + this.formatNumber(informations[0]) + '</div><div style="position:absolute; top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div><div align=right style="position:absolute; top:78px; left:4px; color:#' + colors[1] + ';">' + this.formatTime(informations[1]) + "</div>");
-		$("#cm_ob_warning_amount").text("Deficit: " + this.formatNumber(o[0]));
-		$("#cm_ob_caution_amount").text("Deficit: " + this.formatNumber(o[1]));
+	var $building = $('#cm_ob_div_' + buildingKey);
+	if ($building.length === 1) {
+		$building.css({
+			'border'  : '1px solid #'+colors[0],
+			'display' : '',
+		}).html(
+			'<div style=" top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div>'+
+			'<div align=right style=" top:18px; left:4px; color:white;">' + this.formatNumber(this.bottomBar.bonus[buildingKey]) + '</div>'+
+			'<div style=" top:34px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Base Cost Per Income</div>'+
+			'<div align=right style=" top:48px; left:4px; color:#' + colors[0] + ';">' + this.formatNumber(informations[0]) + '</div>'+
+			'<div style=" top:64px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Time Left</div>'+
+			'<div align=right style=" top:78px; left:4px; color:#' + colors[1] + ';">' + this.formatTime(informations[1]) + "</div>"
+		);
+
+		$('#cm_ob_warning_amount').text('Deficit: ' + this.formatNumber(deficits[0]));
+		$('#cm_ob_caution_amount').text('Deficit: ' + this.formatNumber(deficits[1]));
 
 		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
-			$("#cm_ob_lucky_div_warning").css("display", r[0]);
-			$("#cm_ob_lucky_div_caution").css("display", r[1]);
+			$('#cm_ob_lucky_div_warning').toggle(display[0]);
+			$('#cm_ob_lucky_div_caution').toggle(display[1]);
 		} else {
-			$("#cm_ob_lucky_div_warning").css("display", "none");
-			$("#cm_ob_lucky_div_caution").css("display", "none");
+			$('#cm_ob_lucky_div_warning').hide();
+			$('#cm_ob_lucky_div_caution').hide();
 		}
 
 		if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 3) {
-			$("#cm_ob_note_div_warning").css("display", r[0]);
-			$("#cm_ob_note_div_caution").css("display", r[1]);
+			$('#cm_ob_note_div_warning').toggle(display[0]);
+			$('#cm_ob_note_div_caution').toggle(display[1]);
 		} else {
-			$("#cm_ob_note_div_warning").css("display", "none");
-			$("#cm_ob_note_div_caution").css("display", "none");
+			$('#cm_ob_note_div_warning').hide();
+			$('#cm_ob_note_div_caution').hide();
 		}
 	}
 
 	var color = this.getBooleanSetting('ColoredPrices') ? '#'+colors[0] : '';
-	$('#product' + buildingKey).find(".price").first().css('color', color);
+
+	$('.price', '#product'+buildingKey).first().css('color', color);
 };
 /*jshint -W054 */
 
@@ -2332,7 +2372,7 @@ CookieMonster.start = function() {
 		'margin-top'     : '32px',
 		'pointer-events' : 'none',
 	});
-	$("#cookies").css({
+	$('#cookies').css({
 		'background'    : 'rgba(0, 0, 0, 0.75)',
 		'border-top'    : '1px solid black',
 		'border-bottom' : '1px solid black',
@@ -2347,7 +2387,7 @@ CookieMonster.start = function() {
 	});
 
 	// Move golden cookie one depth behind
-	this.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
+	this.$goldenCookie.css('cssText', 'z-index: 1000001 !important;');
 
 	// Add Cookie Monster elements
 	this.createBottomBar();

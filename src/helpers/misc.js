@@ -32,13 +32,13 @@ CookieMonster.dhc = function(e, upgradeKey, n) {
 	var i = upgrade.desc.indexOf("<b>") + 3;
 	var s = upgrade.desc.indexOf("%");
 	var o = upgrade.desc.substr(i, s - i) * 1;
-	var u = CookieMonster.getAchievementWorth(e, upgradeKey, n, Game.prestige['Heavenly chips'] * 2 * (o / 100));
+	var u = this.getAchievementWorth(e, upgradeKey, n, Game.prestige['Heavenly chips'] * 2 * (o / 100));
 
 	return u - Game.cookiesPs;
 };
 
 CookieMonster.lgt = function(e) {
-	if (CookieMonster.hasntAchievement("Elder") && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
+	if (this.hasntAchievement('Elder') && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
 		var t = [];
 		var n = [];
 		Game.UpgradesById.forEach(function (upgrade, key) {

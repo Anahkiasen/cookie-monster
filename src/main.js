@@ -18,7 +18,7 @@ CookieMonster.start = function() {
 		'margin-top'     : '32px',
 		'pointer-events' : 'none',
 	});
-	$("#cookies").css({
+	$('#cookies').css({
 		'background'    : 'rgba(0, 0, 0, 0.75)',
 		'border-top'    : '1px solid black',
 		'border-bottom' : '1px solid black',
@@ -33,7 +33,7 @@ CookieMonster.start = function() {
 	});
 
 	// Move golden cookie one depth behind
-	this.$goldenCookie.css("cssText", "z-index: 1000001 !important;");
+	this.$goldenCookie.css('cssText', 'z-index: 1000001 !important;');
 
 	// Add Cookie Monster elements
 	this.createBottomBar();

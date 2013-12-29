@@ -103,7 +103,7 @@ CookieMonster.Emphasizers.updateTitle = function() {
 		return;
 	}
 
-	CookieMonster.goldenCookieAvailable = "(G) ";
+	CookieMonster.goldenCookieAvailable = '(G) ';
 	this.faviconSpinner(1);
 };
 
@@ -119,7 +119,7 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
 		frame = 1;
 	}
 
-	if (CookieMonster.goldenCookieAvailable === "(G) ") {
+	if (CookieMonster.goldenCookieAvailable === '(G) ') {
 		CookieMonster.updateFavicon('cm_gc_' +frame);
 		frame++;
 		setTimeout(function () {

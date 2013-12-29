@@ -52,13 +52,15 @@ module.exports = {
 	////////////////////////////////////////////////////////////////////
 
 	'Game': {
-		'Achievements' : require('./game/achievements.js'),
-		'Heavenly'     : require('./game/heavenly.js'),
-		'Lucky'        : require('./game/lucky.js'),
+		'Achievements'  : require('./game/achievements.js'),
+		'Golden Cookie' : require('./game/golden-cookie.js'),
+		'Heavenly'      : require('./game/heavenly.js'),
+		'Lucky'         : require('./game/lucky.js'),
 	},
 	'Interface': {
 		// 'Bottom Bar' : require('./interface/bottom-bar.js'),
-		'Settings'   : require('./interface/settings.js'),
+		'Settings' : require('./interface/settings.js'),
+		'Store'    : require('./interface/store.js'),
 	},
 	'Helpers': {
 		'Browser' : require('./helpers/browser.js'),

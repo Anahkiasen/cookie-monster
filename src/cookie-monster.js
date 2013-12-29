@@ -67,6 +67,13 @@ var CookieMonster = {
 	$overlay       : $('#cookie_monster_overlay'),
 	$timerBars     : $('#cookie_monster_timer_bars_div'),
 
+	// Texts
+	////////////////////////////////////////////////////////////////////
+
+	texts: {
+		warning: 'Purchase of this item will put you under the number of Cookies required for "Lucky!"',
+	},
+
 	// Colors
 	////////////////////////////////////////////////////////////////////
 
