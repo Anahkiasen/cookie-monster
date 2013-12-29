@@ -1,12 +1,6 @@
-// Colors
+// Colorblind stylesheet
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-@each $color, $value in $swatch {
-	.background-#{$color} {
-		background: $value;
-	}
-	.text-#{$color} {
-		color: $value;
-	}
-}
+$colorblind: true;
+@import "styles";

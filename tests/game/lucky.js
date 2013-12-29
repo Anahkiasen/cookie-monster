@@ -36,8 +36,8 @@ module.exports = {
 			Game.frenzy      = 1;
 			Game.frenzyPower = 0.5;
 
-			CookieMonster.luckyReward('frenzy', true).should.equal('<span style="color:#00FF00; font-weight:bold;">1.680 M</span>');
-			CookieMonster.luckyReward('current', true).should.equal('<span style="color:#00FF00; font-weight:bold;">120,130</span>');
+			CookieMonster.luckyReward('frenzy', true).should.equal('<strong class="text-green">1.680 M</strong>');
+			CookieMonster.luckyReward('current', true).should.equal('<strong class="text-green">120,130</strong>');
 		},
 	},
 

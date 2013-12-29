@@ -113,10 +113,12 @@ CookieMonster.toggleOption = function(option) {
 		case "Colorblind ON":
 			this.setSetting('Colorblind', 0);
 			$option.text("Colorblind OFF");
+			this.loadStyles();
 			break;
 		case "Colorblind OFF":
 			this.setSetting('Colorblind', 1);
 			$option.text("Colorblind ON");
+			this.loadStyles();
 			break;
 		case "Flash Screen ON":
 			this.setSetting('FlashScreen', 0);

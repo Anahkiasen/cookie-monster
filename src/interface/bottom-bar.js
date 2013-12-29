@@ -45,10 +45,10 @@ CookieMonster.toggleBar = function() {
  * @return {void}
  */
 CookieMonster.makeTable = function() {
-	var thead    = '<th align="left"  style="color:#' + this.color('yellow') + ';" width=130> ' + this.version + "</th>";
-	var bonus    = '<th align="right" style="color:#' + this.color('blue')   + ';">Bonus Income</th>';
-	var baseCost = '<th align="right" style="color:#' + this.color('blue')   + ';">Base Cost Per Income</th>';
-	var timeLeft = '<th align="right" style="color:#' + this.color('blue')   + ';">Time Left</th>';
+	var thead    = '<th align="left"  class="text-yellow" width="130"> ' + this.version + "</th>";
+	var bonus    = '<th align="right" class="text-blue">Bonus Income</th>';
+	var baseCost = '<th align="right" class="text-blue">Base Cost Per Income</th>';
+	var timeLeft = '<th align="right" class="text-blue">Time Left</th>';
 
 	// Append each building type to the bar
 	Game.ObjectsById.forEach(function (building, key) {
@@ -88,7 +88,7 @@ CookieMonster.updateTable = function() {
 		// Compute informations
 		var bonus = that.roundDecimal(s + that.getUpgradeBonuses(building.name, owned, s));
 		var cpi   = that.roundDecimal(price / bonus);
-		var count = '(<span style="color: #' +that.color('blue')+ ';">' + that.formatNumber(owned) + '</span>)';
+		var count = '(<span class="text-blue">' + that.formatNumber(owned) + '</span>)';
 
 		that.setBuildingInformations(key, {
 			items    : building.name.split(' ')[0] + ' ' + count,
@@ -101,7 +101,7 @@ CookieMonster.updateTable = function() {
 	// Then we loop over the created array, format the information
 	// and update the DOM
 	Game.ObjectsById.forEach(function (building, key) {
-		var colors       = [that.color('yellow'), that.color('yellow')];
+		var colors       = ['yellow', 'yellow'];
 		var informations = [that.bottomBar.cpi[key], that.bottomBar.timeLeft[key]];
 		var worst        = [Math.max.apply(Math, that.bottomBar.cpi), Math.max.apply(Math, that.bottomBar.timeLeft)];
 		var best         = [Math.min.apply(Math, that.bottomBar.cpi), Math.min.apply(Math, that.bottomBar.timeLeft)];
@@ -109,18 +109,18 @@ CookieMonster.updateTable = function() {
 		// Compute correct colors
 		for (var i = 0; i < colors.length; i++) {
 			if (informations[i] === best[i]) {
-				colors[i] = that.color('green');
+				colors[i] = 'green';
 			} else if (informations[i] === worst[i]) {
-				colors[i] = that.color('red');
+				colors[i] = 'red';
 			} else if (worst[i] - informations[i] < informations[i] - best[i]) {
-				colors[i] = that.color('orange');
+				colors[i] = 'orange';
 			}
 		}
 
 		// Update DOM
 		$('#cookie_monster_item_' + key).html(that.bottomBar.items[key]);
 		$('#cookie_monster_is_'   + key).html(that.formatNumber(that.bottomBar.bonus[key]));
-		$('#cookie_monster_cpi_'  + key).html('<span style="color:#' + colors[0] + ';">' + that.formatNumber(informations[0]) + '</span>');
-		$('#cookie_monster_tc_'   + key).html('<span style="color:#' + colors[1] + ';">' + that.formatTime(informations[1], true) + '</span>');
+		$('#cookie_monster_cpi_'  + key).html('<span class="text-' + colors[0] + '">' + that.formatNumber(informations[0]) + '</span>');
+		$('#cookie_monster_tc_'   + key).html('<span class="text-' + colors[1] + '">' + that.formatTime(informations[1], true) + '</span>');
 	});
 };

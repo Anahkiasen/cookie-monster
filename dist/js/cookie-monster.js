@@ -10,7 +10,8 @@ var CookieMonster = {
 	// Runtime variables
 	////////////////////////////////////////////////////////////////////
 
-	version               : 'v.1.040.01',
+	version : 'v.1.040.01',
+
 	emphasize             : true,
 	tooltips              : [],
 	buildingTooltips      : [],
@@ -567,7 +568,7 @@ CookieMonster.luckyReward = function(context, formatted) {
 
 	if (formatted) {
 		if (reward <= Game.cookies) {
-			reward = '<span style="color:#' +this.color('green')+ '; font-weight:bold;">' + this.formatNumber(reward) + "</span>";
+			reward = '<strong class="text-green">' + this.formatNumber(reward) + "</strong>";
 		} else {
 			reward = this.formatNumber(reward);
 		}
@@ -1238,10 +1239,10 @@ CookieMonster.toggleBar = function() {
  * @return {void}
  */
 CookieMonster.makeTable = function() {
-	var thead    = '<th align="left"  style="color:#' + this.color('yellow') + ';" width=130> ' + this.version + "</th>";
-	var bonus    = '<th align="right" style="color:#' + this.color('blue')   + ';">Bonus Income</th>';
-	var baseCost = '<th align="right" style="color:#' + this.color('blue')   + ';">Base Cost Per Income</th>';
-	var timeLeft = '<th align="right" style="color:#' + this.color('blue')   + ';">Time Left</th>';
+	var thead    = '<th align="left"  class="text-yellow" width="130"> ' + this.version + "</th>";
+	var bonus    = '<th align="right" class="text-blue">Bonus Income</th>';
+	var baseCost = '<th align="right" class="text-blue">Base Cost Per Income</th>';
+	var timeLeft = '<th align="right" class="text-blue">Time Left</th>';
 
 	// Append each building type to the bar
 	Game.ObjectsById.forEach(function (building, key) {
@@ -1281,7 +1282,7 @@ CookieMonster.updateTable = function() {
 		// Compute informations
 		var bonus = that.roundDecimal(s + that.getUpgradeBonuses(building.name, owned, s));
 		var cpi   = that.roundDecimal(price / bonus);
-		var count = '(<span style="color: #' +that.color('blue')+ ';">' + that.formatNumber(owned) + '</span>)';
+		var count = '(<span class="text-blue">' + that.formatNumber(owned) + '</span>)';
 
 		that.setBuildingInformations(key, {
 			items    : building.name.split(' ')[0] + ' ' + count,
@@ -1294,7 +1295,7 @@ CookieMonster.updateTable = function() {
 	// Then we loop over the created array, format the information
 	// and update the DOM
 	Game.ObjectsById.forEach(function (building, key) {
-		var colors       = [that.color('yellow'), that.color('yellow')];
+		var colors       = ['yellow', 'yellow'];
 		var informations = [that.bottomBar.cpi[key], that.bottomBar.timeLeft[key]];
 		var worst        = [Math.max.apply(Math, that.bottomBar.cpi), Math.max.apply(Math, that.bottomBar.timeLeft)];
 		var best         = [Math.min.apply(Math, that.bottomBar.cpi), Math.min.apply(Math, that.bottomBar.timeLeft)];
@@ -1302,19 +1303,19 @@ CookieMonster.updateTable = function() {
 		// Compute correct colors
 		for (var i = 0; i < colors.length; i++) {
 			if (informations[i] === best[i]) {
-				colors[i] = that.color('green');
+				colors[i] = 'green';
 			} else if (informations[i] === worst[i]) {
-				colors[i] = that.color('red');
+				colors[i] = 'red';
 			} else if (worst[i] - informations[i] < informations[i] - best[i]) {
-				colors[i] = that.color('orange');
+				colors[i] = 'orange';
 			}
 		}
 
 		// Update DOM
 		$('#cookie_monster_item_' + key).html(that.bottomBar.items[key]);
 		$('#cookie_monster_is_'   + key).html(that.formatNumber(that.bottomBar.bonus[key]));
-		$('#cookie_monster_cpi_'  + key).html('<span style="color:#' + colors[0] + ';">' + that.formatNumber(informations[0]) + '</span>');
-		$('#cookie_monster_tc_'   + key).html('<span style="color:#' + colors[1] + ';">' + that.formatTime(informations[1], true) + '</span>');
+		$('#cookie_monster_cpi_'  + key).html('<span class="text-' + colors[0] + '">' + that.formatNumber(informations[0]) + '</span>');
+		$('#cookie_monster_tc_'   + key).html('<span class="text-' + colors[1] + '">' + that.formatTime(informations[1], true) + '</span>');
 	});
 };
 /**
@@ -1475,7 +1476,7 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 CookieMonster.createBar = function (name, color) {
 	var secondBar = '';
 	if (name === 'Next Cookie') {
-		secondBar = '<div class="cm-buff-bar__bar bg-purple" id="cmt2_'+this.color('purple')+'"></div>';
+		secondBar = '<div class="cm-buff-bar__bar background-purple" id="cmt2_'+this.color('purple')+'"></div>';
 	}
 
 	this.$timerBars.append(
@@ -1484,7 +1485,7 @@ CookieMonster.createBar = function (name, color) {
 				'<tr>' +
 					'<td>' + name + "<td>" +
 					'<td>'+
-						'<div class="cm-buff-bar__container bg-' +color+ '" id="cmt_' + color + '">'+
+						'<div class="cm-buff-bar__container background-' +color+ '" id="cmt_' + color + '">'+
 							secondBar +
 							'<div class="cm-buff-bar__timer" id="cmt_time_' + color + '">0</div>'+
 						'</div>'+
@@ -1772,10 +1773,12 @@ CookieMonster.toggleOption = function(option) {
 		case "Colorblind ON":
 			this.setSetting('Colorblind', 0);
 			$option.text("Colorblind OFF");
+			this.loadStyles();
 			break;
 		case "Colorblind OFF":
 			this.setSetting('Colorblind', 1);
 			$option.text("Colorblind ON");
+			this.loadStyles();
 			break;
 		case "Flash Screen ON":
 			this.setSetting('FlashScreen', 0);
@@ -2021,12 +2024,12 @@ CookieMonster.createStoreCounters = function() {
 	$('#storeTitle').after(
 	'<table cellpadding="0" cellspacing="0">'+
 		'<tr>'+
-			'<td align=center style="color:#' +this.color('blue')+   ';" id="cm_up_q0">0</td>' +
-			'<td align=center style="color:#' +this.color('green')+  ';" id="cm_up_q1">0</td>' +
-			'<td align=center style="color:#' +this.color('yellow')+ ';" id="cm_up_q2">0</td>' +
-			'<td align=center style="color:#' +this.color('orange')+ ';" id="cm_up_q3">0</td>' +
-			'<td align=center style="color:#' +this.color('red')+    ';" id="cm_up_q4">0</td>' +
-			'<td align=center style="color:#' +this.color('purple')+ ';" id="cm_up_q5">0</td>' +
+			'<td align="center" class="text-blue"   id="cm_up_q0">0</td>' +
+			'<td align="center" class="text-green"  id="cm_up_q1">0</td>' +
+			'<td align="center" class="text-yellow" id="cm_up_q2">0</td>' +
+			'<td align="center" class="text-orange" id="cm_up_q3">0</td>' +
+			'<td align="center" class="text-red"    id="cm_up_q4">0</td>' +
+			'<td align="center" class="text-purple" id="cm_up_q5">0</td>' +
 		'</tr>'+
 	'</table>');
 };
@@ -2321,8 +2324,8 @@ CookieMonster.start = function() {
 	}
 
 	// Load stylesheet
-	//$('head').append('<link rel="stylesheet" href="https://raw.github.com/Anahkiasen/cookie-monster/master/dist/cookie-monster.min.css">');
-	$('head').append('<link rel="stylesheet" href="http://localhost/_github/cookie-monster/dist/cookie-monster.min.css">');
+	this.loadSettings();
+	this.loadStyles();
 
 	// Add Cookie Monster elements
 	this.createBottomBar();
@@ -2338,13 +2341,37 @@ CookieMonster.start = function() {
 	this.makeTable();
 	this.saveTooltips();
 	this.update();
-	this.loadSettings();
 	this.setupTooltips();
 
 	// Start the loop
 	this.mainLoop();
 
 	Game.Popup('<span style="color:#' +this.color('yellow')+ '; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + this.version + " Loaded!</span>");
+};
+
+/**
+ * Load some styles
+ *
+ * @return {void}
+ */
+CookieMonster.loadStyles = function() {
+	var stylesheet = this.runningInLocal() ? 'http://localhost/_github/cookie-monster/dist/cookie-monster' : 'https://raw.github.com/Anahkiasen/cookie-monster/master/dist/cookie-monster';
+	var $styles    = $('#cookie-monster__styles');
+
+	// Create link if undefined
+	if ($styles.length === 0) {
+		$('head').append('<link id="cookie-monster__styles" rel="stylesheet" href="">');
+		$styles = $('#cookie-monster__styles');
+	}
+
+	// Get correct stylesheet
+	if (this.getBooleanSetting('Colorblind')) {
+		stylesheet += '-colorblind.min.css';
+	} else {
+		stylesheet += '.min.css';
+	}
+
+	$styles.attr('href', stylesheet);
 };
 
 /**
@@ -2535,6 +2562,20 @@ CookieMonster.update = function() {
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////// HELPERS /////////////////////////////
 //////////////////////////////////////////////////////////////////////
+
+/**
+ * Checks if we're running in local or not
+ *
+ * @return {Boolean}
+ */
+CookieMonster.runningInLocal = function() {
+	var $script = $('script[src]').last();
+	if (!$script.length) {
+		return true;
+	}
+
+	return $script.attr('src').indexOf('localhost') !== -1;
+};
 
 /**
  * Checks if CookieMonster should run

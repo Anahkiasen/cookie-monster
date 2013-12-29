@@ -86,6 +86,7 @@ module.exports = function(grunt) {
 		concat: {
 			css: {
 				files: {
+					'<%= builds %>/cookie-monster-colorblind.min.css': '<%= paths.original.css %>/colorblind.css',
 					'<%= builds %>/cookie-monster.min.css': '<%= paths.original.css %>/styles.css',
 				}
 			},
@@ -194,7 +195,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', 'Build assets for local', [
 		'bower',
 		'js',
-		'uglify',
 	]);
 
 	grunt.registerTask('test', 'Run the tests', [
@@ -208,11 +208,13 @@ module.exports = function(grunt) {
 		'compass:compile',
 		'concat:css',
 		'cssmin',
+		'uglify',
 	]);
 
 	grunt.registerTask('js', 'Build scripts', [
-		'concat:js',
 		'jshint',
 		'test',
+		'concat:js',
+		'uglify',
 	]);
 };

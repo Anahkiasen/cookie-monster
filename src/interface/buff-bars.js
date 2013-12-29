@@ -156,7 +156,7 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 CookieMonster.createBar = function (name, color) {
 	var secondBar = '';
 	if (name === 'Next Cookie') {
-		secondBar = '<div class="cm-buff-bar__bar bg-purple" id="cmt2_'+this.color('purple')+'"></div>';
+		secondBar = '<div class="cm-buff-bar__bar background-purple" id="cmt2_'+this.color('purple')+'"></div>';
 	}
 
 	this.$timerBars.append(
@@ -165,7 +165,7 @@ CookieMonster.createBar = function (name, color) {
 				'<tr>' +
 					'<td>' + name + "<td>" +
 					'<td>'+
-						'<div class="cm-buff-bar__container bg-' +color+ '" id="cmt_' + color + '">'+
+						'<div class="cm-buff-bar__container background-' +color+ '" id="cmt_' + color + '">'+
 							secondBar +
 							'<div class="cm-buff-bar__timer" id="cmt_time_' + color + '">0</div>'+
 						'</div>'+

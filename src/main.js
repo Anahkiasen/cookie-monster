@@ -11,8 +11,8 @@ CookieMonster.start = function() {
 	}
 
 	// Load stylesheet
-	//$('head').append('<link rel="stylesheet" href="https://raw.github.com/Anahkiasen/cookie-monster/master/dist/cookie-monster.min.css">');
-	$('head').append('<link rel="stylesheet" href="http://localhost/_github/cookie-monster/dist/cookie-monster.min.css">');
+	this.loadSettings();
+	this.loadStyles();
 
 	// Add Cookie Monster elements
 	this.createBottomBar();
@@ -28,13 +28,37 @@ CookieMonster.start = function() {
 	this.makeTable();
 	this.saveTooltips();
 	this.update();
-	this.loadSettings();
 	this.setupTooltips();
 
 	// Start the loop
 	this.mainLoop();
 
 	Game.Popup('<span style="color:#' +this.color('yellow')+ '; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black !important;">Cookie Monster ' + this.version + " Loaded!</span>");
+};
+
+/**
+ * Load some styles
+ *
+ * @return {void}
+ */
+CookieMonster.loadStyles = function() {
+	var stylesheet = this.runningInLocal() ? 'http://localhost/_github/cookie-monster/dist/cookie-monster' : 'https://raw.github.com/Anahkiasen/cookie-monster/master/dist/cookie-monster';
+	var $styles    = $('#cookie-monster__styles');
+
+	// Create link if undefined
+	if ($styles.length === 0) {
+		$('head').append('<link id="cookie-monster__styles" rel="stylesheet" href="">');
+		$styles = $('#cookie-monster__styles');
+	}
+
+	// Get correct stylesheet
+	if (this.getBooleanSetting('Colorblind')) {
+		stylesheet += '-colorblind.min.css';
+	} else {
+		stylesheet += '.min.css';
+	}
+
+	$styles.attr('href', stylesheet);
 };
 
 /**
@@ -225,6 +249,20 @@ CookieMonster.update = function() {
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////// HELPERS /////////////////////////////
 //////////////////////////////////////////////////////////////////////
+
+/**
+ * Checks if we're running in local or not
+ *
+ * @return {Boolean}
+ */
+CookieMonster.runningInLocal = function() {
+	var $script = $('script[src]').last();
+	if (!$script.length) {
+		return true;
+	}
+
+	return $script.attr('src').indexOf('localhost') !== -1;
+};
 
 /**
  * Checks if CookieMonster should run
