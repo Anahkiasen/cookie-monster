@@ -20,6 +20,7 @@ CookieMonster = require('../src/cookie-monster.js');
 require('../src/game/achievements.js');
 require('../src/game/lucky.js');
 require('../src/helpers/misc.js');
+require('../src/interface/settings.js');
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////////// TESTS //////////////////////////////
@@ -30,6 +31,23 @@ describe('CookieMonster', function () {
 	beforeEach(function() {
 		Game.cookiesPs   = 10;
 		Game.frenzyPower = 1;
+	});
+
+	// Settings
+	////////////////////////////////////////////////////////////////////
+
+	describe('#setSetting', function() {
+		it('Can set a setting by name', function() {
+			assert.equal(1, CookieMonster.getSetting('FlashScreen'));
+		});
+	});
+
+	describe('#getSetting', function() {
+		it('Can retrieve a setting by name', function() {
+			assert.equal(1, CookieMonster.getSetting('FlashScreen'));
+			CookieMonster.setSetting('FlashScreen', 0);
+			assert.equal(0, CookieMonster.getSetting('FlashScreen'));
+		});
 	});
 
 	// Lucky

@@ -18,6 +18,7 @@ module.exports = function(grunt) {
 		src        : 'src',
 		builds     : 'dist',
 		components : 'bower_components',
+		tests      : 'tests',
 
 		paths: {
 			original: {
@@ -25,7 +26,7 @@ module.exports = function(grunt) {
 			},
 			compiled: {
 				js: '<%= builds %>',
-			}
+			},
 		},
 
 		//////////////////////////////////////////////////////////////////
@@ -45,7 +46,7 @@ module.exports = function(grunt) {
 				tasks: 'default',
 			},
 			scripts: {
-				files: '<%= paths.original.js %>/**/*',
+				files: ['<%= paths.original.js %>/**/*', '<%= tests %>/*.js'],
 				tasks: ['js', 'uglify'],
 			},
 		},

@@ -280,13 +280,13 @@ CookieMonster.toggleOption = function(option) {
 CookieMonster.getShortNumbers = function() {
 	switch (this.getSetting('ShortNumbers') * 1) {
 		case 1:
-			return "ON (A)";
+			return 'ON (A)';
 		case 2:
-			return "ON (B)";
+			return 'ON (B)';
 		case 0:
-			return "OFF";
+			return 'OFF';
 		default:
-			return "OFF";
+			return 'OFF';
 	}
 };
 
@@ -298,17 +298,17 @@ CookieMonster.getShortNumbers = function() {
 CookieMonster.getRefreshRate = function() {
 	switch (this.getSetting('Refresh') * 1) {
 		case 1e3:
-			return "1";
+			return '1';
 		case 500:
-			return "2";
+			return '2';
 		case 250:
-			return "4";
+			return '4';
 		case 100:
-			return "10";
+			return '10';
 		case 33:
-			return "30";
+			return '30';
 		default:
-			return "1";
+			return '1';
 	}
 };
 
@@ -320,13 +320,13 @@ CookieMonster.getRefreshRate = function() {
 CookieMonster.getUpgradeDisplay = function() {
 	switch (this.getSetting('UpgradeDisplay') * 1) {
 		case 1:
-			return "Normal";
+			return 'Normal';
 		case 2:
-			return "All";
+			return 'All';
 		case 0:
-			return "None";
+			return 'None';
 		default:
-			return "Normal";
+			return 'Normal';
 	}
 };
 
@@ -338,14 +338,14 @@ CookieMonster.getUpgradeDisplay = function() {
 CookieMonster.getLuckyAlert = function () {
 	switch (this.getSetting('LuckyAlert') * 1) {
 		case 1:
-			return "Both";
+			return 'Both';
 		case 2:
-			return "Icons";
+			return 'Icons';
 		case 3:
-			return "Notes";
+			return 'Notes';
 		case 0:
-			return "Off";
+			return 'Off';
 		default:
-			return "Both";
+			return 'Both';
 	}
 };
