@@ -13,6 +13,16 @@ $color-red     : #FF0000;
 $color-yellow  : #FFFF00;
 $color-greyTen : grey(10);
 
+$swatch: (
+	blue:    $color-blue,
+	green:   $color-green,
+	orange:  $color-orange,
+	purple:  $color-purple,
+	red:     $color-red,
+	yellow:  $color-yellow,
+	greyTen: $color-greyTen,
+);
+
 // Font stacks
 //////////////////////////////////////////////////////////////////////
 

@@ -15,3 +15,46 @@
 	width          : 100%;
 	z-index        : 1000;
 }
+
+// Bars
+//////////////////////////////////////////////////////////////////////
+
+.cm-buff-bar {
+	padding : 4px 0px 5px 0px;
+
+	table {
+		font-style : inherit;
+		color      : inherit;
+		width      : 100%;
+
+		td:first-child {
+			width      : 130px;
+			text-align : right;
+		}
+	}
+}
+
+.cm-buff-bar__bar {
+	position    : relative;
+	height      : 10px;
+	width       : 100%;
+	margin-left : 0px;
+	max-width   : 0px;
+	float       : right;
+}
+
+.cm-buff-bar__container {
+	position    : relative;
+	height      : 10px;
+	width       : 100%;
+	margin-left : 4px;
+	border      : 1px solid black;
+}
+
+.cm-buff-bar__timer {
+	text-align : left;
+	position   : absolute;
+	right      : -50px;
+	top        : -5px;
+	width      : 45px;
+}

@@ -1448,7 +1448,7 @@ CookieMonster.manageNextCookie = function() {
  * @return {void}
  */
 CookieMonster.updateBar = function (name, color, timer, width) {
-	var $bar = $('#cookie_monster_timer_'+color);
+	var $bar = $('#cookie-monster__timer-'+color);
 	if ($bar.length !== 1) {
 		this.createBar(name, color);
 	}
@@ -1475,24 +1475,24 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 CookieMonster.createBar = function (name, color) {
 	var secondBar = '';
 	if (name === 'Next Cookie') {
-		secondBar = '<div id="cmt2_'+this.color('purple')+'" style="position:relative; background:#' +this.color('purple')+'; height:10px; width:100%; margin-left:0px; max-width:0px; float:right;"></div>';
+		secondBar = '<div class="cm-buff-bar__bar bg-purple" id="cmt2_'+this.color('purple')+'"></div>';
 	}
 
 	this.$timerBars.append(
-		'<div id="cookie_monster_timer_' + color + '" style="padding:4px 0px 5px 0px;">'+
-		'<table cellpadding=0 cellspacing=0 style="font-style:inherit; color:inherit; width:100%;">'+
-			'<tr>' +
-				'<td style="width:130px; text-align:right;">' + name + "<td>" +
-				'<td>'+
-					'<div id="cmt_' + color + '" style="position:relative; background:#' + color + '; height:10px; width:100%; margin-left:4px; border:1px solid black;">'+
-						secondBar +
-						'<div id="cmt_time_' + color + '" style="text-align:left; position:absolute; right:-50px; top:-5px; width:45px;">0</div>'+
-					'</div>'+
-				'</td>'+
-				'<td style="width:55px;"></td>'+
-			'</tr>' +
-		'</table>'+
-	'</div>');
+		'<div class="cm-buff-bar" id="cookie-monster__timer-' + color + '">'+
+			'<table cellpadding="0" cellspacing="0">'+
+				'<tr>' +
+					'<td>' + name + "<td>" +
+					'<td>'+
+						'<div class="cm-buff-bar__container bg-' +color+ '" id="cmt_' + color + '">'+
+							secondBar +
+							'<div class="cm-buff-bar__timer" id="cmt_time_' + color + '">0</div>'+
+						'</div>'+
+					'</td>'+
+					'<td style="width:55px;"></td>'+
+				'</tr>' +
+			'</table>'+
+		'</div>');
 };
 
 /**
@@ -1503,7 +1503,7 @@ CookieMonster.createBar = function (name, color) {
  * @return {void}
  */
 CookieMonster.fadeOutBar = function(color, match) {
-	var $bar = $("#cookie_monster_timer_" + color);
+	var $bar = $("#cookie-monster__timer-" + color);
 
 	if ($bar.length === 1 && $bar.css("opacity") === "1" && color !== match) {
 		$bar.stop(true, true).fadeOut(250);
