@@ -62,10 +62,10 @@ var CookieMonster = {
 
 	$game          : $('#game'),
 	$goldenCookie  : $('#goldenCookie'),
-	$goldenOverlay : $('#cookie_monster_golden_overlay'),
-	$monsterBar    : $('#cookie_monster_bar'),
-	$overlay       : $('#cookie_monster_overlay'),
-	$timerBars     : $('#cookie_monster_timer_bars_div'),
+	$goldenOverlay : $('#cookie-monster__golden-overlay'),
+	$monsterBar    : $('#cookie-monster__bottom-bar'),
+	$overlay       : $('#cookie-monster__overlay'),
+	$timerBars     : $('#cookie-monster__buff-bars'),
 
 	// Texts
 	////////////////////////////////////////////////////////////////////

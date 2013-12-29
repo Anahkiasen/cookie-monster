@@ -201,6 +201,9 @@ module.exports = function(grunt) {
 		'mochaTest',
 	]);
 
+	// Asset types
+	////////////////////////////////////////////////////////////////////
+
 	grunt.registerTask('css', 'Build stylesheets', [
 		'compass:compile',
 		'concat:css',

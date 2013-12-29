@@ -17,23 +17,9 @@ CookieMonster.getFrenzyMultiplier = function() {
  * @return {void}
  */
 CookieMonster.createGoldenOverlay = function() {
-	$('body').append('<div id="cookie_monster_golden_overlay" onclick="Game.goldenCookie.click();"></div>');
+	$('body').append('<div id="cookie-monster__golden-overlay" onclick="Game.goldenCookie.click();"></div>');
 
-	this.$goldenOverlay = $('#cookie_monster_golden_overlay').css({
-		'cursor'         : 'pointer',
-		'display'        : 'none',
-		'font-family'    : 'Kavoon, Georgia, serif',
-		'font-size'      : '32px',
-		'height'         : '96px',
-		'opacity'        : '0',
-		'pointer-events' : 'none',
-		'position'       : 'fixed',
-		'text-align'     : 'center',
-		'text-shadow'    : '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
-		'width'          : '96px',
-		'z-index'        : '1000002',
-		'padding-top'    : '30px',
-	});
+	this.$goldenOverlay = $('#cookie-monster__golden-overlay');
 };
 
 /**
@@ -42,17 +28,9 @@ CookieMonster.createGoldenOverlay = function() {
  * @return {void}
  */
 CookieMonster.createOverlay = function() {
-	$('body').append('<div id="cookie_monster_overlay"></div>');
+	$('body').append('<div id="cookie-monster__overlay"></div>');
 
-	this.$overlay = $('#cookie_monster_overlay').css({
-		'background'     : 'white',
-		'display'        : 'none',
-		'height'         : '100%',
-		'pointer-events' : 'none',
-		'position'       : 'fixed',
-		'width'          : '100%',
-		'z-index'        : '1000000',
-	});
+	this.$overlay = $('#cookie-monster__overlay');
 };
 
 //////////////////////////////////////////////////////////////////////

@@ -21,21 +21,9 @@ CookieMonster.setBuildingInformations = function (building, informations) {
  * @return {void}
  */
 CookieMonster.createBottomBar = function() {
-	$('body').append('<div id="cookie_monster_bar"></div>');
+	$('body').append('<div id="cookie-monster__bottom-bar"></div>');
 
-	this.$monsterBar = $('#cookie_monster_bar').css({
-		'background-color' : '#4D4548',
-		'background-image' : 'linear-gradient(to bottom, #4D4548, #000000)',
-		'border-top'       : '1px solid #000000',
-		'bottom'           : '0px',
-		'cursor'           : 'default',
-		'height'           : '56px',
-		'left'             : '0px',
-		'position'         : 'absolute',
-		'text-shadow'      : '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
-		'width'            : '100%',
-		'z-index'          : '1000',
-	});
+	this.$monsterBar = $('#cookie-monster__bottom-bar');
 };
 
 /**

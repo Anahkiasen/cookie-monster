@@ -70,7 +70,9 @@ CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 	if (this.getSetting('UpgradeIcons') && this.isInStore(upgrade)) {
 		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div style="background-color:#' + colors[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
 	}
-	if ($('#cm_up_div_' + upgradeKey).length === 1) {
+
+	var $upgrade = $('#cm_up_div_'+upgradeKey);
+	if ($upgrade.length === 1) {
 		var rewards  = [this.luckyReward('regular'), this.luckyReward('frenzy')];
 		var display  = [false, false];
 		var deficits = [0, 0];
@@ -84,9 +86,9 @@ CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 			deficits[1] = this.formatNumber(rewards[1] - (Game.cookies - price));
 		}
 
-		$('#cm_up_div_' + upgradeKey).css('border', '1px solid #' + colors[0]);
-		$('#cm_up_div_' + upgradeKey).css('display', '');
-		$('#cm_up_div_' + upgradeKey).html(
+		$upgrade.css('border', '1px solid #' + colors[0]);
+		$upgrade.css('display', '');
+		$upgrade.html(
 			'<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div>'+
 			'<div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(Math.round(e * 100) / 100) + '</div>'+
 

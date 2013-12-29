@@ -1,0 +1,23 @@
+// Store
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+#storeTitle {
+	font-size     : 18px;
+	padding       : 4px 8px 2px 8px;
+	border-bottom : 1px solid black;
+
+	& + table {
+		width         : 300px;
+		table-layout  : fixed;
+		padding       : 4px;
+		font-weight   : bold;
+		background    : rgba(0, 0, 0, 0.6);
+		border-bottom : 1px solid black;
+		cursor        : default;
+
+		td {
+			padding: 2px;
+		}
+	}
+}

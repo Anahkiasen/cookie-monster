@@ -28,6 +28,65 @@
  *
  * @return {String}
  */
+/**
+ * Generates a vertical gradient
+ *
+ * @param {Color} $from
+ * @param {Color} $to
+ */
+#cookie-monster__bottom-bar {
+  background-color: #262224;
+  background-image: -moz-linear-gradient(top, #4d4548, #000000);
+  background-image: -o-linear-gradient(top, #4d4548, #000000);
+  background-image: -webkit-linear-gradient(top, #4d4548, #000000);
+  background-image: linear-gradient(to bottom, #4d4548, #000000);
+  border-top: 1px solid black;
+  bottom: 0px;
+  cursor: default;
+  height: 56px;
+  left: 0px;
+  position: absolute;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  width: 100%;
+  z-index: 1000; }
+
+#cookie-monster__buff-bars {
+  background: rgba(0, 0, 0, 0.6);
+  border-top: 1px solid black;
+  bottom: -1px;
+  font-family: Kavoon, Georgia, serif;
+  font-size: 16px;
+  left: 0px;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  z-index: 1000; }
+
+#cookie-monster__golden-overlay {
+  cursor: pointer;
+  display: none;
+  font-family: Kavoon, Georgia, serif;
+  font-size: 32px;
+  height: 96px;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  text-align: center;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  width: 96px;
+  z-index: 1000002;
+  padding-top: 30px; }
+
+#cookie-monster__overlay {
+  background: white;
+  display: none;
+  height: 100%;
+  pointer-events: none;
+  position: fixed;
+  width: 100%;
+  z-index: 1000000; }
+
 .cm-tooltip {
   position: relative;
   height: 96px;
@@ -42,3 +101,18 @@
   height: 32px;
   width: 32px;
   display: none; }
+
+#storeTitle {
+  font-size: 18px;
+  padding: 4px 8px 2px 8px;
+  border-bottom: 1px solid black; }
+  #storeTitle + table {
+    width: 300px;
+    table-layout: fixed;
+    padding: 4px;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid black;
+    cursor: default; }
+    #storeTitle + table td {
+      padding: 2px; }

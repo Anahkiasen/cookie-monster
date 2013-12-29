@@ -1,0 +1,17 @@
+// Buff bars
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+#cookie-monster__buff-bars {
+	background     : rgba(black, 0.6);
+	border-top     : 1px solid black;
+	bottom         : -1px;
+	font-family    : $font-headings;
+	font-size      : 16px;
+	left           : 0px;
+	pointer-events : none;
+	position       : absolute;
+	text-align     : center;
+	width          : 100%;
+	z-index        : 1000;
+}

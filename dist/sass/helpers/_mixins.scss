@@ -1,0 +1,14 @@
+// Mixins
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Generates a vertical gradient
+ *
+ * @param {Color} $from
+ * @param {Color} $to
+ */
+@mixin vertical-gradient($from, $to) {
+	background-color : mix($from, $to);
+	@include background-image(linear-gradient(to bottom, $from, $to));
+}

@@ -1,7 +1,22 @@
 @import "compass";
 
+// Original styles overwrite
+//////////////////////////////////////////////////////////////////////
+
 @import "original";
+
+// Helpers
+//////////////////////////////////////////////////////////////////////
 
 @import "helpers/functions";
 @import "helpers/variables";
+@import "helpers/mixins";
+
+// Game modules
+//////////////////////////////////////////////////////////////////////
+
+@import "modules/bottom-bar";
+@import "modules/buffs";
+@import "modules/golden";
 @import "modules/tooltips";
+@import "modules/store";

@@ -62,10 +62,10 @@ var CookieMonster = {
 
 	$game          : $('#game'),
 	$goldenCookie  : $('#goldenCookie'),
-	$goldenOverlay : $('#cookie_monster_golden_overlay'),
-	$monsterBar    : $('#cookie_monster_bar'),
-	$overlay       : $('#cookie_monster_overlay'),
-	$timerBars     : $('#cookie_monster_timer_bars_div'),
+	$goldenOverlay : $('#cookie-monster__golden-overlay'),
+	$monsterBar    : $('#cookie-monster__bottom-bar'),
+	$overlay       : $('#cookie-monster__overlay'),
+	$timerBars     : $('#cookie-monster__buff-bars'),
 
 	// Texts
 	////////////////////////////////////////////////////////////////////
@@ -279,23 +279,9 @@ CookieMonster.getFrenzyMultiplier = function() {
  * @return {void}
  */
 CookieMonster.createGoldenOverlay = function() {
-	$('body').append('<div id="cookie_monster_golden_overlay" onclick="Game.goldenCookie.click();"></div>');
+	$('body').append('<div id="cookie-monster__golden-overlay" onclick="Game.goldenCookie.click();"></div>');
 
-	this.$goldenOverlay = $('#cookie_monster_golden_overlay').css({
-		'cursor'         : 'pointer',
-		'display'        : 'none',
-		'font-family'    : 'Kavoon, Georgia, serif',
-		'font-size'      : '32px',
-		'height'         : '96px',
-		'opacity'        : '0',
-		'pointer-events' : 'none',
-		'position'       : 'fixed',
-		'text-align'     : 'center',
-		'text-shadow'    : '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
-		'width'          : '96px',
-		'z-index'        : '1000002',
-		'padding-top'    : '30px',
-	});
+	this.$goldenOverlay = $('#cookie-monster__golden-overlay');
 };
 
 /**
@@ -304,17 +290,9 @@ CookieMonster.createGoldenOverlay = function() {
  * @return {void}
  */
 CookieMonster.createOverlay = function() {
-	$('body').append('<div id="cookie_monster_overlay"></div>');
+	$('body').append('<div id="cookie-monster__overlay"></div>');
 
-	this.$overlay = $('#cookie_monster_overlay').css({
-		'background'     : 'white',
-		'display'        : 'none',
-		'height'         : '100%',
-		'pointer-events' : 'none',
-		'position'       : 'fixed',
-		'width'          : '100%',
-		'z-index'        : '1000000',
-	});
+	this.$overlay = $('#cookie-monster__overlay');
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -1236,21 +1214,9 @@ CookieMonster.setBuildingInformations = function (building, informations) {
  * @return {void}
  */
 CookieMonster.createBottomBar = function() {
-	$('body').append('<div id="cookie_monster_bar"></div>');
+	$('body').append('<div id="cookie-monster__bottom-bar"></div>');
 
-	this.$monsterBar = $('#cookie_monster_bar').css({
-		'background-color' : '#4D4548',
-		'background-image' : 'linear-gradient(to bottom, #4D4548, #000000)',
-		'border-top'       : '1px solid #000000',
-		'bottom'           : '0px',
-		'cursor'           : 'default',
-		'height'           : '56px',
-		'left'             : '0px',
-		'position'         : 'absolute',
-		'text-shadow'      : '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
-		'width'            : '100%',
-		'z-index'          : '1000',
-	});
+	this.$monsterBar = $('#cookie-monster__bottom-bar');
 };
 
 /**
@@ -1375,21 +1341,9 @@ CookieMonster.manageBuffs = function() {
  * @return {void}
  */
 CookieMonster.createBarsContainer = function() {
-	$("#sectionLeft").append('<div id="cookie_monster_timer_bars_div"></div>');
+	$("#sectionLeft").append('<div id="cookie-monster__buff-bars"></div>');
 
-	this.$timerBars = $('#cookie_monster_timer_bars_div').css({
-		'background'     : 'rgba(0, 0, 0, 0.6)',
-		'border-top'     : '1px solid black',
-		'bottom'         : '-1px',
-		'font-family'    : 'Kavoon, Georgia, serif',
-		'font-size'      : '16px',
-		'left'           : '0px',
-		'pointer-events' : 'none',
-		'position'       : 'absolute',
-		'text-align'     : 'center',
-		'width'          : '100%',
-		'z-index'        : '1000',
-	});
+	this.$timerBars = $('#cookie-monster__buff-bars');
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -1627,7 +1581,9 @@ CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 	if (this.getSetting('UpgradeIcons') && this.isInStore(upgrade)) {
 		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div style="background-color:#' + colors[0] + '; border:1px solid black; position:absolute; z-index:21; top:2px; left:2px; height:14px; width:14px; pointer-events:none;"></div>');
 	}
-	if ($('#cm_up_div_' + upgradeKey).length === 1) {
+
+	var $upgrade = $('#cm_up_div_'+upgradeKey);
+	if ($upgrade.length === 1) {
 		var rewards  = [this.luckyReward('regular'), this.luckyReward('frenzy')];
 		var display  = [false, false];
 		var deficits = [0, 0];
@@ -1641,9 +1597,9 @@ CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 			deficits[1] = this.formatNumber(rewards[1] - (Game.cookies - price));
 		}
 
-		$('#cm_up_div_' + upgradeKey).css('border', '1px solid #' + colors[0]);
-		$('#cm_up_div_' + upgradeKey).css('display', '');
-		$('#cm_up_div_' + upgradeKey).html(
+		$upgrade.css('border', '1px solid #' + colors[0]);
+		$upgrade.css('display', '');
+		$upgrade.html(
 			'<div style="position:absolute; top:4px; left:4px; color:#' +this.color('blue')+ '; font-weight:bold;">Bonus Income</div>'+
 			'<div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(Math.round(e * 100) / 100) + '</div>'+
 
@@ -2061,22 +2017,16 @@ CookieMonster.getLuckyAlert = function () {
  * @return {void}
  */
 CookieMonster.createStoreCounters = function() {
-	var padding = '2px';
 
-	$('#storeTitle').css({
-		'font-size'     : '18px',
-		'padding'       : '4px 8px 2px 8px',
-		'border-bottom' : '1px solid black',
-	})
-	.after(
-	'<table cellpadding="0" cellspacing="0" style="width:300px; table-layout:fixed; padding:4px; font-weight:bold; background:rgba(0, 0, 0, 0.6); border-bottom: 1px solid black; cursor:default;">'+
+	$('#storeTitle').after(
+	'<table cellpadding="0" cellspacing="0">'+
 		'<tr>'+
-			'<td align=center style="color:#' +this.color('blue')+   '; padding: ' +padding+ ';" id="cm_up_q0">0</td>' +
-			'<td align=center style="color:#' +this.color('green')+  '; padding: ' +padding+ ';" id="cm_up_q1">0</td>' +
-			'<td align=center style="color:#' +this.color('yellow')+ '; padding: ' +padding+ ';" id="cm_up_q2">0</td>' +
-			'<td align=center style="color:#' +this.color('orange')+ '; padding: ' +padding+ ';" id="cm_up_q3">0</td>' +
-			'<td align=center style="color:#' +this.color('red')+    '; padding: ' +padding+ ';" id="cm_up_q4">0</td>' +
-			'<td align=center style="color:#' +this.color('purple')+ '; padding: ' +padding+ ';" id="cm_up_q5">0</td>' +
+			'<td align=center style="color:#' +this.color('blue')+   ';" id="cm_up_q0">0</td>' +
+			'<td align=center style="color:#' +this.color('green')+  ';" id="cm_up_q1">0</td>' +
+			'<td align=center style="color:#' +this.color('yellow')+ ';" id="cm_up_q2">0</td>' +
+			'<td align=center style="color:#' +this.color('orange')+ ';" id="cm_up_q3">0</td>' +
+			'<td align=center style="color:#' +this.color('red')+    ';" id="cm_up_q4">0</td>' +
+			'<td align=center style="color:#' +this.color('purple')+ ';" id="cm_up_q5">0</td>' +
 		'</tr>'+
 	'</table>');
 };
