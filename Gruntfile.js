@@ -212,7 +212,6 @@ module.exports = function(grunt) {
 		'compass:compile',
 		'concat:css',
 		'cssmin',
-		'uglify',
 	]);
 
 	grunt.registerTask('js', 'Build scripts', [
