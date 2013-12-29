@@ -2352,7 +2352,7 @@ CookieMonster.start = function() {
  * @return {void}
  */
 CookieMonster.loadStyles = function() {
-	var stylesheet = this.runningInLocal() ? 'http://localhost/_github/cookie-monster/dist/cookie-monster' : 'https://raw.github.com/Anahkiasen/cookie-monster/master/dist/cookie-monster';
+	var stylesheet = this.runningInLocal() ? 'http://localhost/_github/cookie-monster/dist/cookie-monster' : 'https://rawgithub.com/Anahkiasen/cookie-monster/master/dist/cookie-monster';
 	var $styles    = $('#cookie-monster__styles');
 
 	// Create link if undefined
