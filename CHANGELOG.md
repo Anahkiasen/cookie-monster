@@ -1,5 +1,9 @@
 ## 1.040 Versions
 
+### 1.040.03 _(2013-12-30)_
+
+* Add Reindeer timer bars and sound (linked to Golden Cookie options for now)
+
 ### 1.040.02 _(2013-12-29)_
 
 * Added back colorblind mode as an option
