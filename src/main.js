@@ -25,7 +25,6 @@ CookieMonster.start = function() {
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
 
 	// Setup Cookie Monster
-	this.saveTooltips();
 	this.update();
 	this.setupTooltips();
 

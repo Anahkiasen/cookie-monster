@@ -13,8 +13,6 @@ var CookieMonster = {
 	version : '1.040.04',
 	loops   : 0,
 
-	tooltips         : [],
-	buildingTooltips : [],
 	humanNumbers     : new Array(
 		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
 		[' M', ' G', ' T', ' P', ' E', ' Z', ' Y', ' Oc', ' No', ' Dc']
