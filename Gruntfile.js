@@ -129,7 +129,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand : true,
 					cwd    : '<%= paths.compiled.js %>',
-					src    : ['cookie-monster.min.js'],
+					src    : ['cookie-monster.js'],
 					dest   : '<%= paths.compiled.js %>',
 					ext    : '.min.js',
 				}],
