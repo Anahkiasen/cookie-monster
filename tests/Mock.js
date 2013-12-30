@@ -24,10 +24,10 @@ module.exports = {
 	 * @return {Void}
 	 */
 	achievements: function(achievements) {
-		Game.AchievementsById = [];
+		Game.Achievements = {};
 
 		for (var key in achievements) {
-			Game.AchievementsById.push({name: key, won: achievements[key]});
+			Game.Achievements[key] = {name: key, won: achievements[key]};
 		}
 	},
 

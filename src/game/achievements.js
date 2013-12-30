@@ -116,15 +116,9 @@ CookieMonster.applyMilkPotential = function(number, milkProgress) {
  * @return {Boolean}
  */
 CookieMonster.hasAchievement = function(checkedAchievement) {
-	var found = 0;
+	var achievement = Game.Achievements[checkedAchievement];
 
-	Game.AchievementsById.forEach(function (achievement) {
-		if (achievement.won && achievement.name === checkedAchievement) {
-			found = 1;
-		}
-	});
-
-	return found === 1;
+	return achievement ? achievement.won : false;
 };
 
 /**

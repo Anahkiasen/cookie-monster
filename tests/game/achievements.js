@@ -7,9 +7,9 @@ module.exports = {
 		'Can return if achievement is unlocked': function () {
 			Mock.achievements({Mathematician: false, 'One with everything': true}),
 
-			CookieMonster.hasntAchievement('Mathematician').should.be.true;
-			CookieMonster.hasAchievement('Mathematician').should.be.false;
-			CookieMonster.hasAchievement('One with everything').should.be.true;
+			CookieMonster.hasntAchievement('Mathematician').should.equal(true);
+			CookieMonster.hasAchievement('Mathematician').should.equal(false);
+			CookieMonster.hasAchievement('One with everything').should.equal(true);
 		},
 	},
 
