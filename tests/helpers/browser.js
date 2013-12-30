@@ -25,4 +25,12 @@ module.exports = {
 		},
 	},
 
+	'#updateFavicon': {
+		'Can update favicon': function() {
+			$('body').append('<link rel="shortcut icon" id="cm_favicon">');
+			CookieMonster.updateFavicon('warning');
+			$('#cm_favicon').attr('href').should.equal('http://autopergamene.eu/cookie-monster/img/warning.png');
+		},
+	}
+
 };

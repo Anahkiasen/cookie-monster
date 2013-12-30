@@ -40,7 +40,7 @@ CookieMonster.whileOnScreen = function($selector, offScreen, onScreen) {
  */
 CookieMonster.Emphasizers.displayGoldenTimer = function() {
 	if (!CookieMonster.getBooleanSetting('CookieTimer')) {
-		return;
+		return false;
 	}
 
 	CookieMonster.$goldenOverlay
@@ -55,7 +55,7 @@ CookieMonster.Emphasizers.displayGoldenTimer = function() {
  */
 CookieMonster.Emphasizers.updateTitle = function(type) {
 	if (!CookieMonster.getBooleanSetting('UpdateTitle')) {
-		return;
+		return false;
 	}
 
 	CookieMonster.titleModifier = '(' +type+ ') ';
@@ -92,10 +92,10 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
  */
 CookieMonster.Emphasizers.playSound = function() {
 	if (!CookieMonster.getBooleanSetting('Sounds')) {
-		return;
+		return false;
 	}
 
-	CookieMonster.playBell();
+	return CookieMonster.playBell();
 };
 
 /**

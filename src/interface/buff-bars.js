@@ -23,7 +23,7 @@ CookieMonster.manageBuffs = function() {
  * @return {void}
  */
 CookieMonster.createBarsContainer = function() {
-	$("#sectionLeft").append('<div id="cookie-monster__buff-bars"></div>');
+	$('#sectionLeft').append('<div id="cookie-monster__buff-bars"></div>');
 
 	this.$timerBars = $('#cookie-monster__buff-bars');
 };

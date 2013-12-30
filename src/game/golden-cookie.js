@@ -40,7 +40,7 @@ CookieMonster.emphasizeGolden = function() {
  *
  * @return {void}
  */
-CookieMonster.createFlashOverlay = function() {
+CookieMonster.createGoldenOverlay = function() {
 	$('body').append('<div id="cookie-monster__golden-overlay" onclick="Game.goldenCookie.click();"></div>');
 
 	this.$goldenOverlay = $('#cookie-monster__golden-overlay');
@@ -51,8 +51,8 @@ CookieMonster.createFlashOverlay = function() {
  *
  * @return {void}
  */
-CookieMonster.createOverlay = function() {
+CookieMonster.createFlashOverlay = function() {
 	$('body').append('<div id="cookie-monster__overlay"></div>');
 
-	this.$overlay = $('#cookie-monster__overlay');
+	this.$flashOverlay = $('#cookie-monster__overlay');
 };

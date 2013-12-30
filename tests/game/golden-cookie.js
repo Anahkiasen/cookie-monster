@@ -10,12 +10,21 @@ module.exports = {
 		},
 	},
 
-	'#createOverlay': {
+	'#createGoldenOverlay': {
 		'Can create flashing overlay': function() {
 			CookieMonster.$goldenOverlay.should.have.length(0);
-			CookieMonster.createFlashOverlay();
+			CookieMonster.createGoldenOverlay();
 
 			CookieMonster.$goldenOverlay.should.have.length(1);
+		},
+	},
+
+	'#createFlashOverlay': {
+		'Can create flashing overlay': function() {
+			CookieMonster.$flashOverlay.should.have.length(0);
+			CookieMonster.createFlashOverlay();
+
+			CookieMonster.$flashOverlay.should.have.length(1);
 		},
 	},
 

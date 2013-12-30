@@ -55,6 +55,10 @@ module.exports = {
 			CookieMonster.setSetting('FlashScreen', 0);
 			CookieMonster.getOptionState('FlashScreen').should.equal('OFF');
 		},
+		'Can call custom presenters': function() {
+			CookieMonster.setSetting('ShortNumbers', 1);
+			CookieMonster.getOptionState('ShortNumbers').should.equal('ON [A]');
+		},
 	},
 
 	'#toggleSetting': {
