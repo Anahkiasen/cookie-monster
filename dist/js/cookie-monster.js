@@ -13,8 +13,6 @@ var CookieMonster = {
 	version : '1.040.04',
 	loops   : 0,
 
-	tooltips         : [],
-	buildingTooltips : [],
 	humanNumbers     : new Array(
 		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
 		[' M', ' G', ' T', ' P', ' E', ' Z', ' Y', ' Oc', ' No', ' Dc']
@@ -39,8 +37,14 @@ var CookieMonster = {
 	// Upgrades
 	////////////////////////////////////////////////////////////////////
 
-	inStore      : [0, 0, 0, 0, 0, 0],
-	upgradeCount : 33,
+	upgradeCounts  : [0, 0, 0, 0, 0, 0],
+	milkPotentials : {
+		'Kitten helpers'            : 0.05,
+		'Kitten workers'            : 0.1,
+		'Kitten engineers'          : 0.2,
+		'Kitten overseers'          : 0.2,
+		'Santa\'s milk and cookies' : 0.05,
+	},
 
 	// Settings
 	////////////////////////////////////////////////////////////////////
@@ -119,6 +123,113 @@ if (typeof module !== 'undefined') {
 	module.exports = CookieMonster;
 }
 /**
+ * Compute how much buying an upgrade/building would earn in
+ * additional achievements and bonus
+ *
+ * This is probably the worst method of all of CM so, you know, behold
+ *
+ * @param {Integer} unlocked
+ * @param {Integer} upgradeKey
+ * @param {Integer} originalIncome
+ * @param {Nope}    customHeavenlyMultiplier
+ *
+ * @return {Integer}
+ */
+CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncome, customHeavenlyMultiplier) {
+	var income             = 0;
+	var heavenlyMultiplier = this.getHeavenlyMultiplier();
+	var futureMultiplier   = 0;
+	var milkModifiers      = [];
+	var milkProgress       = Game.milkProgress;
+	var frenzyMultiplier   = this.getFrenzyMultiplier();
+	var number;
+
+	// Swap out heavenly multiplier
+	if (typeof customHeavenlyMultiplier === 'undefined') {
+		customHeavenlyMultiplier = 0;
+	}
+	if (customHeavenlyMultiplier !== 0) {
+		heavenlyMultiplier = customHeavenlyMultiplier;
+	}
+
+	// Loop over the available upgrades and compute the available
+	// production multipliers
+	Game.UpgradesById.forEach(function (upgrade) {
+		var description = upgrade.desc.replace('[Research]<br>', '');
+		if (upgrade.bought && description.indexOf('Cookie production multiplier <b>+') !== -1) {
+			heavenlyMultiplier += description.substr(33, description.indexOf('%', 33) - 33) * 1;
+		}
+		if (!upgrade.bought && description.indexOf('Cookie production multiplier <b>+') !== -1 && upgrade.id === upgradeKey) {
+			futureMultiplier += description.substr(33, description.indexOf('%', 33) - 33) * 1;
+		}
+	});
+
+	number = 100 + heavenlyMultiplier;
+	number = this.applyMilkPotential(number, milkProgress);
+	var h = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (number / 100) * frenzyMultiplier;
+
+	milkProgress += unlocked * 0.04;
+	number = 100 + heavenlyMultiplier + futureMultiplier;
+	number = this.applyMilkPotential(number, milkProgress);
+	var thisPotential = this.milkPotentials[Game.UpgradesById[upgradeKey].name] || 0;
+	number = number * (1 + thisPotential * milkProgress);
+	income = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (number / 100) * frenzyMultiplier - h;
+	var d = this.inc(income + h);
+
+	if (d > 0) {
+		milkProgress += d * 0.04;
+		number = 100 + heavenlyMultiplier + futureMultiplier;
+		number = this.applyMilkPotential(number, milkProgress);
+		number = number * (1 + thisPotential * milkProgress);
+
+		income = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (number / 100) * frenzyMultiplier - h;
+	}
+
+	// If custom multiplier, reapply... something
+	if (customHeavenlyMultiplier !== 0) {
+		income += h;
+	}
+
+	// Add Elder Covenant modifier
+	if (Game.Has('Elder Covenant')) {
+		income *= 0.95;
+	}
+
+	return income;
+};
+
+/**
+ * Apply milk potential to a number
+ *
+ * @param {Integer} number
+ * @param {Integer} milkProgress
+ *
+ * @return {Integer}
+ */
+CookieMonster.applyMilkPotential = function(number, milkProgress) {
+	if (typeof milkProgress === 'undefined') {
+		milkProgress = Game.milkProgress;
+	}
+
+	// Compute current potentials
+	var milkUpgrades = [];
+	for (var potential in this.milkPotentials) {
+		milkUpgrades.push(Game.Has(potential) * this.milkPotentials[potential]);
+	}
+
+	// Apply potentials
+	milkUpgrades.forEach(function(modifier) {
+		number = number * (1 + modifier * milkProgress);
+	});
+
+	return number;
+};
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////// HELPERS /////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
  * Check if the user has won an achievement
  *
  * @param {String} checkedAchievement
@@ -159,11 +270,11 @@ CookieMonster.getMilkPotential = function(milkProgress) {
 	var potential = 0;
 	milkProgress = typeof milkProgress !== 'undefined' ? milkProgress : Game.milkProgress;
 
-	potential += this.hasAchievement('Santa\'s milk and cookies') * 0.05;
-	potential += this.hasAchievement('Kitten helpers') * 0.05;
-	potential += this.hasAchievement('Kitten workers') * 0.1;
-	potential += this.hasAchievement('Kitten engineers') * 0.2;
-	potential += this.hasAchievement('Kitten overseers') * 0.2;
+	potential += Game.Has('Santa\'s milk and cookies') * 0.05;
+	potential += Game.Has('Kitten helpers') * 0.05;
+	potential += Game.Has('Kitten workers') * 0.1;
+	potential += Game.Has('Kitten engineers') * 0.2;
+	potential += Game.Has('Kitten overseers') * 0.2;
 
 	return 1 + (potential * milkProgress);
 };
@@ -298,6 +409,215 @@ CookieMonster.checkBuildingUnifiesAmounts = function(amount, checkedBuilding) {
 	return false;
 }
 /**
+ * Get how much buying one of a building would earn
+ *
+ * @param {Object} building
+ *
+ * @return {Integer}
+ */
+CookieMonster.getBuildingWorth = function(building) {
+	var income     = 0;
+	var unlocked   = 0;
+	var production = building.storedCps * Game.globalCpsMult;
+
+	var upgrades = {
+		'Cursor': {
+			0   : 'Click',
+			1   : 'Double-click',
+			49  : 'Mouse wheel',
+			99  : 'Of Mice and Men',
+			199 : 'The Digital',
+		},
+		'Grandma': {
+			0   : 'Grandma\'s Cookies',
+			49  : 'Sloppy kisses',
+			99  : 'Retirement home',
+			149 : 'Friend of the ancients',
+			199 : 'Ruler of the ancients',
+		},
+		'Farm': {
+			0  : 'My first farm',
+			49 : 'Reap what you sow',
+			99 : 'Farm ill',
+		},
+		'Factory': {
+			0  : 'Production chain',
+			49 : 'Industrial revolution',
+			99 : 'Global warming',
+		},
+		'Mine': {
+			0  : 'You know the drill',
+			49 : 'Excavation site',
+			99 : 'Hollow the planet',
+		},
+		'Shipment': {
+			0  : 'Expedition',
+			49 : 'Galactic highway',
+			99 : 'Far far away',
+		},
+		'Alchemy lab': {
+			0  : 'Transmutation',
+			49 : 'Transmogrification',
+			99 : 'Gold member',
+		},
+		'Portal': {
+			0  : 'A whole new world',
+			49 : 'Now you\'re thinking',
+			99 : 'Dimensional shift',
+		},
+		'Time machine': {
+			0  : 'Time warp',
+			49 : 'Alternate timeline',
+			99 : 'Rewriting history',
+		},
+		'Antimatter condenser': {
+			0  : 'Antibatter',
+			49 : 'Quirky quarks',
+			99 : 'It does matter!',
+		}
+	};
+
+	// Get unlocked achievements by amount of that building
+	var achievement = upgrades[building.name][building.amount];
+	if (achievement) {
+		unlocked += this.hasntAchievement(achievement);
+	}
+
+	// Add cursor modifiers
+	switch (building.name) {
+		case 'Grandma':
+		case 'Farm':
+		case 'Factory':
+		case 'Mine':
+		case 'Shipment':
+		case 'Alchemy lab':
+		case 'Portal':
+		case 'Time machine':
+		case 'Antimatter condenser':
+		case 'Grandma':
+			income += this.getTotalCursorModifiers() * Game.globalCpsMult;
+			break;
+		case 'Grandma':
+			income += this.getTotalGrandmaModifiers(building.amount) * Game.globalCpsMult;
+			break;
+		case 'Portal':
+			income += this.getTotalPortalModifiers() * Game.globalCpsMult;
+			break;
+	}
+
+	// Get unlocked achievements by number of buildings
+	if (Game.BuildingsOwned === 99) {
+		unlocked += this.hasntAchievement("Builder");
+	}
+	if (Game.BuildingsOwned === 399) {
+		unlocked += this.hasntAchievement("Architect");
+	}
+	if (Game.BuildingsOwned === 799) {
+		unlocked += this.hasntAchievement("Engineer");
+	}
+
+	// Get unlocked achievements by building schemas
+	if (this.oneWithEverything(building.name)) {
+		unlocked++;
+	}
+	if (this.mathematician(building.name)) {
+		unlocked++;
+	}
+	if (this.baseTen(building.name)) {
+		unlocked++;
+	}
+	if (this.centennial(building.name)) {
+		unlocked++;
+	}
+
+	// Compute final income
+	income += production;
+
+	return income + this.getAchievementWorth(unlocked, 0, income);
+};
+
+//////////////////////////////////////////////////////////////////////
+/////////////////////////////// MODIFIERS ////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Get the cursor modifiers
+ *
+ * @return {Integer}
+ */
+CookieMonster.getTotalCursorModifiers = function() {
+	var modifier = 0;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf('The mouse and cursors gain') !== -1) {
+			var r = 31;
+			if (upgrade.desc.indexOf(' another ') !== -1) {
+				r += 8;
+			}
+			modifier += upgrade.desc.substr(r, upgrade.desc.indexOf('<', r) - r) * 1;
+		}
+	});
+
+	return modifier * Game.ObjectsById[0].amount;
+};
+
+/**
+ * Get the various Grandma modifiers
+ *
+ * @param {Integer} currentNumber
+ *
+ * @return {Integer}
+ */
+CookieMonster.getTotalGrandmaModifiers = function(currentNumber) {
+	var cookiesPs = 0.5;
+	var amount    = 0;
+	var modifiers = 1;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.name === 'Forwards from grandma') {
+			cookiesPs += 0.3;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>.') !== -1) {
+			modifiers = modifiers * 2;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+			modifiers = modifiers * 4;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf('for every 50 grandmas') !== -1) {
+			amount += (currentNumber + 1) * 0.02 * (currentNumber + 1) - currentNumber * 0.02 * currentNumber;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
+			amount += Game.ObjectsById[7].amount * 0.05;
+		}
+	});
+
+	return cookiesPs * modifiers + amount * modifiers;
+};
+
+/**
+ * Get the portal modifiers
+ *
+ * @return {Integer}
+ */
+CookieMonster.getTotalPortalModifiers = function() {
+	var amount    = 0;
+	var modifiers = 1;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b> as efficient.') !== -1) {
+			modifiers = modifiers * 2;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+			modifiers = modifiers * 4;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
+			amount += Game.ObjectsById[1].amount * 0.05;
+		}
+	});
+
+	return amount * modifiers;
+};
+/**
  * Get the current frenzy multiplier
  *
  * @return {integer}
@@ -431,77 +751,6 @@ CookieMonster.getHeavenlyChip = function(context) {
 			return this.formatTime(Math.round(nextChip / Game.cookiesPs));
 	}
 };
-
-CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncome, r) {
-	var income             = 0;
-	var heavenlyMultiplier = this.getHeavenlyMultiplier();
-	var futureMultiplier   = 0;
-	var milkModifiers      = [];
-	var milkProgress       = Game.milkProgress;
-	var frenzyMultiplier   = this.getFrenzyMultiplier();
-	var l;
-	if (r !== 0) {
-		heavenlyMultiplier = r;
-	}
-
-	var milkPotentials = {
-		'Kitten helpers'            : 0.05,
-		'Kitten workers'            : 0.1,
-		'Kitten engineers'          : 0.2,
-		'Kitten overseers'          : 0.2,
-		'Santa\'s milk and cookies' : 0.05,
-	};
-
-	Game.UpgradesById.forEach(function (upgrade) {
-		var description = upgrade.desc.replace("[Research]<br>", "");
-		if (upgrade.bought && description.indexOf("Cookie production multiplier <b>+") !== -1) {
-			heavenlyMultiplier += description.substr(33, description.indexOf("%", 33) - 33) * 1;
-		}
-		if (!upgrade.bought && description.indexOf("Cookie production multiplier <b>+") !== -1 && upgrade.id === upgradeKey) {
-			futureMultiplier += description.substr(33, description.indexOf("%", 33) - 33) * 1;
-		}
-
-		var milkUpgrade = milkPotentials[upgrade.name];
-		if (upgrade.bought && typeof milkUpgrade !== 'undefined') {
-			milkModifiers.push(milkUpgrade);
-		}
-	});
-
-	l = 100 + heavenlyMultiplier;
-	milkModifiers.forEach(function(modifier) {
-		l = l * (1 + modifier * milkProgress);
-	});
-	var h = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (l / 100) * frenzyMultiplier;
-
-	milkProgress += unlocked * 0.04;
-	l = 100 + heavenlyMultiplier + futureMultiplier;
-	milkModifiers.forEach(function(modifier) {
-		l = l * (1 + modifier * milkProgress);
-	});
-	var p = milkPotentials[Game.UpgradesById[upgradeKey].name] || 0;
-	l = l * (1 + p * milkProgress);
-
-	income = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (l / 100) * frenzyMultiplier - h;
-	var d = this.inc(income + h);
-	if (d > 0) {
-
-		milkProgress += d * 0.04;
-		l = 100 + heavenlyMultiplier + futureMultiplier;
-		milkModifiers.forEach(function(modifier) {
-			l = l * (1 + modifier * milkProgress);
-		});
-		l = l * (1 + p * milkProgress);
-
-		income = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (l / 100) * frenzyMultiplier - h;
-	}
-	if (r !== 0) {
-		income = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (l / 100) * frenzyMultiplier;
-	}
-	if (Game.Has("Elder Covenant")) {
-		income *= 0.95;
-	}
-	return income;
-};
 /**
  * Get the lucky reward for a particular situation
  *
@@ -579,7 +828,7 @@ CookieMonster.emphasizeSeason = function() {
 		});
 };
 /**
- * Get the additional CPS an upgrade will bring
+ * Get how much buying an upgrade would earn
  *
  * @param {Object} upgrade
  *
@@ -616,8 +865,22 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		}
 	});
 
+	if (this.matches(upgrade, 'Grandmas are <b>twice</b> as efficient')) {
+		unlocked += this.lgt(upgrade);
+	}
+
+	// Grandmas per grandmas
+	else if (this.matches(upgrade, 'for every 50 grandmas')) {
+		income = this.getGrandmasPerGrandmaOutcome();
+	}
+
+	// Grandmas per portals
+	else if (this.matches(upgrade, 'for every 20 portals')) {
+		income = this.getGrandmasPerPortalOutcome();
+	}
+
 	// Heavenly upgrades
-	if (this.matches(upgrade, 'potential of your heavenly')) {
+	else if (this.matches(upgrade, 'potential of your heavenly')) {
 		income = this.getHeavenlyUpgradeOutcome(unlocked, upgrade);
 		if (upgrade.name === 'Heavenly key') {
 			unlocked += this.hasntAchievement('Wholesome');
@@ -635,10 +898,7 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		unlocked += this.hasntAchievement('Upgrader');
 	}
 
-	// Achievements
-	income += this.getAchievementWorth(unlocked, upgrade.id, income, 0);
-
-	return income;
+	return income + this.getAchievementWorth(unlocked, upgrade.id, income);
 };
 
 /**
@@ -652,11 +912,14 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 CookieMonster.matches = function(upgrade, matcher) {
 	matcher = matcher.toLowerCase();
 
-	return upgrade.desc.toLowerCase().indexOf(matcher) !== -1 || upgrade.name.toLowerCase().indexOf(matcher) !== -1;
+	return upgrade.desc.toLowerCase().indexOf(matcher) !== -1;
 };
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////// UPGRADES WORTH /////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+// Classic situations
 //////////////////////////////////////////////////////////////////////
 
 /**
@@ -704,203 +967,82 @@ CookieMonster.getMultiplierOutcome = function(building, baseMultiplier, building
  * @return {Integer}
  */
 CookieMonster.getHeavenlyUpgradeOutcome = function(unlocked, upgrade) {
-	var potential = upgrade.desc.substr(11, 2).replace('%', '');
+	var potential  = upgrade.desc.substr(11, 2).replace('%', '');
+	var multiplier = Game.prestige['Heavenly chips'] * 2 * (potential / 100);
 
-	var u = this.getAchievementWorth(unlocked, upgrade.id, 0, Game.prestige['Heavenly chips'] * 2 * (potential / 100));
-
-	return u - Game.cookiesPs;
+	return this.getAchievementWorth(unlocked, upgrade.id, 0, multiplier) - Game.cookiesPs;
 };
 
-////////////////////////////////////////////////////////////////////
-///////////////////////////// FOOBAR //////////////////////////
-////////////////////////////////////////////////////////////////////
-
-CookieMonster.getUpgradeBonuses = function(building, currentNumber, production) {
-	var r = 0;
-	var i = 0;
-
-	var upgrades = {
-		'Cursor': {
-			0   : 'Click',
-			1   : 'Double-click',
-			49  : 'Mouse wheel',
-			99  : 'Of Mice and Men',
-			199 : 'The Digital',
-		},
-		'Grandma': {
-			0   : 'Grandma\'s Cookies',
-			49  : 'Sloppy kisses',
-			99  : 'Retirement home',
-			149 : 'Friend of the ancients',
-			199 : 'Ruler of the ancients',
-		},
-		'Farm': {
-			0  : 'My first farm',
-			49 : 'Reap what you sow',
-			99 : 'Farm ill',
-		},
-		'Factory': {
-			0  : 'Production chain',
-			49 : 'Industrial revolution',
-			99 : 'Global warming',
-		},
-		'Mine': {
-			0  : 'You know the drill',
-			49 : 'Excavation site',
-			99 : 'Hollow the planet',
-		},
-		'Shipment': {
-			0  : 'Expedition',
-			49 : 'Galactic highway',
-			99 : 'Far far away',
-		},
-		'Alchemy lab': {
-			0  : 'Transmutation',
-			49 : 'Transmogrification',
-			99 : 'Gold member',
-		},
-		'Portal': {
-			0  : 'A whole new world',
-			49 : 'Now you\'re thinking',
-			99 : 'Dimensional shift',
-		},
-		'Time machine': {
-			0  : 'Time warp',
-			49 : 'Alternate timeline',
-			99 : 'Rewriting history',
-		},
-		'Antimatter condenser': {
-			0  : 'Antibatter',
-			49 : 'Quirky quarks',
-			99 : 'It does matter!',
-		}
-	};
-
-	var achievement = upgrades[building][currentNumber];
-	if (achievement) {
-		i += this.hasntAchievement(achievement);
-	}
-
-	switch (building) {
-		case 'Grandma':
-			r += this.getTotalGrandmaModifiers(currentNumber) * Game.globalCpsMult;
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case 'Farm':
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case 'Factory':
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case 'Mine':
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case 'Shipment':
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case 'Alchemy lab':
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case 'Portal':
-			r += this.getTotalPortalModifiers() * Game.globalCpsMult;
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case 'Time machine':
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case 'Antimatter condenser':
-			r += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-	}
-
-	if (Game.BuildingsOwned === 99) {
-		i += this.hasntAchievement("Builder");
-	}
-	if (Game.BuildingsOwned === 399) {
-		i += this.hasntAchievement("Architect");
-	}
-	if (Game.BuildingsOwned === 799) {
-		i += this.hasntAchievement("Engineer");
-	}
-	if (this.oneWithEverything(building)) {
-		i++;
-	}
-	if (this.mathematician(building)) {
-		i++;
-	}
-	if (this.baseTen(building)) {
-		i++;
-	}
-	if (this.centennial(building)) {
-		i++;
-	}
-
-	return r + this.getAchievementWorth(i, 0, r + production, 0);
-};
-
-//////////////////////////////////////////////////////////////////////
-/////////////////////////////// MODIFIERS ////////////////////////////
+// Special cases
 //////////////////////////////////////////////////////////////////////
 
-CookieMonster.getTotalCursorModifiers = function() {
-	var modifier = 0;
+/**
+ * Compute the production of Grandmas per 20 portals
+ *
+ * @return {Integer}
+ */
+CookieMonster.getGrandmasPerPortalOutcome = function() {
+	var multiplier = 1;
 
 	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf("The mouse and cursors gain") !== -1) {
-			var r = 31;
-			if (upgrade.desc.indexOf(" another ") !== -1) {
-				r += 8;
-			}
-			modifier += upgrade.desc.substr(r, upgrade.desc.indexOf("<", r) - r) * 1;
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>.') !== -1) {
+			multiplier = multiplier * 2;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+			multiplier = multiplier * 4;
 		}
 	});
 
-	return modifier * Game.ObjectsById[0].amount;
+	return Game.ObjectsById[7].amount * 0.05 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
 };
 
-CookieMonster.getTotalGrandmaModifiers = function(currentNumber) {
-	var t = 0.5;
-	var n = 0;
-	var r = 1;
+/**
+ * Computes the production of Grandmas per 50 grandmas
+ *
+ * @return {Integer}
+ */
+CookieMonster.getGrandmasPerGrandmaOutcome = function() {
+	var multiplier = 1;
 
 	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.name === "Forwards from grandma") {
-			t += 0.3;
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>') !== -1) {
+			multiplier = multiplier * 2;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b>.") !== -1) {
-			r = r * 2;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			r = r * 4;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("for every 50 grandmas") !== -1) {
-			n += (currentNumber + 1) * 0.02 * (currentNumber + 1) - currentNumber * 0.02 * currentNumber;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
-			n += Game.ObjectsById[7].amount * 0.05;
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+			multiplier = multiplier * 4;
 		}
 	});
 
-	return t * r + n * r;
+	return Game.ObjectsById[1].amount * 0.02 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
 };
 
-CookieMonster.getTotalPortalModifiers = function() {
-	var modifier = 0;
-	var total    = 1;
+CookieMonster.lgt = function(upgrade) {
+	if (this.hasAchievement('Elder Pact') || upgrade.name.indexOf(' grandmas') === -1) {
+		return false;
+	}
 
-	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b> as efficient.") !== -1) {
-			total = total * 2;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			total = total * 4;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("for every 20 portals") !== -1) {
-			modifier += Game.ObjectsById[1].amount * 0.05;
+	var todo = [];
+	Game.UpgradesById.forEach(function (upgrade, key) {
+		if (!upgrade.bought && upgrade.name.indexOf(' grandmas ') !== -1) {
+			todo.push(key);
 		}
 	});
 
-	return modifier * total;
+	return (todo.length === 1 && todo[0] === upgrade.id);
+};
+
+CookieMonster.getMouseAndCursorGainOutcome = function(upgradeKey) {
+	var t = Game.UpgradesById[upgradeKey].desc;
+	var n = 31;
+	if (t.indexOf(" another ") !== -1) {
+		n += 8;
+	}
+	var r = t.substr(n, t.indexOf("<", n) - n) * 1;
+	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
+};
+
+CookieMonster.getFourTimesEfficientOutcome = function(buildingKey) {
+	return Game.ObjectsById[buildingKey].storedTotalCps * 3 * Game.globalCpsMult;
 };
 /**
  * Play a sound
@@ -1142,88 +1284,9 @@ CookieMonster.color = function(color) {
 	return colors[color];
 };
 
-/**
- * Check if the upgrade ID is the one for Heavenly Key
- *
- * @param {integer} upgrade
- *
- * @return {Boolean}
- */
-CookieMonster.isHeavenlyKey = function(upgrade) {
-	return Game.UpgradesById[upgrade].name === 'Heavenly key';
-};
-
 //////////////////////////////////////////////////////////////////////
 //////////// THE "I HAVE NO FUCKING IDEA WHAT THESE DO" LAND /////////
 //////////////////////////////////////////////////////////////////////
-
-CookieMonster.lgt = function(e) {
-	if (this.hasntAchievement('Elder') && Game.UpgradesById[e].name.indexOf(" grandmas") !== -1) {
-		var t = [];
-		var n = [];
-		Game.UpgradesById.forEach(function (upgrade, key) {
-			if (upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
-				t.push(key);
-			} else if (!upgrade.bought && upgrade.name.indexOf(" grandmas") !== -1) {
-				n.push(key);
-			}
-		});
-		if (n.length === 1 && n[0] === e) {
-			return true;
-		}
-	}
-	return false;
-};
-
-
-CookieMonster.gpp = function() {
-	var multiplier = 1;
-
-	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>twice</b>.") !== -1) {
-			multiplier = multiplier * 2;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf("Grandmas are <b>4 times</b> as efficient.") !== -1) {
-			multiplier = multiplier * 4;
-		}
-	});
-
-	return Game.ObjectsById[7].amount * 0.05 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
-};
-
-/**
- * Computes the production of Grandmas
- *
- * @return {Integer}
- */
-CookieMonster.getGrandmasProduction = function() {
-	var multiplier = 1;
-
-	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>') !== -1) {
-			multiplier = multiplier * 2;
-		}
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
-			multiplier = multiplier * 4;
-		}
-	});
-
-	return Game.ObjectsById[1].amount * 0.02 * multiplier * Game.globalCpsMult;
-};
-
-CookieMonster.mcg = function(e) {
-	var t = Game.UpgradesById[e].desc;
-	var n = 31;
-	if (t.indexOf(" another ") !== -1) {
-		n += 8;
-	}
-	var r = t.substr(n, t.indexOf("<", n) - n) * 1;
-	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
-};
-
-CookieMonster.fte = function(e) {
-	return Game.ObjectsById[e].storedTotalCps * 3 * Game.globalCpsMult;
-};
 
 CookieMonster.inc = function(e) {
 	var t = 0;
@@ -1331,6 +1394,21 @@ CookieMonster.formatTime = function(time, compressed) {
 
 	return formated;
 };
+//////////////////////////////////////////////////////////////////////
+///////////////////////////// INFORMATIONS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Get an array with the min/max CPI/timeLeft
+ *
+ * @param {String} minOrMax
+ *
+ * @return {Array}
+ */
+CookieMonster.getBestValue = function(minOrMax) {
+	return [Math[minOrMax].apply(Math, this.bottomBar.cpi), Math[minOrMax].apply(Math, this.bottomBar.timeLeft)];
+};
+
 /**
  * Update the stored informations about a building
  *
@@ -1411,48 +1489,28 @@ CookieMonster.updateTable = function() {
 	// Here we loop over the information we have, and building a multidimensionnal
 	// array of it, by building key
 	Game.ObjectsById.forEach(function (building, key) {
-		var price      = building.price;
-		var owned      = building.amount;
-		var production = building.storedCps * Game.globalCpsMult;
-		if (building.name === "Grandma") {
-			production = 0;
-		}
 
 		// Compute informations
-		var bonus = that.roundDecimal(production + that.getUpgradeBonuses(building.name, owned, production));
-		var cpi   = that.roundDecimal(price / bonus);
-		var count = '(<span class="text-blue">' + that.formatNumber(owned) + '</span>)';
+		var bonus = that.roundDecimal(that.getBuildingWorth(building));
+		var cpi   = that.roundDecimal(building.price / bonus);
+		var count = '(<span class="text-blue">' + that.formatNumber(building.amount) + '</span>)';
 
-		that.setBuildingInformations(key, {
+		// Save building informations
+		var buildingInformations = {
 			items    : building.name.split(' ')[0] + ' ' + count,
 			bonus    : that.roundDecimal(bonus),
 			cpi      : that.roundDecimal(cpi),
 			timeLeft : Math.round(that.secondsLeft(key, 'object')),
-		});
-	});
+		};
 
-	// Then we loop over the created array, format the information
-	// and update the DOM
-	Game.ObjectsById.forEach(function (building, key) {
-		var colors       = ['yellow', 'yellow'];
-		var informations = [that.bottomBar.cpi[key], that.bottomBar.timeLeft[key]];
-		var worst        = [Math.max.apply(Math, that.bottomBar.cpi), Math.max.apply(Math, that.bottomBar.timeLeft)];
-		var best         = [Math.min.apply(Math, that.bottomBar.cpi), Math.min.apply(Math, that.bottomBar.timeLeft)];
-
-		// Compute correct colors
-		for (var i = 0; i < colors.length; i++) {
-			if (informations[i] === best[i]) {
-				colors[i] = 'green';
-			} else if (informations[i] === worst[i]) {
-				colors[i] = 'red';
-			} else if (worst[i] - informations[i] < informations[i] - best[i]) {
-				colors[i] = 'orange';
-			}
-		}
+		// Compute correct color
+		that.setBuildingInformations(key, buildingInformations);
+		var informations = [buildingInformations.cpi, buildingInformations.timeLeft];
+		var colors       = CookieMonster.getLuckyColors(informations);
 
 		// Update DOM
-		$('#cookie_monster_item_' + key).html(that.bottomBar.items[key]);
-		$('#cookie_monster_is_'   + key).html(that.formatNumber(that.bottomBar.bonus[key]));
+		$('#cookie_monster_item_' + key).html(buildingInformations.items);
+		$('#cookie_monster_is_'   + key).html(that.formatNumber(buildingInformations.bonus));
 		$('#cookie_monster_cpi_'  + key).html('<span class="text-' + colors[0] + '">' + that.formatNumber(informations[0]) + '</span>');
 		$('#cookie_monster_tc_'   + key).html('<span class="text-' + colors[1] + '">' + that.formatTime(informations[1], true) + '</span>');
 	});
@@ -1838,7 +1896,7 @@ CookieMonster.toggleOption = function(option) {
 			this.loadStyles();
 			break;
 		case 'ColoredPrices':
-			this.updateTooltips("objects");
+			this.updateTooltips('objects');
 			break;
 		case 'UpgradeIcons':
 			Game.RebuildUpgrades();
@@ -1984,6 +2042,17 @@ CookieMonster.createStoreCounters = function() {
 };
 
 /**
+ * Update the store counters
+ *
+ * @return {void}
+ */
+CookieMonster.updateStoreCounters = function() {
+	this.upgradeCounts.forEach(function(count, key) {
+		$('#cm_up_q' + key).text(count);
+	});
+};
+
+/**
  * Check if an upgrade is in store
  *
  * @param {Array} upgrade
@@ -2023,6 +2092,18 @@ CookieMonster.updateUpgradeDisplay = function() {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Get the tooltip handle for a type/key
+ *
+ * @param {String}  type
+ * @param {Integer} key
+ *
+ * @return {String}
+ */
+CookieMonster.identifier = function(type, key) {
+	return 'cm_'+type+'_'+key+'_';
+};
+
+/**
  * Create a tooltip for a type of object
  *
  * @param {Object} object
@@ -2031,7 +2112,7 @@ CookieMonster.updateUpgradeDisplay = function() {
  * @return {Void}
  */
 CookieMonster.makeTooltip = function(object, type) {
-	var identifier = 'cm_'+type+'_'+object.id+'_';
+	var identifier = this.identifier(type, object.id);
 	var warning    = this.getImage('warning');
 	var caution    = this.getImage('caution');
 
@@ -2066,21 +2147,26 @@ CookieMonster.makeTooltip = function(object, type) {
  * @param {Integer} key
  * @param {Array}   colors
  * @param {Array}   deficits
- * @param {Array}   display
  * @param {Array}   informations
  *
  * @return {Void}
  */
-CookieMonster.updateTooltip = function(type, key, colors, deficits, display, informations) {
-	var identifier = '#cm_'+type+'_'+key+'_';
+CookieMonster.updateTooltip = function(type, key, colors, deficits, informations) {
+	var identifier = '#'+this.identifier(type, key);
 	var $object    = $(identifier);
 
 	// Create tooltip if it doesn't exist
 	var object = type === 'up' ? Game.UpgradesById[key] : Game.ObjectsById[key];
-	if (object.desc.indexOf('cm_'+type+'_'+key) === -1) {
+	if (object.desc.indexOf(this.identifier(type, key)) === -1) {
 		this.makeTooltip(object, type);
 	}
 
+	// Cancel if we're not in this particular tooltip at the moment
+	if ($object.length !== 1 || $object.is(':hidden')) {
+		return;
+	}
+
+	// Update informations
 	$object.css({
 		'border'  : '1px solid #'+this.color(colors[0]),
 		'display' : '',
@@ -2092,23 +2178,23 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, display, inf
 		'<div align=right class="text-' +colors[0]+ '" style="position:absolute; top:48px; left:4px;">' + this.formatNumber(informations[1]) + '</div>'+
 
 		'<div class="text-blue" style="position:absolute; top:64px; left:4px; font-weight:bold;">Time Left</div>'+
-		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2]) + "</div>"
+		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2], true) + "</div>"
 	);
 
 	$(identifier+'warning_amount').text('Deficit: ' + this.formatNumber(deficits[0]));
 	$(identifier+'caution_amount').text('Deficit: ' + this.formatNumber(deficits[1]));
 
 	if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
-		$(identifier+'lucky_div_warning').toggle(display[0]);
-		$(identifier+'lucky_div_caution').toggle(display[1]);
+		$(identifier+'lucky_div_warning').toggle(deficits[0] > 0);
+		$(identifier+'lucky_div_caution').toggle(deficits[1] > 0);
 	} else {
 		$(identifier+'lucky_div_warning').hide();
 		$(identifier+'lucky_div_caution').hide();
 	}
 
 	if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 3) {
-		$(identifier+'note_div_warning').toggle(display[0]);
-		$(identifier+'note_div_caution').toggle(display[1]);
+		$(identifier+'note_div_warning').toggle(deficits[0] > 0);
+		$(identifier+'note_div_caution').toggle(deficits[1] > 0);
 	} else {
 		$(identifier+'note_div_warning').hide();
 		$(identifier+'note_div_caution').hide();
@@ -2116,30 +2202,18 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, display, inf
 };
 
 //////////////////////////////////////////////////////////////////////
-///////////////////////////////// CACHE //////////////////////////////
+//////////////////////// GLOBAL SETUP AND UPDATE /////////////////////
 //////////////////////////////////////////////////////////////////////
-
-/**
- * Save the currently available tooltips
- *
- * @return {void}
- */
-CookieMonster.saveTooltips = function() {
-	Game.UpgradesById.forEach(function (upgrades, key) {
-		CookieMonster.tooltips[key] = upgrades.desc;
-	});
-	Game.ObjectsById.forEach(function (building, key) {
-		CookieMonster.buildingTooltips[key] = building.desc;
-	});
-};
 
 /**
  * Create the DOM for all tooltips
  *
- * @return {[type]} [description]
+ * @return {void}
  */
 CookieMonster.setupTooltips = function() {
-	this.updateTooltips('all');
+	this.updateTooltips();
+
+	// Rebuild game elements
 	Game.RebuildUpgrades();
 	Game.RebuildStore();
 };
@@ -2152,13 +2226,17 @@ CookieMonster.setupTooltips = function() {
  * @return {void}
  */
 CookieMonster.updateTooltips = function(which) {
+	if (typeof which === 'undefined') {
+		which = 'all';
+	}
+
 	// Upgrades
 	if (which === 'all' || which === 'upgrades') {
-		this.inStore = [0, 0, 0, 0, 0, 0];
-
+		this.upgradeCounts = [0, 0, 0, 0, 0, 0];
 		Game.UpgradesById.forEach(function (upgrade) {
 			CookieMonster.manageUpgradeTooltips(upgrade);
 		});
+		this.updateStoreCounters();
 	}
 
 	// Buildings
@@ -2173,120 +2251,123 @@ CookieMonster.updateTooltips = function(which) {
 //////////////////////////////// MANAGERS ////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
+/**
+ * Handles the creation/update of an upgrade's tooltip
+ *
+ * @param {Object} upgrade
+ *
+ * @return {void}
+ */
 CookieMonster.manageUpgradeTooltips = function(upgrade) {
-	var income = this.getUpgradeWorth(upgrade);
-
-	return this.manageUpgradesTooltips(income, upgrade);
-};
-
-CookieMonster.manageUpgradesTooltips = function(income, upgrade) {
-	var price   = upgrade.basePrice;
-	var colors  = ['yellow', 'yellow'];
-
-	var informations = [this.roundDecimal(price / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
-	var maxValues    = [Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.cpi)];
-	var minValues    = [Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.cpi)];
-
-	for (var i = 0; i < colors.length; i++) {
-		if (informations[i] < minValues[i]) {
-			colors[i] = 'blue';
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[0]++;
-			}
-		} else if (informations[i] === minValues[i]) {
-			colors[i] = 'green';
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[1]++;
-			}
-		} else if (informations[i] === maxValues[i]) {
-			colors[i] = 'red';
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[4]++;
-			}
-		} else if (informations[i] > maxValues[i]) {
-			colors[i] = 'purple';
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[5]++;
-			}
-		} else if (maxValues[i] - informations[i] < informations[i] - minValues[i]) {
-			colors[i] = 'orange';
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[3]++;
-			}
-		} else {
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[2]++;
-			}
-		}
+	// Cancel if the upgrade isn't in the store
+	if (!this.isInStore(upgrade)) {
+		return;
 	}
 
-	for (i = 0; i < this.inStore.length; i++) {
-		$('#cm_up_q' + i).text(this.inStore[i]);
-	}
-	if (this.getSetting('UpgradeIcons') && this.isInStore(upgrade)) {
+	// Gather comparative informations
+	var income       = this.getUpgradeWorth(upgrade);
+	var informations = [this.roundDecimal(upgrade.basePrice / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
+	var colors       = this.getLuckyColors(informations);
+
+	// Update store counters
+	var colorKey = ['blue', 'green', 'yellow', 'orange', 'red', 'purple'].indexOf(colors[0]);
+	this.upgradeCounts[colorKey]++;
+
+	// Colorize upgrade icon
+	if (this.getSetting('UpgradeIcons')) {
 		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div class="cookie-monster__upgrade background-' +colors[0]+ '"></div>');
 	}
 
-	var rewards  = [this.luckyReward('regular'), this.luckyReward('frenzy')];
-	var display  = [false, false];
-	var deficits = [0, 0];
-
-	if (Game.cookies - price < rewards[0]) {
-		display[0]  = true;
-		deficits[0] = rewards[0] - (Game.cookies - price);
-	}
-	if (Game.cookies - price < rewards[1]) {
-		display[1]  = true;
-		deficits[1] = rewards[1] - (Game.cookies - price);
-	}
-
-	return this.updateTooltip('up', upgrade.id, colors, deficits, display, [
+	return this.updateTooltip('up', upgrade.id, colors, this.getLuckyAlerts(upgrade.basePrice), [
 		this.roundDecimal(income),
 		informations[0],
 		informations[1],
 	]);
 };
 
+/**
+ * Handles the creation/update of a building's tooltip
+ *
+ * @param {Object} building
+ *
+ * @return {void}
+ */
 CookieMonster.manageBuildingTooltip = function(building) {
-	var rewards  = [this.luckyReward('regular'), this.luckyReward('frenzy')];
-	var display  = [false, false];
-	var deficits = [0, 0];
-
-	if (Game.cookies - building.price < rewards[0]) {
-		display[0]  = true;
-		deficits[0] = rewards[0] - (Game.cookies - building.price);
-	}
-	if (Game.cookies - building.price < rewards[1]) {
-		display[1]  = true;
-		deficits[1] = rewards[1] - (Game.cookies - building.price);
-	}
-
-	// Get statistics
-	var colors       = ['yellow', 'yellow'];
 	var informations = [this.bottomBar.cpi[building.id], this.bottomBar.timeLeft[building.id]];
-	var maxValues    = [Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.timeLeft)];
-	var minValues    = [Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.timeLeft)];
-
-	// Compute building color
-	for (var i = 0; i < colors.length; i++) {
-		if (informations[i] === minValues[i]) {
-			colors[i] = 'green';
-		} else if (informations[i] === maxValues[i]) {
-			colors[i] = 'red';
-		} else if (maxValues[i] - informations[i] < informations[i] - minValues[i]) {
-			colors[i] = 'orange';
-		}
-	}
+	var colors       = this.getLuckyColors(informations);
 
 	// Colorize building price
-	$('.price', '#product'+building.id).addClass(this.getBooleanSetting('ColoredPrices') ? 'text-'+colors[0] : '');
+	if (this.getBooleanSetting('ColoredPrices')) {
+		$('.price', '#product'+building.id).attr('class', 'price text-'+colors[0]);
+	}
 
-	return this.updateTooltip('ob', building.id, colors, deficits, display, [
+	return this.updateTooltip('ob', building.id, colors, this.getLuckyAlerts(building.price), [
 		this.bottomBar.bonus[building.id],
 		informations[0],
 		informations[1],
 	]);
 };
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////// HELPERS /////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+
+
+/**
+ * Get the lucky alerts for a price
+ *
+ * @param {Integer} price
+ *
+ * @return {Array}
+ */
+CookieMonster.getLuckyAlerts = function(price) {
+	var rewards  = [this.luckyReward('regular'), this.luckyReward('frenzy')];
+	var deficits = [0, 0];
+
+	// Check Lucky alert
+	if (Game.cookies - price < rewards[0]) {
+		deficits[0] = rewards[0] - (Game.cookies - price);
+	}
+
+	// Check Lucky Frenzy alert
+	if (Game.cookies - price < rewards[1]) {
+		deficits[1] = rewards[1] - (Game.cookies - price);
+	}
+
+	return deficits;
+};
+
+/**
+ * Get the colors for the lucky alerts
+ *
+ * @param {Array} informations
+ *
+ * @return {Array}
+ */
+CookieMonster.getLuckyColors = function(informations) {
+	var colors    = ['yellow', 'yellow'];
+	var maxValues = this.getBestValue('max');
+	var minValues = this.getBestValue('min');
+
+	// Compute color
+	for (var i = 0; i < colors.length; i++) {
+		if (informations[i] < minValues[i]) {
+			colors[i] = 'blue';
+		} else if (informations[i] === minValues[i]) {
+			colors[i] = 'green';
+		} else if (informations[i] === maxValues[i]) {
+			colors[i] = 'red';
+		} else if (informations[i] > maxValues[i]) {
+			colors[i] = 'purple';
+		} else if (maxValues[i] - informations[i] < informations[i] - minValues[i]) {
+			colors[i] = 'orange';
+		}
+	}
+
+	return colors;
+};
+
 /*jshint -W054 */
 
 /**
@@ -2314,7 +2395,6 @@ CookieMonster.start = function() {
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
 
 	// Setup Cookie Monster
-	this.saveTooltips();
 	this.update();
 	this.setupTooltips();
 
@@ -2354,7 +2434,7 @@ CookieMonster.loadStyles = function() {
  */
 CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();
-	CookieMonster.updateTooltips('all');
+	CookieMonster.updateTooltips();
 	CookieMonster.manageBuffs();
 
 	CookieMonster.emphasizeGolden();
@@ -2461,7 +2541,7 @@ CookieMonster.update = function() {
 	Game.tooltip.draw = new Function('from,text,x,y,origin', this.replaceCode(Game.tooltip.draw, function (native) {
 		return native
 			.replace("implemented');}", "implemented');}" + n)
-			.replace("this.on=1;", "this.on=1;\nCookieMonster.updateTooltips('all');");
+			.replace("this.on=1;", "this.on=1;\nCookieMonster.updateTooltips();");
 	}));
 
 	this.replaceNative('Reset', function (native) {
