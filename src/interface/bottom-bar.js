@@ -10,7 +10,7 @@
  * @return {Array}
  */
 CookieMonster.getBestValue = function(minOrMax) {
-	return [Math[minOrMax].apply(Math, this.bottomBar.cpi), Math[minOrMax].apply(Math, this.bottomBar.timeLeft)];
+	return [Math[minOrMax].apply(Math, this.informations.cpi), Math[minOrMax].apply(Math, this.informations.timeLeft)];
 };
 
 /**
@@ -20,10 +20,17 @@ CookieMonster.getBestValue = function(minOrMax) {
  * @param {Array}   informations
  */
 CookieMonster.setBuildingInformations = function (building, informations) {
+	this.informations.items[building]    = informations.items;
+	this.informations.bonus[building]    = informations.bonus;
+	this.informations.cpi[building]      = informations.cpi;
+	this.informations.timeLeft[building] = informations.timeLeft;
+
+	// Compute formatted informations
+	var colors = this.getLuckyColors([informations.cpi, informations.timeLeft]);
 	this.bottomBar.items[building]    = informations.items;
-	this.bottomBar.bonus[building]    = informations.bonus;
-	this.bottomBar.cpi[building]      = informations.cpi;
-	this.bottomBar.timeLeft[building] = informations.timeLeft;
+	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
+	this.bottomBar.cpi[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.cpi)+ '</span>';
+	this.bottomBar.timeLeft[building] = '<span class="text-' +colors[1]+ '">' +this.formatTime(informations.timeLeft, true)+ '</span>';
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -50,8 +57,9 @@ CookieMonster.toggleBar = function() {
  */
 CookieMonster.createBottomBar = function() {
 	$('body').append('<div id="cookie-monster__bottom-bar"></div>');
+	this.$monsterBar = $('#cookie-monster__bottom-bar');
 
-	this.$monsterBar = this.makeTable();
+	this.makeTable();
 };
 
 /**
@@ -65,20 +73,12 @@ CookieMonster.makeTable = function() {
 	var baseCost = '<th class="text-blue">Base Cost Per Income</th>';
 	var timeLeft = '<th class="text-blue">Time Left</th>';
 
-	// Append each building type to the bar
-	Game.ObjectsById.forEach(function (building, key) {
-		thead    += '<th id="cookie_monster_item_' +key+ '"></th>';
-		bonus    += '<td id="cookie_monster_is_'   +key+ '"></td>';
-		baseCost += '<td id="cookie_monster_cpi_'  +key+ '"></td>';
-		timeLeft += '<td id="cookie_monster_tc_'   +key+ '"></td>';
-	});
-
-	return $('#cookie-monster__bottom-bar').html(
+	return this.$monsterBar.html(
 		'<table>'+
-			'<tr>'+thead+'</tr>'+
-			'<tr>'+bonus+'</tr>'+
-			'<tr>'+baseCost+'</tr>'+
-			'<tr>'+timeLeft+'</tr>'+
+			'<tr>'+thead+'<th>' +this.bottomBar.items.join('</th><th>')+ '</th></tr>'+
+			'<tr>'+bonus+'<td>' +this.bottomBar.bonus.join('</td><td>')+ '</td></tr>'+
+			'<tr>'+baseCost+'<td>' +this.bottomBar.cpi.join('</td><td>')+ '</td></tr>'+
+			'<tr>'+timeLeft+'<td>' +this.bottomBar.timeLeft.join('</td><td>')+ '</td></tr>'+
 		'</table>');
 };
 
@@ -100,22 +100,13 @@ CookieMonster.updateTable = function() {
 		var count = '(<span class="text-blue">' + that.formatNumber(building.amount) + '</span>)';
 
 		// Save building informations
-		var buildingInformations = {
+		that.setBuildingInformations(key, {
 			items    : building.name.split(' ')[0] + ' ' + count,
 			bonus    : that.roundDecimal(bonus),
 			cpi      : that.roundDecimal(cpi),
 			timeLeft : Math.round(that.secondsLeft(key, 'object')),
-		};
-
-		// Compute correct color
-		that.setBuildingInformations(key, buildingInformations);
-		var informations = [buildingInformations.cpi, buildingInformations.timeLeft];
-		var colors       = CookieMonster.getLuckyColors(informations);
-
-		// Update DOM
-		$('#cookie_monster_item_' + key).html(buildingInformations.items);
-		$('#cookie_monster_is_'   + key).html(that.formatNumber(buildingInformations.bonus));
-		$('#cookie_monster_cpi_'  + key).html('<span class="text-' + colors[0] + '">' + that.formatNumber(informations[0]) + '</span>');
-		$('#cookie_monster_tc_'   + key).html('<span class="text-' + colors[1] + '">' + that.formatTime(informations[1], true) + '</span>');
+		});
 	});
+
+	this.makeTable();
 };

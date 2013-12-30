@@ -27,8 +27,14 @@ var CookieMonster = {
 	// Stored informations
 	////////////////////////////////////////////////////////////////////
 
-	cacheStore : {},
-	bottomBar: {
+	cacheStore   : {},
+	bottomBar    : {
+		items    : [],
+		bonus    : [],
+		cpi      : [],
+		timeLeft : [],
+	},
+	informations : {
 		items    : [],
 		bonus    : [],
 		cpi      : [],

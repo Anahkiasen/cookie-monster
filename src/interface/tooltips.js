@@ -204,7 +204,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
  * @return {void}
  */
 CookieMonster.manageBuildingTooltip = function(building) {
-	var informations = [this.bottomBar.cpi[building.id], this.bottomBar.timeLeft[building.id]];
+	var informations = [this.informations.cpi[building.id], this.informations.timeLeft[building.id]];
 	var colors       = this.getLuckyColors(informations);
 
 	// Colorize building price
@@ -213,7 +213,7 @@ CookieMonster.manageBuildingTooltip = function(building) {
 	}
 
 	return this.updateTooltip('ob', building.id, colors, this.getLuckyAlerts(building.price), [
-		this.bottomBar.bonus[building.id],
+		this.informations.bonus[building.id],
 		informations[0],
 		informations[1],
 	]);

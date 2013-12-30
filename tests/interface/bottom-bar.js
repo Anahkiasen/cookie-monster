@@ -9,10 +9,10 @@ module.exports = {
 				timeLeft : 'foobar',
 			});
 
-			CookieMonster.bottomBar.items[0].should.equal('foobar');
-			CookieMonster.bottomBar.bonus[0].should.equal('foobar');
-			CookieMonster.bottomBar.cpi[0].should.equal('foobar');
-			CookieMonster.bottomBar.timeLeft[0].should.equal('foobar');
+			CookieMonster.informations.items[0].should.equal('foobar');
+			CookieMonster.informations.bonus[0].should.equal('foobar');
+			CookieMonster.informations.cpi[0].should.equal('foobar');
+			CookieMonster.informations.timeLeft[0].should.equal('foobar');
 		},
 	},
 
