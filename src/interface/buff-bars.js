@@ -8,9 +8,6 @@ CookieMonster.manageBuffs = function() {
 	this.manageClickingFrenzy();
 	this.manageNextCookie();
 	this.manageNextReindeer();
-
-	// Offset version number
-	$('#versionNumber').css('bottom', this.$timerBars.css('height'));
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -23,7 +20,11 @@ CookieMonster.manageBuffs = function() {
  * @return {void}
  */
 CookieMonster.createBarsContainer = function() {
-	$('#sectionLeft').append('<div id="cookie-monster__buff-bars"></div>');
+	var $version = $('#versionNumber');
+
+	// Create container and move version inside it
+	$('#sectionLeft').append('<div id="cookie-monster__buff-bars"><div id="versionNumber">' +$version.text()+ '</div></div>');
+	$version.remove();
 
 	this.$timerBars = $('#cookie-monster__buff-bars');
 };
@@ -100,7 +101,7 @@ CookieMonster.manageNextReindeer = function() {
 	var width  = timers[2] - timers[0];
 
 	// Hide if Reindeer on screen
-	if (timers[0] <= 0 || this.$reindeer.css('display') !== 'none' || !this.getBooleanSetting('CookieBar')) {
+	if (timers[0] <= 0 || this.onScreen.seasonPopup || !this.getBooleanSetting('CookieBar')) {
 		return this.fadeOutBar('orange');
 	}
 
@@ -113,19 +114,21 @@ CookieMonster.manageNextReindeer = function() {
  * @return {void}
  */
 CookieMonster.manageNextCookie = function() {
-	var barsWidth = parseInt(this.$timerBars.css('width'));
 	var timers    = [Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime];
+
+	// Cancel if disabled
+	if (timers[0] <= 0 || this.onScreen.goldenCookie || !this.getBooleanSetting('CookieBar')) {
+		return this.fadeOutBar('purple');
+	}
+
+	// Compute necessary informations
+	var barsWidth = parseInt(this.$timerBars.css('width'));
 	var width     = timers[2] - timers[0];
 	var countdown = Math.round(width / Game.fps);
 
 	// Update title
-	if (countdown > 0 && this.$goldenCookie.css('display') === 'none') {
+	if (countdown > 0 && !this.onScreen.goldenCookie) {
 		this.titleModifier = this.getBooleanSetting('CookieBar') ? '(' + countdown + ') ' : '';
-	}
-
-	// Cancel if disabled
-	if (timers[0] <= 0 || this.$goldenCookie.css('display') !== 'none' || !this.getBooleanSetting('CookieBar')) {
-		return this.fadeOutBar('purple');
 	}
 
 	this.updateBar('Next Cookie', 'purple', width, width / timers[2] * 100);

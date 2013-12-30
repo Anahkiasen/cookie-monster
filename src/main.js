@@ -54,7 +54,7 @@ CookieMonster.loadStyles = function() {
 		stylesheet += '-colorblind';
 	}
 
-	$styles.attr('href', stylesheet+'.min.css');
+	$styles.attr('href', stylesheet+'.min.css?'+new Date().getTime());
 };
 
 /**
