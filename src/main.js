@@ -16,7 +16,7 @@ CookieMonster.start = function() {
 
 	// Add Cookie Monster elements
 	this.createBottomBar();
-	this.createOverlay();
+	this.createGoldenOverlay();
 	this.createFlashOverlay();
 	this.createBarsContainer();
 	this.createStoreCounters();
@@ -50,14 +50,12 @@ CookieMonster.loadStyles = function() {
 		$styles = $('#cookie-monster__styles');
 	}
 
-	// Get correct stylesheet
+	// Add colorblind modifier if necessary
 	if (this.getBooleanSetting('Colorblind')) {
-		stylesheet += '-colorblind.min.css';
-	} else {
-		stylesheet += '.min.css';
+		stylesheet += '-colorblind';
 	}
 
-	$styles.attr('href', stylesheet);
+	$styles.attr('href', stylesheet+'.min.css');
 };
 
 /**
