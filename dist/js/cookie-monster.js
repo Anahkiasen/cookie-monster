@@ -13,7 +13,7 @@ var CookieMonster = {
 	version : '1.040.04',
 	loops   : 0,
 
-	humanNumbers     : new Array(
+	humanNumbers : new Array(
 		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
 		[' M', ' G', ' T', ' P', ' E', ' Z', ' Y', ' Oc', ' No', ' Dc']
 	),
@@ -27,7 +27,14 @@ var CookieMonster = {
 	// Stored informations
 	////////////////////////////////////////////////////////////////////
 
-	bottomBar: {
+	cacheStore   : {},
+	bottomBar    : {
+		items    : [],
+		bonus    : [],
+		cpi      : [],
+		timeLeft : [],
+	},
+	informations : {
 		items    : [],
 		bonus    : [],
 		cpi      : [],
@@ -159,10 +166,13 @@ CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncom
 		if (upgrade.bought && description.indexOf('Cookie production multiplier <b>+') !== -1) {
 			heavenlyMultiplier += description.substr(33, description.indexOf('%', 33) - 33) * 1;
 		}
-		if (!upgrade.bought && description.indexOf('Cookie production multiplier <b>+') !== -1 && upgrade.id === upgradeKey) {
-			futureMultiplier += description.substr(33, description.indexOf('%', 33) - 33) * 1;
-		}
 	});
+
+	// Future production multiplier
+	var upgrade = Game.UpgradesById[upgradeKey];
+	if (upgrade && !upgrade.bought && upgrade.desc.indexOf('Cookie production multiplier <b>+') !== -1) {
+		futureMultiplier += upgrade.desc.substr(33, upgrade.desc.indexOf('%', 33) - 33) * 1;
+	}
 
 	number = 100 + heavenlyMultiplier;
 	number = this.applyMilkPotential(number, milkProgress);
@@ -237,15 +247,9 @@ CookieMonster.applyMilkPotential = function(number, milkProgress) {
  * @return {Boolean}
  */
 CookieMonster.hasAchievement = function(checkedAchievement) {
-	var found = 0;
+	var achievement = Game.Achievements[checkedAchievement];
 
-	Game.AchievementsById.forEach(function (achievement) {
-		if (achievement.won && achievement.name === checkedAchievement) {
-			found = 1;
-		}
-	});
-
-	return found === 1;
+	return achievement ? achievement.won : false;
 };
 
 /**
@@ -533,7 +537,7 @@ CookieMonster.getBuildingWorth = function(building) {
 	// Compute final income
 	income += production;
 
-	return income + this.getAchievementWorth(unlocked, 0, income);
+	return income + this.callCached('getAchievementWorth', [unlocked, 0, income]);
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -645,7 +649,7 @@ CookieMonster.emphasizeGolden = function() {
 			this.Emphasizers.flashScreen();
 		});
 
-	if ($golden.is(':visible')) {
+	if (this.onScreen.goldenCookie) {
 		this.Emphasizers.displayGoldenTimer();
 	}
 };
@@ -898,7 +902,7 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		unlocked += this.hasntAchievement('Upgrader');
 	}
 
-	return income + this.getAchievementWorth(unlocked, upgrade.id, income);
+	return income + this.callCached('getAchievementWorth', [unlocked, upgrade.id, income]);
 };
 
 /**
@@ -970,7 +974,7 @@ CookieMonster.getHeavenlyUpgradeOutcome = function(unlocked, upgrade) {
 	var potential  = upgrade.desc.substr(11, 2).replace('%', '');
 	var multiplier = Game.prestige['Heavenly chips'] * 2 * (potential / 100);
 
-	return this.getAchievementWorth(unlocked, upgrade.id, 0, multiplier) - Game.cookiesPs;
+	return this.callCached('getAchievementWorth', [unlocked, upgrade.id, 0, multiplier]) - Game.cookiesPs;
 };
 
 // Special cases
@@ -1097,6 +1101,79 @@ CookieMonster.updateFavicon = function (favicon) {
 
 	$('#cm_favicon').attr('href', favicon);
 };
+/**
+ * Cache the results of a Closure and return it
+ *
+ * @param {Array}    salts
+ * @param {Function} callback
+ * @param {Array}    args
+ *
+ * @return {Mixed}
+ */
+CookieMonster.cache = function(salts, callback, args) {
+	var state = [Game.UpgradesOwned, Game.BuildingsOwned].join('-');
+
+	// Create entry for current state
+	if (typeof this.cacheStore[state] === 'undefined') {
+		this.refreshCache();
+		this.cacheStore[state] = {};
+	}
+
+	// Compute salts
+	args  = args || [];
+	salts = this.computeSalts(salts, args);
+
+	// If we have a cached result, return it
+	if (typeof this.cacheStore[state][salts] !== 'undefined') {
+		return this.cacheStore[state][salts];
+	}
+
+	// Else compute results and cache it
+	this.cacheStore[state][salts] = callback.apply(this, args);
+
+	return this.cacheStore[state][salts];
+};
+
+/**
+ * Call a Cookie Monster method and cache it
+ *
+ * @param {String} method
+ * @param {Array} args
+ * @param {Array} salts
+ *
+ * @return {Mixed}
+ */
+CookieMonster.callCached = function(method, args, salts) {
+	salts = salts || [];
+	salts.push(method);
+
+	return this.cache(salts, this[method], args);
+};
+
+/**
+ * Refresh the cache
+ *
+ * @return {void}
+ */
+CookieMonster.refreshCache = function() {
+	this.cacheStore = {};
+};
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////// HELPERS /////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Compute salts from arguments an salts
+ *
+ * @param {Array} salts
+ * @param {Array} args
+ *
+ * @return {String}
+ */
+CookieMonster.computeSalts = function(salts, args) {
+	return JSON.stringify(salts.concat(args));
+}
 //////////////////////////////////////////////////////////////////////
 ////////////////////////////// EMPHASIZERS ///////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -1121,10 +1198,10 @@ CookieMonster.whileOnScreen = function($selector, offScreen, onScreen) {
 	}
 
 	// Execute the two callbacks
-	if ($selector.is(':hidden') && this.onScreen[identifier]) {
+	if ($selector.css('display') === 'none' && this.onScreen[identifier]) {
 		this.onScreen[identifier] = false;
 		offScreen.call(this, $selector);
-	} else if ($selector.is(':visible') && !this.onScreen[identifier]) {
+	} else if ($selector.css('display') !== 'none' && !this.onScreen[identifier]) {
 		this.onScreen[identifier] = true;
 		onScreen.call(this, $selector);
 	}
@@ -1406,7 +1483,7 @@ CookieMonster.formatTime = function(time, compressed) {
  * @return {Array}
  */
 CookieMonster.getBestValue = function(minOrMax) {
-	return [Math[minOrMax].apply(Math, this.bottomBar.cpi), Math[minOrMax].apply(Math, this.bottomBar.timeLeft)];
+	return [Math[minOrMax].apply(Math, this.informations.cpi), Math[minOrMax].apply(Math, this.informations.timeLeft)];
 };
 
 /**
@@ -1416,10 +1493,17 @@ CookieMonster.getBestValue = function(minOrMax) {
  * @param {Array}   informations
  */
 CookieMonster.setBuildingInformations = function (building, informations) {
+	this.informations.items[building]    = informations.items;
+	this.informations.bonus[building]    = informations.bonus;
+	this.informations.cpi[building]      = informations.cpi;
+	this.informations.timeLeft[building] = informations.timeLeft;
+
+	// Compute formatted informations
+	var colors = this.getLuckyColors([informations.cpi, informations.timeLeft]);
 	this.bottomBar.items[building]    = informations.items;
-	this.bottomBar.bonus[building]    = informations.bonus;
-	this.bottomBar.cpi[building]      = informations.cpi;
-	this.bottomBar.timeLeft[building] = informations.timeLeft;
+	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
+	this.bottomBar.cpi[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.cpi)+ '</span>';
+	this.bottomBar.timeLeft[building] = '<span class="text-' +colors[1]+ '">' +this.formatTime(informations.timeLeft, true)+ '</span>';
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -1446,8 +1530,9 @@ CookieMonster.toggleBar = function() {
  */
 CookieMonster.createBottomBar = function() {
 	$('body').append('<div id="cookie-monster__bottom-bar"></div>');
+	this.$monsterBar = $('#cookie-monster__bottom-bar');
 
-	this.$monsterBar = this.makeTable();
+	this.makeTable();
 };
 
 /**
@@ -1461,20 +1546,12 @@ CookieMonster.makeTable = function() {
 	var baseCost = '<th class="text-blue">Base Cost Per Income</th>';
 	var timeLeft = '<th class="text-blue">Time Left</th>';
 
-	// Append each building type to the bar
-	Game.ObjectsById.forEach(function (building, key) {
-		thead    += '<th id="cookie_monster_item_' +key+ '"></th>';
-		bonus    += '<td id="cookie_monster_is_'   +key+ '"></td>';
-		baseCost += '<td id="cookie_monster_cpi_'  +key+ '"></td>';
-		timeLeft += '<td id="cookie_monster_tc_'   +key+ '"></td>';
-	});
-
-	return $('#cookie-monster__bottom-bar').html(
+	return this.$monsterBar.html(
 		'<table>'+
-			'<tr>'+thead+'</tr>'+
-			'<tr>'+bonus+'</tr>'+
-			'<tr>'+baseCost+'</tr>'+
-			'<tr>'+timeLeft+'</tr>'+
+			'<tr>'+thead+'<th>' +this.bottomBar.items.join('</th><th>')+ '</th></tr>'+
+			'<tr>'+bonus+'<td>' +this.bottomBar.bonus.join('</td><td>')+ '</td></tr>'+
+			'<tr>'+baseCost+'<td>' +this.bottomBar.cpi.join('</td><td>')+ '</td></tr>'+
+			'<tr>'+timeLeft+'<td>' +this.bottomBar.timeLeft.join('</td><td>')+ '</td></tr>'+
 		'</table>');
 };
 
@@ -1496,24 +1573,15 @@ CookieMonster.updateTable = function() {
 		var count = '(<span class="text-blue">' + that.formatNumber(building.amount) + '</span>)';
 
 		// Save building informations
-		var buildingInformations = {
+		that.setBuildingInformations(key, {
 			items    : building.name.split(' ')[0] + ' ' + count,
 			bonus    : that.roundDecimal(bonus),
 			cpi      : that.roundDecimal(cpi),
 			timeLeft : Math.round(that.secondsLeft(key, 'object')),
-		};
-
-		// Compute correct color
-		that.setBuildingInformations(key, buildingInformations);
-		var informations = [buildingInformations.cpi, buildingInformations.timeLeft];
-		var colors       = CookieMonster.getLuckyColors(informations);
-
-		// Update DOM
-		$('#cookie_monster_item_' + key).html(buildingInformations.items);
-		$('#cookie_monster_is_'   + key).html(that.formatNumber(buildingInformations.bonus));
-		$('#cookie_monster_cpi_'  + key).html('<span class="text-' + colors[0] + '">' + that.formatNumber(informations[0]) + '</span>');
-		$('#cookie_monster_tc_'   + key).html('<span class="text-' + colors[1] + '">' + that.formatTime(informations[1], true) + '</span>');
+		});
 	});
+
+	this.makeTable();
 };
 /**
  * Updates the various buff bars
@@ -1525,9 +1593,6 @@ CookieMonster.manageBuffs = function() {
 	this.manageClickingFrenzy();
 	this.manageNextCookie();
 	this.manageNextReindeer();
-
-	// Offset version number
-	$('#versionNumber').css('bottom', this.$timerBars.css('height'));
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -1540,7 +1605,11 @@ CookieMonster.manageBuffs = function() {
  * @return {void}
  */
 CookieMonster.createBarsContainer = function() {
-	$('#sectionLeft').append('<div id="cookie-monster__buff-bars"></div>');
+	var $version = $('#versionNumber');
+
+	// Create container and move version inside it
+	$('#sectionLeft').append('<div id="cookie-monster__buff-bars"><div id="versionNumber">' +$version.text()+ '</div></div>');
+	$version.remove();
 
 	this.$timerBars = $('#cookie-monster__buff-bars');
 };
@@ -1617,7 +1686,7 @@ CookieMonster.manageNextReindeer = function() {
 	var width  = timers[2] - timers[0];
 
 	// Hide if Reindeer on screen
-	if (timers[0] <= 0 || this.$reindeer.is(':visible') || !this.getBooleanSetting('CookieBar')) {
+	if (timers[0] <= 0 || this.onScreen.seasonPopup || !this.getBooleanSetting('CookieBar')) {
 		return this.fadeOutBar('orange');
 	}
 
@@ -1630,19 +1699,21 @@ CookieMonster.manageNextReindeer = function() {
  * @return {void}
  */
 CookieMonster.manageNextCookie = function() {
-	var barsWidth = parseInt(this.$timerBars.css('width'));
 	var timers    = [Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime];
+
+	// Cancel if disabled
+	if (timers[0] <= 0 || this.onScreen.goldenCookie || !this.getBooleanSetting('CookieBar')) {
+		return this.fadeOutBar('purple');
+	}
+
+	// Compute necessary informations
+	var barsWidth = parseInt(this.$timerBars.css('width'));
 	var width     = timers[2] - timers[0];
 	var countdown = Math.round(width / Game.fps);
 
 	// Update title
-	if (countdown > 0 && this.$goldenCookie.is(':hidden')) {
+	if (countdown > 0 && !this.onScreen.goldenCookie) {
 		this.titleModifier = this.getBooleanSetting('CookieBar') ? '(' + countdown + ') ' : '';
-	}
-
-	// Cancel if disabled
-	if (timers[0] <= 0 || this.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieBar')) {
-		return this.fadeOutBar('purple');
 	}
 
 	this.updateBar('Next Cookie', 'purple', width, width / timers[2] * 100);
@@ -2162,7 +2233,7 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, informations
 	}
 
 	// Cancel if we're not in this particular tooltip at the moment
-	if ($object.length !== 1 || $object.is(':hidden')) {
+	if ($object.length !== 1 || $object.css('display') === 'none') {
 		return;
 	}
 
@@ -2265,7 +2336,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 	}
 
 	// Gather comparative informations
-	var income       = this.getUpgradeWorth(upgrade);
+	var income       = this.callCached('getUpgradeWorth', [upgrade]);
 	var informations = [this.roundDecimal(upgrade.basePrice / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
 	var colors       = this.getLuckyColors(informations);
 
@@ -2293,7 +2364,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
  * @return {void}
  */
 CookieMonster.manageBuildingTooltip = function(building) {
-	var informations = [this.bottomBar.cpi[building.id], this.bottomBar.timeLeft[building.id]];
+	var informations = [this.informations.cpi[building.id], this.informations.timeLeft[building.id]];
 	var colors       = this.getLuckyColors(informations);
 
 	// Colorize building price
@@ -2302,7 +2373,7 @@ CookieMonster.manageBuildingTooltip = function(building) {
 	}
 
 	return this.updateTooltip('ob', building.id, colors, this.getLuckyAlerts(building.price), [
-		this.bottomBar.bonus[building.id],
+		this.informations.bonus[building.id],
 		informations[0],
 		informations[1],
 	]);
@@ -2424,7 +2495,7 @@ CookieMonster.loadStyles = function() {
 		stylesheet += '-colorblind';
 	}
 
-	$styles.attr('href', stylesheet+'.min.css');
+	$styles.attr('href', stylesheet+'.min.css?'+new Date().getTime());
 };
 
 /**
