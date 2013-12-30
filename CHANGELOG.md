@@ -7,6 +7,12 @@
 
 ## 1.040 Versions
 
+### 1.040.04 _(2013-12-30)_
+
+* Take into account new upgrades
+* Fixed a bug where the bottom bar would appear even if disabled
+* Fixed a bug where some buff bars would appears as uncolored
+
 ### 1.040.03 _(2013-12-30)_
 
 * Add Reindeer timer bars and sound (linked to Golden Cookie options for now)
