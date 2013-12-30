@@ -4,10 +4,10 @@
 
 @each $color, $value in $swatch {
 	.background-#{$color} {
-		background: $value;
+		background: $value !important;
 	}
 	.text-#{$color} {
-		color: $value;
+		color: $value !important;
 	}
 	.border-#{$color} {
 		border-color: $value !important;

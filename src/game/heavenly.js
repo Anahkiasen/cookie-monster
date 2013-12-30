@@ -75,24 +75,24 @@ CookieMonster.getHeavenlyChip = function(context) {
 	}
 };
 
-CookieMonster.getAchievementWorth = function(e, t, n, r) {
-	var i = 0;
-	var s = this.getHeavenlyMultiplier();
+CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncome, r) {
+	var i                  = 0;
+	var heavenlyMultiplier = this.getHeavenlyMultiplier();
+	var o                  = 0;
+	var u                  = new Array(0, 0, 0, 0);
+	var milkProgress       = Game.milkProgress;
+	var frenzyMultiplier   = this.getFrenzyMultiplier();
 	if (r !== 0) {
-		s = r;
+		heavenlyMultiplier = r;
 	}
-	var o = 0;
-	var u = new Array(0, 0, 0, 0);
-	var a = Game.milkProgress;
-	var f = this.getFrenzyMultiplier();
 
 	Game.UpgradesById.forEach(function (upgrade) {
-		var r = upgrade.desc.replace("[Research]<br>", "");
-		if (upgrade.bought && r.indexOf("Cookie production multiplier <b>+") !== -1) {
-			s += r.substr(33, r.indexOf("%", 33) - 33) * 1;
+		var description = upgrade.desc.replace("[Research]<br>", "");
+		if (upgrade.bought && description.indexOf("Cookie production multiplier <b>+") !== -1) {
+			heavenlyMultiplier += description.substr(33, description.indexOf("%", 33) - 33) * 1;
 		}
-		if (!upgrade.bought && r.indexOf("Cookie production multiplier <b>+") !== -1 && upgrade.id === t) {
-			o += r.substr(33, r.indexOf("%", 33) - 33) * 1;
+		if (!upgrade.bought && description.indexOf("Cookie production multiplier <b>+") !== -1 && upgrade.id === upgradeKey) {
+			o += description.substr(33, description.indexOf("%", 33) - 33) * 1;
 		}
 		if (upgrade.bought && upgrade.name === "Kitten helpers") {
 			u[0] = 0.05;
@@ -107,21 +107,21 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 			u[3] = 0.2;
 		}
 	});
-	var l = 100 + s;
-	l = l * (1 + u[0] * a);
-	l = l * (1 + u[1] * a);
-	l = l * (1 + u[2] * a);
-	l = l * (1 + u[3] * a);
-	var c = n;
-	var h = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f;
-	a += e * 0.04;
-	l = 100 + s + o;
-	l = l * (1 + u[0] * a);
-	l = l * (1 + u[1] * a);
-	l = l * (1 + u[2] * a);
-	l = l * (1 + u[3] * a);
+	var l = 100 + heavenlyMultiplier;
+	l = l * (1 + u[0] * milkProgress);
+	l = l * (1 + u[1] * milkProgress);
+	l = l * (1 + u[2] * milkProgress);
+	l = l * (1 + u[3] * milkProgress);
+	var c = originalIncome;
+	var h = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * frenzyMultiplier;
+	milkProgress += unlocked * 0.04;
+	l = 100 + heavenlyMultiplier + o;
+	l = l * (1 + u[0] * milkProgress);
+	l = l * (1 + u[1] * milkProgress);
+	l = l * (1 + u[2] * milkProgress);
+	l = l * (1 + u[3] * milkProgress);
 	var p = 0;
-	switch (Game.UpgradesById[t].name) {
+	switch (Game.UpgradesById[upgradeKey].name) {
 		case "Kitten helpers":
 			p = 0.05;
 			break;
@@ -135,21 +135,21 @@ CookieMonster.getAchievementWorth = function(e, t, n, r) {
 			p = 0.2;
 			break;
 	}
-	l = l * (1 + p * a);
-	i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
+	l = l * (1 + p * milkProgress);
+	i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * frenzyMultiplier - h;
 	var d = this.inc(i + h);
 	if (d > 0) {
-		a += d * 0.04;
-		l = 100 + s + o;
-		l = l * (1 + u[0] * a);
-		l = l * (1 + u[1] * a);
-		l = l * (1 + u[2] * a);
-		l = l * (1 + u[3] * a);
-		l = l * (1 + p * a);
-		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f - h;
+		milkProgress += d * 0.04;
+		l = 100 + heavenlyMultiplier + o;
+		l = l * (1 + u[0] * milkProgress);
+		l = l * (1 + u[1] * milkProgress);
+		l = l * (1 + u[2] * milkProgress);
+		l = l * (1 + u[3] * milkProgress);
+		l = l * (1 + p * milkProgress);
+		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * frenzyMultiplier - h;
 	}
 	if (r !== 0) {
-		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * f;
+		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * frenzyMultiplier;
 	}
 	if (Game.Has("Elder Covenant")) {
 		i *= 0.95;
