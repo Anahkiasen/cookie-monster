@@ -158,6 +158,69 @@ CookieMonster.updateTooltips = function(which) {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Handles the creation/update of an upgrade's tooltip
+ *
+ * @param {Object} upgrade
+ *
+ * @return {void}
+ */
+CookieMonster.manageUpgradeTooltips = function(upgrade) {
+	// Cancel if the upgrade isn't in the store
+	if (!this.isInStore(upgrade)) {
+		return;
+	}
+
+	// Gather comparative informations
+	var income       = this.getUpgradeWorth(upgrade);
+	var informations = [this.roundDecimal(upgrade.basePrice / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
+	var colors       = this.getLuckyColors(informations);
+
+	// Update store counters
+	var colorKey = ['blue', 'green', 'yellow', 'orange', 'red', 'purple'].indexOf(colors[0]);
+	this.upgradeCounts[colorKey]++;
+
+	// Colorize upgrade icon
+	if (this.getSetting('UpgradeIcons')) {
+		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div class="cookie-monster__upgrade background-' +colors[0]+ '"></div>');
+	}
+
+	return this.updateTooltip('up', upgrade.id, colors, this.getLuckyAlerts(upgrade.basePrice), [
+		this.roundDecimal(income),
+		informations[0],
+		informations[1],
+	]);
+};
+
+/**
+ * Handles the creation/update of a building's tooltip
+ *
+ * @param {Object} building
+ *
+ * @return {void}
+ */
+CookieMonster.manageBuildingTooltip = function(building) {
+	var informations = [this.bottomBar.cpi[building.id], this.bottomBar.timeLeft[building.id]];
+	var colors       = this.getLuckyColors(informations);
+
+	// Colorize building price
+	if (this.getBooleanSetting('ColoredPrices')) {
+		$('.price', '#product'+building.id).attr('class', 'price text-'+colors[0]);
+	}
+
+	return this.updateTooltip('ob', building.id, colors, this.getLuckyAlerts(building.price), [
+		this.bottomBar.bonus[building.id],
+		informations[0],
+		informations[1],
+	]);
+};
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////// HELPERS /////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+
+
+/**
  * Get the lucky alerts for a price
  *
  * @param {Integer} price
@@ -182,27 +245,18 @@ CookieMonster.getLuckyAlerts = function(price) {
 };
 
 /**
- * Handles the creation/update of an upgrade's tooltip
+ * Get the colors for the lucky alerts
  *
- * @param {Object} upgrade
+ * @param {Array} informations
  *
- * @return {void}
+ * @return {Array}
  */
-CookieMonster.manageUpgradeTooltips = function(upgrade) {
-	// Cancel if the upgrade isn't in the store
-	if (!this.isInStore(upgrade)) {
-		return;
-	}
+CookieMonster.getLuckyColors = function(informations) {
+	var colors    = ['yellow', 'yellow'];
+	var maxValues = this.getBestValue('max');
+	var minValues = this.getBestValue('min');
 
-	var colors       = ['yellow', 'yellow'];
-	var income       = this.getUpgradeWorth(upgrade);
-
-	// Gather comparative informations
-	var informations = [this.roundDecimal(upgrade.basePrice / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
-	var maxValues    = this.getBestValue('max');
-	var minValues    = this.getBestValue('min');
-
-	// Compute upgrade color
+	// Compute color
 	for (var i = 0; i < colors.length; i++) {
 		if (informations[i] < minValues[i]) {
 			colors[i] = 'blue';
@@ -217,52 +271,5 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 		}
 	}
 
-	// Update store counters
-	var colorKey = ['blue', 'green', 'yellow', 'orange', 'red', 'purple'].indexOf(colors[0]);
-	this.upgradeCounts[colorKey]++;
-
-	// Add color icon
-	if (this.getSetting('UpgradeIcons')) {
-		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div class="cookie-monster__upgrade background-' +colors[0]+ '"></div>');
-	}
-
-	return this.updateTooltip('up', upgrade.id, colors, this.getLuckyAlerts(upgrade.basePrice), [
-		this.roundDecimal(income),
-		informations[0],
-		informations[1],
-	]);
-};
-
-/**
- * Handles the creation/update of a building's tooltip
- *
- * @param {Object} building
- *
- * @return {void}
- */
-CookieMonster.manageBuildingTooltip = function(building) {
-	var colors       = ['yellow', 'yellow'];
-	var informations = [this.bottomBar.cpi[building.id], this.bottomBar.timeLeft[building.id]];
-	var maxValues    = this.getBestValue('max');
-	var minValues    = this.getBestValue('min');
-
-	// Compute building color
-	for (var i = 0; i < colors.length; i++) {
-		if (informations[i] === minValues[i]) {
-			colors[i] = 'green';
-		} else if (informations[i] === maxValues[i]) {
-			colors[i] = 'red';
-		} else if (maxValues[i] - informations[i] < informations[i] - minValues[i]) {
-			colors[i] = 'orange';
-		}
-	}
-
-	// Colorize building price
-	$('.price', '#product'+building.id).addClass(this.getBooleanSetting('ColoredPrices') ? 'text-'+colors[0] : '');
-
-	return this.updateTooltip('ob', building.id, colors, this.getLuckyAlerts(building.price), [
-		this.bottomBar.bonus[building.id],
-		informations[0],
-		informations[1],
-	]);
+	return colors;
 };
