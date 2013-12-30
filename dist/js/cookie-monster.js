@@ -11,16 +11,23 @@ var CookieMonster = {
 	////////////////////////////////////////////////////////////////////
 
 	version : 'v.1.040.01',
+	loops   : 0,
 
-	emphasize             : true,
-	tooltips              : [],
-	buildingTooltips      : [],
-	goldenCookieAvailable : '',
-	loops                 : 0,
-	humanNumbers          : new Array(
+	tooltips         : [],
+	buildingTooltips : [],
+	humanNumbers     : new Array(
 		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
 		[' M', ' G', ' T', ' P', ' E', ' Z', ' Y', ' Oc', ' No', ' Dc']
 	),
+
+	// Emphasizers
+	////////////////////////////////////////////////////////////////////
+
+	titleModifier : '',
+	onScreen      : {
+		golden : false,
+		season : false
+	},
 
 	// Stored informations
 	////////////////////////////////////////////////////////////////////
@@ -42,31 +49,32 @@ var CookieMonster = {
 	////////////////////////////////////////////////////////////////////
 
 	settings: {
-		'FlashScreen'    : 1,
-		'CookieTimer'    : 1,
-		'BuffBars'       : 1,
-		'Refresh'        : 1e3,
-		'CookieCD'       : 1,
-		'CMBar'          : 1,
-		'ColoredPrices'  : 1,
-		'ShortNumbers'   : 1,
-		'CookieSound'    : 0,
-		'UpdateTitle'    : 1,
-		'LuckyAlert'     : 1,
-		'UpgradeIcons'   : 1,
-		'UpgradeDisplay' : 1,
-		'Colorblind'     : 0,
+		'BuffBars'       : {type: 'boolean', value: 1,   label: 'Buff Bars',         desc: 'Displays a countdown bar for each effect currently active'},
+		'CMBar'          : {type: 'boolean', value: 1,   label: 'Bottom Bar',        desc: 'Displays a bar at the bottom of the screen that shows all Building information'},
+		'Colorblind'     : {type: 'boolean', value: 0,   label: 'Colorblind',        desc: 'Use colorblind safe colors'},
+		'ColoredPrices'  : {type: 'boolean', value: 1,   label: 'Colored Prices',    desc: 'Changes the colors of all Building prices to correspond with their Cost Per Income'},
+		'CookieCD'       : {type: 'boolean', value: 1,   label: 'Next Cookie Timer', desc: 'Displays a countdown bar and updates the Title for when the next Cookie will appear'},
+		'CookieTimer'    : {type: 'boolean', value: 1,   label: 'Cookie Timer',      desc: 'Displays a timer on Golden Cookies and Red Cookies'},
+		'FlashScreen'    : {type: 'boolean', value: 1,   label: 'Flash Screen',      desc: 'Flashes the screen when a Golden Cookie or Red Cookie appears'},
+		'LuckyAlert'     : {type: 'switch',  value: 1,   label: 'Lucky Alert',       desc: 'Changes the tooltip to display if you would be under the number of cookies required for \"Lucky\"!'},
+		'Refresh'        : {type: 'switch',  value: 1e3, label: 'Refresh Rate',      desc: 'The rate at which Cookie Monster updates data (higher rates may slow the game)'},
+		'ShortNumbers'   : {type: 'switch',  value: 1,   label: 'Short Numbers',     desc: 'Formats all numbers to be shorter when displayed'},
+		'Sounds'         : {type: 'boolean', value: 0,   label: 'Sounds',            desc: 'Plays a sound when a Golden Cookie or Red Cookie appears'},
+		'UpdateTitle'    : {type: 'boolean', value: 1,   label: 'Update Title',      desc: 'Updates the Title to display if a Cookie is waiting to be clicked'},
+		'UpgradeDisplay' : {type: 'switch',  value: 1,   label: 'Upgrade Display',   desc: 'Changes how the store displays Upgrades'},
+		'UpgradeIcons'   : {type: 'boolean', value: 1,   label: 'Upgrade Icons',     desc: 'Displays a small square icon on the Upgrade to better display the Cost Per Income color value'},
 	},
 
 	// Selectors
 	////////////////////////////////////////////////////////////////////
 
-	$game          : $('#game'),
-	$goldenCookie  : $('#goldenCookie'),
-	$goldenOverlay : $('#cookie-monster__golden-overlay'),
-	$monsterBar    : $('#cookie-monster__bottom-bar'),
-	$overlay       : $('#cookie-monster__overlay'),
-	$timerBars     : $('#cookie-monster__buff-bars'),
+	$game         : $('#game'),
+	$goldenCookie : $('#goldenCookie'),
+	$flashOverlay : $('#cookie-monster__golden-overlay'),
+	$monsterBar   : $('#cookie-monster__bottom-bar'),
+	$overlay      : $('#cookie-monster__overlay'),
+	$timerBars    : $('#cookie-monster__buff-bars'),
+	$reindeer     : $('#seasonPopup'),
 
 	// Texts
 	////////////////////////////////////////////////////////////////////
@@ -270,6 +278,33 @@ CookieMonster.getFrenzyMultiplier = function() {
 	return (Game.frenzy > 0) ? Game.frenzyPower : 1;
 };
 
+/**
+ * Emphasize the apparition of a Golden Cookie
+ *
+ * @return {void}
+ */
+CookieMonster.emphasizeGolden = function() {
+	var $golden = this.$goldenCookie;
+
+	if ($golden.is(':hidden') && this.onScreen.golden) {
+		this.onScreen.golden = false;
+		this.$flashOverlay.hide();
+
+		this.titleModifier = '';
+	} else if ($golden.is(':visible') && !this.onScreen.golden) {
+		this.onScreen.golden = true;
+		this.$flashOverlay.show();
+
+		this.Emphasizers.updateTitle();
+		this.Emphasizers.playSound();
+		this.Emphasizers.flashScreen();
+	}
+
+	if ($golden.is(':visible')) {
+		this.Emphasizers.displayGoldenTimer();
+	}
+};
+
 //////////////////////////////////////////////////////////////////////
 ////////////////////////////// DOM ELEMENTS //////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -279,10 +314,10 @@ CookieMonster.getFrenzyMultiplier = function() {
  *
  * @return {void}
  */
-CookieMonster.createGoldenOverlay = function() {
+CookieMonster.createFlashOverlay = function() {
 	$('body').append('<div id="cookie-monster__golden-overlay" onclick="Game.goldenCookie.click();"></div>');
 
-	this.$goldenOverlay = $('#cookie-monster__golden-overlay');
+	this.$flashOverlay = $('#cookie-monster__golden-overlay');
 };
 
 /**
@@ -294,108 +329,6 @@ CookieMonster.createOverlay = function() {
 	$('body').append('<div id="cookie-monster__overlay"></div>');
 
 	this.$overlay = $('#cookie-monster__overlay');
-};
-
-//////////////////////////////////////////////////////////////////////
-////////////////////////////// EMPHASIZERS ///////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-CookieMonster.Emphasizers = {};
-
-/**
- * Emphasize the apparition of a Golden Cookie
- *
- * @return {void}
- */
-CookieMonster.emphasizeGolden = function() {
-	var $golden = this.$goldenCookie;
-
-	if ($golden.is(':hidden') && !this.emphasize) {
-		this.emphasize = true;
-		this.$goldenOverlay.hide();
-
-		this.goldenCookieAvailable = '';
-	} else if ($golden.is(':visible') && this.emphasize) {
-		this.emphasize = false;
-		this.$goldenOverlay.show();
-
-		this.Emphasizers.updateTitle();
-		this.Emphasizers.playSound();
-		this.Emphasizers.flashScreen();
-	}
-
-	if ($golden.is(':visible')) {
-		this.Emphasizers.displayTimer();
-	}
-};
-
-CookieMonster.Emphasizers.displayTimer = function() {
-	if (!CookieMonster.getBooleanSetting('CookieTimer')) {
-		return;
-	}
-
-	CookieMonster.$goldenOverlay
-		.css(CookieMonster.$goldenCookie.css(['opacity', 'top', 'left', 'top']))
-		.text(Math.round(Game.goldenCookie.life / Game.fps));
-};
-
-CookieMonster.Emphasizers.updateTitle = function() {
-	if (!CookieMonster.getBooleanSetting('UpdateTitle')) {
-		return;
-	}
-
-	CookieMonster.goldenCookieAvailable = '(G) ';
-	this.faviconSpinner(1);
-};
-
-/**
- * Changes the favicon according to current state
- *
- * @param {integer} frame The current sprite of the favicon
- *
- * @return {void}
- */
-CookieMonster.Emphasizers.faviconSpinner = function(frame) {
-	if (frame > 6) {
-		frame = 1;
-	}
-
-	if (CookieMonster.goldenCookieAvailable === '(G) ') {
-		CookieMonster.updateFavicon('cm_gc_' +frame);
-		frame++;
-		setTimeout(function () {
-			CookieMonster.Emphasizers.faviconSpinner(frame);
-		}, 250);
-	} else {
-		CookieMonster.updateFavicon('http://orteil.dashnet.org/cookieclicker/img/favicon.ico');
-	}
-};
-
-/**
- * Play the Golden Cookie sound
- *
- * @return {void}
- */
-CookieMonster.Emphasizers.playSound = function() {
-	if (!CookieMonster.getBooleanSetting('CookieSound')) {
-		return;
-	}
-
-	CookieMonster.playBell();
-};
-
-/**
- * Flash the screen
- *
- * @return {void}
- */
-CookieMonster.Emphasizers.flashScreen = function() {
-	if (!CookieMonster.getBooleanSetting('FlashScreen')) {
-		return;
-	}
-
-	CookieMonster.$overlay.fadeIn(100);
-	CookieMonster.$overlay.fadeOut(500);
 };
 /**
  * Get the number of Heavenly Chips from a number of cookies (all time)
@@ -615,6 +548,23 @@ CookieMonster.getFrenzyRate = function(context) {
 	}
 
 	return reward * 1200 + 13;
+};
+/**
+ * Emphasize the apparition of a Reindeer
+ *
+ * @return {void}
+ */
+CookieMonster.emphasizeSeason = function() {
+	var $reindeer = this.$reindeer;
+
+	if ($reindeer.is(':hidden') && this.onScreen.season) {
+		this.onScreen.season = false;
+		this.$flashOverlay.hide();
+	} else if ($reindeer.is(':visible') && !this.onScreen.season) {
+		this.onScreen.season = true;
+		this.Emphasizers.playSound();
+		this.Emphasizers.flashScreen();
+	}
 };
 CookieMonster.getUpgradeBonuses = function(building, currentNumber, production) {
 	var r = 0;
@@ -854,6 +804,80 @@ CookieMonster.updateFavicon = function (favicon) {
 	favicon = this.getImage(favicon);
 
 	$('#cm_favicon').attr('href', favicon);
+};
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// EMPHASIZERS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+CookieMonster.Emphasizers = {};
+
+CookieMonster.Emphasizers.displayGoldenTimer = function() {
+	if (!CookieMonster.getBooleanSetting('CookieTimer')) {
+		return;
+	}
+
+	CookieMonster.$flashOverlay
+		.css(CookieMonster.$goldenCookie.css(['opacity', 'top', 'left', 'top']))
+		.text(Math.round(Game.goldenCookie.life / Game.fps));
+};
+
+CookieMonster.Emphasizers.updateTitle = function() {
+	if (!CookieMonster.getBooleanSetting('UpdateTitle')) {
+		return;
+	}
+
+	CookieMonster.titleModifier = '(G) ';
+	this.faviconSpinner(1);
+};
+
+/**
+ * Changes the favicon according to current state
+ *
+ * @param {integer} frame The current sprite of the favicon
+ *
+ * @return {void}
+ */
+CookieMonster.Emphasizers.faviconSpinner = function(frame) {
+	if (frame > 6) {
+		frame = 1;
+	}
+
+	if (CookieMonster.titleModifier === '(G) ') {
+		CookieMonster.updateFavicon('cm_gc_' +frame);
+		frame++;
+		setTimeout(function () {
+			CookieMonster.Emphasizers.faviconSpinner(frame);
+		}, 250);
+	} else {
+		CookieMonster.updateFavicon('http://orteil.dashnet.org/cookieclicker/img/favicon.ico');
+	}
+};
+
+/**
+ * Play the Golden Cookie sound
+ *
+ * @return {void}
+ */
+CookieMonster.Emphasizers.playSound = function() {
+	if (!CookieMonster.getBooleanSetting('Sounds')) {
+		return;
+	}
+
+	CookieMonster.playBell();
+};
+
+/**
+ * Flash the screen
+ *
+ * @return {void}
+ */
+CookieMonster.Emphasizers.flashScreen = function() {
+	if (!CookieMonster.getBooleanSetting('FlashScreen')) {
+		return;
+	}
+
+	CookieMonster.$overlay.fadeIn(100);
+	CookieMonster.$overlay.fadeOut(500);
 };
 /**
  * Format a number to a string (adds separators, convert units, etc)
@@ -1330,6 +1354,7 @@ CookieMonster.manageBuffs = function() {
 	this.manageFrenzyBars();
 	this.manageClickingFrenzy();
 	this.manageNextCookie();
+	this.manageNextReindeer();
 
 	// Offset version number
 	$('#versionNumber').css('bottom', this.$timerBars.css('height'));
@@ -1406,10 +1431,27 @@ CookieMonster.manageFrenzyBars = function() {
  */
 CookieMonster.manageClickingFrenzy = function() {
 	if (Game.clickFrenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
-		return this.fadeOutBar(this.color('blue'));
+		return this.fadeOutBar('blue');
 	}
 
-	this.updateBar('Click frenzy', this.color('blue'), Game.clickFrenzy);
+	this.updateBar('Click frenzy', 'blue', Game.clickFrenzy);
+};
+
+/**
+ * Manage the "Next Reindeer" bar
+ *
+ * @return {void}
+ */
+CookieMonster.manageNextReindeer = function() {
+	var timers = [Game.seasonPopup.time, Game.seasonPopup.minTime, Game.seasonPopup.maxTime];
+	var width  = timers[2] - timers[0];
+
+	// Hide if Reindeer on screen
+	if (timers[0] <= 0 || this.$reindeer.is(':visible')) {
+		return this.fadeOutBar('orange');
+	}
+
+	this.updateBar('Next Reindeer', 'orange', width, width / timers[2] * 100);
 };
 
 /**
@@ -1424,16 +1466,16 @@ CookieMonster.manageNextCookie = function() {
 	var countdown = Math.round(width / Game.fps);
 
 	// Update title
-	if (countdown > 0 && CookieMonster.$goldenCookie.is(':hidden')) {
-		this.goldenCookieAvailable = this.getBooleanSetting('CookieCD') ? "(" + countdown + ") " : '';
+	if (countdown > 0 && this.$goldenCookie.is(':hidden')) {
+		this.titleModifier = this.getBooleanSetting('CookieCD') ? '(' + countdown + ') ' : '';
 	}
 
 	// Cancel if disabled
-	if (timers[0] <= 0 || CookieMonster.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieCD')) {
-		return this.fadeOutBar(this.color('purple'));
+	if (timers[0] <= 0 || this.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieCD')) {
+		return this.fadeOutBar('purple');
 	}
 
-	this.updateBar('Next Cookie', this.color('purple'), width, width / timers[2] * 100);
+	this.updateBar('Next Cookie', 'purple', width, width / timers[2] * 100);
 	$('#cmt2_'+this.color('purple')).css('max-width', (barsWidth - 189) * 0.67 + "px");
 };
 
@@ -1453,6 +1495,8 @@ CookieMonster.manageNextCookie = function() {
  */
 CookieMonster.updateBar = function (name, color, timer, width) {
 	var $bar = $('#cookie-monster__timer-'+color);
+
+	// Create bar if it doesn't exist
 	if ($bar.length !== 1) {
 		this.createBar(name, color);
 	}
@@ -1477,7 +1521,9 @@ CookieMonster.updateBar = function (name, color, timer, width) {
  * @return {void}
  */
 CookieMonster.createBar = function (name, color) {
-	var secondBar = '';
+	var secondBar  = '';
+
+	// Add second bar for golden cookies
 	if (name === 'Next Cookie') {
 		secondBar = '<div class="cm-buff-bar__bar background-purple" id="cmt2_'+this.color('purple')+'"></div>';
 	}
@@ -1648,12 +1694,12 @@ CookieMonster.colorize = function(e, upgradeKey, returnHtml) {
 CookieMonster.loadSetting = function(name) {
 	// If we have a value in memory, load it
 	if (localStorage[name] !== undefined) {
-		this.settings[name] = parseInt(localStorage[name], 10);
+		this.setSetting(name, parseInt(localStorage[name], 10));
 	}
 
 	// Else save default
 	else {
-		localStorage[name] = this.settings[name];
+		localStorage[name] = this.getSetting(name);
 	}
 };
 
@@ -1678,7 +1724,7 @@ CookieMonster.loadSettings = function() {
 CookieMonster.saveSettings = function() {
 	if (typeof Storage !== 'undefined' || typeof localStorage !== 'undefined') {
 		for (var setting in this.settings) {
-			localStorage[setting] = this.settings[setting];
+			localStorage[setting] = this.getSetting(setting);
 		}
 	}
 
@@ -1690,13 +1736,54 @@ CookieMonster.saveSettings = function() {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Toggle a setting to its next possible value
+ *
+ * @param {String} setting
+ *
+ * @return {Void}
+ */
+CookieMonster.toggleSetting = function(setting) {
+	var option  = this.settings[setting];
+	var current = option.value;
+
+	// Look for available states
+	var states = [];
+	switch (setting) {
+		case 'ShortNumbers':
+		case 'UpgradeDisplay':
+			states = [0, 1, 2];
+			break;
+
+		case 'Refresh':
+			states = [1e3, 500, 250, 100, 33];
+			break;
+
+		case 'LuckyAlert':
+			states = [0, 1, 2, 3];
+			break;
+
+		default:
+			states = [0, 1];
+			break;
+	}
+
+	// Look for next state, or go back to start
+	var next = states.indexOf(current) + 1;
+	next = typeof states[next] !== 'undefined' ? states[next] : states[0];
+
+	this.setSetting(setting, next);
+
+	return next;
+};
+
+/**
  * Set a setting by name
  *
  * @param {String} setting
  * @param {Mixed}  value
  */
 CookieMonster.setSetting = function(setting, value) {
-	this.settings[setting] = value;
+	this.settings[setting].value = value;
 };
 
 /**
@@ -1708,7 +1795,7 @@ CookieMonster.setSetting = function(setting, value) {
  * @return {Mixed}
  */
 CookieMonster.getSetting = function(setting) {
-	return this.settings[setting];
+	return this.settings[setting].value;
 };
 
 /**
@@ -1730,7 +1817,12 @@ CookieMonster.getBooleanSetting = function (setting) {
  * @return {string}
  */
 CookieMonster.getOptionState = function(name) {
-	return (this.settings[name] === 0) ? 'OFF' : 'ON';
+	var method = 'get'+name+'State';
+	if (typeof this[method] !== 'undefined') {
+		return this[method]();
+	}
+
+	return (this.getSetting(name) === 0) ? 'OFF' : 'ON';
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -1745,170 +1837,60 @@ CookieMonster.getOptionState = function(name) {
  * @return {void}
  */
 CookieMonster.toggleOption = function(option) {
-	var $option = $(option);
+	var $option   = $(option);
+	var optionKey = $option.data('option');
 
-	switch ($option.text()) {
-		case "Colorblind ON":
-			this.setSetting('Colorblind', 0);
-			$option.text("Colorblind OFF");
+	// Update option
+	this.toggleSetting(optionKey);
+	$option.text(this.getLabel(optionKey));
+
+	switch (optionKey) {
+		case 'Colorblind':
 			this.loadStyles();
 			break;
-		case "Colorblind OFF":
-			this.setSetting('Colorblind', 1);
-			$option.text("Colorblind ON");
-			this.loadStyles();
-			break;
-		case "Flash Screen ON":
-			this.setSetting('FlashScreen', 0);
-			$option.text("Flash Screen OFF");
-			break;
-		case "Flash Screen OFF":
-			this.setSetting('FlashScreen', 1);
-			$option.text("Flash Screen ON");
-			break;
-		case "Cookie Sound ON":
-			this.setSetting('CookieSound', 0);
-			$option.text("Cookie Sound OFF");
-			break;
-		case "Cookie Sound OFF":
-			this.setSetting('CookieSound', 1);
-			$option.text("Cookie Sound ON");
-			break;
-		case "Cookie Timer ON":
-			this.setSetting('CookieTimer', 0);
-			$option.text("Cookie Timer OFF");
-			break;
-		case "Cookie Timer OFF":
-			this.setSetting('CookieTimer', 1);
-			$option.text("Cookie Timer ON");
-			break;
-		case "Next Cookie Timer ON":
-			this.setSetting('CookieCD', 0);
-			$option.text("Next Cookie Timer OFF");
-			break;
-		case "Next Cookie Timer OFF":
-			this.setSetting('CookieCD', 1);
-			$option.text("Next Cookie Timer ON");
-			break;
-		case "Update Title ON":
-			this.setSetting('UpdateTitle', 0);
-			$option.text("Update Title OFF");
-			break;
-		case "Update Title OFF":
-			this.setSetting('UpdateTitle', 1);
-			$option.text("Update Title ON");
-			break;
-		case "Buff Bars ON":
-			this.setSetting('BuffBars', 0);
-			$option.text("Buff Bars OFF");
-			break;
-		case "Buff Bars OFF":
-			this.setSetting('BuffBars', 1);
-			$option.text("Buff Bars ON");
-			break;
-		case "Bottom Bar ON":
-			this.setSetting('CMBar', 0);
-			$option.text("Bottom Bar OFF");
-			break;
-		case "Bottom Bar OFF":
-			this.setSetting('CMBar', 1);
-			$option.text("Bottom Bar ON");
-			break;
-		case "Colored Prices ON":
-			this.setSetting('ColoredPrices', 0);
-			$option.text("Colored Prices OFF");
+		case 'ColoredPrices':
 			this.updateTooltips("objects");
 			break;
-		case "Colored Prices OFF":
-			this.setSetting('ColoredPrices', 1);
-			$option.text("Colored Prices ON");
-			this.updateTooltips("objects");
-			break;
-		case "Upgrade Icons ON":
-			this.setSetting('UpgradeIcons', 0);
-			$option.text("Upgrade Icons OFF");
+		case 'UpgradeIcons':
 			Game.RebuildUpgrades();
 			break;
-		case "Upgrade Icons OFF":
-			this.setSetting('UpgradeIcons', 1);
-			$option.text("Upgrade Icons ON");
-			Game.RebuildUpgrades();
-			break;
-		case "Upgrade Display (All)":
-			this.setSetting('UpgradeDisplay', 0);
-			$option.text("Upgrade Display (None)");
+		case 'UpgradeDisplay':
 			this.updateUpgradeDisplay();
 			break;
-		case "Upgrade Display (None)":
-			this.setSetting('UpgradeDisplay', 1);
-			$option.text("Upgrade Display (Normal)");
-			this.updateUpgradeDisplay();
-			break;
-		case "Upgrade Display (Normal)":
-			this.setSetting('UpgradeDisplay', 2);
-			$option.text("Upgrade Display (All)");
-			this.updateUpgradeDisplay();
-			break;
-		case "Short Numbers ON (B)":
-			this.setSetting('ShortNumbers', 0);
-			$option.text("Short Numbers OFF");
+		case 'ShortNumbers':
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
 			this.updateTable();
-			break;
-		case "Short Numbers OFF":
-			this.setSetting('ShortNumbers', 1);
-			$option.text("Short Numbers ON (A)");
-			Game.RebuildStore();
-			Game.RebuildUpgrades();
-			this.updateTable();
-			break;
-		case "Short Numbers ON (A)":
-			this.setSetting('ShortNumbers', 2);
-			$option.text("Short Numbers ON (B)");
-			Game.RebuildStore();
-			Game.RebuildUpgrades();
-			this.updateTable();
-			break;
-		case "Lucky Alert (Both)":
-			this.setSetting('LuckyAlert', 2);
-			$option.text("Lucky Alert (Icons)");
-			break;
-		case "Lucky Alert (Icons)":
-			this.setSetting('LuckyAlert', 3);
-			$option.text("Lucky Alert (Notes)");
-			break;
-		case "Lucky Alert (Notes)":
-			this.setSetting('LuckyAlert', 0);
-			$option.text("Lucky Alert (Off)");
-			break;
-		case "Lucky Alert (Off)":
-			this.setSetting('LuckyAlert', 1);
-			$option.text("Lucky Alert (Both)");
-			break;
-		case "Refresh Rate (1 fps)":
-			this.setSetting('Refresh', 500);
-			$option.text("Refresh Rate (2 fps)");
-			break;
-		case "Refresh Rate (2 fps)":
-			this.setSetting('Refresh', 250);
-			$option.text("Refresh Rate (4 fps)");
-			break;
-		case "Refresh Rate (4 fps)":
-			this.setSetting('Refresh', 100);
-			$option.text("Refresh Rate (10 fps)");
-			break;
-		case "Refresh Rate (10 fps)":
-			this.setSetting('Refresh', 33);
-			$option.text("Refresh Rate (30 fps)");
-			break;
-		case "Refresh Rate (30 fps)":
-			this.setSetting('Refresh', 1e3);
-			$option.text("Refresh Rate (1 fps)");
 			break;
 	}
 
 	this.saveSettings();
+};
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////////// OPTION LABELS //////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Get the label for an option
+ *
+ * @param {String} option
+ *
+ * @return {String}
+ */
+CookieMonster.getLabel = function(option) {
+	return this.settings[option].label+ ' (' +this.getOptionState(option)+ ')';
+};
+
+/**
+ * Get the description of an option
+ *
+ * @param {String} option
+ *
+ * @return {String}
+ */
+CookieMonster.getDescription = function(option) {
+	return this.settings[option].desc;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -1920,12 +1902,12 @@ CookieMonster.toggleOption = function(option) {
  *
  * @return {string}
  */
-CookieMonster.getShortNumbers = function() {
+CookieMonster.getShortNumbersState = function() {
 	switch (this.getSetting('ShortNumbers') * 1) {
 		case 1:
-			return 'ON (A)';
+			return 'ON [A]';
 		case 2:
-			return 'ON (B)';
+			return 'ON [B]';
 		case 0:
 			return 'OFF';
 		default:
@@ -1938,20 +1920,20 @@ CookieMonster.getShortNumbers = function() {
  *
  * @return {string}
  */
-CookieMonster.getRefreshRate = function() {
+CookieMonster.getRefreshState = function() {
 	switch (this.getSetting('Refresh') * 1) {
 		case 1e3:
-			return '1';
+			return '1 fps';
 		case 500:
-			return '2';
+			return '2 fps';
 		case 250:
-			return '4';
+			return '4 fps';
 		case 100:
-			return '10';
+			return '10 fps';
 		case 33:
-			return '30';
+			return '30 fps';
 		default:
-			return '1';
+			return '1 fps';
 	}
 };
 
@@ -1960,7 +1942,7 @@ CookieMonster.getRefreshRate = function() {
  *
  * @return {string}
  */
-CookieMonster.getUpgradeDisplay = function() {
+CookieMonster.getUpgradeDisplayState = function() {
 	switch (this.getSetting('UpgradeDisplay') * 1) {
 		case 1:
 			return 'Normal';
@@ -1978,7 +1960,7 @@ CookieMonster.getUpgradeDisplay = function() {
  *
  * @return {string}
  */
-CookieMonster.getLuckyAlert = function () {
+CookieMonster.getLuckyAlertState = function () {
 	switch (this.getSetting('LuckyAlert') * 1) {
 		case 1:
 			return 'Both';
@@ -2327,7 +2309,7 @@ CookieMonster.start = function() {
 	// Add Cookie Monster elements
 	this.createBottomBar();
 	this.createOverlay();
-	this.createGoldenOverlay();
+	this.createFlashOverlay();
 	this.createBarsContainer();
 	this.createStoreCounters();
 
@@ -2379,8 +2361,11 @@ CookieMonster.loadStyles = function() {
 CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();
 	CookieMonster.updateTooltips('all');
-	CookieMonster.emphasizeGolden();
 	CookieMonster.manageBuffs();
+
+	CookieMonster.emphasizeGolden();
+	CookieMonster.emphasizeSeason();
+
 	CookieMonster.loops++;
 
 	if (CookieMonster.loops === 1) {
@@ -2438,7 +2423,7 @@ CookieMonster.replaceNative = function(native, replaces, args) {
  */
 CookieMonster.update = function() {
 	this.replaceNative('Logic', function (native) {
-		return native.replace('.title=', '.title=CookieMonster.goldenCookieAvailable+');
+		return native.replace('.title=', '.title=CookieMonster.titleModifier+');
 	});
 	this.replaceNative('UpdateMenu', function (native) {
 		return native.replace("Statistics</div>'+", "Statistics</div>'+\n\n"+
@@ -2456,65 +2441,15 @@ CookieMonster.update = function() {
 			"</div>'+");
 	});
 
-	var cookieMonsterSettings = "\n'<div class=\"subsection\">" +
-		"<div class=\"title\"><span style=\"color:#' +CookieMonster.color('blue')+ ';\">Cookie Monster Settings</span></div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Flash Screen ' + CookieMonster.getOptionState('FlashScreen') + '</a>"+
-			"<label>Flashes the screen when a Golden Cookie or Red Cookie appears</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Cookie Timer ' + CookieMonster.getOptionState('CookieTimer') + '</a>"+
-			"<label>Displays a timer on Golden Cookies and Red Cookies</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Cookie Sound ' + CookieMonster.getOptionState('CookieSound') + '</a>"+
-			"<label>Plays a sound when a Golden Cookie or Red Cookie appears</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Next Cookie Timer ' + CookieMonster.getOptionState('CookieCD') + '</a>"+
-			"<label>Displays a countdown bar and updates the Title for when the next Cookie will appear</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Update Title ' + CookieMonster.getOptionState('UpdateTitle') + '</a>"+
-			"<label>Updates the Title to display if a Cookie is waiting to be clicked</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Buff Bars ' + CookieMonster.getOptionState('BuffBars') + '</a>"+
-			"<label>Displays a countdown bar for each effect currently active</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Bottom Bar ' + CookieMonster.getOptionState('CMBar') + '</a>"+
-			"<label>Displays a bar at the bottom of the screen that shows all Building information</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Colored Prices ' + CookieMonster.getOptionState('ColoredPrices') + '</a>"+
-			"<label>Changes the colors of all Building prices to correspond with their Cost Per Income</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Upgrade Icons ' + CookieMonster.getOptionState('UpgradeIcons') + '</a>"+
-			"<label>Displays a small square icon on the Upgrade to better display the Cost Per Income color value</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Short Numbers ' + CookieMonster.getShortNumbers() + '</a>"+
-			"<label>Formats all numbers to be shorter when displayed</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Upgrade Display (' + CookieMonster.getUpgradeDisplay() + ')</a>"+
-			"<label>Changes how the store displays Upgrades</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Lucky Alert (' + CookieMonster.getLuckyAlert() + ')</a>"+
-			"<label>Changes the tooltip to display if you would be under the number of cookies required for \"Lucky!\"</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Refresh Rate (' + CookieMonster.getRefreshRate() + ' fps)</a>"+
-			"<label>The rate at which Cookie Monster updates data (higher rates may slow the game)</label>"+
-		"</div>"+
-		'<div class="listing">'+
-			"<a class=\"option\" onclick=\"CookieMonster.toggleOption(this);\">Colorblind ' + CookieMonster.getOptionState('Colorblind') + '</a>"+
-			"<label>Use colorblind safe colors</label>"+
-		"</div>"+
-	"</div>'+";
+	var cookieMonsterSettings = "\n'<div class=\"subsection\"><div class=\"title\"><span class=\"text-blue\">Cookie Monster Settings</span></div>";
+	for (var setting in this.settings) {
+		cookieMonsterSettings +=
+			'<div class="listing">'+
+				"<a class=\"option\" data-option=\"" +setting+ "\" onclick=\"CookieMonster.toggleOption(this);\">' + CookieMonster.getLabel('" +setting+ "') + '</a>"+
+				"<label>' + CookieMonster.getDescription('" +setting+ "') + '</label>"+
+			'</div>';
+	}
+	cookieMonsterSettings += "</div>'+";
 
 	this.replaceNative('UpdateMenu', function (native) {
 		return native
