@@ -58,12 +58,11 @@ CookieMonster.makeTooltip = function(object, type) {
  * @param {Integer} key
  * @param {Array}   colors
  * @param {Array}   deficits
- * @param {Array}   display
  * @param {Array}   informations
  *
  * @return {Void}
  */
-CookieMonster.updateTooltip = function(type, key, colors, deficits, display, informations) {
+CookieMonster.updateTooltip = function(type, key, colors, deficits, informations) {
 	var identifier = '#'+this.identifier(type, key);
 	var $object    = $(identifier);
 
@@ -92,16 +91,16 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, display, inf
 	$(identifier+'caution_amount').text('Deficit: ' + this.formatNumber(deficits[1]));
 
 	if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
-		$(identifier+'lucky_div_warning').toggle(display[0]);
-		$(identifier+'lucky_div_caution').toggle(display[1]);
+		$(identifier+'lucky_div_warning').toggle(deficits[0] > 0);
+		$(identifier+'lucky_div_caution').toggle(deficits[1] > 0);
 	} else {
 		$(identifier+'lucky_div_warning').hide();
 		$(identifier+'lucky_div_caution').hide();
 	}
 
 	if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 3) {
-		$(identifier+'note_div_warning').toggle(display[0]);
-		$(identifier+'note_div_caution').toggle(display[1]);
+		$(identifier+'note_div_warning').toggle(deficits[0] > 0);
+		$(identifier+'note_div_caution').toggle(deficits[1] > 0);
 	} else {
 		$(identifier+'note_div_warning').hide();
 		$(identifier+'note_div_caution').hide();
@@ -159,6 +158,30 @@ CookieMonster.updateTooltips = function(which) {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Get the lucky alerts for a price
+ *
+ * @param {Integer} price
+ *
+ * @return {Array}
+ */
+CookieMonster.getLuckyAlerts = function(price) {
+	var rewards  = [this.luckyReward('regular'), this.luckyReward('frenzy')];
+	var deficits = [0, 0];
+
+	// Check Lucky alert
+	if (Game.cookies - price < rewards[0]) {
+		deficits[0] = rewards[0] - (Game.cookies - price);
+	}
+
+	// Check Lucky Frenzy alert
+	if (Game.cookies - price < rewards[1]) {
+		deficits[1] = rewards[1] - (Game.cookies - price);
+	}
+
+	return deficits;
+};
+
+/**
  * Handles the creation/update of an upgrade's tooltip
  *
  * @param {Object} upgrade
@@ -166,19 +189,18 @@ CookieMonster.updateTooltips = function(which) {
  * @return {void}
  */
 CookieMonster.manageUpgradeTooltips = function(upgrade) {
-	var income = this.getUpgradeWorth(upgrade);
-	var price  = upgrade.basePrice;
-	var colors = ['yellow', 'yellow'];
-
 	// Cancel if the upgrade isn't in the store
 	if (!this.isInStore(upgrade)) {
 		return;
 	}
 
+	var colors       = ['yellow', 'yellow'];
+	var income       = this.getUpgradeWorth(upgrade);
+
 	// Gather comparative informations
-	var informations = [this.roundDecimal(price / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
-	var maxValues    = [Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.cpi)];
-	var minValues    = [Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.cpi)];
+	var informations = [this.roundDecimal(upgrade.basePrice / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
+	var maxValues    = this.getBestValue('max');
+	var minValues    = this.getBestValue('min');
 
 	// Compute upgrade color
 	for (var i = 0; i < colors.length; i++) {
@@ -204,20 +226,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div class="cookie-monster__upgrade background-' +colors[0]+ '"></div>');
 	}
 
-	var rewards  = [this.luckyReward('regular'), this.luckyReward('frenzy')];
-	var display  = [false, false];
-	var deficits = [0, 0];
-
-	if (Game.cookies - price < rewards[0]) {
-		display[0]  = true;
-		deficits[0] = rewards[0] - (Game.cookies - price);
-	}
-	if (Game.cookies - price < rewards[1]) {
-		display[1]  = true;
-		deficits[1] = rewards[1] - (Game.cookies - price);
-	}
-
-	return this.updateTooltip('up', upgrade.id, colors, deficits, display, [
+	return this.updateTooltip('up', upgrade.id, colors, this.getLuckyAlerts(upgrade.basePrice), [
 		this.roundDecimal(income),
 		informations[0],
 		informations[1],
@@ -232,24 +241,10 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
  * @return {void}
  */
 CookieMonster.manageBuildingTooltip = function(building) {
-	var rewards  = [this.luckyReward('regular'), this.luckyReward('frenzy')];
-	var display  = [false, false];
-	var deficits = [0, 0];
-
-	if (Game.cookies - building.price < rewards[0]) {
-		display[0]  = true;
-		deficits[0] = rewards[0] - (Game.cookies - building.price);
-	}
-	if (Game.cookies - building.price < rewards[1]) {
-		display[1]  = true;
-		deficits[1] = rewards[1] - (Game.cookies - building.price);
-	}
-
-	// Get statistics
 	var colors       = ['yellow', 'yellow'];
 	var informations = [this.bottomBar.cpi[building.id], this.bottomBar.timeLeft[building.id]];
-	var maxValues    = [Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.timeLeft)];
-	var minValues    = [Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.timeLeft)];
+	var maxValues    = this.getBestValue('max');
+	var minValues    = this.getBestValue('min');
 
 	// Compute building color
 	for (var i = 0; i < colors.length; i++) {
@@ -265,7 +260,7 @@ CookieMonster.manageBuildingTooltip = function(building) {
 	// Colorize building price
 	$('.price', '#product'+building.id).addClass(this.getBooleanSetting('ColoredPrices') ? 'text-'+colors[0] : '');
 
-	return this.updateTooltip('ob', building.id, colors, deficits, display, [
+	return this.updateTooltip('ob', building.id, colors, this.getLuckyAlerts(building.price), [
 		this.bottomBar.bonus[building.id],
 		informations[0],
 		informations[1],

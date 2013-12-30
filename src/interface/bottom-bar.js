@@ -1,3 +1,18 @@
+//////////////////////////////////////////////////////////////////////
+///////////////////////////// INFORMATIONS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Get an array with the min/max CPI/timeLeft
+ *
+ * @param {String} minOrMax
+ *
+ * @return {Array}
+ */
+CookieMonster.getBestValue = function(minOrMax) {
+	return [Math[minOrMax].apply(Math, this.bottomBar.cpi), Math[minOrMax].apply(Math, this.bottomBar.timeLeft)];
+};
+
 /**
  * Update the stored informations about a building
  *
@@ -103,8 +118,8 @@ CookieMonster.updateTable = function() {
 	Game.ObjectsById.forEach(function (building, key) {
 		var colors       = ['yellow', 'yellow'];
 		var informations = [that.bottomBar.cpi[key], that.bottomBar.timeLeft[key]];
-		var worst        = [Math.max.apply(Math, that.bottomBar.cpi), Math.max.apply(Math, that.bottomBar.timeLeft)];
-		var best         = [Math.min.apply(Math, that.bottomBar.cpi), Math.min.apply(Math, that.bottomBar.timeLeft)];
+		var worst        = CookieMonster.getBestValue('max');
+		var best         = CookieMonster.getBestValue('min');
 
 		// Compute correct colors
 		for (var i = 0; i < colors.length; i++) {
