@@ -22,10 +22,10 @@ CookieMonster.whileOnScreen = function($selector, offScreen, onScreen) {
 	}
 
 	// Execute the two callbacks
-	if ($selector.is(':hidden') && this.onScreen[identifier]) {
+	if ($selector.css('display') === 'none' && this.onScreen[identifier]) {
 		this.onScreen[identifier] = false;
 		offScreen.call(this, $selector);
-	} else if ($selector.is(':visible') && !this.onScreen[identifier]) {
+	} else if ($selector.css('display') !== 'none' && !this.onScreen[identifier]) {
 		this.onScreen[identifier] = true;
 		onScreen.call(this, $selector);
 	}

@@ -100,7 +100,7 @@ CookieMonster.manageNextReindeer = function() {
 	var width  = timers[2] - timers[0];
 
 	// Hide if Reindeer on screen
-	if (timers[0] <= 0 || this.$reindeer.is(':visible') || !this.getBooleanSetting('CookieBar')) {
+	if (timers[0] <= 0 || this.$reindeer.css('display') !== 'none' || !this.getBooleanSetting('CookieBar')) {
 		return this.fadeOutBar('orange');
 	}
 
@@ -119,12 +119,12 @@ CookieMonster.manageNextCookie = function() {
 	var countdown = Math.round(width / Game.fps);
 
 	// Update title
-	if (countdown > 0 && this.$goldenCookie.is(':hidden')) {
+	if (countdown > 0 && this.$goldenCookie.css('display') === 'none') {
 		this.titleModifier = this.getBooleanSetting('CookieBar') ? '(' + countdown + ') ' : '';
 	}
 
 	// Cancel if disabled
-	if (timers[0] <= 0 || this.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieBar')) {
+	if (timers[0] <= 0 || this.$goldenCookie.css('display') !== 'none' || !this.getBooleanSetting('CookieBar')) {
 		return this.fadeOutBar('purple');
 	}
 

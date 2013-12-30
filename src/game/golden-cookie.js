@@ -26,7 +26,7 @@ CookieMonster.emphasizeGolden = function() {
 			this.Emphasizers.flashScreen();
 		});
 
-	if ($golden.is(':visible')) {
+	if ($golden.css('display') !== 'none') {
 		this.Emphasizers.displayGoldenTimer();
 	}
 };

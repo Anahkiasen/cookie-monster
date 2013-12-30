@@ -73,7 +73,7 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, informations
 	}
 
 	// Cancel if we're not in this particular tooltip at the moment
-	if ($object.length !== 1 || $object.is(':hidden')) {
+	if ($object.length !== 1 || $object.css('display') === 'none') {
 		return;
 	}
 
