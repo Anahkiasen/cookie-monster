@@ -47,19 +47,19 @@ CookieMonster.manageFrenzyBars = function() {
 		case 7:
 			multiplier = 77 + 77 * Game.Has('Get lucky');
 			frenzyName = 'Frenzy';
-			color      = this.color('yellow');
+			color      = 'yellow';
 			break;
 
 		case 666:
 			multiplier = 6 + 6 * Game.Has('Get lucky');
 			frenzyName = 'Blood Frenzy';
-			color      = this.color('green');
+			color      = 'green';
 			break;
 
 		case 0.5:
 			multiplier = 66 + 66 * Game.Has('Get lucky');
 			frenzyName = 'Clot';
-			color      = this.color('red');
+			color      = 'red';
 			break;
 	}
 
@@ -71,7 +71,7 @@ CookieMonster.manageFrenzyBars = function() {
 	this.updateBar(frenzyName, color, Game.frenzy);
 
 	// No idea what that does
-	var buffColors = [this.color('yellow'), this.color('green'), this.color('red')];
+	var buffColors = ['yellow', 'green', 'red'];
 	for (var thisColor in buffColors) {
 		this.fadeOutBar(buffColors[thisColor], color);
 	}
