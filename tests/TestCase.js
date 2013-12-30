@@ -1,6 +1,6 @@
 var Mock = require('./Mock.js');
 
-var TestCase = {
+module.exports = {
 
 	/**
 	 * Test a basic achievement checker
@@ -35,8 +35,3 @@ var TestCase = {
 	},
 
 };
-
-// Exports
-//////////////////////////////////////////////////////////////////////
-
-module.exports = TestCase;

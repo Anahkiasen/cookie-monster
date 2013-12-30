@@ -24,10 +24,7 @@ var CookieMonster = {
 	////////////////////////////////////////////////////////////////////
 
 	titleModifier : '',
-	onScreen      : {
-		golden : false,
-		season : false
-	},
+	onScreen      : {},
 
 	// Stored informations
 	////////////////////////////////////////////////////////////////////
@@ -51,7 +48,7 @@ var CookieMonster = {
 	settings: {
 
 		// Sections
-		'CMBar'          : {type: 'boolean', value: 1,   label: 'Bottom Bar',        desc: 'Displays a bar at the bottom of the screen that shows all Building information'},
+		'BottomBar'      : {type: 'boolean', value: 1,   label: 'Bottom Bar',        desc: 'Displays a bar at the bottom of the screen that shows all Building information'},
 		'UpgradeDisplay' : {type: 'switch',  value: 1,   label: 'Upgrade Display',   desc: 'Changes how the store displays Upgrades'},
 
 		// Colors
@@ -293,21 +290,18 @@ CookieMonster.getFrenzyMultiplier = function() {
  * @return {void}
  */
 CookieMonster.emphasizeGolden = function() {
-	var $golden = this.$goldenCookie;
+	$golden = this.whileOnScreen(this.$goldenCookie,
+		function() {
+			this.$goldenOverlay.hide();
+			this.titleModifier = '';
+		},
+		function() {
+			this.$goldenOverlay.show();
 
-	if ($golden.is(':hidden') && this.onScreen.golden) {
-		this.onScreen.golden = false;
-		this.$goldenOverlay.hide();
-
-		this.titleModifier = '';
-	} else if ($golden.is(':visible') && !this.onScreen.golden) {
-		this.onScreen.golden = true;
-		this.$goldenOverlay.show();
-
-		this.Emphasizers.updateTitle('G');
-		this.Emphasizers.playSound();
-		this.Emphasizers.flashScreen();
-	}
+			this.Emphasizers.updateTitle('G');
+			this.Emphasizers.playSound();
+			this.Emphasizers.flashScreen();
+		});
 
 	if ($golden.is(':visible')) {
 		this.Emphasizers.displayGoldenTimer();
@@ -564,16 +558,14 @@ CookieMonster.getFrenzyRate = function(context) {
  * @return {void}
  */
 CookieMonster.emphasizeSeason = function() {
-	var $reindeer = this.$reindeer;
-
-	if ($reindeer.is(':hidden') && this.onScreen.season) {
-		this.onScreen.season = false;
-		this.$flashOverlay.hide();
-	} else if ($reindeer.is(':visible') && !this.onScreen.season) {
-		this.onScreen.season = true;
-		this.Emphasizers.playSound();
-		this.Emphasizers.flashScreen();
-	}
+	this.whileOnScreen(this.$reindeer,
+		function() {
+			this.$flashOverlay.hide();
+		},
+		function() {
+			this.Emphasizers.playSound();
+			this.Emphasizers.flashScreen();
+		});
 };
 CookieMonster.getUpgradeBonuses = function(building, currentNumber, production) {
 	var r = 0;
@@ -822,6 +814,35 @@ CookieMonster.updateFavicon = function (favicon) {
 CookieMonster.Emphasizers = {};
 
 /**
+ * Executes actions while something goes in and out of focus
+ *
+ * @param {DOMElement} $selector
+ * @param {Closure}    offScreen
+ * @param {Closure}    onScreen
+ *
+ * @return {DOMElement}
+ */
+CookieMonster.whileOnScreen = function($selector, offScreen, onScreen) {
+	var identifier = $selector.attr('id');
+
+	// Set key in array if it doesn't exist
+	if (typeof this.onScreen[identifier] === 'undefined') {
+		this.onScreen[identifier] = false;
+	}
+
+	// Execute the two callbacks
+	if ($selector.is(':hidden') && this.onScreen[identifier]) {
+		this.onScreen[identifier] = false;
+		offScreen.call(this, $selector);
+	} else if ($selector.is(':visible') && !this.onScreen[identifier]) {
+		this.onScreen[identifier] = true;
+		onScreen.call(this, $selector);
+	}
+
+	return $selector;
+};
+
+/**
  * Display a timer in an overlay above the golden cookie
  *
  * @return {Void}
@@ -862,7 +883,7 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
 		frame = 1;
 	}
 
-	if (CookieMonster.onScreen.golden) {
+	if (CookieMonster.onScreen.goldenCookie) {
 		CookieMonster.updateFavicon('cm_gc_' +frame);
 		frame++;
 		setTimeout(function () {
@@ -1257,6 +1278,19 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Toggle the visibility of the Bottom Bar
+ *
+ * @return {void}
+ */
+CookieMonster.toggleBar = function() {
+	var visible = this.getBooleanSetting('BottomBar');
+	var bottom  = visible ? 57 : 0;
+
+	this.$monsterBar.toggle(visible);
+	this.$game.css('bottom', bottom+'px');
+};
+
+/**
  * Create the Bottom Bar
  *
  * @return {void}
@@ -1264,20 +1298,7 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 CookieMonster.createBottomBar = function() {
 	$('body').append('<div id="cookie-monster__bottom-bar"></div>');
 
-	this.$monsterBar = $('#cookie-monster__bottom-bar');
-};
-
-/**
- * Toggle the visibility of the Bottom Bar
- *
- * @return {void}
- */
-CookieMonster.toggleBar = function() {
-	var toggle = this.getBooleanSetting('CMBar');
-	var bottom = !toggle ? 0 : 57;
-
-	this.$monsterBar.toggle(toggle);
-	this.$game.css('bottom', bottom+'px');
+	this.$monsterBar = this.makeTable();
 };
 
 /**
@@ -1299,7 +1320,7 @@ CookieMonster.makeTable = function() {
 		timeLeft += '<td id="cookie_monster_tc_'   +key+ '"></td>';
 	});
 
-	this.$monsterBar.html(
+	return $('#cookie-monster__bottom-bar').html(
 		'<table>'+
 			'<tr>'+thead+'</tr>'+
 			'<tr>'+bonus+'</tr>'+
@@ -1319,8 +1340,8 @@ CookieMonster.updateTable = function() {
 	// Here we loop over the information we have, and building a multidimensionnal
 	// array of it, by building key
 	Game.ObjectsById.forEach(function (building, key) {
-		var price = building.price;
-		var owned = building.amount;
+		var price      = building.price;
+		var owned      = building.amount;
 		var production = building.storedCps * Game.globalCpsMult;
 		if (building.name === "Grandma") {
 			production = 0;
@@ -1335,7 +1356,7 @@ CookieMonster.updateTable = function() {
 			items    : building.name.split(' ')[0] + ' ' + count,
 			bonus    : that.roundDecimal(bonus),
 			cpi      : that.roundDecimal(cpi),
-			timeLeft : Math.round(that.secondsLeft(key, "object")),
+			timeLeft : Math.round(that.secondsLeft(key, 'object')),
 		});
 	});
 
@@ -2343,7 +2364,6 @@ CookieMonster.start = function() {
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
 
 	// Setup Cookie Monster
-	this.makeTable();
 	this.saveTooltips();
 	this.update();
 	this.setupTooltips();
@@ -2454,7 +2474,7 @@ CookieMonster.update = function() {
 	this.replaceNative('UpdateMenu', function (native) {
 		return native.replace("Statistics</div>'+", "Statistics</div>'+\n\n"+
 			"'<div class=\"subsection\">" +
-				"<div class=\"title\"><span style=\"color:#' +CookieMonster.color('blue')+ ';\">Cookie Monster Goodies</span></div>"+
+				"<div class=\"title\"><span class=\"text-blue\">Cookie Monster Goodies</span></div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> '          + CookieMonster.luckyReward('regular', true) + '</div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.luckyReward('frenzy', true) + '</div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> '              + CookieMonster.maxLuckyReward('max') + '</div>"+

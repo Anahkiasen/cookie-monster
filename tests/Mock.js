@@ -1,4 +1,4 @@
-var Mock = {
+module.exports = {
 
 	/**
 	 * Mock the amounts of buildings
@@ -56,5 +56,3 @@ var Mock = {
 	},
 
 };
-
-module.exports = Mock;
