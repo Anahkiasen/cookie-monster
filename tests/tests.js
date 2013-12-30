@@ -52,6 +52,7 @@ module.exports = {
 	// Tests
 	////////////////////////////////////////////////////////////////////
 
+	'Main' : require('./main.js'),
 	'Game': {
 		'Achievements'  : require('./game/achievements.js'),
 		'Golden Cookie' : require('./game/golden-cookie.js'),
