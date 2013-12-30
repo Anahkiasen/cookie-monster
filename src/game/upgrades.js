@@ -69,7 +69,7 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		unlocked += this.hasntAchievement('Upgrader');
 	}
 
-	return income + this.getAchievementWorth(unlocked, upgrade.id, income);
+	return income + this.callCached('getAchievementWorth', [unlocked, upgrade.id, income]);
 };
 
 /**
@@ -141,7 +141,7 @@ CookieMonster.getHeavenlyUpgradeOutcome = function(unlocked, upgrade) {
 	var potential  = upgrade.desc.substr(11, 2).replace('%', '');
 	var multiplier = Game.prestige['Heavenly chips'] * 2 * (potential / 100);
 
-	return this.getAchievementWorth(unlocked, upgrade.id, 0, multiplier) - Game.cookiesPs;
+	return this.callCached('getAchievementWorth', [unlocked, upgrade.id, 0, multiplier]) - Game.cookiesPs;
 };
 
 // Special cases

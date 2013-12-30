@@ -123,7 +123,7 @@ CookieMonster.getBuildingWorth = function(building) {
 	// Compute final income
 	income += production;
 
-	return income + this.getAchievementWorth(unlocked, 0, income);
+	return income + this.callCached('getAchievementWorth', [unlocked, 0, income]);
 };
 
 //////////////////////////////////////////////////////////////////////

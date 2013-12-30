@@ -13,7 +13,7 @@ var CookieMonster = {
 	version : '1.040.04',
 	loops   : 0,
 
-	humanNumbers     : new Array(
+	humanNumbers : new Array(
 		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
 		[' M', ' G', ' T', ' P', ' E', ' Z', ' Y', ' Oc', ' No', ' Dc']
 	),
@@ -27,6 +27,7 @@ var CookieMonster = {
 	// Stored informations
 	////////////////////////////////////////////////////////////////////
 
+	cacheStore : {},
 	bottomBar: {
 		items    : [],
 		bonus    : [],
