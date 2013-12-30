@@ -64,7 +64,7 @@ CookieMonster.loadStyles = function() {
  */
 CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();
-	CookieMonster.updateTooltips('all');
+	CookieMonster.updateTooltips();
 	CookieMonster.manageBuffs();
 
 	CookieMonster.emphasizeGolden();
@@ -171,7 +171,7 @@ CookieMonster.update = function() {
 	Game.tooltip.draw = new Function('from,text,x,y,origin', this.replaceCode(Game.tooltip.draw, function (native) {
 		return native
 			.replace("implemented');}", "implemented');}" + n)
-			.replace("this.on=1;", "this.on=1;\nCookieMonster.updateTooltips('all');");
+			.replace("this.on=1;", "this.on=1;\nCookieMonster.updateTooltips();");
 	}));
 
 	this.replaceNative('Reset', function (native) {

@@ -109,16 +109,18 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, display, inf
 };
 
 //////////////////////////////////////////////////////////////////////
-///////////////////////////////// CACHE //////////////////////////////
+//////////////////////// GLOBAL SETUP AND UPDATE /////////////////////
 //////////////////////////////////////////////////////////////////////
 
 /**
  * Create the DOM for all tooltips
  *
- * @return {[type]} [description]
+ * @return {void}
  */
 CookieMonster.setupTooltips = function() {
-	this.updateTooltips('all');
+	this.updateTooltips();
+
+	// Rebuild game elements
 	Game.RebuildUpgrades();
 	Game.RebuildStore();
 };
@@ -131,13 +133,17 @@ CookieMonster.setupTooltips = function() {
  * @return {void}
  */
 CookieMonster.updateTooltips = function(which) {
+	if (typeof which === 'undefined') {
+		which = 'all';
+	}
+
 	// Upgrades
 	if (which === 'all' || which === 'upgrades') {
-		this.inStore = [0, 0, 0, 0, 0, 0];
-
+		this.upgradeCounts = [0, 0, 0, 0, 0, 0];
 		Game.UpgradesById.forEach(function (upgrade) {
 			CookieMonster.manageUpgradeTooltips(upgrade);
 		});
+		this.updateStoreCounters();
 	}
 
 	// Buildings
@@ -152,57 +158,49 @@ CookieMonster.updateTooltips = function(which) {
 //////////////////////////////// MANAGERS ////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
+/**
+ * Handles the creation/update of an upgrade's tooltip
+ *
+ * @param {Object} upgrade
+ *
+ * @return {void}
+ */
 CookieMonster.manageUpgradeTooltips = function(upgrade) {
 	var income = this.getUpgradeWorth(upgrade);
+	var price  = upgrade.basePrice;
+	var colors = ['yellow', 'yellow'];
 
-	return this.manageUpgradesTooltips(income, upgrade);
-};
+	// Cancel if the upgrade isn't in the store
+	if (!this.isInStore(upgrade)) {
+		return;
+	}
 
-CookieMonster.manageUpgradesTooltips = function(income, upgrade) {
-	var price   = upgrade.basePrice;
-	var colors  = ['yellow', 'yellow'];
-
+	// Gather comparative informations
 	var informations = [this.roundDecimal(price / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
 	var maxValues    = [Math.max.apply(Math, this.bottomBar.cpi), Math.max.apply(Math, this.bottomBar.cpi)];
 	var minValues    = [Math.min.apply(Math, this.bottomBar.cpi), Math.min.apply(Math, this.bottomBar.cpi)];
 
+	// Compute upgrade color
 	for (var i = 0; i < colors.length; i++) {
 		if (informations[i] < minValues[i]) {
 			colors[i] = 'blue';
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[0]++;
-			}
 		} else if (informations[i] === minValues[i]) {
 			colors[i] = 'green';
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[1]++;
-			}
 		} else if (informations[i] === maxValues[i]) {
 			colors[i] = 'red';
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[4]++;
-			}
 		} else if (informations[i] > maxValues[i]) {
 			colors[i] = 'purple';
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[5]++;
-			}
 		} else if (maxValues[i] - informations[i] < informations[i] - minValues[i]) {
 			colors[i] = 'orange';
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[3]++;
-			}
-		} else {
-			if (this.isInStore(upgrade) && i === 0) {
-				this.inStore[2]++;
-			}
 		}
 	}
 
-	for (i = 0; i < this.inStore.length; i++) {
-		$('#cm_up_q' + i).text(this.inStore[i]);
-	}
-	if (this.getSetting('UpgradeIcons') && this.isInStore(upgrade)) {
+	// Update store counters
+	var colorKey = ['blue', 'green', 'yellow', 'orange', 'red', 'purple'].indexOf(colors[0]);
+	this.upgradeCounts[colorKey]++;
+
+	// Add color icon
+	if (this.getSetting('UpgradeIcons')) {
 		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div class="cookie-monster__upgrade background-' +colors[0]+ '"></div>');
 	}
 
@@ -226,6 +224,13 @@ CookieMonster.manageUpgradesTooltips = function(income, upgrade) {
 	]);
 };
 
+/**
+ * Handles the creation/update of a building's tooltip
+ *
+ * @param {Object} building
+ *
+ * @return {void}
+ */
 CookieMonster.manageBuildingTooltip = function(building) {
 	var rewards  = [this.luckyReward('regular'), this.luckyReward('frenzy')];
 	var display  = [false, false];

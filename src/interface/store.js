@@ -19,6 +19,17 @@ CookieMonster.createStoreCounters = function() {
 };
 
 /**
+ * Update the store counters
+ *
+ * @return {void}
+ */
+CookieMonster.updateStoreCounters = function() {
+	this.upgradeCounts.forEach(function(count, key) {
+		$('#cm_up_q' + key).text(count);
+	});
+};
+
+/**
  * Check if an upgrade is in store
  *
  * @param {Array} upgrade
