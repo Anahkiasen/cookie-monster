@@ -37,7 +37,14 @@ var CookieMonster = {
 	// Upgrades
 	////////////////////////////////////////////////////////////////////
 
-	upgradeCounts : [0, 0, 0, 0, 0, 0],
+	upgradeCounts  : [0, 0, 0, 0, 0, 0],
+	milkPotentials : {
+		'Kitten helpers'            : 0.05,
+		'Kitten workers'            : 0.1,
+		'Kitten engineers'          : 0.2,
+		'Kitten overseers'          : 0.2,
+		'Santa\'s milk and cookies' : 0.05,
+	},
 
 	// Settings
 	////////////////////////////////////////////////////////////////////

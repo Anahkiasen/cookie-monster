@@ -36,8 +36,22 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		}
 	});
 
+	if (this.matches(upgrade, 'Grandmas are <b>twice</b> as efficient')) {
+		unlocked += this.lgt(upgrade);
+	}
+
+	// Grandmas per grandmas
+	else if (this.matches(upgrade, 'for every 50 grandmas')) {
+		income = this.getGrandmasPerGrandmaOutcome();
+	}
+
+	// Grandmas per portals
+	else if (this.matches(upgrade, 'for every 20 portals')) {
+		income = this.getGrandmasPerPortalOutcome();
+	}
+
 	// Heavenly upgrades
-	if (this.matches(upgrade, 'potential of your heavenly')) {
+	else if (this.matches(upgrade, 'potential of your heavenly')) {
 		income = this.getHeavenlyUpgradeOutcome(unlocked, upgrade);
 		if (upgrade.name === 'Heavenly key') {
 			unlocked += this.hasntAchievement('Wholesome');
@@ -69,11 +83,14 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 CookieMonster.matches = function(upgrade, matcher) {
 	matcher = matcher.toLowerCase();
 
-	return upgrade.desc.toLowerCase().indexOf(matcher) !== -1 || upgrade.name.toLowerCase().indexOf(matcher) !== -1;
+	return upgrade.desc.toLowerCase().indexOf(matcher) !== -1;
 };
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////// UPGRADES WORTH /////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+// Classic situations
 //////////////////////////////////////////////////////////////////////
 
 /**
@@ -125,4 +142,76 @@ CookieMonster.getHeavenlyUpgradeOutcome = function(unlocked, upgrade) {
 	var multiplier = Game.prestige['Heavenly chips'] * 2 * (potential / 100);
 
 	return this.getAchievementWorth(unlocked, upgrade.id, 0, multiplier) - Game.cookiesPs;
+};
+
+// Special cases
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Compute the production of Grandmas per 20 portals
+ *
+ * @return {Integer}
+ */
+CookieMonster.getGrandmasPerPortalOutcome = function() {
+	var multiplier = 1;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>.') !== -1) {
+			multiplier = multiplier * 2;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+			multiplier = multiplier * 4;
+		}
+	});
+
+	return Game.ObjectsById[7].amount * 0.05 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
+};
+
+/**
+ * Computes the production of Grandmas per 50 grandmas
+ *
+ * @return {Integer}
+ */
+CookieMonster.getGrandmasPerGrandmaOutcome = function() {
+	var multiplier = 1;
+
+	Game.UpgradesById.forEach(function (upgrade) {
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>') !== -1) {
+			multiplier = multiplier * 2;
+		}
+		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+			multiplier = multiplier * 4;
+		}
+	});
+
+	return Game.ObjectsById[1].amount * 0.02 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
+};
+
+CookieMonster.lgt = function(upgrade) {
+	if (this.hasAchievement('Elder Pact') || upgrade.name.indexOf(' grandmas') === -1) {
+		return false;
+	}
+
+	var todo = [];
+	Game.UpgradesById.forEach(function (upgrade, key) {
+		if (!upgrade.bought && upgrade.name.indexOf(' grandmas ') !== -1) {
+			todo.push(key);
+		}
+	});
+
+	return (todo.length === 1 && todo[0] === upgrade.id);
+};
+
+CookieMonster.getMouseAndCursorGainOutcome = function(upgradeKey) {
+	var t = Game.UpgradesById[upgradeKey].desc;
+	var n = 31;
+	if (t.indexOf(" another ") !== -1) {
+		n += 8;
+	}
+	var r = t.substr(n, t.indexOf("<", n) - n) * 1;
+	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
+};
+
+CookieMonster.getFourTimesEfficientOutcome = function(buildingKey) {
+	return Game.ObjectsById[buildingKey].storedTotalCps * 3 * Game.globalCpsMult;
 };
