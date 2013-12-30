@@ -58,6 +58,7 @@ module.exports = {
 		'Golden Cookie' : require('./game/golden-cookie.js'),
 		'Heavenly'      : require('./game/heavenly.js'),
 		'Lucky'         : require('./game/lucky.js'),
+		'Upgrades'      : require('./game/upgrades.js'),
 	},
 	'Interface': {
 		'Bottom Bar' : require('./interface/bottom-bar.js'),
