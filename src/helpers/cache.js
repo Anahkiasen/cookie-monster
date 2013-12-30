@@ -9,7 +9,7 @@
  */
 CookieMonster.cache = function(salts, callback, args) {
 	args  = args || [];
-	salts = salts.concat(args).join('-');
+	salts = salts.concat(args).concat([Game.UpgradesOwned, Game.BuildingsOwned]).join('-');
 
 	// If we have a cached result, return it
 	if (typeof this.cacheStore[salts] !== 'undefined') {
@@ -36,4 +36,13 @@ CookieMonster.callCached = function(method, args, salts) {
 	salts.push(method);
 
 	return this.cache(salts, this[method], args);
+};
+
+/**
+ * Refresh the cache
+ *
+ * @return {void}
+ */
+CookieMonster.refreshCache = function() {
+	this.cacheStore = {};
 };
