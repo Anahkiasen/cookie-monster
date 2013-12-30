@@ -28,6 +28,26 @@ CookieMonster.hasntAchievement = function(checkedAchievement) {
 	return !this.hasAchievement(checkedAchievement);
 };
 
+/**
+ * Get the actual milk modifier
+ *
+ * @param {Integer} milk
+ *
+ * @return {Integer}
+ */
+CookieMonster.getMilkPotential = function(milkProgress) {
+	var potential = 0;
+	milkProgress = typeof milkProgress !== 'undefined' ? milkProgress : Game.milkProgress;
+
+	potential += this.hasAchievement('Santa\'s milk and cookies') * 0.05;
+	potential += this.hasAchievement('Kitten helpers') * 0.05;
+	potential += this.hasAchievement('Kitten workers') * 0.1;
+	potential += this.hasAchievement('Kitten engineers') * 0.2;
+	potential += this.hasAchievement('Kitten overseers') * 0.2;
+
+	return 1 + (potential * milkProgress);
+};
+
 //////////////////////////////////////////////////////////////////////
 //////////////////////////// BUILDING SCHEMAS ////////////////////////
 //////////////////////////////////////////////////////////////////////

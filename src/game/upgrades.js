@@ -36,6 +36,7 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		}
 	});
 
+	// Heavenly upgrades
 	if (this.matches(upgrade, 'potential of your heavenly')) {
 		income = this.getHeavenlyUpgradeOutcome(unlocked, upgrade);
 		if (upgrade.name === 'Heavenly key') {

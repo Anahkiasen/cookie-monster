@@ -3,6 +3,7 @@ bower_components
 node_modules
 
 # Assets
+dist/js/clicker.js
 dist/cookie-monster.js
 
 # Logs and caches

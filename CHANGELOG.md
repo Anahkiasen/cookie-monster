@@ -1,3 +1,10 @@
+## TODO
+
+* Display statistics about wrinklers
+* Take into account new upgrades
+
+-----
+
 ## 1.040 Versions
 
 ### 1.040.03 _(2013-12-30)_

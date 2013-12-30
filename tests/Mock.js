@@ -47,6 +47,7 @@ module.exports = {
 			frenzyPower : 1,
 
 			prestige     : {},
+			Upgrades     : [{}],
 			UpgradesById : [{}],
 			ObjectsById  : [{name: 'Cursor', price: 15}],
 

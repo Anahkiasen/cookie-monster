@@ -76,15 +76,24 @@ CookieMonster.getHeavenlyChip = function(context) {
 };
 
 CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncome, r) {
-	var i                  = 0;
+	var income             = 0;
 	var heavenlyMultiplier = this.getHeavenlyMultiplier();
-	var o                  = 0;
-	var u                  = new Array(0, 0, 0, 0);
+	var futureMultiplier   = 0;
+	var milkModifiers      = [];
 	var milkProgress       = Game.milkProgress;
 	var frenzyMultiplier   = this.getFrenzyMultiplier();
+	var l;
 	if (r !== 0) {
 		heavenlyMultiplier = r;
 	}
+
+	var milkPotentials = {
+		'Kitten helpers'            : 0.05,
+		'Kitten workers'            : 0.1,
+		'Kitten engineers'          : 0.2,
+		'Kitten overseers'          : 0.2,
+		'Santa\'s milk and cookies' : 0.05,
+	};
 
 	Game.UpgradesById.forEach(function (upgrade) {
 		var description = upgrade.desc.replace("[Research]<br>", "");
@@ -92,67 +101,47 @@ CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncom
 			heavenlyMultiplier += description.substr(33, description.indexOf("%", 33) - 33) * 1;
 		}
 		if (!upgrade.bought && description.indexOf("Cookie production multiplier <b>+") !== -1 && upgrade.id === upgradeKey) {
-			o += description.substr(33, description.indexOf("%", 33) - 33) * 1;
+			futureMultiplier += description.substr(33, description.indexOf("%", 33) - 33) * 1;
 		}
-		if (upgrade.bought && upgrade.name === "Kitten helpers") {
-			u[0] = 0.05;
-		}
-		if (upgrade.bought && upgrade.name === "Kitten workers") {
-			u[1] = 0.1;
-		}
-		if (upgrade.bought && upgrade.name === "Kitten engineers") {
-			u[2] = 0.2;
-		}
-		if (upgrade.bought && upgrade.name === "Kitten overseers") {
-			u[3] = 0.2;
+
+		var milkUpgrade = milkPotentials[upgrade.name];
+		if (upgrade.bought && typeof milkUpgrade !== 'undefined') {
+			milkModifiers.push(milkUpgrade);
 		}
 	});
-	var l = 100 + heavenlyMultiplier;
-	l = l * (1 + u[0] * milkProgress);
-	l = l * (1 + u[1] * milkProgress);
-	l = l * (1 + u[2] * milkProgress);
-	l = l * (1 + u[3] * milkProgress);
-	var c = originalIncome;
-	var h = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * frenzyMultiplier;
+
+	l = 100 + heavenlyMultiplier;
+	milkModifiers.forEach(function(modifier) {
+		l = l * (1 + modifier * milkProgress);
+	});
+	var h = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (l / 100) * frenzyMultiplier;
+
 	milkProgress += unlocked * 0.04;
-	l = 100 + heavenlyMultiplier + o;
-	l = l * (1 + u[0] * milkProgress);
-	l = l * (1 + u[1] * milkProgress);
-	l = l * (1 + u[2] * milkProgress);
-	l = l * (1 + u[3] * milkProgress);
-	var p = 0;
-	switch (Game.UpgradesById[upgradeKey].name) {
-		case "Kitten helpers":
-			p = 0.05;
-			break;
-		case "Kitten workers":
-			p = 0.1;
-			break;
-		case "Kitten engineers":
-			p = 0.2;
-			break;
-		case "Kitten overseers":
-			p = 0.2;
-			break;
-	}
+	l = 100 + heavenlyMultiplier + futureMultiplier;
+	milkModifiers.forEach(function(modifier) {
+		l = l * (1 + modifier * milkProgress);
+	});
+	var p = milkPotentials[Game.UpgradesById[upgradeKey].name] || 0;
 	l = l * (1 + p * milkProgress);
-	i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * frenzyMultiplier - h;
-	var d = this.inc(i + h);
+
+	income = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (l / 100) * frenzyMultiplier - h;
+	var d = this.inc(income + h);
 	if (d > 0) {
+
 		milkProgress += d * 0.04;
-		l = 100 + heavenlyMultiplier + o;
-		l = l * (1 + u[0] * milkProgress);
-		l = l * (1 + u[1] * milkProgress);
-		l = l * (1 + u[2] * milkProgress);
-		l = l * (1 + u[3] * milkProgress);
+		l = 100 + heavenlyMultiplier + futureMultiplier;
+		milkModifiers.forEach(function(modifier) {
+			l = l * (1 + modifier * milkProgress);
+		});
 		l = l * (1 + p * milkProgress);
-		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * frenzyMultiplier - h;
+
+		income = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (l / 100) * frenzyMultiplier - h;
 	}
 	if (r !== 0) {
-		i = (Game.cookiesPs + c) / Game.globalCpsMult * (l / 100) * frenzyMultiplier;
+		income = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (l / 100) * frenzyMultiplier;
 	}
 	if (Game.Has("Elder Covenant")) {
-		i *= 0.95;
+		income *= 0.95;
 	}
-	return i;
+	return income;
 };
