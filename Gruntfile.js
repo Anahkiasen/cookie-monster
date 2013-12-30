@@ -63,13 +63,21 @@ module.exports = function(grunt) {
 
 		mochaTest: {
 			options: {
-				reporter: 'spec',
-				ui: 'exports',
+				reporter : 'spec',
+				ui       : 'exports'
 			},
 
-			dest: {
+			dist: {
 				src: ['tests/tests.js'],
 			},
+			coverage: {
+				options: {
+					reporter    : 'html-cov',
+					quiet       : true,
+					captureFile : './tests/coverage.html',
+				},
+				src: ['tests/tests.js'],
+			}
 		},
 
 		// Assets
@@ -117,7 +125,7 @@ module.exports = function(grunt) {
 		},
 
 		uglify: {
-			dest: {
+			dist: {
 				files: [{
 					expand : true,
 					cwd    : '<%= paths.compiled.js %>',
@@ -202,7 +210,7 @@ module.exports = function(grunt) {
 	]);
 
 	grunt.registerTask('test', 'Run the tests', [
-		'mochaTest',
+		'mochaTest:dist',
 	]);
 
 	// Asset types

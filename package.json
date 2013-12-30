@@ -18,7 +18,8 @@
     "mocha": "*",
     "jquery": "*",
     "jsdom": "*",
-    "chai": "*"
+    "chai": "*",
+    "blanket": "~1.1.6"
   },
   "scripts": {
     "test": "./node_modules/.bin/grunt test"

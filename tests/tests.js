@@ -3,6 +3,10 @@ var Mock = require('./Mock.js');
 var Test = require('./TestCase.js');
 var chai = require('chai').should();
 
+require('blanket')({
+	pattern: 'cookie-monster/dist/',
+});
+
 // Browser
 var jsdom = require('jsdom');
 document  = jsdom.jsdom('<html><head></head><body></body></html>');
