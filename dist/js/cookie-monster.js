@@ -49,32 +49,41 @@ var CookieMonster = {
 	////////////////////////////////////////////////////////////////////
 
 	settings: {
-		'BuffBars'       : {type: 'boolean', value: 1,   label: 'Buff Bars',         desc: 'Displays a countdown bar for each effect currently active'},
+
+		// Sections
 		'CMBar'          : {type: 'boolean', value: 1,   label: 'Bottom Bar',        desc: 'Displays a bar at the bottom of the screen that shows all Building information'},
+		'UpgradeDisplay' : {type: 'switch',  value: 1,   label: 'Upgrade Display',   desc: 'Changes how the store displays Upgrades'},
+
+		// Colors
 		'Colorblind'     : {type: 'boolean', value: 0,   label: 'Colorblind',        desc: 'Use colorblind safe colors'},
 		'ColoredPrices'  : {type: 'boolean', value: 1,   label: 'Colored Prices',    desc: 'Changes the colors of all Building prices to correspond with their Cost Per Income'},
-		'CookieCD'       : {type: 'boolean', value: 1,   label: 'Next Cookie Timer', desc: 'Displays a countdown bar and updates the Title for when the next Cookie will appear'},
+		'UpgradeIcons'   : {type: 'boolean', value: 1,   label: 'Upgrade Icons',     desc: 'Displays a small square icon on the Upgrade to better display the Cost Per Income color value'},
+
+		// Emphasizers
+		'BuffBars'       : {type: 'boolean', value: 1,   label: 'Buff Bars',         desc: 'Displays a countdown bar for each effect currently active'},
+		'CookieBar'      : {type: 'boolean', value: 1,   label: 'Next Cookie Timer', desc: 'Displays a countdown bar and updates the Title for when the next Cookie will appear'},
 		'CookieTimer'    : {type: 'boolean', value: 1,   label: 'Cookie Timer',      desc: 'Displays a timer on Golden Cookies and Red Cookies'},
 		'FlashScreen'    : {type: 'boolean', value: 1,   label: 'Flash Screen',      desc: 'Flashes the screen when a Golden Cookie or Red Cookie appears'},
+		'Sounds'         : {type: 'boolean', value: 0,   label: 'Sounds',            desc: 'Plays a sound when a Red/Golden Cookie or a Reindeer appears'},
+		'UpdateTitle'    : {type: 'boolean', value: 1,   label: 'Update Title',      desc: 'Updates the Title to display if a Cookie is waiting to be clicked'},
+
+		// Display
 		'LuckyAlert'     : {type: 'switch',  value: 1,   label: 'Lucky Alert',       desc: 'Changes the tooltip to display if you would be under the number of cookies required for \"Lucky\"!'},
 		'Refresh'        : {type: 'switch',  value: 1e3, label: 'Refresh Rate',      desc: 'The rate at which Cookie Monster updates data (higher rates may slow the game)'},
 		'ShortNumbers'   : {type: 'switch',  value: 1,   label: 'Short Numbers',     desc: 'Formats all numbers to be shorter when displayed'},
-		'Sounds'         : {type: 'boolean', value: 0,   label: 'Sounds',            desc: 'Plays a sound when a Golden Cookie or Red Cookie appears'},
-		'UpdateTitle'    : {type: 'boolean', value: 1,   label: 'Update Title',      desc: 'Updates the Title to display if a Cookie is waiting to be clicked'},
-		'UpgradeDisplay' : {type: 'switch',  value: 1,   label: 'Upgrade Display',   desc: 'Changes how the store displays Upgrades'},
-		'UpgradeIcons'   : {type: 'boolean', value: 1,   label: 'Upgrade Icons',     desc: 'Displays a small square icon on the Upgrade to better display the Cost Per Income color value'},
+
 	},
 
 	// Selectors
 	////////////////////////////////////////////////////////////////////
 
-	$game         : $('#game'),
-	$goldenCookie : $('#goldenCookie'),
-	$flashOverlay : $('#cookie-monster__golden-overlay'),
-	$monsterBar   : $('#cookie-monster__bottom-bar'),
-	$overlay      : $('#cookie-monster__overlay'),
-	$timerBars    : $('#cookie-monster__buff-bars'),
-	$reindeer     : $('#seasonPopup'),
+	$game          : $('#game'),
+	$goldenCookie  : $('#goldenCookie'),
+	$goldenOverlay : $('#cookie-monster__golden-overlay'),
+	$monsterBar    : $('#cookie-monster__bottom-bar'),
+	$flashOverlay  : $('#cookie-monster__overlay'),
+	$timerBars     : $('#cookie-monster__buff-bars'),
+	$reindeer      : $('#seasonPopup'),
 
 	// Texts
 	////////////////////////////////////////////////////////////////////
@@ -288,14 +297,14 @@ CookieMonster.emphasizeGolden = function() {
 
 	if ($golden.is(':hidden') && this.onScreen.golden) {
 		this.onScreen.golden = false;
-		this.$flashOverlay.hide();
+		this.$goldenOverlay.hide();
 
 		this.titleModifier = '';
 	} else if ($golden.is(':visible') && !this.onScreen.golden) {
 		this.onScreen.golden = true;
-		this.$flashOverlay.show();
+		this.$goldenOverlay.show();
 
-		this.Emphasizers.updateTitle();
+		this.Emphasizers.updateTitle('G');
 		this.Emphasizers.playSound();
 		this.Emphasizers.flashScreen();
 	}
@@ -317,7 +326,7 @@ CookieMonster.emphasizeGolden = function() {
 CookieMonster.createFlashOverlay = function() {
 	$('body').append('<div id="cookie-monster__golden-overlay" onclick="Game.goldenCookie.click();"></div>');
 
-	this.$flashOverlay = $('#cookie-monster__golden-overlay');
+	this.$goldenOverlay = $('#cookie-monster__golden-overlay');
 };
 
 /**
@@ -811,22 +820,32 @@ CookieMonster.updateFavicon = function (favicon) {
 
 CookieMonster.Emphasizers = {};
 
+/**
+ * Display a timer in an overlay above the golden cookie
+ *
+ * @return {Void}
+ */
 CookieMonster.Emphasizers.displayGoldenTimer = function() {
 	if (!CookieMonster.getBooleanSetting('CookieTimer')) {
 		return;
 	}
 
-	CookieMonster.$flashOverlay
+	CookieMonster.$goldenOverlay
 		.css(CookieMonster.$goldenCookie.css(['opacity', 'top', 'left', 'top']))
 		.text(Math.round(Game.goldenCookie.life / Game.fps));
 };
 
-CookieMonster.Emphasizers.updateTitle = function() {
+/**
+ * Update the title of the page to notify about something
+ *
+ * @return {String}
+ */
+CookieMonster.Emphasizers.updateTitle = function(type) {
 	if (!CookieMonster.getBooleanSetting('UpdateTitle')) {
 		return;
 	}
 
-	CookieMonster.titleModifier = '(G) ';
+	CookieMonster.titleModifier = '(' +type+ ') ';
 	this.faviconSpinner(1);
 };
 
@@ -876,8 +895,8 @@ CookieMonster.Emphasizers.flashScreen = function() {
 		return;
 	}
 
-	CookieMonster.$overlay.fadeIn(100);
-	CookieMonster.$overlay.fadeOut(500);
+	CookieMonster.$flashOverlay.fadeIn(100);
+	CookieMonster.$flashOverlay.fadeOut(500);
 };
 /**
  * Format a number to a string (adds separators, convert units, etc)
@@ -1467,11 +1486,11 @@ CookieMonster.manageNextCookie = function() {
 
 	// Update title
 	if (countdown > 0 && this.$goldenCookie.is(':hidden')) {
-		this.titleModifier = this.getBooleanSetting('CookieCD') ? '(' + countdown + ') ' : '';
+		this.titleModifier = this.getBooleanSetting('CookieBar') ? '(' + countdown + ') ' : '';
 	}
 
 	// Cancel if disabled
-	if (timers[0] <= 0 || this.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieCD')) {
+	if (timers[0] <= 0 || this.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieBar')) {
 		return this.fadeOutBar('purple');
 	}
 

@@ -12,10 +12,10 @@ module.exports = {
 
 	'#createOverlay': {
 		'Can create flashing overlay': function() {
-			CookieMonster.$flashOverlay.should.have.length(0);
+			CookieMonster.$goldenOverlay.should.have.length(0);
 			CookieMonster.createFlashOverlay();
 
-			CookieMonster.$flashOverlay.should.have.length(1);
+			CookieMonster.$goldenOverlay.should.have.length(1);
 		},
 	},
 

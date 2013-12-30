@@ -120,11 +120,11 @@ CookieMonster.manageNextCookie = function() {
 
 	// Update title
 	if (countdown > 0 && this.$goldenCookie.is(':hidden')) {
-		this.titleModifier = this.getBooleanSetting('CookieCD') ? '(' + countdown + ') ' : '';
+		this.titleModifier = this.getBooleanSetting('CookieBar') ? '(' + countdown + ') ' : '';
 	}
 
 	// Cancel if disabled
-	if (timers[0] <= 0 || this.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieCD')) {
+	if (timers[0] <= 0 || this.$goldenCookie.is(':visible') || !this.getBooleanSetting('CookieBar')) {
 		return this.fadeOutBar('purple');
 	}
 

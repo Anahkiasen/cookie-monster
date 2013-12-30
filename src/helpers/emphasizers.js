@@ -4,22 +4,32 @@
 
 CookieMonster.Emphasizers = {};
 
+/**
+ * Display a timer in an overlay above the golden cookie
+ *
+ * @return {Void}
+ */
 CookieMonster.Emphasizers.displayGoldenTimer = function() {
 	if (!CookieMonster.getBooleanSetting('CookieTimer')) {
 		return;
 	}
 
-	CookieMonster.$flashOverlay
+	CookieMonster.$goldenOverlay
 		.css(CookieMonster.$goldenCookie.css(['opacity', 'top', 'left', 'top']))
 		.text(Math.round(Game.goldenCookie.life / Game.fps));
 };
 
-CookieMonster.Emphasizers.updateTitle = function() {
+/**
+ * Update the title of the page to notify about something
+ *
+ * @return {String}
+ */
+CookieMonster.Emphasizers.updateTitle = function(type) {
 	if (!CookieMonster.getBooleanSetting('UpdateTitle')) {
 		return;
 	}
 
-	CookieMonster.titleModifier = '(G) ';
+	CookieMonster.titleModifier = '(' +type+ ') ';
 	this.faviconSpinner(1);
 };
 
@@ -69,6 +79,6 @@ CookieMonster.Emphasizers.flashScreen = function() {
 		return;
 	}
 
-	CookieMonster.$overlay.fadeIn(100);
-	CookieMonster.$overlay.fadeOut(500);
+	CookieMonster.$flashOverlay.fadeIn(100);
+	CookieMonster.$flashOverlay.fadeOut(500);
 };

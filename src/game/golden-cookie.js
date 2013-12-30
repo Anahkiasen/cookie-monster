@@ -17,14 +17,14 @@ CookieMonster.emphasizeGolden = function() {
 
 	if ($golden.is(':hidden') && this.onScreen.golden) {
 		this.onScreen.golden = false;
-		this.$flashOverlay.hide();
+		this.$goldenOverlay.hide();
 
 		this.titleModifier = '';
 	} else if ($golden.is(':visible') && !this.onScreen.golden) {
 		this.onScreen.golden = true;
-		this.$flashOverlay.show();
+		this.$goldenOverlay.show();
 
-		this.Emphasizers.updateTitle();
+		this.Emphasizers.updateTitle('G');
 		this.Emphasizers.playSound();
 		this.Emphasizers.flashScreen();
 	}
@@ -46,7 +46,7 @@ CookieMonster.emphasizeGolden = function() {
 CookieMonster.createFlashOverlay = function() {
 	$('body').append('<div id="cookie-monster__golden-overlay" onclick="Game.goldenCookie.click();"></div>');
 
-	this.$flashOverlay = $('#cookie-monster__golden-overlay');
+	this.$goldenOverlay = $('#cookie-monster__golden-overlay');
 };
 
 /**
