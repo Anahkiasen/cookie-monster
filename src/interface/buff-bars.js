@@ -100,7 +100,7 @@ CookieMonster.manageNextReindeer = function() {
 	var width  = timers[2] - timers[0];
 
 	// Hide if Reindeer on screen
-	if (timers[0] <= 0 || this.$reindeer.is(':visible')) {
+	if (timers[0] <= 0 || this.$reindeer.is(':visible') || !this.getBooleanSetting('CookieBar')) {
 		return this.fadeOutBar('orange');
 	}
 

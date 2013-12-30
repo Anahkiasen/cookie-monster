@@ -8,6 +8,7 @@
 CookieMonster.playSound = function(sound) {
 	sound = new realAudio(sound);
 
+	// Play sound
 	sound.volume = 1;
 	sound.play();
 

@@ -45,7 +45,7 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
 		frame = 1;
 	}
 
-	if (CookieMonster.titleModifier === '(G) ') {
+	if (CookieMonster.onScreen.golden) {
 		CookieMonster.updateFavicon('cm_gc_' +frame);
 		frame++;
 		setTimeout(function () {

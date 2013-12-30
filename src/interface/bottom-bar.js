@@ -45,21 +45,21 @@ CookieMonster.toggleBar = function() {
  * @return {void}
  */
 CookieMonster.makeTable = function() {
-	var thead    = '<th align="left"  class="text-yellow" width="130"> ' + this.version + "</th>";
-	var bonus    = '<th align="right" class="text-blue">Bonus Income</th>';
-	var baseCost = '<th align="right" class="text-blue">Base Cost Per Income</th>';
-	var timeLeft = '<th align="right" class="text-blue">Time Left</th>';
+	var thead    = '<th class="text-yellow"> ' + this.version + "</th>";
+	var bonus    = '<th class="text-blue">Bonus Income</th>';
+	var baseCost = '<th class="text-blue">Base Cost Per Income</th>';
+	var timeLeft = '<th class="text-blue">Time Left</th>';
 
 	// Append each building type to the bar
 	Game.ObjectsById.forEach(function (building, key) {
-		thead    += '<th align="middle" id="cookie_monster_item_' +key+ '" style="font-weight:bold;"></th>';
-		bonus    += '<td align="middle" id="cookie_monster_is_'   +key+ '"></td>';
-		baseCost += '<td align="middle" id="cookie_monster_cpi_'  +key+ '"></td>';
-		timeLeft += '<td align="middle" id="cookie_monster_tc_'   +key+ '"></td>';
+		thead    += '<th id="cookie_monster_item_' +key+ '"></th>';
+		bonus    += '<td id="cookie_monster_is_'   +key+ '"></td>';
+		baseCost += '<td id="cookie_monster_cpi_'  +key+ '"></td>';
+		timeLeft += '<td id="cookie_monster_tc_'   +key+ '"></td>';
 	});
 
 	this.$monsterBar.html(
-		'<table style="width:100%; table-layout:fixed; margin-top:2px;">'+
+		'<table>'+
 			'<tr>'+thead+'</tr>'+
 			'<tr>'+bonus+'</tr>'+
 			'<tr>'+baseCost+'</tr>'+
