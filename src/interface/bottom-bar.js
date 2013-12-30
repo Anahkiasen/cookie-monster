@@ -93,17 +93,11 @@ CookieMonster.updateTable = function() {
 	// Here we loop over the information we have, and building a multidimensionnal
 	// array of it, by building key
 	Game.ObjectsById.forEach(function (building, key) {
-		var price      = building.price;
-		var owned      = building.amount;
-		var production = building.storedCps * Game.globalCpsMult;
-		if (building.name === "Grandma") {
-			production = 0;
-		}
 
 		// Compute informations
-		var bonus = that.roundDecimal(production + that.getUpgradeBonuses(building.name, owned, production));
-		var cpi   = that.roundDecimal(price / bonus);
-		var count = '(<span class="text-blue">' + that.formatNumber(owned) + '</span>)';
+		var bonus = that.roundDecimal(that.getBuildingWorth(building));
+		var cpi   = that.roundDecimal(building.price / bonus);
+		var count = '(<span class="text-blue">' + that.formatNumber(building.amount) + '</span>)';
 
 		// Save building informations
 		var buildingInformations = {
