@@ -105,36 +105,22 @@ CookieMonster.updateTable = function() {
 		var cpi   = that.roundDecimal(price / bonus);
 		var count = '(<span class="text-blue">' + that.formatNumber(owned) + '</span>)';
 
-		that.setBuildingInformations(key, {
+		// Save building informations
+		var buildingInformations = {
 			items    : building.name.split(' ')[0] + ' ' + count,
 			bonus    : that.roundDecimal(bonus),
 			cpi      : that.roundDecimal(cpi),
 			timeLeft : Math.round(that.secondsLeft(key, 'object')),
-		});
-	});
+		};
 
-	// Then we loop over the created array, format the information
-	// and update the DOM
-	Game.ObjectsById.forEach(function (building, key) {
-		var colors       = ['yellow', 'yellow'];
-		var informations = [that.bottomBar.cpi[key], that.bottomBar.timeLeft[key]];
-		var worst        = CookieMonster.getBestValue('max');
-		var best         = CookieMonster.getBestValue('min');
-
-		// Compute correct colors
-		for (var i = 0; i < colors.length; i++) {
-			if (informations[i] === best[i]) {
-				colors[i] = 'green';
-			} else if (informations[i] === worst[i]) {
-				colors[i] = 'red';
-			} else if (worst[i] - informations[i] < informations[i] - best[i]) {
-				colors[i] = 'orange';
-			}
-		}
+		// Compute correct color
+		that.setBuildingInformations(key, buildingInformations);
+		var informations = [buildingInformations.cpi, buildingInformations.timeLeft];
+		var colors       = CookieMonster.getLuckyColors(informations);
 
 		// Update DOM
-		$('#cookie_monster_item_' + key).html(that.bottomBar.items[key]);
-		$('#cookie_monster_is_'   + key).html(that.formatNumber(that.bottomBar.bonus[key]));
+		$('#cookie_monster_item_' + key).html(buildingInformations.items);
+		$('#cookie_monster_is_'   + key).html(that.formatNumber(buildingInformations.bonus));
 		$('#cookie_monster_cpi_'  + key).html('<span class="text-' + colors[0] + '">' + that.formatNumber(informations[0]) + '</span>');
 		$('#cookie_monster_tc_'   + key).html('<span class="text-' + colors[1] + '">' + that.formatTime(informations[1], true) + '</span>');
 	});
