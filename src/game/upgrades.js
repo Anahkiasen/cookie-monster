@@ -1,5 +1,5 @@
 /**
- * Get the additional CPS an upgrade will bring
+ * Get how much buying an upgrade would earn
  *
  * @param {Object} upgrade
  *
@@ -55,10 +55,7 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		unlocked += this.hasntAchievement('Upgrader');
 	}
 
-	// Achievements
-	income += this.getAchievementWorth(unlocked, upgrade.id, income, 0);
-
-	return income;
+	return income + this.getAchievementWorth(unlocked, upgrade.id, income);
 };
 
 /**
@@ -124,9 +121,8 @@ CookieMonster.getMultiplierOutcome = function(building, baseMultiplier, building
  * @return {Integer}
  */
 CookieMonster.getHeavenlyUpgradeOutcome = function(unlocked, upgrade) {
-	var potential = upgrade.desc.substr(11, 2).replace('%', '');
+	var potential  = upgrade.desc.substr(11, 2).replace('%', '');
+	var multiplier = Game.prestige['Heavenly chips'] * 2 * (potential / 100);
 
-	var u = this.getAchievementWorth(unlocked, upgrade.id, 0, Game.prestige['Heavenly chips'] * 2 * (potential / 100));
-
-	return u - Game.cookiesPs;
+	return this.getAchievementWorth(unlocked, upgrade.id, 0, multiplier) - Game.cookiesPs;
 };

@@ -120,7 +120,10 @@ CookieMonster.getBuildingWorth = function(building) {
 		unlocked++;
 	}
 
-	return production + income + this.getAchievementWorth(unlocked, 0, income + production, 0);
+	// Compute final income
+	income += production;
+
+	return income + this.getAchievementWorth(unlocked, 0, income);
 };
 
 //////////////////////////////////////////////////////////////////////
