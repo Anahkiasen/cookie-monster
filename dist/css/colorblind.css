@@ -115,6 +115,19 @@ strong {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   width: 100%;
   z-index: 1000; }
+  #cookie-monster__bottom-bar table {
+    width: 100%;
+    table-layout: fixed;
+    margin-top: 2px; }
+    #cookie-monster__bottom-bar table tr:first-child th {
+      font-weight: bold; }
+    #cookie-monster__bottom-bar table tr th {
+      text-align: center; }
+      #cookie-monster__bottom-bar table tr th:first-child {
+        text-align: right;
+        width: 130px; }
+    #cookie-monster__bottom-bar table td {
+      text-align: center; }
 
 #cookie-monster__buff-bars {
   background: rgba(0, 0, 0, 0.6);
