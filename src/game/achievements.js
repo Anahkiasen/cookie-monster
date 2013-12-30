@@ -39,11 +39,11 @@ CookieMonster.getMilkPotential = function(milkProgress) {
 	var potential = 0;
 	milkProgress = typeof milkProgress !== 'undefined' ? milkProgress : Game.milkProgress;
 
-	potential += this.hasAchievement('Santa\'s milk and cookies') * 0.05;
-	potential += this.hasAchievement('Kitten helpers') * 0.05;
-	potential += this.hasAchievement('Kitten workers') * 0.1;
-	potential += this.hasAchievement('Kitten engineers') * 0.2;
-	potential += this.hasAchievement('Kitten overseers') * 0.2;
+	potential += Game.Has('Santa\'s milk and cookies') * 0.05;
+	potential += Game.Has('Kitten helpers') * 0.05;
+	potential += Game.Has('Kitten workers') * 0.1;
+	potential += Game.Has('Kitten engineers') * 0.2;
+	potential += Game.Has('Kitten overseers') * 0.2;
 
 	return 1 + (potential * milkProgress);
 };

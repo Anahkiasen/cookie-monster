@@ -3,6 +3,18 @@
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Get the tooltip handle for a type/key
+ *
+ * @param {String}  type
+ * @param {Integer} key
+ *
+ * @return {String}
+ */
+CookieMonster.identifier = function(type, key) {
+	return 'cm_'+type+'_'+key+'_';
+};
+
+/**
  * Create a tooltip for a type of object
  *
  * @param {Object} object
@@ -11,7 +23,7 @@
  * @return {Void}
  */
 CookieMonster.makeTooltip = function(object, type) {
-	var identifier = 'cm_'+type+'_'+object.id+'_';
+	var identifier = this.identifier(type, object.id);
 	var warning    = this.getImage('warning');
 	var caution    = this.getImage('caution');
 
@@ -52,15 +64,16 @@ CookieMonster.makeTooltip = function(object, type) {
  * @return {Void}
  */
 CookieMonster.updateTooltip = function(type, key, colors, deficits, display, informations) {
-	var identifier = '#cm_'+type+'_'+key+'_';
+	var identifier = '#'+this.identifier(type, key);
 	var $object    = $(identifier);
 
 	// Create tooltip if it doesn't exist
 	var object = type === 'up' ? Game.UpgradesById[key] : Game.ObjectsById[key];
-	if (object.desc.indexOf('cm_'+type+'_'+key) === -1) {
+	if (object.desc.indexOf(this.identifier(type, key)) === -1) {
 		this.makeTooltip(object, type);
 	}
 
+	// Update informations
 	$object.css({
 		'border'  : '1px solid #'+this.color(colors[0]),
 		'display' : '',
@@ -72,7 +85,7 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, display, inf
 		'<div align=right class="text-' +colors[0]+ '" style="position:absolute; top:48px; left:4px;">' + this.formatNumber(informations[1]) + '</div>'+
 
 		'<div class="text-blue" style="position:absolute; top:64px; left:4px; font-weight:bold;">Time Left</div>'+
-		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2]) + "</div>"
+		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2], true) + "</div>"
 	);
 
 	$(identifier+'warning_amount').text('Deficit: ' + this.formatNumber(deficits[0]));
