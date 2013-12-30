@@ -10,16 +10,16 @@ CookieMonster.start = function() {
 		return;
 	}
 
-	// Load stylesheet
-	this.loadSettings();
-	this.loadStyles();
-
 	// Add Cookie Monster elements
 	this.createBottomBar();
 	this.createGoldenOverlay();
 	this.createFlashOverlay();
 	this.createBarsContainer();
 	this.createStoreCounters();
+
+	// Load stylesheet
+	this.loadSettings();
+	this.loadStyles();
 
 	// Add ID to favicon
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
