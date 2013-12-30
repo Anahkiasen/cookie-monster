@@ -5,6 +5,35 @@
 CookieMonster.Emphasizers = {};
 
 /**
+ * Executes actions while something goes in and out of focus
+ *
+ * @param {DOMElement} $selector
+ * @param {Closure}    offScreen
+ * @param {Closure}    onScreen
+ *
+ * @return {DOMElement}
+ */
+CookieMonster.whileOnScreen = function($selector, offScreen, onScreen) {
+	var identifier = $selector.attr('id');
+
+	// Set key in array if it doesn't exist
+	if (typeof this.onScreen[identifier] === 'undefined') {
+		this.onScreen[identifier] = false;
+	}
+
+	// Execute the two callbacks
+	if ($selector.is(':hidden') && this.onScreen[identifier]) {
+		this.onScreen[identifier] = false;
+		offScreen.call(this, $selector);
+	} else if ($selector.is(':visible') && !this.onScreen[identifier]) {
+		this.onScreen[identifier] = true;
+		onScreen.call(this, $selector);
+	}
+
+	return $selector;
+};
+
+/**
  * Display a timer in an overlay above the golden cookie
  *
  * @return {Void}
@@ -45,7 +74,7 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
 		frame = 1;
 	}
 
-	if (CookieMonster.onScreen.golden) {
+	if (CookieMonster.onScreen.goldenCookie) {
 		CookieMonster.updateFavicon('cm_gc_' +frame);
 		frame++;
 		setTimeout(function () {

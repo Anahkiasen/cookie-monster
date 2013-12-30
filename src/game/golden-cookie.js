@@ -13,21 +13,18 @@ CookieMonster.getFrenzyMultiplier = function() {
  * @return {void}
  */
 CookieMonster.emphasizeGolden = function() {
-	var $golden = this.$goldenCookie;
+	$golden = this.whileOnScreen(this.$goldenCookie,
+		function() {
+			this.$goldenOverlay.hide();
+			this.titleModifier = '';
+		},
+		function() {
+			this.$goldenOverlay.show();
 
-	if ($golden.is(':hidden') && this.onScreen.golden) {
-		this.onScreen.golden = false;
-		this.$goldenOverlay.hide();
-
-		this.titleModifier = '';
-	} else if ($golden.is(':visible') && !this.onScreen.golden) {
-		this.onScreen.golden = true;
-		this.$goldenOverlay.show();
-
-		this.Emphasizers.updateTitle('G');
-		this.Emphasizers.playSound();
-		this.Emphasizers.flashScreen();
-	}
+			this.Emphasizers.updateTitle('G');
+			this.Emphasizers.playSound();
+			this.Emphasizers.flashScreen();
+		});
 
 	if ($golden.is(':visible')) {
 		this.Emphasizers.displayGoldenTimer();
