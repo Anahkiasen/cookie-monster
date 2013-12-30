@@ -43,9 +43,9 @@ module.exports = {
 
 	'#getBooleanSetting': {
 		'Can get setting in boolean form': function() {
-			CookieMonster.getBooleanSetting('FlashScreen').should.equal(true);
+			CookieMonster.getBooleanSetting('FlashScreen').should.be.true;
 			CookieMonster.settings.FlashScreen = 0;
-			CookieMonster.getBooleanSetting('FlashScreen').should.equal(false);
+			CookieMonster.getBooleanSetting('FlashScreen').should.be.false;
 		},
 	},
 

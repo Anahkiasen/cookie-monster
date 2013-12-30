@@ -47,9 +47,9 @@ module.exports = {
 		'Lucky'         : require('./game/lucky.js'),
 	},
 	'Interface': {
-		// 'Bottom Bar' : require('./interface/bottom-bar.js'),
-		'Settings' : require('./interface/settings.js'),
-		'Store'    : require('./interface/store.js'),
+		'Bottom Bar' : require('./interface/bottom-bar.js'),
+		'Settings'   : require('./interface/settings.js'),
+		'Store'      : require('./interface/store.js'),
 	},
 	'Helpers': {
 		'Browser' : require('./helpers/browser.js'),

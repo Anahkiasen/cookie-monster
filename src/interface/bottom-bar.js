@@ -16,6 +16,19 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Toggle the visibility of the Bottom Bar
+ *
+ * @return {void}
+ */
+CookieMonster.toggleBar = function() {
+	var visible = this.getBooleanSetting('BottomBar');
+	var bottom  = visible ? 57 : 0;
+
+	this.$monsterBar.toggle(visible);
+	this.$game.css('bottom', bottom+'px');
+};
+
+/**
  * Create the Bottom Bar
  *
  * @return {void}
@@ -23,20 +36,7 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 CookieMonster.createBottomBar = function() {
 	$('body').append('<div id="cookie-monster__bottom-bar"></div>');
 
-	this.$monsterBar = $('#cookie-monster__bottom-bar');
-};
-
-/**
- * Toggle the visibility of the Bottom Bar
- *
- * @return {void}
- */
-CookieMonster.toggleBar = function() {
-	var toggle = this.getBooleanSetting('CMBar');
-	var bottom = !toggle ? 0 : 57;
-
-	this.$monsterBar.toggle(toggle);
-	this.$game.css('bottom', bottom+'px');
+	this.$monsterBar = this.makeTable();
 };
 
 /**
@@ -58,7 +58,7 @@ CookieMonster.makeTable = function() {
 		timeLeft += '<td id="cookie_monster_tc_'   +key+ '"></td>';
 	});
 
-	this.$monsterBar.html(
+	return $('#cookie-monster__bottom-bar').html(
 		'<table>'+
 			'<tr>'+thead+'</tr>'+
 			'<tr>'+bonus+'</tr>'+
@@ -78,8 +78,8 @@ CookieMonster.updateTable = function() {
 	// Here we loop over the information we have, and building a multidimensionnal
 	// array of it, by building key
 	Game.ObjectsById.forEach(function (building, key) {
-		var price = building.price;
-		var owned = building.amount;
+		var price      = building.price;
+		var owned      = building.amount;
 		var production = building.storedCps * Game.globalCpsMult;
 		if (building.name === "Grandma") {
 			production = 0;
@@ -94,7 +94,7 @@ CookieMonster.updateTable = function() {
 			items    : building.name.split(' ')[0] + ' ' + count,
 			bonus    : that.roundDecimal(bonus),
 			cpi      : that.roundDecimal(cpi),
-			timeLeft : Math.round(that.secondsLeft(key, "object")),
+			timeLeft : Math.round(that.secondsLeft(key, 'object')),
 		});
 	});
 

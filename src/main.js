@@ -25,7 +25,6 @@ CookieMonster.start = function() {
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
 
 	// Setup Cookie Monster
-	this.makeTable();
 	this.saveTooltips();
 	this.update();
 	this.setupTooltips();
@@ -136,7 +135,7 @@ CookieMonster.update = function() {
 	this.replaceNative('UpdateMenu', function (native) {
 		return native.replace("Statistics</div>'+", "Statistics</div>'+\n\n"+
 			"'<div class=\"subsection\">" +
-				"<div class=\"title\"><span style=\"color:#' +CookieMonster.color('blue')+ ';\">Cookie Monster Goodies</span></div>"+
+				"<div class=\"title\"><span class=\"text-blue\">Cookie Monster Goodies</span></div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required:</b> '          + CookieMonster.luckyReward('regular', true) + '</div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Cookies Required (Frenzy):</b> ' + CookieMonster.luckyReward('frenzy', true) + '</div>"+
 				"<div class=\"listing\"><b>\"Lucky!\" Reward (MAX):</b> '              + CookieMonster.maxLuckyReward('max') + '</div>"+
