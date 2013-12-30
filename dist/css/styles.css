@@ -38,64 +38,64 @@ strong {
   font-weight: bold; }
 
 .background-blue {
-  background: #4bb8f0; }
+  background: #4bb8f0 !important; }
 
 .text-blue {
-  color: #4bb8f0; }
+  color: #4bb8f0 !important; }
 
 .border-blue {
   border-color: #4bb8f0 !important; }
 
 .background-green {
-  background: lime; }
+  background: lime !important; }
 
 .text-green {
-  color: lime; }
+  color: lime !important; }
 
 .border-green {
   border-color: lime !important; }
 
 .background-orange {
-  background: #ff7f00; }
+  background: #ff7f00 !important; }
 
 .text-orange {
-  color: #ff7f00; }
+  color: #ff7f00 !important; }
 
 .border-orange {
   border-color: #ff7f00 !important; }
 
 .background-purple {
-  background: magenta; }
+  background: magenta !important; }
 
 .text-purple {
-  color: magenta; }
+  color: magenta !important; }
 
 .border-purple {
   border-color: magenta !important; }
 
 .background-red {
-  background: red; }
+  background: red !important; }
 
 .text-red {
-  color: red; }
+  color: red !important; }
 
 .border-red {
   border-color: red !important; }
 
 .background-yellow {
-  background: yellow; }
+  background: yellow !important; }
 
 .text-yellow {
-  color: yellow; }
+  color: yellow !important; }
 
 .border-yellow {
   border-color: yellow !important; }
 
 .background-greyTen {
-  background: #1a1a1a; }
+  background: #1a1a1a !important; }
 
 .text-greyTen {
-  color: #1a1a1a; }
+  color: #1a1a1a !important; }
 
 .border-greyTen {
   border-color: #1a1a1a !important; }

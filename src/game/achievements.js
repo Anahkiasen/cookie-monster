@@ -64,7 +64,7 @@ CookieMonster.baseTen = function(checkedBuilding) {
 		return false;
 	}
 
-	var names    = [];
+	var names   = [];
 	var amounts = [];
 	Game.ObjectsById.forEach(function (building) {
 		names.push(building.name);
@@ -136,18 +136,7 @@ CookieMonster.oneWithEverything = function(checkedBuilding) {
 		return false;
 	}
 
-	var todo = [];
-	Game.ObjectsById.forEach(function (building) {
-		if (building.amount === 0) {
-			todo.push(building.name);
-		}
-	});
-
-	if (todo.length === 1 && todo[0] === checkedBuilding) {
-		return true;
-	}
-
-	return false;
+	return this.checkBuildingUnifiesAmounts(0, checkedBuilding);
 };
 
 /**
@@ -162,9 +151,22 @@ CookieMonster.centennial = function(checkedBuilding) {
 		return false;
 	}
 
+	return this.checkBuildingUnifiesAmounts(99, checkedBuilding);
+};
+
+/**
+ * Checks whether buying a certain building would
+ * bring all amounts to the same level
+ *
+ * @param {Integer} amount
+ * @param {String}  checkedBuilding
+ *
+ * @return {Boolean}
+ */
+CookieMonster.checkBuildingUnifiesAmounts = function(amount, checkedBuilding) {
 	var todo = [];
 	Game.ObjectsById.forEach(function (building) {
-		if (building.amount === 99) {
+		if (building.amount === amount) {
 			todo.push(building.name);
 		}
 	});
@@ -174,4 +176,4 @@ CookieMonster.centennial = function(checkedBuilding) {
 	}
 
 	return false;
-};
+}
