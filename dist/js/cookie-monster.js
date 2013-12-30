@@ -10,7 +10,7 @@ var CookieMonster = {
 	// Runtime variables
 	////////////////////////////////////////////////////////////////////
 
-	version : 'v.1.040.01',
+	version : '1.040.03',
 	loops   : 0,
 
 	tooltips         : [],
@@ -599,7 +599,7 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 
 	// CPS building upgrades
 	var gainsUpgrades = [
-		{building: 'The mouse and cursors', modifier: 0.1},
+		{building: 'Cursors',               modifier: 0.1},
 		{building: 'Grandmas',              modifier: 0.3},
 		{building: 'Farms',                 modifier: 0.5},
 		{building: 'Factories',             modifier: 4},
@@ -650,7 +650,9 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
  * @return {Boolean}
  */
 CookieMonster.matches = function(upgrade, matcher) {
-	return upgrade.desc.indexOf(matcher) !== -1 || upgrade.name.indexOf(matcher) !== -1;
+	matcher = matcher.toLowerCase();
+
+	return upgrade.desc.toLowerCase().indexOf(matcher) !== -1 || upgrade.name.toLowerCase().indexOf(matcher) !== -1;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -682,10 +684,10 @@ CookieMonster.getMultiplierOutcome = function(building, baseMultiplier, building
 
 	// Gather current multipliers
 	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf(building + ' are <b>twice</b>') !== -1) {
+		if (upgrade.bought && upgrade.desc.toLowerCase().indexOf(building + ' are <b>twice</b>') !== -1) {
 			multiplier = multiplier * 2;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf(building + ' are <b>4 times</b>') !== -1) {
+		if (upgrade.bought && upgrade.desc.toLowerCase().indexOf(building + ' are <b>4 times</b>') !== -1) {
 			multiplier = multiplier * 4;
 		}
 	});
@@ -2297,16 +2299,16 @@ CookieMonster.start = function() {
 		return;
 	}
 
-	// Load stylesheet
-	this.loadSettings();
-	this.loadStyles();
-
 	// Add Cookie Monster elements
 	this.createBottomBar();
 	this.createGoldenOverlay();
 	this.createFlashOverlay();
 	this.createBarsContainer();
 	this.createStoreCounters();
+
+	// Load stylesheet
+	this.loadSettings();
+	this.loadStyles();
 
 	// Add ID to favicon
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
