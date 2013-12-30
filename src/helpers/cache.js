@@ -8,18 +8,27 @@
  * @return {Mixed}
  */
 CookieMonster.cache = function(salts, callback, args) {
+	var state = [Game.UpgradesOwned, Game.BuildingsOwned].join('-');
+
+	// Create entry for current state
+	if (typeof this.cacheStore[state] === 'undefined') {
+		this.refreshCache();
+		this.cacheStore[state] = {};
+	}
+
+	// Compute salts
 	args  = args || [];
-	salts = salts.concat(args).concat([Game.UpgradesOwned, Game.BuildingsOwned]).join('-');
+	salts = this.computeSalts(salts, args);
 
 	// If we have a cached result, return it
-	if (typeof this.cacheStore[salts] !== 'undefined') {
-		return this.cacheStore[salts];
+	if (typeof this.cacheStore[state][salts] !== 'undefined') {
+		return this.cacheStore[state][salts];
 	}
 
 	// Else compute results and cache it
-	this.cacheStore[salts] = callback.apply(this, args);
+	this.cacheStore[state][salts] = callback.apply(this, args);
 
-	return this.cacheStore[salts];
+	return this.cacheStore[state][salts];
 };
 
 /**
@@ -46,3 +55,19 @@ CookieMonster.callCached = function(method, args, salts) {
 CookieMonster.refreshCache = function() {
 	this.cacheStore = {};
 };
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////// HELPERS /////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Compute salts from arguments an salts
+ *
+ * @param {Array} salts
+ * @param {Array} args
+ *
+ * @return {String}
+ */
+CookieMonster.computeSalts = function(salts, args) {
+	return JSON.stringify(salts.concat(args));
+}
