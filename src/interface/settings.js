@@ -10,12 +10,12 @@
 CookieMonster.loadSetting = function(name) {
 	// If we have a value in memory, load it
 	if (localStorage[name] !== undefined) {
-		this.settings[name] = parseInt(localStorage[name], 10);
+		this.setSetting(name, parseInt(localStorage[name], 10));
 	}
 
 	// Else save default
 	else {
-		localStorage[name] = this.settings[name];
+		localStorage[name] = this.getSetting(name);
 	}
 };
 
@@ -40,7 +40,7 @@ CookieMonster.loadSettings = function() {
 CookieMonster.saveSettings = function() {
 	if (typeof Storage !== 'undefined' || typeof localStorage !== 'undefined') {
 		for (var setting in this.settings) {
-			localStorage[setting] = this.settings[setting];
+			localStorage[setting] = this.getSetting(setting);
 		}
 	}
 
@@ -52,13 +52,54 @@ CookieMonster.saveSettings = function() {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Toggle a setting to its next possible value
+ *
+ * @param {String} setting
+ *
+ * @return {Void}
+ */
+CookieMonster.toggleSetting = function(setting) {
+	var option  = this.settings[setting];
+	var current = option.value;
+
+	// Look for available states
+	var states = [];
+	switch (setting) {
+		case 'ShortNumbers':
+		case 'UpgradeDisplay':
+			states = [0, 1, 2];
+			break;
+
+		case 'Refresh':
+			states = [1e3, 500, 250, 100, 33];
+			break;
+
+		case 'LuckyAlert':
+			states = [0, 1, 2, 3];
+			break;
+
+		default:
+			states = [0, 1];
+			break;
+	}
+
+	// Look for next state, or go back to start
+	var next = states.indexOf(current) + 1;
+	next = typeof states[next] !== 'undefined' ? states[next] : states[0];
+
+	this.setSetting(setting, next);
+
+	return next;
+};
+
+/**
  * Set a setting by name
  *
  * @param {String} setting
  * @param {Mixed}  value
  */
 CookieMonster.setSetting = function(setting, value) {
-	this.settings[setting] = value;
+	this.settings[setting].value = value;
 };
 
 /**
@@ -70,7 +111,7 @@ CookieMonster.setSetting = function(setting, value) {
  * @return {Mixed}
  */
 CookieMonster.getSetting = function(setting) {
-	return this.settings[setting];
+	return this.settings[setting].value;
 };
 
 /**
@@ -92,7 +133,12 @@ CookieMonster.getBooleanSetting = function (setting) {
  * @return {string}
  */
 CookieMonster.getOptionState = function(name) {
-	return (this.settings[name] === 0) ? 'OFF' : 'ON';
+	var method = 'get'+name+'State';
+	if (typeof this[method] !== 'undefined') {
+		return this[method]();
+	}
+
+	return (this.getSetting(name) === 0) ? 'OFF' : 'ON';
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -107,170 +153,60 @@ CookieMonster.getOptionState = function(name) {
  * @return {void}
  */
 CookieMonster.toggleOption = function(option) {
-	var $option = $(option);
+	var $option   = $(option);
+	var optionKey = $option.data('option');
 
-	switch ($option.text()) {
-		case "Colorblind ON":
-			this.setSetting('Colorblind', 0);
-			$option.text("Colorblind OFF");
+	// Update option
+	this.toggleSetting(optionKey);
+	$option.text(this.getLabel(optionKey));
+
+	switch (optionKey) {
+		case 'Colorblind':
 			this.loadStyles();
 			break;
-		case "Colorblind OFF":
-			this.setSetting('Colorblind', 1);
-			$option.text("Colorblind ON");
-			this.loadStyles();
-			break;
-		case "Flash Screen ON":
-			this.setSetting('FlashScreen', 0);
-			$option.text("Flash Screen OFF");
-			break;
-		case "Flash Screen OFF":
-			this.setSetting('FlashScreen', 1);
-			$option.text("Flash Screen ON");
-			break;
-		case "Cookie Sound ON":
-			this.setSetting('Sounds', 0);
-			$option.text("Cookie Sound OFF");
-			break;
-		case "Cookie Sound OFF":
-			this.setSetting('Sounds', 1);
-			$option.text("Cookie Sound ON");
-			break;
-		case "Cookie Timer ON":
-			this.setSetting('CookieTimer', 0);
-			$option.text("Cookie Timer OFF");
-			break;
-		case "Cookie Timer OFF":
-			this.setSetting('CookieTimer', 1);
-			$option.text("Cookie Timer ON");
-			break;
-		case "Next Cookie Timer ON":
-			this.setSetting('CookieCD', 0);
-			$option.text("Next Cookie Timer OFF");
-			break;
-		case "Next Cookie Timer OFF":
-			this.setSetting('CookieCD', 1);
-			$option.text("Next Cookie Timer ON");
-			break;
-		case "Update Title ON":
-			this.setSetting('UpdateTitle', 0);
-			$option.text("Update Title OFF");
-			break;
-		case "Update Title OFF":
-			this.setSetting('UpdateTitle', 1);
-			$option.text("Update Title ON");
-			break;
-		case "Buff Bars ON":
-			this.setSetting('BuffBars', 0);
-			$option.text("Buff Bars OFF");
-			break;
-		case "Buff Bars OFF":
-			this.setSetting('BuffBars', 1);
-			$option.text("Buff Bars ON");
-			break;
-		case "Bottom Bar ON":
-			this.setSetting('CMBar', 0);
-			$option.text("Bottom Bar OFF");
-			break;
-		case "Bottom Bar OFF":
-			this.setSetting('CMBar', 1);
-			$option.text("Bottom Bar ON");
-			break;
-		case "Colored Prices ON":
-			this.setSetting('ColoredPrices', 0);
-			$option.text("Colored Prices OFF");
+		case 'ColoredPrices':
 			this.updateTooltips("objects");
 			break;
-		case "Colored Prices OFF":
-			this.setSetting('ColoredPrices', 1);
-			$option.text("Colored Prices ON");
-			this.updateTooltips("objects");
-			break;
-		case "Upgrade Icons ON":
-			this.setSetting('UpgradeIcons', 0);
-			$option.text("Upgrade Icons OFF");
+		case 'UpgradeIcons':
 			Game.RebuildUpgrades();
 			break;
-		case "Upgrade Icons OFF":
-			this.setSetting('UpgradeIcons', 1);
-			$option.text("Upgrade Icons ON");
-			Game.RebuildUpgrades();
-			break;
-		case "Upgrade Display (All)":
-			this.setSetting('UpgradeDisplay', 0);
-			$option.text("Upgrade Display (None)");
+		case 'UpgradeDisplay':
 			this.updateUpgradeDisplay();
 			break;
-		case "Upgrade Display (None)":
-			this.setSetting('UpgradeDisplay', 1);
-			$option.text("Upgrade Display (Normal)");
-			this.updateUpgradeDisplay();
-			break;
-		case "Upgrade Display (Normal)":
-			this.setSetting('UpgradeDisplay', 2);
-			$option.text("Upgrade Display (All)");
-			this.updateUpgradeDisplay();
-			break;
-		case "Short Numbers ON (B)":
-			this.setSetting('ShortNumbers', 0);
-			$option.text("Short Numbers OFF");
+		case 'ShortNumbers':
 			Game.RebuildStore();
 			Game.RebuildUpgrades();
 			this.updateTable();
-			break;
-		case "Short Numbers OFF":
-			this.setSetting('ShortNumbers', 1);
-			$option.text("Short Numbers ON (A)");
-			Game.RebuildStore();
-			Game.RebuildUpgrades();
-			this.updateTable();
-			break;
-		case "Short Numbers ON (A)":
-			this.setSetting('ShortNumbers', 2);
-			$option.text("Short Numbers ON (B)");
-			Game.RebuildStore();
-			Game.RebuildUpgrades();
-			this.updateTable();
-			break;
-		case "Lucky Alert (Both)":
-			this.setSetting('LuckyAlert', 2);
-			$option.text("Lucky Alert (Icons)");
-			break;
-		case "Lucky Alert (Icons)":
-			this.setSetting('LuckyAlert', 3);
-			$option.text("Lucky Alert (Notes)");
-			break;
-		case "Lucky Alert (Notes)":
-			this.setSetting('LuckyAlert', 0);
-			$option.text("Lucky Alert (Off)");
-			break;
-		case "Lucky Alert (Off)":
-			this.setSetting('LuckyAlert', 1);
-			$option.text("Lucky Alert (Both)");
-			break;
-		case "Refresh Rate (1 fps)":
-			this.setSetting('Refresh', 500);
-			$option.text("Refresh Rate (2 fps)");
-			break;
-		case "Refresh Rate (2 fps)":
-			this.setSetting('Refresh', 250);
-			$option.text("Refresh Rate (4 fps)");
-			break;
-		case "Refresh Rate (4 fps)":
-			this.setSetting('Refresh', 100);
-			$option.text("Refresh Rate (10 fps)");
-			break;
-		case "Refresh Rate (10 fps)":
-			this.setSetting('Refresh', 33);
-			$option.text("Refresh Rate (30 fps)");
-			break;
-		case "Refresh Rate (30 fps)":
-			this.setSetting('Refresh', 1e3);
-			$option.text("Refresh Rate (1 fps)");
 			break;
 	}
 
 	this.saveSettings();
+};
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////////// OPTION LABELS //////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Get the label for an option
+ *
+ * @param {String} option
+ *
+ * @return {String}
+ */
+CookieMonster.getLabel = function(option) {
+	return this.settings[option].label+ ' (' +this.getOptionState(option)+ ')';
+};
+
+/**
+ * Get the description of an option
+ *
+ * @param {String} option
+ *
+ * @return {String}
+ */
+CookieMonster.getDescription = function(option) {
+	return this.settings[option].desc;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -282,12 +218,12 @@ CookieMonster.toggleOption = function(option) {
  *
  * @return {string}
  */
-CookieMonster.getShortNumbers = function() {
+CookieMonster.getShortNumbersState = function() {
 	switch (this.getSetting('ShortNumbers') * 1) {
 		case 1:
-			return 'ON (A)';
+			return 'ON [A]';
 		case 2:
-			return 'ON (B)';
+			return 'ON [B]';
 		case 0:
 			return 'OFF';
 		default:
@@ -300,20 +236,20 @@ CookieMonster.getShortNumbers = function() {
  *
  * @return {string}
  */
-CookieMonster.getRefreshRate = function() {
+CookieMonster.getRefreshState = function() {
 	switch (this.getSetting('Refresh') * 1) {
 		case 1e3:
-			return '1';
+			return '1 fps';
 		case 500:
-			return '2';
+			return '2 fps';
 		case 250:
-			return '4';
+			return '4 fps';
 		case 100:
-			return '10';
+			return '10 fps';
 		case 33:
-			return '30';
+			return '30 fps';
 		default:
-			return '1';
+			return '1 fps';
 	}
 };
 
@@ -322,7 +258,7 @@ CookieMonster.getRefreshRate = function() {
  *
  * @return {string}
  */
-CookieMonster.getUpgradeDisplay = function() {
+CookieMonster.getUpgradeDisplayState = function() {
 	switch (this.getSetting('UpgradeDisplay') * 1) {
 		case 1:
 			return 'Normal';
@@ -340,7 +276,7 @@ CookieMonster.getUpgradeDisplay = function() {
  *
  * @return {string}
  */
-CookieMonster.getLuckyAlert = function () {
+CookieMonster.getLuckyAlertState = function () {
 	switch (this.getSetting('LuckyAlert') * 1) {
 		case 1:
 			return 'Both';

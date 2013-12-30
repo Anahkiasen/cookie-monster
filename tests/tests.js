@@ -17,7 +17,8 @@ $      = jQuery(window);
 
 // Modules
 Game          = '';
-CookieMonster = '';
+CookieMonster = require('../dist/js/cookie-monster.js');
+settings      = JSON.parse(JSON.stringify(CookieMonster.settings));
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////////// TESTS //////////////////////////////
@@ -26,26 +27,14 @@ CookieMonster = '';
 module.exports = {
 
 	beforeEach: function() {
+		var settingsCache = JSON.parse(JSON.stringify(settings));
+
 		Game          = Mock.game();
 		CookieMonster = require('../dist/js/cookie-monster.js');
 
 		localStorage = {};
 
-		CookieMonster.settings = {
-			'FlashScreen'    : 1,
-			'CookieTimer'    : 1,
-			'BuffBars'       : 1,
-			'Refresh'        : 1e3,
-			'CookieCD'       : 1,
-			'CMBar'          : 1,
-			'ColoredPrices'  : 1,
-			'ShortNumbers'   : 1,
-			'Sounds'         : 0,
-			'UpdateTitle'    : 1,
-			'LuckyAlert'     : 1,
-			'UpgradeIcons'   : 1,
-			'UpgradeDisplay' : 1,
-		};
+		CookieMonster.settings = settingsCache;
 	},
 
 	// Tests
