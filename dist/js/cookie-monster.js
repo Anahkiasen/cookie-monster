@@ -1985,7 +1985,7 @@ CookieMonster.manageTimersBar = function(name, label) {
 	}
 
 	// Update title
-	var countdown = width / Game.fps;
+	var countdown = Math.round(width / Game.fps);
 	if (name === 'goldenCookie' && countdown > 0 && !this.onScreen.goldenCookie) {
 		this.titleModifier = this.getBooleanSetting('CookieBar') ? '(' + countdown + ') ' : '';
 	}
