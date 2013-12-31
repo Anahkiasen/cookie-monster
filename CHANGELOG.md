@@ -1,5 +1,12 @@
 ## 1.040 Versions
 
+### 1.040.06 _(2013-12-31)_
+
+* Added Wrinklers statistics
+* Changed Reindeer notification sound
+* Fixed timer bars (reindeers, etc.) width being miscalculated
+* Fixed a bug where having twice the same frenzy would mess with the bars
+
 ### 1.040.05 _(2013-12-31)_
 
 * Add some upgrades that were still not taken into account
