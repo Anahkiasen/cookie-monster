@@ -1,9 +1,3 @@
-## TODO
-
-* Display statistics about wrinklers
-
------
-
 ## 1.040 Versions
 
 ### 1.040.05 _(2013-12-31)_

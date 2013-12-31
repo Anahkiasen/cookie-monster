@@ -82,13 +82,17 @@ CookieMonster.getStatistics = function() {
 			'Cookies To Next Chip' : "CookieMonster.getHeavenlyChip('next')",
 			'Time To Next Chip'    : "CookieMonster.getHeavenlyChip('time')",
 		},
+		'Wrinklers': {
+			'Cookies sucked'       : 'CookieMonster.getWrinklersSucked()',
+			'Reward after popping' : 'CookieMonster.getWrinklersReward()',
+		},
 	};
 
 	// Loop over statistics and add them one by one
 	for (var section in statistics) {
 		statisticsHtml += '<div class="subtitle">'+section+'</div>';
 		for (var statistic in statistics[section]) {
-			statisticsHtml += "<div class=\"listing\"><b>" +statistic+ "</b> ' +" +statistics[section][statistic]+ "+ '</div>";
+			statisticsHtml += "<div class=\"listing\"><b>" +statistic+ " :</b> ' +" +statistics[section][statistic]+ "+ '</div>";
 		}
 	}
 

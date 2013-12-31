@@ -31,7 +31,7 @@ require('../src/game/buildings.js');
 require('../src/game/golden-cookie.js');
 require('../src/game/heavenly.js');
 require('../src/game/lucky.js');
-require('../src/game/season.js');
+require('../src/game/special.js');
 require('../src/game/upgrades.js');
 require('../src/helpers/browser.js');
 require('../src/helpers/cache.js');
