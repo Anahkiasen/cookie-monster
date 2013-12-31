@@ -16,7 +16,9 @@ CookieMonster.manageBuffs = function() {
  * @return {Integer}
  */
 CookieMonster.getBarsWidth = function() {
-	return parseInt(this.$timerBars.css('width'), 10);
+	var windowWidth = window.innerWidth || document.documentElement;
+
+	return 0.3 * windowWidth;
 };
 
 //////////////////////////////////////////////////////////////////////
