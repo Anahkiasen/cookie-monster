@@ -138,7 +138,7 @@ CookieMonster.getMultiplierOutcome = function(building, baseMultiplier, building
  * @return {Integer}
  */
 CookieMonster.getHeavenlyUpgradeOutcome = function(unlocked, upgrade) {
-	var potential  = upgrade.desc.substr(11, 2).replace('%', '');
+	var potential  = upgrade.desc.match(/<b>(.+)%<\/b>/)[1];
 	var multiplier = Game.prestige['Heavenly chips'] * 2 * (potential / 100);
 
 	return this.callCached('getAchievementWorth', [unlocked, upgrade.id, 0, multiplier]) - Game.cookiesPs;
