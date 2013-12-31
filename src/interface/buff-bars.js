@@ -75,15 +75,18 @@ CookieMonster.manageFrenzyBars = function() {
 
 	// Remove bars if the frenzy has ended or we disabled them
 	if (Game.frenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
-		return this.fadeOutBar(color);
+		return this.fadeOutBar(frenzyName.replace(' ', ''));
 	}
 
 	this.updateBar(frenzyName, color, Game.frenzy);
 
-	// No idea what that does
-	var buffColors = ['yellow', 'green', 'red'];
-	for (var thisColor in buffColors) {
-		this.fadeOutBar(buffColors[thisColor], color);
+	// As only one effect can be active at a time, we'll fade out
+	// the other effect bars
+	var buffs = ['Frenzy', 'BloodFrenzy', 'Clot'];
+	for (var i = 0; i < 2; i++) {
+		if (buffs[i] !== frenzyName.replace(' ', '')) {
+			this.fadeOutBar(buffs[i]);
+		}
 	}
 };
 
@@ -124,7 +127,7 @@ CookieMonster.manageNextReindeer = function() {
  * @return {void}
  */
 CookieMonster.manageNextCookie = function() {
-	var timers    = [Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime];
+	var timers = [Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime];
 
 	// Cancel if disabled
 	if (timers[0] <= 0 || this.onScreen.goldenCookie || !this.getBooleanSetting('CookieBar')) {
@@ -227,16 +230,16 @@ CookieMonster.createBar = function (name, color) {
 };
 
 /**
- * Fade out a bar of a certain color
+ * Fade out a bar of a certain effect
  *
- * @param {string} color
+ * @param {string} identifier
  *
  * @return {void}
  */
-CookieMonster.fadeOutBar = function(color, match) {
-	var $bar = $("#cookie-monster__timer-" + color);
+CookieMonster.fadeOutBar = function(identifier) {
+	var $bar = $("#cookie-monster__timer-" + identifier);
 
-	if ($bar.length === 1 && $bar.css("opacity") === "1" && color !== match) {
+	if ($bar.length === 1 && $bar.css('opacity') === '1') {
 		$bar.stop(true, true).fadeOut(250);
 		$bar.find('.cm-buff-bar__container').removeClass('active').attr('style', '');
 	}
