@@ -138,6 +138,19 @@ module.exports = function(grunt) {
 		// Linting
 		//////////////////////////////////////////////////////////////////
 
+		csslint: {
+			dist: {
+				options: {
+					'box-model'       : false,
+					'gradients'       : false,
+					'ids'             : false,
+					'important'       : false,
+					'fallback-colors' : false,
+				},
+				src: ['<%= paths.original.css %>/*']
+			},
+		},
+
 		jshint: {
 			options: {
 				force   : true,
@@ -176,10 +189,10 @@ module.exports = function(grunt) {
 
 		compass: {
 			options: {
-				appDir             : "<%= builds %>",
-				cssDir             : "css",
-				generatedImagesDir : "img/sprite/generated",
-				imagesDir          : "img",
+				appDir             : '<%= builds %>',
+				cssDir             : 'css',
+				generatedImagesDir : 'img/sprite/generated',
+				imagesDir          : 'img',
 				outputStyle        : 'nested',
 				noLineComments     : true,
 				relativeAssets     : true,
@@ -218,6 +231,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('css', 'Build stylesheets', [
 		'compass:compile',
 		'concat:css',
+		'csslint',
 		'cssmin',
 	]);
 
