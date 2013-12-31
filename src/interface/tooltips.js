@@ -54,21 +54,20 @@ CookieMonster.makeTooltip = function(object, type) {
 /**
  * Update a Building/Upgrade tooltip
  *
- * @param {String}  type
- * @param {Integer} key
- * @param {Array}   colors
- * @param {Array}   deficits
- * @param {Array}   informations
+ * @param {Object} object
+ * @param {Array}  colors
+ * @param {Array}  informations
  *
- * @return {Void}
+ * @return {void}
  */
-CookieMonster.updateTooltip = function(type, key, colors, deficits, informations) {
-	var identifier = '#'+this.identifier(type, key);
+CookieMonster.updateTooltip = function(object, colors, informations) {
+	var type       = object instanceof Game.Upgrade ? 'up' : 'ob';
+	var deficits   = type === 'ob' ? this.getLuckyAlerts(object.price) : this.getLuckyAlerts(object.basePrice);
+	var identifier = '#'+this.identifier(type, object.id);
 	var $object    = $(identifier);
 
 	// Create tooltip if it doesn't exist
-	var object = type === 'up' ? Game.UpgradesById[key] : Game.ObjectsById[key];
-	if (object.desc.indexOf(this.identifier(type, key)) === -1) {
+	if (object.desc.indexOf(this.identifier(type, object.id)) === -1) {
 		this.makeTooltip(object, type);
 	}
 
@@ -88,7 +87,7 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, informations
 		'<div align=right class="text-' +colors[0]+ '" style="position:absolute; top:48px; left:4px;">' + this.formatNumber(informations[1]) + '</div>'+
 
 		'<div class="text-blue" style="position:absolute; top:64px; left:4px; font-weight:bold;">Time Left</div>'+
-		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2], true) + "</div>"
+		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2], true) + '</div>'
 	);
 
 	$(identifier+'warning_amount').html('Deficit: ' + this.formatNumber(deficits[0]));
@@ -188,10 +187,10 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div class="cookie-monster__upgrade background-' +colors[0]+ '"></div>');
 	}
 
-	return this.updateTooltip('up', upgrade.id, colors, this.getLuckyAlerts(upgrade.basePrice), [
+	return this.updateTooltip(upgrade, colors, [
 		this.roundDecimal(income),
 		informations[0],
-		informations[1],
+		informations[1]
 	]);
 };
 
@@ -211,10 +210,10 @@ CookieMonster.manageBuildingTooltip = function(building) {
 		$('.price', '#product'+building.id).attr('class', 'price text-'+colors[0]);
 	}
 
-	return this.updateTooltip('ob', building.id, colors, this.getLuckyAlerts(building.price), [
+	return this.updateTooltip(building, colors, [
 		this.informations.bonus[building.id],
 		informations[0],
-		informations[1],
+		informations[1]
 	]);
 };
 

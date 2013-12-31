@@ -68,7 +68,7 @@ CookieMonster.createBottomBar = function() {
  * @return {void}
  */
 CookieMonster.makeTable = function() {
-	var thead    = '<th class="text-yellow"> ' + this.version + "</th>";
+	var thead    = '<th class="text-yellow"> ' + this.version + '</th>';
 	var bonus    = '<th class="text-blue">Bonus Income</th>';
 	var baseCost = '<th class="text-blue">Base Cost Per Income</th>';
 	var timeLeft = '<th class="text-blue">Time Left</th>';

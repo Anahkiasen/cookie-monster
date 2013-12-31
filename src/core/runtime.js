@@ -20,7 +20,7 @@ CookieMonster.runningInLocal = function() {
 CookieMonster.shouldRun = function() {
 	// Check if we're in Cookie Clicker
 	if (document.title.indexOf('Cookie Clicker') === -1 || this.$game.length === 0) {
-		return this.displayError("These aren't the droids you're looking for.");
+		return this.displayError('These aren\'t the droids you\'re looking for.');
 	}
 
 	// Cancel if already loaded

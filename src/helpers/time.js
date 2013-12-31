@@ -37,7 +37,9 @@ CookieMonster.secondsLeft = function(object, type) {
  */
 CookieMonster.formatTime = function(time, compressed) {
 	time = Math.round(time);
-	if (typeof compressed === 'undefined') compressed = false;
+	if (typeof compressed === 'undefined') {
+		compressed = false;
+	}
 
 	// Take care of special cases
 	if (time === Infinity) {

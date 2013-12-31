@@ -32,7 +32,7 @@ CookieMonster.start = function() {
 	// Start the loop
 	this.mainLoop();
 
-	Game.Popup('<span class="cm-popup">Cookie Monster ' + this.version + " Loaded!</span>");
+	Game.Popup('<span class="cm-popup">Cookie Monster ' + this.version + ' Loaded!</span>');
 };
 
 /**

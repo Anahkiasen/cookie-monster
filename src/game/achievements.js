@@ -15,7 +15,6 @@ CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncom
 	var income             = 0;
 	var heavenlyMultiplier = this.getHeavenlyMultiplier();
 	var futureMultiplier   = 0;
-	var milkModifiers      = [];
 	var milkProgress       = Game.milkProgress;
 	var frenzyMultiplier   = this.getFrenzyMultiplier();
 	var number;

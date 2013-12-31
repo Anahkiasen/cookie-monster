@@ -62,10 +62,10 @@ CookieMonster.getHeavenlyChip = function(context) {
 
 	switch (context) {
 		case 'max':
-			return this.formatNumber(nextReset) + " <small>(" + this.formatNumber(nextReset * 2) + "%)</small>";
+			return this.formatNumber(nextReset) + ' <small>(' + this.formatNumber(nextReset * 2) + '%)</small>';
 
 		case 'cur':
-			return this.formatNumber(currentAmount) + " <small>(" + this.formatNumber(currentAmount * 2) + "%)</small>";
+			return this.formatNumber(currentAmount) + ' <small>(' + this.formatNumber(currentAmount * 2) + '%)</small>';
 
 		case 'next':
 			return this.formatNumber(Math.round(nextChip));
@@ -83,9 +83,9 @@ CookieMonster.inc = function(e) {
 	var t = 0;
 
 	Game.AchievementsById.forEach(function (achievement) {
-		var i = achievement.desc.replace(/,/g, "");
-		if (!achievement.won && i.indexOf(" per second.") !== -1) {
-			if (e >= i.substr(8, i.indexOf("</b>", 8) - 8) * 1) {
+		var i = achievement.desc.replace(/,/g, '');
+		if (!achievement.won && i.indexOf(' per second.') !== -1) {
+			if (e >= i.substr(8, i.indexOf('</b>', 8) - 8) * 1) {
 				t++;
 			}
 		}

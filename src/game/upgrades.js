@@ -205,10 +205,10 @@ CookieMonster.lgt = function(upgrade) {
 CookieMonster.getMouseAndCursorGainOutcome = function(upgradeKey) {
 	var t = Game.UpgradesById[upgradeKey].desc;
 	var n = 31;
-	if (t.indexOf(" another ") !== -1) {
+	if (t.indexOf(' another ') !== -1) {
 		n += 8;
 	}
-	var r = t.substr(n, t.indexOf("<", n) - n) * 1;
+	var r = t.substr(n, t.indexOf('<', n) - n) * 1;
 	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
 };
 

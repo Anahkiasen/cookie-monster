@@ -226,7 +226,7 @@ CookieMonster.createBar = function (name, color) {
  */
 CookieMonster.fadeOutBar = function(identifier) {
 	identifier = identifier.replace(' ', '');
-	var $bar = $("#cookie-monster__timer-" + identifier);
+	var $bar = $('#cookie-monster__timer-' + identifier);
 
 	if ($bar.length === 1 && $bar.css('opacity') === '1') {
 		$bar.fadeOut(500, function() {
