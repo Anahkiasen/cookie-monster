@@ -4,7 +4,7 @@ var Test = require('./TestCase.js');
 var chai = require('chai').should();
 
 require('blanket')({
-	pattern: 'cookie-monster/dist/',
+	pattern: 'cookie-monster/src/',
 });
 
 // Browser
@@ -22,8 +22,29 @@ $      = jQuery(window);
 
 // Modules
 Game          = '';
-CookieMonster = require('../dist/js/cookie-monster.js');
-settings      = JSON.parse(JSON.stringify(CookieMonster.settings));
+CookieMonster = require('../src/cookie-monster.js');
+require('../src/game/achievements.js');
+require('../src/game/buildings.js');
+require('../src/game/golden-cookie.js');
+require('../src/game/heavenly.js');
+require('../src/game/lucky.js');
+require('../src/game/season.js');
+require('../src/game/upgrades.js');
+require('../src/helpers/browser.js');
+require('../src/helpers/cache.js');
+require('../src/helpers/emphasizers.js');
+require('../src/helpers/math.js');
+require('../src/helpers/misc.js');
+require('../src/helpers/time.js');
+require('../src/interface/bottom-bar.js');
+require('../src/interface/buff-bars.js');
+require('../src/interface/settings.js');
+require('../src/interface/store.js');
+require('../src/interface/tooltips.js');
+require('../src/main.js');
+
+// Cache settings
+settings = JSON.parse(JSON.stringify(CookieMonster.settings));
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////////// TESTS //////////////////////////////
@@ -43,9 +64,7 @@ module.exports = {
 		localStorage = {};
 
 		// Restore game
-		Game          = Mock.game();
-		CookieMonster = require('../dist/js/cookie-monster.js');
-
+		Game = Mock.game();
 		CookieMonster.settings = settingsCache;
 	},
 
