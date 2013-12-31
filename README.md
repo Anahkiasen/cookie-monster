@@ -27,6 +27,8 @@ If (for some reason) the above doesn't work, trying pasting everything after the
 
 Any bug or suggestion should be opened as an issue [in the repository](https://github.com/Anahkiasen/cookie-monster/issues) for easier tracking. This allows me to close issues once they're fixed.
 
+Before submitting a bug, make to give a shot at the latest version of the plugin on the `develop` branch. For this, simply replace `master` by `develop` in the bookmarklet above. If the bug is still here, you can submit an issue for it.
+
 ## Contributing
 
 To contribute to the project, you'll find the files you want to edit in `src/`, split by what the methods are related to. If you're not familiar with [Git](http://git-scm.com/), the simplest way to contribute is to go into a file, click the _Edit_ button at the top, edit the code, and click on **"Propose file change"**.
