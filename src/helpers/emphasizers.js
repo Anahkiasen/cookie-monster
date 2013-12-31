@@ -13,8 +13,7 @@ CookieMonster.Emphasizers = {};
  *
  * @return {DOMElement}
  */
-CookieMonster.whileOnScreen = function($selector, offScreen, onScreen) {
-	var identifier = $selector.attr('id');
+CookieMonster.whileOnScreen = function(identifier, offScreen, onScreen) {
 
 	// Set key in array if it doesn't exist
 	if (typeof this.onScreen[identifier] === 'undefined') {
@@ -22,15 +21,15 @@ CookieMonster.whileOnScreen = function($selector, offScreen, onScreen) {
 	}
 
 	// Execute the two callbacks
-	if ($selector.css('display') === 'none' && this.onScreen[identifier]) {
+	if (Game[identifier].life <= 0 && this.onScreen[identifier]) {
 		this.onScreen[identifier] = false;
-		offScreen.call(this, $selector);
-	} else if ($selector.css('display') !== 'none' && !this.onScreen[identifier]) {
+		offScreen.call(this);
+	} else if (Game[identifier].life && !this.onScreen[identifier]) {
 		this.onScreen[identifier] = true;
-		onScreen.call(this, $selector);
+		onScreen.call(this);
 	}
 
-	return $selector;
+	return this.onScreen[identifier];
 };
 
 /**

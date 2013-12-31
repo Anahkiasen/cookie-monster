@@ -4,7 +4,7 @@
  * @return {void}
  */
 CookieMonster.emphasizeSeason = function() {
-	this.whileOnScreen(this.$reindeer,
+	this.whileOnScreen('seasonPopup',
 		function() {
 			this.$flashOverlay.hide();
 		},

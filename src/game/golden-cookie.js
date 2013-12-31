@@ -13,7 +13,7 @@ CookieMonster.getFrenzyMultiplier = function() {
  * @return {void}
  */
 CookieMonster.emphasizeGolden = function() {
-	$golden = this.whileOnScreen(this.$goldenCookie,
+	var onScreen = this.whileOnScreen('goldenCookie',
 		function() {
 			this.$goldenOverlay.hide();
 			this.titleModifier = '';
@@ -26,7 +26,7 @@ CookieMonster.emphasizeGolden = function() {
 			this.Emphasizers.flashScreen();
 		});
 
-	if (this.onScreen.goldenCookie) {
+	if (onScreen) {
 		this.Emphasizers.displayGoldenTimer();
 	}
 };
