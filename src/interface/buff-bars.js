@@ -6,8 +6,8 @@
 CookieMonster.manageBuffs = function() {
 	this.manageFrenzyBars();
 	this.manageClickingFrenzy();
-	this.manageNextCookie();
-	this.manageNextReindeer();
+	this.manageTimersBar('seasonPopup', 'Next Reindeer');
+	this.manageTimersBar('goldenCookie', 'Next Cookie');
 };
 
 /**
@@ -81,6 +81,7 @@ CookieMonster.manageFrenzyBars = function() {
 		return this.fadeOutBar(identifier);
 	}
 
+	// Update current bar
 	this.updateBar(frenzyName, color, Game.frenzy);
 
 	// As only one effect can be active at a time, we'll fade out
@@ -107,46 +108,30 @@ CookieMonster.manageClickingFrenzy = function() {
 };
 
 /**
- * Manage the "Next Reindeer" bar
+ * Manage a bar with multiple timers (min, max, etc.)
  *
- * @return {void}
- */
-CookieMonster.manageNextReindeer = function() {
-	var timers = [Game.seasonPopup.time, Game.seasonPopup.minTime, Game.seasonPopup.maxTime];
-	var width  = timers[2] - timers[0];
-
-	// Hide if Reindeer on screen
-	if (timers[0] <= 0 || this.onScreen.seasonPopup || !this.getBooleanSetting('CookieBar')) {
-		return this.fadeOutBar('NextReindeer');
-	}
-
-	var $container = this.updateBar('Next Reindeer', 'greyLight', width, width / timers[2] * 100);
-	$('.cm-buff-bar__bar--second', $container).css('max-width', (this.getBarsWidth() - 189) * 0.67 + "px");
-};
-
-/**
- * Manage the "Next cookie" bar
+ * @param {String} name
+ * @param {String} label
  *
- * @return {void}
+ * @return {Void}
  */
-CookieMonster.manageNextCookie = function() {
-	var timers = [Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime];
+CookieMonster.manageTimersBar = function(name, label) {
+	var timers   = [Game[name].time, Game[name].minTime, Game[name].maxTime];
+	var width    = timers[2] - timers[0];
+	var barWidth = width / timers[2] * 100;
 
-	// Cancel if disabled
-	if (timers[0] <= 0 || this.onScreen.goldenCookie || !this.getBooleanSetting('CookieBar')) {
-		return this.fadeOutBar('NextCookie');
+	// Hide if popup on screen
+	if (timers[0] <= 0 || this.onScreen[name] || !this.getBooleanSetting('CookieBar')) {
+		return this.fadeOutBar(label);
 	}
-
-	// Compute necessary informations
-	var width     = timers[2] - timers[0];
-	var countdown = Math.round(width / Game.fps);
 
 	// Update title
-	if (countdown > 0 && !this.onScreen.goldenCookie) {
+	var countdown = width / Game.fps;
+	if (name === 'goldenCookie' && countdown > 0 && !this.onScreen.goldenCookie) {
 		this.titleModifier = this.getBooleanSetting('CookieBar') ? '(' + countdown + ') ' : '';
 	}
 
-	var $container = this.updateBar('Next Cookie', 'greyLight', width, width / timers[2] * 100);
+	var $container = this.updateBar(label, 'greyLight', width, barWidth);
 	$('.cm-buff-bar__bar--second', $container).css('max-width', (this.getBarsWidth() - 189) * 0.67 + 'px');
 };
 
@@ -181,7 +166,7 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 	// Old-school if transitions are unsupported
 	var $container = $('#cmt_'+identifier);
 	if (typeof document.body.style.transition === 'undefined') {
-		return $container.css('width', width);
+		return $container.css('width', width+'%');
 	}
 
 	// Check if we applied transitions
@@ -190,7 +175,7 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 	}
 
 	// Add transition
-	$container.addClass('active').css('width', width);
+	$container.addClass('active').css('width', width+'%');
 	setTimeout(function() {
 		$container.css({
 			width      : 0,
@@ -244,6 +229,7 @@ CookieMonster.createBar = function (name, color) {
  * @return {void}
  */
 CookieMonster.fadeOutBar = function(identifier) {
+	identifier = identifier.replace(' ', '');
 	var $bar = $("#cookie-monster__timer-" + identifier);
 
 	if ($bar.length === 1 && $bar.css('opacity') === '1') {
