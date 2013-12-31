@@ -1,11 +1,17 @@
 ## TODO
 
 * Display statistics about wrinklers
-* Take into account new upgrades
 
 -----
 
 ## 1.040 Versions
+
+### 1.040.05 _(2013-12-31)_
+
+* Add some upgrades that were still not taken into account
+* Added back the "grey timeout" for Next Cookie/Reindeed bars
+* Huge performances work, CM should run a lot smoother now (ie. more than the original)
+* Fix tooltips displaying full time instead of compressed time
 
 ### 1.040.04 _(2013-12-30)_
 
