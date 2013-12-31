@@ -12,7 +12,7 @@
  * @param {Color} $to
  */
 #tooltip {
-  margin-top: 32px;
+  margin-top: 2rem;
   pointer-events: none; }
 
 #cookies {
@@ -28,8 +28,8 @@
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-  top: 0px;
-  bottom: 57px; }
+  top: 0;
+  bottom: 3.5rem; }
 
 #goldenCookie {
   z-index: 1000001 !important; }
@@ -43,8 +43,8 @@
 .subtitle {
   font-family: Kavoon, Georgia, serif;
   font-size: 1.1rem;
-  padding: 0.5rem 1rem;
-  text-shadow: 0px 0px 4px black;
+  padding: 0.5em 1em;
+  text-shadow: 0 0 0.25em black;
   color: #cccccc; }
 
 strong {
@@ -129,14 +129,14 @@ strong {
   background-image: -webkit-linear-gradient(top, #4d4548, #000000);
   background-image: linear-gradient(to bottom, #4d4548, #000000);
   border-top: 1px solid black;
-  bottom: 0px;
   cursor: default;
-  height: 56px;
-  left: 0px;
-  position: absolute;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   width: 100%;
-  z-index: 1000; }
+  height: 3.5rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; }
   #cookie-monster__bottom-bar table {
     width: 100%;
     table-layout: fixed;
@@ -147,7 +147,7 @@ strong {
       text-align: center; }
       #cookie-monster__bottom-bar table tr th:first-child {
         text-align: right;
-        width: 130px; }
+        width: 12rem; }
     #cookie-monster__bottom-bar table td {
       text-align: center; }
 
@@ -156,8 +156,8 @@ strong {
   border-top: 1px solid black;
   bottom: -1px;
   font-family: Kavoon, Georgia, serif;
-  font-size: 16px;
-  left: 0px;
+  font-size: 1rem;
+  left: 0;
   pointer-events: none;
   position: absolute;
   text-align: center;
@@ -165,31 +165,35 @@ strong {
   z-index: 1000; }
 
 .cm-buff-bar {
-  padding: 4px 0px 5px 0px; }
-  .cm-buff-bar table {
-    font-style: inherit;
-    color: inherit;
-    width: 100%; }
-    .cm-buff-bar table td:first-child {
-      width: 130px;
-      text-align: right; }
-
-.cm-buff-bar__bar {
-  position: relative;
-  height: 10px;
+  *zoom: 1;
   width: 100%;
-  margin-left: 0px;
-  max-width: 0px;
-  float: right; }
+  margin: 0.5rem 0; }
+  .cm-buff-bar:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.cm-buff-bar__name {
+  float: left;
+  width: 17%;
+  text-align: right; }
 
 .cm-buff-bar__container {
+  float: left;
+  width: 74.7%; }
+
+.cm-buff-bar__bar, .cm-buff-bar__inner {
+  margin-left: 0.25rem;
+  border: 1px solid black;
   position: relative;
-  height: 10px;
-  width: 100%;
-  margin-left: 4px;
-  border: 1px solid black; }
-  .cm-buff-bar__container.active {
-    width: 0%; }
+  height: 0.7rem;
+  width: 100%; }
+
+.cm-buff-bar__inner {
+  border: none;
+  margin-left: 0;
+  max-width: 0;
+  float: right; }
 
 .cm-buff-bar__timer {
   text-align: left;
@@ -198,80 +202,76 @@ strong {
   top: -5px;
   width: 45px; }
 
-#cookie-monster__golden-overlay {
-  cursor: pointer;
-  display: none;
-  font-family: Kavoon, Georgia, serif;
-  font-size: 32px;
-  height: 96px;
-  opacity: 0;
+#cookie-monster__golden-overlay, #cookie-monster__overlay {
   pointer-events: none;
   position: fixed;
+  display: none;
+  z-index: 1000002; }
+
+#cookie-monster__golden-overlay {
+  font-family: Kavoon, Georgia, serif;
+  font-size: 2rem;
+  height: 6rem;
+  opacity: 0;
   text-align: center;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
-  width: 96px;
-  z-index: 1000002;
-  padding-top: 30px; }
+  width: 6rem;
+  padding-top: 2rem; }
 
 #cookie-monster__overlay {
   background: white;
-  display: none;
   height: 100%;
-  pointer-events: none;
-  position: fixed;
-  width: 100%;
-  z-index: 1000000; }
+  width: 100%; }
 
 .cm-tooltip {
   position: relative;
-  height: 96px;
+  height: 6rem;
   background: #1a1a1a;
   border: 1px solid black;
-  margin: 6px -6px -6px -6px; }
+  margin: -0.3rem;
+  margin-top: 0.3rem; }
 
 .cm-tooltip__image {
   position: relative;
   float: left;
-  height: 32px;
-  width: 32px; }
+  height: 2rem;
+  width: 2rem; }
 
 .cm-tooltip__warning {
   background: #1a1a1a;
   position: relative;
-  margin-top: 4px;
+  margin-top: 0.25rem;
   border: 1px solid black;
-  padding: 2px; }
+  padding: 0.1rem; }
   .cm-tooltip__warning div {
     position: absolute;
-    left: -10px;
-    top: -10px;
-    height: 32px;
-    width: 32px; }
+    left: -0.5rem;
+    top: -0.25rem;
+    height: 2rem;
+    width: 2rem; }
   .cm-tooltip__warning img {
-    width: 16px;
-    height: 16px; }
+    width: 1rem;
+    height: 1rem; }
 
 #storeTitle {
-  font-size: 18px;
-  padding: 4px 8px 2px 8px;
+  font-size: 1.1rem;
+  padding: 0.25em 0.5em 0.1em;
   border-bottom: 1px solid black; }
   #storeTitle + table {
     width: 300px;
     table-layout: fixed;
-    padding: 4px;
+    padding: 0.25rem;
     font-weight: bold;
     background: rgba(0, 0, 0, 0.6);
-    border-bottom: 1px solid black;
-    cursor: default; }
+    border-bottom: 1px solid black; }
     #storeTitle + table td {
-      padding: 2px; }
+      padding: 0.1em; }
 
 .cookie-monster__upgrade {
   border: 1px solid black;
   position: absolute;
   z-index: 21;
-  top: 2px;
-  left: 2px;
-  height: 14px;
-  width: 14px;
-  pointer-events: none; }
+  top: 0.1rem;
+  left: 0.1rem;
+  height: 0.8rem;
+  width: 0.8rem; }

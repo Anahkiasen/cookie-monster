@@ -1991,7 +1991,7 @@ CookieMonster.manageTimersBar = function(name, label) {
 	}
 
 	var $container = this.updateBar(label, 'greyLight', width, barWidth);
-	$('.cm-buff-bar__bar--second', $container).css('max-width', (this.getBarsWidth() - 189) * 0.67 + 'px');
+	$('.cm-buff-bar__inner', $container).css('max-width', (this.getBarsWidth() - 189) * 0.67 + 'px');
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -2058,24 +2058,20 @@ CookieMonster.createBar = function (name, color) {
 
 	// Add second bar for golden cookies
 	if (secondBar) {
-		secondBar = '<div class="cm-buff-bar__bar cm-buff-bar__bar--second background-' +secondBar+ '" id="cmt2_'+secondBar+'"></div>';
+		secondBar = '<div class="cm-buff-bar__inner background-' +secondBar+ '" id="cmt2_'+secondBar+'"></div>';
 	}
 
 	this.$timerBars.append(
 		'<div class="cm-buff-bar" id="cookie-monster__timer-' + identifier + '" style="display: none">'+
-			'<table cellpadding="0" cellspacing="0">'+
-				'<tr>' +
-					'<td>' + name + "</td>" +
-					'<td>'+
-						'<div class="cm-buff-bar__container background-' +color+ '" id="cmt_' + identifier + '">'+
-							secondBar +
-							'<div class="cm-buff-bar__timer" id="cmt_time_' + identifier + '">0</div>'+
-						'</div>'+
-					'</td>'+
-					'<td style="width:55px;"></td>'+
-				'</tr>' +
-			'</table>'+
-		'</div>');
+			'<p class="cm-buff-bar__name">'+name+'</p>'+
+			'<div class="cm-buff-bar__container">'+
+				'<div class="cm-buff-bar__bar background-' +color+ '" id="cmt_' + identifier + '">'+
+					secondBar +
+					'<div class="cm-buff-bar__timer" id="cmt_time_' + identifier + '">0</div>'+
+				'</div>'+
+			'</div>'+
+		'</div>'
+	);
 
 	return $('#cookie-monster__timer-'+identifier).fadeIn(500);
 };
