@@ -132,7 +132,6 @@ CookieMonster.manageNextCookie = function() {
 	}
 
 	this.updateBar('Next Cookie', 'purple', width, width / timers[2] * 100);
-	$('#cmt2_'+this.color('purple')).css('max-width', (barsWidth - 189) * 0.67 + "px");
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -150,22 +149,33 @@ CookieMonster.manageNextCookie = function() {
  * @return {void}
  */
 CookieMonster.updateBar = function (name, color, timer, width) {
-	var $bar = $('#cookie-monster__timer-'+color);
+	var $bar  = $('#cookie-monster__timer-'+color);
+	var count = Math.round(timer / Game.fps);
 
-	// Create bar if it doesn't exist
-	if ($bar.length !== 1) {
+	// Check existence
+	if ($bar.length === 0) {
 		this.createBar(name, color);
 	}
 
-	// Define text count and CSS width
-	var count = timer / Game.fps;
-	if (typeof width === 'undefined') {
-		width = timer / Game.goldenCookie.maxTime * 100;
+	// Update timer
+	var $container = $('#cmt_'+color);
+	$('#cmt_time_'+color).text(count);
+	$bar.fadeIn(250);
+
+	// Old-school if transitions are unsupported
+	if (typeof document.body.style.transition === 'undefined') {
+		return $container.css('width', width || timer / Game.goldenCookie.maxTime * 100);
 	}
 
-	$('#cmt_'+color).css('width', width);
-	$('#cmt_time_'+color).text(Math.round(count));
-	$bar.fadeIn(250);
+	// Check if we applied transitions
+	if ($container.hasClass('active')) {
+		return;
+	}
+
+	// Add transition
+	setTimeout(function() {
+		$container.css('transition', 'width linear ' +count+ 's').addClass('active');
+	}, 100);
 };
 
 /**
@@ -188,7 +198,7 @@ CookieMonster.createBar = function (name, color) {
 		'<div class="cm-buff-bar" id="cookie-monster__timer-' + color + '">'+
 			'<table cellpadding="0" cellspacing="0">'+
 				'<tr>' +
-					'<td>' + name + "<td>" +
+					'<td>' + name + "</td>" +
 					'<td>'+
 						'<div class="cm-buff-bar__container background-' +color+ '" id="cmt_' + color + '">'+
 							secondBar +
@@ -199,6 +209,8 @@ CookieMonster.createBar = function (name, color) {
 				'</tr>' +
 			'</table>'+
 		'</div>');
+
+	return $('#cmt_'+color);
 };
 
 /**
@@ -213,5 +225,6 @@ CookieMonster.fadeOutBar = function(color, match) {
 
 	if ($bar.length === 1 && $bar.css("opacity") === "1" && color !== match) {
 		$bar.stop(true, true).fadeOut(250);
+		$bar.find('.cm-buff-bar__container').removeClass('active').attr('style', '');
 	}
 };

@@ -92,8 +92,8 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, informations
 		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2], true) + "</div>"
 	);
 
-	$(identifier+'warning_amount').text('Deficit: ' + this.formatNumber(deficits[0]));
-	$(identifier+'caution_amount').text('Deficit: ' + this.formatNumber(deficits[1]));
+	$(identifier+'warning_amount').html('Deficit: ' + this.formatNumber(deficits[0]));
+	$(identifier+'caution_amount').html('Deficit: ' + this.formatNumber(deficits[1]));
 
 	if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
 		$(identifier+'lucky_div_warning').toggle(deficits[0] > 0);

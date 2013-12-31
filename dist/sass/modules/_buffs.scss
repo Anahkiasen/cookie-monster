@@ -49,6 +49,10 @@
 	width       : 100%;
 	margin-left : 4px;
 	border      : 1px solid black;
+
+	&.active {
+		width: 0%;
+	}
 }
 
 .cm-buff-bar__timer {
