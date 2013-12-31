@@ -21,6 +21,8 @@ javascript: (function () {
 }());
 ```
 
+If (for some reason) the above doesn't work, trying pasting everything after the `javascript:` bit into your browser's console.
+
 ## Bugs and suggestions
 
 Any bug or suggestion should be opened as an issue [in the repository](https://github.com/Anahkiasen/cookie-monster/issues) for easier tracking. This allows me to close issues once they're fixed.
@@ -39,7 +41,7 @@ cd cookie-monster
 npm install
 ```
 
-You'll need NPM for that, if you don't have it, you can find a one-click installed on [NodeJS's website](http://nodejs.org/) or if you're more familiar with development and have per example Homebrew, you can just do `brew install node`.
+You'll need NPM for that, if you don't have it, you can find a one-click installer on [NodeJS's website](http://nodejs.org/) or if you're more familiar with development and have per example Homebrew, you can just do `brew install node`.
 
 ### Editing
 
