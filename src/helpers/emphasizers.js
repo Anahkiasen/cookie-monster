@@ -90,12 +90,12 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
  *
  * @return {void}
  */
-CookieMonster.Emphasizers.playSound = function() {
+CookieMonster.Emphasizers.playSound = function(sound) {
 	if (!CookieMonster.getBooleanSetting('Sounds')) {
 		return false;
 	}
 
-	return CookieMonster.playBell();
+	return sound ? CookieMonster.playSound(sound) : CookieMonster.playBell();
 };
 
 /**

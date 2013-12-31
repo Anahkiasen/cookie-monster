@@ -9,7 +9,7 @@ CookieMonster.emphasizeSeason = function() {
 			this.$flashOverlay.hide();
 		},
 		function() {
-			this.Emphasizers.playSound();
+			this.Emphasizers.playSound('http://www.freesound.org/data/previews/121/121099_2193266-lq.mp3');
 			this.Emphasizers.flashScreen();
 		});
 };
