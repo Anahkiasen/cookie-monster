@@ -4,8 +4,8 @@ module.exports = {
 		'Can check if upgrade is in store': function() {
 			Game.UpgradesInStore = ['foo'];
 
-			CookieMonster.isInStore('foo').should.be.true;
-			CookieMonster.isInStore('bar').should.be.false;
+			CookieMonster.isInStore('foo').should.equal(true);
+			CookieMonster.isInStore('bar').should.equal(false);
 		},
 	},
 

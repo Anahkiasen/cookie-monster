@@ -19,7 +19,7 @@ module.exports = {
 			'Can return if achievement unlocked': function() {
 				achievements[name] = true;
 				Mock.achievements(achievements);
-				CookieMonster[method]('Antimatter condenser').should.be.false;
+				CookieMonster[method]('Antimatter condenser').should.equal(false);
 			},
 
 			'Can return whether next building unlocks achievement': function() {

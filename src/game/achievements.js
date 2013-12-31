@@ -260,4 +260,4 @@ CookieMonster.checkBuildingUnifiesAmounts = function(amount, checkedBuilding) {
 	}
 
 	return false;
-}
+};
