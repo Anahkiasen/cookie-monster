@@ -23,6 +23,9 @@ $      = jQuery(window);
 // Modules
 Game          = '';
 CookieMonster = require('../src/cookie-monster.js');
+require('../src/core/runtime.js');
+require('../src/core/setup.js');
+require('../src/core/hooks.js');
 require('../src/game/achievements.js');
 require('../src/game/buildings.js');
 require('../src/game/golden-cookie.js');

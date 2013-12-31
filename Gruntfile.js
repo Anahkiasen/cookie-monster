@@ -103,7 +103,6 @@ module.exports = function(grunt) {
 					'<%= paths.compiled.js %>/js/cookie-monster.js': [
 						'<%= paths.original.js %>/cookie-monster.js',
 						'<%= paths.original.js %>/**/*.js',
-						'<%= paths.original.js %>/upgrades.js',
 						'<%= paths.original.js %>/main.js',
 					],
 					'<%= paths.compiled.js %>/cookie-monster.js': [
