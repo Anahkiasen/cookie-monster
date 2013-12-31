@@ -34,7 +34,6 @@ require('../src/helpers/browser.js');
 require('../src/helpers/cache.js');
 require('../src/helpers/emphasizers.js');
 require('../src/helpers/math.js');
-require('../src/helpers/misc.js');
 require('../src/helpers/time.js');
 require('../src/interface/bottom-bar.js');
 require('../src/interface/buff-bars.js');
@@ -93,7 +92,6 @@ module.exports = {
 		'Cache'       : require('./helpers/cache.js'),
 		'Emphasizers' : require('./helpers/emphasizers.js'),
 		'Math'        : require('./helpers/math.js'),
-		'Misc'        : require('./helpers/misc.js'),
 		'Time'        : require('./helpers/time.js'),
 	},
 

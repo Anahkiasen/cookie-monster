@@ -78,10 +78,9 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, informations
 	}
 
 	// Update informations
-	$object.css({
-		'border'  : '1px solid #'+this.color(colors[0]),
-		'display' : '',
-	}).html(
+	$object
+	.attr('class', 'cm-tooltip border-'+colors[0])
+	.html(
 		'<div class="text-blue" style="position:absolute; top:4px; left:4px; font-weight:bold;">Bonus Income</div>'+
 		'<div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(informations[0]) + '</div>'+
 

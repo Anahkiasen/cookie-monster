@@ -100,29 +100,6 @@ var CookieMonster = {
 		warning: 'Purchase of this item will put you under the number of Cookies required for "Lucky!"',
 	},
 
-	// Colors
-	////////////////////////////////////////////////////////////////////
-
-	colors: {
-		blue    : '4BB8F0',
-		green   : '00FF00',
-		orange  : 'FF7F00',
-		purple  : 'FF00FF',
-		red     : 'FF0000',
-		yellow  : 'FFFF00',
-		greyTen : '222222',
-	},
-
-	colorsBlind: {
-		blue    : '4BB8F0',
-		green   : '76b7e1',
-		orange  : 'FF7F00',
-		purple  : 'FF00FF',
-		red     : 'FF0000',
-		yellow  : 'FFFF00',
-		greyTen : '222222',
-	}
-
 };
 
 // Export module
