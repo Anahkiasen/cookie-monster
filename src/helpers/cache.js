@@ -26,9 +26,10 @@ CookieMonster.cache = function(salts, callback, args) {
 	}
 
 	// Else compute results and cache it
-	this.cacheStore[state][salts] = callback.apply(this, args);
+	var result = callback.apply(this, args);
+	this.cacheStore[state][salts] = result;
 
-	return this.cacheStore[state][salts];
+	return result;
 };
 
 /**
@@ -70,4 +71,4 @@ CookieMonster.refreshCache = function() {
  */
 CookieMonster.computeSalts = function(salts, args) {
 	return JSON.stringify(salts.concat(args));
-}
+};

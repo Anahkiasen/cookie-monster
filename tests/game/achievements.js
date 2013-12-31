@@ -5,7 +5,7 @@ module.exports = {
 
 	'#hasAchievement': {
 		'Can return if achievement is unlocked': function () {
-			Mock.achievements({Mathematician: false, 'One with everything': true}),
+			Mock.achievements({Mathematician: false, 'One with everything': true});
 
 			CookieMonster.hasntAchievement('Mathematician').should.equal(true);
 			CookieMonster.hasAchievement('Mathematician').should.equal(false);

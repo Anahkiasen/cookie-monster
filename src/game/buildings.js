@@ -97,13 +97,13 @@ CookieMonster.getBuildingWorth = function(building) {
 
 	// Get unlocked achievements by number of buildings
 	if (Game.BuildingsOwned === 99) {
-		unlocked += this.hasntAchievement("Builder");
+		unlocked += this.hasntAchievement('Builder');
 	}
 	if (Game.BuildingsOwned === 399) {
-		unlocked += this.hasntAchievement("Architect");
+		unlocked += this.hasntAchievement('Architect');
 	}
 	if (Game.BuildingsOwned === 799) {
-		unlocked += this.hasntAchievement("Engineer");
+		unlocked += this.hasntAchievement('Engineer');
 	}
 
 	// Get unlocked achievements by building schemas

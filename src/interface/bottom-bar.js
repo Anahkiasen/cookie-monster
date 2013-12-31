@@ -95,16 +95,17 @@ CookieMonster.updateTable = function() {
 	Game.ObjectsById.forEach(function (building, key) {
 
 		// Compute informations
-		var bonus = that.roundDecimal(that.getBuildingWorth(building));
-		var cpi   = that.roundDecimal(building.price / bonus);
-		var count = '(<span class="text-blue">' + that.formatNumber(building.amount) + '</span>)';
+		var bonus    = that.roundDecimal(that.getBuildingWorth(building));
+		var cpi      = that.roundDecimal(building.price / bonus);
+		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
+		var timeLeft = Math.round(that.secondsLeft(key, 'object'));
 
 		// Save building informations
 		that.setBuildingInformations(key, {
 			items    : building.name.split(' ')[0] + ' ' + count,
-			bonus    : that.roundDecimal(bonus),
-			cpi      : that.roundDecimal(cpi),
-			timeLeft : Math.round(that.secondsLeft(key, 'object')),
+			bonus    : bonus,
+			cpi      : cpi,
+			timeLeft : timeLeft,
 		});
 	});
 

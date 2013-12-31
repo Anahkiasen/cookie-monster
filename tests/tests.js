@@ -65,7 +65,8 @@ module.exports = {
 
 		// Restore game
 		Game = Mock.game();
-		CookieMonster.settings = settingsCache;
+		CookieMonster.settings   = settingsCache;
+		CookieMonster.cacheStore = {};
 	},
 
 	// Tests
@@ -87,6 +88,7 @@ module.exports = {
 	},
 	'Helpers': {
 		'Browser'     : require('./helpers/browser.js'),
+		'Cache'       : require('./helpers/cache.js'),
 		'Emphasizers' : require('./helpers/emphasizers.js'),
 		'Math'        : require('./helpers/math.js'),
 		'Misc'        : require('./helpers/misc.js'),

@@ -1,5 +1,20 @@
 module.exports = {
 
+	'#getBestValue': {
+		'Can get max value': function() {
+			CookieMonster.informations.cpi      = [0, 1, 2, 3, 4, 5];
+			CookieMonster.informations.timeLeft = [0, 1, 2, 3, 4, 5];
+
+			CookieMonster.getBestValue('max').should.eql([5, 5]);
+		},
+		'Can get min value': function() {
+			CookieMonster.informations.cpi      = [0, 1, 2, 3, 4, 5];
+			CookieMonster.informations.timeLeft = [0, 1, 2, 3, 4, 5];
+
+			CookieMonster.getBestValue('min').should.eql([0, 0]);
+		},
+	},
+
 	'#setBuildingInformations': {
 		'Can store informations about a building': function() {
 			CookieMonster.setBuildingInformations(0, {
@@ -39,5 +54,16 @@ module.exports = {
 			CookieMonster.$monsterBar.css('display').should.equal('none');
 		},
 	},
+
+	'#updateTable': {
+		'Can update the informations in the bottom bar': function() {
+			CookieMonster.createBottomBar();
+			CookieMonster.updateTable();
+
+			var html = $('table').html();
+
+			html.should.contain('Cursor (<span class="text-blue">8</span>)');
+		},
+	}
 
 };
