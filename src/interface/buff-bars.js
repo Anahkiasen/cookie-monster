@@ -168,19 +168,18 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 	var identifier = name.replace(' ', '');
 	var $bar  = $('#cookie-monster__timer-'+identifier);
 	var count = Math.round(timer / Game.fps);
-	var width = width || timer / Game.goldenCookie.maxTime * 100;
+	width = width || timer / Game.goldenCookie.maxTime * 100;
 
 	// Check existence
 	if ($bar.length === 0) {
-		this.createBar(name, color);
+		$bar = this.createBar(name, color);
 	}
 
 	// Update timer
-	var $container = $('#cmt_'+identifier);
 	$('#cmt_time_'+identifier).text(count);
-	$bar.fadeIn(250);
 
 	// Old-school if transitions are unsupported
+	var $container = $('#cmt_'+identifier);
 	if (typeof document.body.style.transition === 'undefined') {
 		return $container.css('width', width);
 	}
@@ -219,7 +218,7 @@ CookieMonster.createBar = function (name, color) {
 	}
 
 	this.$timerBars.append(
-		'<div class="cm-buff-bar" id="cookie-monster__timer-' + identifier + '">'+
+		'<div class="cm-buff-bar" id="cookie-monster__timer-' + identifier + '" style="display: none">'+
 			'<table cellpadding="0" cellspacing="0">'+
 				'<tr>' +
 					'<td>' + name + "</td>" +
@@ -234,7 +233,7 @@ CookieMonster.createBar = function (name, color) {
 			'</table>'+
 		'</div>');
 
-	return $('#cmt_'+identifier);
+	return $('#cookie-monster__timer-'+identifier).fadeIn(500);
 };
 
 /**
@@ -248,7 +247,8 @@ CookieMonster.fadeOutBar = function(identifier) {
 	var $bar = $("#cookie-monster__timer-" + identifier);
 
 	if ($bar.length === 1 && $bar.css('opacity') === '1') {
-		$bar.stop(true, true).fadeOut(250);
-		$bar.find('.cm-buff-bar__container').removeClass('active').attr('style', '');
+		$bar.fadeOut(500, function() {
+			$(this).remove();
+		});
 	}
 };

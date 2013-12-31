@@ -26,6 +26,9 @@ CookieMonster.start = function() {
 	this.hookIntoNative();
 	this.setupTooltips();
 
+	// Events
+	this.Events.onGoldenClick();
+
 	// Start the loop
 	this.mainLoop();
 
