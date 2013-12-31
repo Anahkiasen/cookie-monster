@@ -2,37 +2,40 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
+$tooltip-image: 1rem;
+
 .cm-tooltip {
 	position   : relative;
-	height     : 96px;
+	height     : 6rem;
 	background : $color-greyTen;
 	border     : 1px solid black;
-	margin     : 6px -6px -6px -6px;
+	margin     : -0.3rem;
+	margin-top : 0.3rem ;
 }
 
 .cm-tooltip__image {
 	position : relative;
 	float    : left;
-	height   : 32px;
-	width    : 32px;
+	height   : $tooltip-image * 2;
+	width    : $tooltip-image * 2;
 }
 
 .cm-tooltip__warning {
 	background : $color-greyTen;
 	position   : relative;
-	margin-top : 4px;
+	margin-top : 0.25rem;
 	border     : 1px solid black;
-	padding    : 2px;
+	padding    : 0.1rem;
 
 	div {
 		position : absolute;
-		left     : -10px;
-		top      : -10px;
-		height   : 32px;
-		width    : 32px;
+		left     : $tooltip-image * -0.5;
+		top      : $tooltip-image * -0.25;
+		height   : $tooltip-image * 2;
+		width    : $tooltip-image * 2;
 	}
 	img {
-		width  : 16px;
-		height : 16px;
+		width  : $tooltip-image;
+		height : $tooltip-image;
 	}
 }
