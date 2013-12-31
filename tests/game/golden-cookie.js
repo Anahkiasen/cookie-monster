@@ -28,4 +28,22 @@ module.exports = {
 		},
 	},
 
+	'#emphasizeGolden': {
+		'Can emphasize the apparition of a golden cookie': function() {
+			$('body').append('<div id="goldenCookie"></div>');
+			CookieMonster.$goldenCookie = $('#goldenCookie');
+			Game.goldenCookie = {life: 30};
+
+			CookieMonster.createFlashOverlay();
+			CookieMonster.createGoldenOverlay();
+
+			CookieMonster.emphasizeGolden();
+			CookieMonster.onScreen.goldenCookie.should.equal(true);
+
+			Game.goldenCookie.life = 0;
+			CookieMonster.emphasizeGolden();
+			CookieMonster.onScreen.goldenCookie.should.equal(false);
+		},
+	},
+
 };

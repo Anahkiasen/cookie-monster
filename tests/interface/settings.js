@@ -113,6 +113,22 @@ module.exports = {
 		},
 	},
 
+	'#getLuckyAlertState': {
+		'Can get LuckyAlert Rate option value': function() {
+			CookieMonster.setSetting('LuckyAlert', 1);
+			CookieMonster.getLuckyAlertState().should.equal('Both');
+
+			CookieMonster.toggleSetting('LuckyAlert');
+			CookieMonster.getLuckyAlertState().should.equal('Icons');
+
+			CookieMonster.toggleSetting('LuckyAlert');
+			CookieMonster.getLuckyAlertState().should.equal('Notes');
+
+			CookieMonster.toggleSetting('LuckyAlert');
+			CookieMonster.getLuckyAlertState().should.equal('Off');
+		},
+	},
+
 	'#getRefreshState': {
 		'Can get Refresh Rate option value': function() {
 			CookieMonster.setSetting('Refresh', 1e3);
