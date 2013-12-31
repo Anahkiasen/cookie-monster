@@ -19,7 +19,7 @@
     "jquery": "*",
     "jsdom": "*",
     "chai": "*",
-    "blanket": "~1.1.6"
+    "blanket": "*"
   },
   "scripts": {
     "test": "./node_modules/.bin/grunt test"

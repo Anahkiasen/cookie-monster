@@ -43,9 +43,9 @@ module.exports = {
 
 	'#getBooleanSetting': {
 		'Can get setting in boolean form': function() {
-			CookieMonster.getBooleanSetting('FlashScreen').should.be.true;
+			CookieMonster.getBooleanSetting('FlashScreen').should.equal(true);
 			CookieMonster.settings.FlashScreen = 0;
-			CookieMonster.getBooleanSetting('FlashScreen').should.be.false;
+			CookieMonster.getBooleanSetting('FlashScreen').should.equal(false);
 		},
 	},
 
@@ -61,6 +61,9 @@ module.exports = {
 		},
 	},
 
+	// Toggles
+	////////////////////////////////////////////////////////////////////
+
 	'#toggleSetting': {
 		'Can toggle boolean setting': function() {
 			CookieMonster.getSetting('FlashScreen').should.equal(1);
@@ -71,6 +74,29 @@ module.exports = {
 			CookieMonster.getSetting('Refresh').should.equal(1e3);
 			CookieMonster.toggleSetting('Refresh');
 			CookieMonster.getSetting('Refresh').should.equal(500);
+		},
+	},
+
+	'#toggleOption': {
+		'Can toggle an option by clicking on it': function() {
+			var option = '<div data-option="FlashScreen">Flash Screen (ON)</div>';
+			CookieMonster.toggleOption(option).html().should.equal('Flash Screen (OFF)');
+		},
+	},
+
+	// Option states
+	////////////////////////////////////////////////////////////////////
+
+	'#getLabel': {
+		'Can get full label of an option': function() {
+			CookieMonster.getLabel('ShortNumbers').should.equal('Short Numbers (ON [A])');
+			CookieMonster.getLabel('FlashScreen').should.equal('Flash Screen (ON)');
+		},
+	},
+
+	'#getDescription': {
+		'Can get description of option': function() {
+			CookieMonster.getDescription('FlashScreen').should.equal('Flashes the screen when a Golden Cookie or Red Cookie appears');
 		},
 	},
 
@@ -87,16 +113,22 @@ module.exports = {
 		},
 	},
 
-	'#getLabel': {
-		'Can get full label of an option': function() {
-			CookieMonster.getLabel('ShortNumbers').should.equal('Short Numbers (ON [A])');
-			CookieMonster.getLabel('FlashScreen').should.equal('Flash Screen (ON)');
-		},
-	},
+	'#getRefreshState': {
+		'Can get Refresh Rate option value': function() {
+			CookieMonster.setSetting('Refresh', 1e3);
+			CookieMonster.getRefreshState().should.equal('1 fps');
 
-	'#getDescription': {
-		'Can get description of option': function() {
-			CookieMonster.getDescription('FlashScreen').should.equal('Flashes the screen when a Golden Cookie or Red Cookie appears');
+			CookieMonster.toggleSetting('Refresh');
+			CookieMonster.getRefreshState().should.equal('2 fps');
+
+			CookieMonster.toggleSetting('Refresh');
+			CookieMonster.getRefreshState().should.equal('4 fps');
+
+			CookieMonster.toggleSetting('Refresh');
+			CookieMonster.getRefreshState().should.equal('10 fps');
+
+			CookieMonster.toggleSetting('Refresh');
+			CookieMonster.getRefreshState().should.equal('30 fps');
 		},
 	},
 

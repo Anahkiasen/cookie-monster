@@ -181,6 +181,8 @@ CookieMonster.toggleOption = function(option) {
 	}
 
 	this.saveSettings();
+
+	return $option;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -237,20 +239,7 @@ CookieMonster.getShortNumbersState = function() {
  * @return {string}
  */
 CookieMonster.getRefreshState = function() {
-	switch (this.getSetting('Refresh') * 1) {
-		case 1e3:
-			return '1 fps';
-		case 500:
-			return '2 fps';
-		case 250:
-			return '4 fps';
-		case 100:
-			return '10 fps';
-		case 33:
-			return '30 fps';
-		default:
-			return '1 fps';
-	}
+	return Math.round(1000 / this.getSetting('Refresh') * 1)+ ' fps';
 };
 
 /**
