@@ -263,26 +263,6 @@ CookieMonster.hasntAchievement = function(checkedAchievement) {
 	return !this.hasAchievement(checkedAchievement);
 };
 
-/**
- * Get the actual milk modifier
- *
- * @param {Integer} milk
- *
- * @return {Integer}
- */
-CookieMonster.getMilkPotential = function(milkProgress) {
-	var potential = 0;
-	milkProgress = typeof milkProgress !== 'undefined' ? milkProgress : Game.milkProgress;
-
-	potential += Game.Has('Santa\'s milk and cookies') * 0.05;
-	potential += Game.Has('Kitten helpers') * 0.05;
-	potential += Game.Has('Kitten workers') * 0.1;
-	potential += Game.Has('Kitten engineers') * 0.2;
-	potential += Game.Has('Kitten overseers') * 0.2;
-
-	return 1 + (potential * milkProgress);
-};
-
 //////////////////////////////////////////////////////////////////////
 //////////////////////////// BUILDING SCHEMAS ////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -511,13 +491,13 @@ CookieMonster.getBuildingWorth = function(building) {
 
 	// Get unlocked achievements by number of buildings
 	if (Game.BuildingsOwned === 99) {
-		unlocked += this.hasntAchievement("Builder");
+		unlocked += this.hasntAchievement('Builder');
 	}
 	if (Game.BuildingsOwned === 399) {
-		unlocked += this.hasntAchievement("Architect");
+		unlocked += this.hasntAchievement('Architect');
 	}
 	if (Game.BuildingsOwned === 799) {
-		unlocked += this.hasntAchievement("Engineer");
+		unlocked += this.hasntAchievement('Engineer');
 	}
 
 	// Get unlocked achievements by building schemas
@@ -971,7 +951,7 @@ CookieMonster.getMultiplierOutcome = function(building, baseMultiplier, building
  * @return {Integer}
  */
 CookieMonster.getHeavenlyUpgradeOutcome = function(unlocked, upgrade) {
-	var potential  = upgrade.desc.substr(11, 2).replace('%', '');
+	var potential  = upgrade.desc.match(/<b>(.+)%<\/b>/)[1];
 	var multiplier = Game.prestige['Heavenly chips'] * 2 * (potential / 100);
 
 	return this.callCached('getAchievementWorth', [unlocked, upgrade.id, 0, multiplier]) - Game.cookiesPs;
@@ -1129,9 +1109,10 @@ CookieMonster.cache = function(salts, callback, args) {
 	}
 
 	// Else compute results and cache it
-	this.cacheStore[state][salts] = callback.apply(this, args);
+	var result = callback.apply(this, args);
+	this.cacheStore[state][salts] = result;
 
-	return this.cacheStore[state][salts];
+	return result;
 };
 
 /**
@@ -1173,7 +1154,8 @@ CookieMonster.refreshCache = function() {
  */
 CookieMonster.computeSalts = function(salts, args) {
 	return JSON.stringify(salts.concat(args));
-}
+};
+
 //////////////////////////////////////////////////////////////////////
 ////////////////////////////// EMPHASIZERS ///////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -1568,16 +1550,17 @@ CookieMonster.updateTable = function() {
 	Game.ObjectsById.forEach(function (building, key) {
 
 		// Compute informations
-		var bonus = that.roundDecimal(that.getBuildingWorth(building));
-		var cpi   = that.roundDecimal(building.price / bonus);
-		var count = '(<span class="text-blue">' + that.formatNumber(building.amount) + '</span>)';
+		var bonus    = that.roundDecimal(that.getBuildingWorth(building));
+		var cpi      = that.roundDecimal(building.price / bonus);
+		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
+		var timeLeft = Math.round(that.secondsLeft(key, 'object'));
 
 		// Save building informations
 		that.setBuildingInformations(key, {
 			items    : building.name.split(' ')[0] + ' ' + count,
-			bonus    : that.roundDecimal(bonus),
-			cpi      : that.roundDecimal(cpi),
-			timeLeft : Math.round(that.secondsLeft(key, 'object')),
+			bonus    : bonus,
+			cpi      : cpi,
+			timeLeft : timeLeft,
 		});
 	});
 
