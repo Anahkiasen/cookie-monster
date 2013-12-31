@@ -44,7 +44,7 @@ require('../src/interface/tooltips.js');
 require('../src/main.js');
 
 // Cache settings
-settings = JSON.parse(JSON.stringify(CookieMonster.settings));
+settings = Mock.clone(CookieMonster.settings);
 
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////////// TESTS //////////////////////////////
@@ -53,7 +53,7 @@ settings = JSON.parse(JSON.stringify(CookieMonster.settings));
 module.exports = {
 
 	beforeEach: function() {
-		var settingsCache = JSON.parse(JSON.stringify(settings));
+		var settingsCache = Mock.clone(settings);
 
 		// Restore DOM
 		document = jsdom.jsdom(html);
@@ -75,6 +75,7 @@ module.exports = {
 	'Main' : require('./main.js'),
 	'Game': {
 		'Achievements'  : require('./game/achievements.js'),
+		'Buildings'     : require('./game/buildings.js'),
 		'Golden Cookie' : require('./game/golden-cookie.js'),
 		'Heavenly'      : require('./game/heavenly.js'),
 		'Lucky'         : require('./game/lucky.js'),
@@ -85,6 +86,7 @@ module.exports = {
 		'Buff Bars'  : require('./interface/buff-bars.js'),
 		'Settings'   : require('./interface/settings.js'),
 		'Store'      : require('./interface/store.js'),
+		'Tooltips'   : require('./interface/tooltips.js'),
 	},
 	'Helpers': {
 		'Browser'     : require('./helpers/browser.js'),

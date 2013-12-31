@@ -87,4 +87,17 @@ module.exports = {
 		},
 	},
 
+	'#getLabel': {
+		'Can get full label of an option': function() {
+			CookieMonster.getLabel('ShortNumbers').should.equal('Short Numbers (ON [A])');
+			CookieMonster.getLabel('FlashScreen').should.equal('Flash Screen (ON)');
+		},
+	},
+
+	'#getDescription': {
+		'Can get description of option': function() {
+			CookieMonster.getDescription('FlashScreen').should.equal('Flashes the screen when a Golden Cookie or Red Cookie appears');
+		},
+	},
+
 };

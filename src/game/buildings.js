@@ -167,16 +167,16 @@ CookieMonster.getTotalGrandmaModifiers = function(currentNumber) {
 		if (upgrade.bought && upgrade.name === 'Forwards from grandma') {
 			cookiesPs += 0.3;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>.') !== -1) {
-			modifiers = modifiers * 2;
+		else if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>.') !== -1) {
+			modifiers *= 2;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
-			modifiers = modifiers * 4;
+		else if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+			modifiers *= 4;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('for every 50 grandmas') !== -1) {
+		else if (upgrade.bought && upgrade.desc.indexOf('for every 50 grandmas') !== -1) {
 			amount += (currentNumber + 1) * 0.02 * (currentNumber + 1) - currentNumber * 0.02 * currentNumber;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
+		else if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
 			amount += Game.ObjectsById[7].amount * 0.05;
 		}
 	});
@@ -195,12 +195,12 @@ CookieMonster.getTotalPortalModifiers = function() {
 
 	Game.UpgradesById.forEach(function (upgrade) {
 		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b> as efficient.') !== -1) {
-			modifiers = modifiers * 2;
+			modifiers *= 2;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
-			modifiers = modifiers * 4;
+		else if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+			modifiers *= 4;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
+		else if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
 			amount += Game.ObjectsById[1].amount * 0.05;
 		}
 	});

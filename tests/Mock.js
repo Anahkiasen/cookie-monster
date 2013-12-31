@@ -44,9 +44,9 @@ module.exports = {
 			cookiesPs   : 10,
 			frenzyPower : 1,
 
-			AchievementsById : require('./_fixtures/achievements.json'),
-			UpgradesById     : require('./_fixtures/upgrades.json'),
-			ObjectsById      : require('./_fixtures/objects.json'),
+			AchievementsById : this.requireClone('achievements'),
+			UpgradesById     : this.requireClone('upgrades'),
+			ObjectsById      : this.requireClone('objects'),
 
 			Achievements : {},
 			prestige     : {},
@@ -61,6 +61,32 @@ module.exports = {
 		});
 
 		return Game;
+	},
+
+	////////////////////////////////////////////////////////////////////
+	/////////////////////////////// FIXTURES ///////////////////////////
+	////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Require a file and return a clone of its contents
+	 *
+	 * @param {String} file
+	 *
+	 * @return {Object}
+	 */
+	requireClone: function(file) {
+		return this.clone(require('./_fixtures/'+file+'.json'));
+	},
+
+	/**
+	 * Clone an object
+	 *
+	 * @param {Object} object
+	 *
+	 * @return {Object}
+	 */
+	clone: function(object) {
+		return JSON.parse(JSON.stringify(object));
 	},
 
 };
