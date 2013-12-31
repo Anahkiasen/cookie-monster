@@ -76,8 +76,9 @@ CookieMonster.manageFrenzyBars = function() {
 	}
 
 	// Remove bars if the frenzy has ended or we disabled them
+	var identifier = frenzyName.replace(' ', '');
 	if (Game.frenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
-		return this.fadeOutBar(frenzyName.replace(' ', ''));
+		return this.fadeOutBar(identifier);
 	}
 
 	this.updateBar(frenzyName, color, Game.frenzy);
@@ -86,7 +87,7 @@ CookieMonster.manageFrenzyBars = function() {
 	// the other effect bars
 	var buffs = ['Frenzy', 'BloodFrenzy', 'Clot'];
 	for (var i = 0; i < 2; i++) {
-		if (buffs[i] !== frenzyName.replace(' ', '')) {
+		if (buffs[i] !== identifier) {
 			this.fadeOutBar(buffs[i]);
 		}
 	}
@@ -167,6 +168,7 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 	var identifier = name.replace(' ', '');
 	var $bar  = $('#cookie-monster__timer-'+identifier);
 	var count = Math.round(timer / Game.fps);
+	var width = width || timer / Game.goldenCookie.maxTime * 100;
 
 	// Check existence
 	if ($bar.length === 0) {
@@ -180,7 +182,7 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 
 	// Old-school if transitions are unsupported
 	if (typeof document.body.style.transition === 'undefined') {
-		return $container.css('width', width || timer / Game.goldenCookie.maxTime * 100);
+		return $container.css('width', width);
 	}
 
 	// Check if we applied transitions
@@ -189,8 +191,12 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 	}
 
 	// Add transition
+	$container.addClass('active').css('width', width);
 	setTimeout(function() {
-		$container.css('transition', 'width linear ' +count+ 's').addClass('active');
+		$container.css({
+			width      : 0,
+			transition : 'width linear ' +count+ 's'
+		});
 	}, 100);
 };
 
