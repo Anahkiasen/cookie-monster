@@ -561,16 +561,16 @@ CookieMonster.getTotalGrandmaModifiers = function(currentNumber) {
 		if (upgrade.bought && upgrade.name === 'Forwards from grandma') {
 			cookiesPs += 0.3;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>.') !== -1) {
-			modifiers = modifiers * 2;
+		else if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>.') !== -1) {
+			modifiers *= 2;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
-			modifiers = modifiers * 4;
+		else if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+			modifiers *= 4;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('for every 50 grandmas') !== -1) {
+		else if (upgrade.bought && upgrade.desc.indexOf('for every 50 grandmas') !== -1) {
 			amount += (currentNumber + 1) * 0.02 * (currentNumber + 1) - currentNumber * 0.02 * currentNumber;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
+		else if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
 			amount += Game.ObjectsById[7].amount * 0.05;
 		}
 	});
@@ -589,12 +589,12 @@ CookieMonster.getTotalPortalModifiers = function() {
 
 	Game.UpgradesById.forEach(function (upgrade) {
 		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b> as efficient.') !== -1) {
-			modifiers = modifiers * 2;
+			modifiers *= 2;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
-			modifiers = modifiers * 4;
+		else if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+			modifiers *= 4;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
+		else if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
 			amount += Game.ObjectsById[1].amount * 0.05;
 		}
 	});
@@ -1578,6 +1578,17 @@ CookieMonster.manageBuffs = function() {
 	this.manageNextReindeer();
 };
 
+/**
+ * Get the width of the timers container
+ *
+ * @return {Integer}
+ */
+CookieMonster.getBarsWidth = function() {
+	var windowWidth = window.innerWidth || document.documentElement;
+
+	return 0.3 * windowWidth;
+};
+
 //////////////////////////////////////////////////////////////////////
 ///////////////////////////// DOM ELEMENTS ///////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -1634,15 +1645,18 @@ CookieMonster.manageFrenzyBars = function() {
 
 	// Remove bars if the frenzy has ended or we disabled them
 	if (Game.frenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
-		return this.fadeOutBar(color);
+		return this.fadeOutBar(frenzyName.replace(' ', ''));
 	}
 
 	this.updateBar(frenzyName, color, Game.frenzy);
 
-	// No idea what that does
-	var buffColors = ['yellow', 'green', 'red'];
-	for (var thisColor in buffColors) {
-		this.fadeOutBar(buffColors[thisColor], color);
+	// As only one effect can be active at a time, we'll fade out
+	// the other effect bars
+	var buffs = ['Frenzy', 'BloodFrenzy', 'Clot'];
+	for (var i = 0; i < 2; i++) {
+		if (buffs[i] !== frenzyName.replace(' ', '')) {
+			this.fadeOutBar(buffs[i]);
+		}
 	}
 };
 
@@ -1653,7 +1667,7 @@ CookieMonster.manageFrenzyBars = function() {
  */
 CookieMonster.manageClickingFrenzy = function() {
 	if (Game.clickFrenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
-		return this.fadeOutBar('blue');
+		return this.fadeOutBar('Clickfrenzy');
 	}
 
 	this.updateBar('Click frenzy', 'blue', Game.clickFrenzy);
@@ -1670,10 +1684,11 @@ CookieMonster.manageNextReindeer = function() {
 
 	// Hide if Reindeer on screen
 	if (timers[0] <= 0 || this.onScreen.seasonPopup || !this.getBooleanSetting('CookieBar')) {
-		return this.fadeOutBar('orange');
+		return this.fadeOutBar('NextReindeer');
 	}
 
-	this.updateBar('Next Reindeer', 'orange', width, width / timers[2] * 100);
+	var $container = this.updateBar('Next Reindeer', 'greyLight', width, width / timers[2] * 100);
+	$('.cm-buff-bar__bar--second', $container).css('max-width', (this.getBarsWidth() - 189) * 0.67 + "px");
 };
 
 /**
@@ -1682,15 +1697,14 @@ CookieMonster.manageNextReindeer = function() {
  * @return {void}
  */
 CookieMonster.manageNextCookie = function() {
-	var timers    = [Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime];
+	var timers = [Game.goldenCookie.time, Game.goldenCookie.minTime, Game.goldenCookie.maxTime];
 
 	// Cancel if disabled
 	if (timers[0] <= 0 || this.onScreen.goldenCookie || !this.getBooleanSetting('CookieBar')) {
-		return this.fadeOutBar('purple');
+		return this.fadeOutBar('NextCookie');
 	}
 
 	// Compute necessary informations
-	var barsWidth = parseInt(this.$timerBars.css('width'));
 	var width     = timers[2] - timers[0];
 	var countdown = Math.round(width / Game.fps);
 
@@ -1699,8 +1713,8 @@ CookieMonster.manageNextCookie = function() {
 		this.titleModifier = this.getBooleanSetting('CookieBar') ? '(' + countdown + ') ' : '';
 	}
 
-	this.updateBar('Next Cookie', 'purple', width, width / timers[2] * 100);
-	$('#cmt2_'+this.color('purple')).css('max-width', (barsWidth - 189) * 0.67 + "px");
+	var $container = this.updateBar('Next Cookie', 'greyLight', width, width / timers[2] * 100);
+	$('.cm-buff-bar__bar--second', $container).css('max-width', (this.getBarsWidth() - 189) * 0.67 + 'px');
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -1718,22 +1732,34 @@ CookieMonster.manageNextCookie = function() {
  * @return {void}
  */
 CookieMonster.updateBar = function (name, color, timer, width) {
-	var $bar = $('#cookie-monster__timer-'+color);
+	var identifier = name.replace(' ', '');
+	var $bar  = $('#cookie-monster__timer-'+identifier);
+	var count = Math.round(timer / Game.fps);
 
-	// Create bar if it doesn't exist
-	if ($bar.length !== 1) {
+	// Check existence
+	if ($bar.length === 0) {
 		this.createBar(name, color);
 	}
 
-	// Define text count and CSS width
-	var count = timer / Game.fps;
-	if (typeof width === 'undefined') {
-		width = timer / Game.goldenCookie.maxTime * 100;
+	// Update timer
+	var $container = $('#cmt_'+identifier);
+	$('#cmt_time_'+identifier).text(count);
+	$bar.fadeIn(250);
+
+	// Old-school if transitions are unsupported
+	if (typeof document.body.style.transition === 'undefined') {
+		return $container.css('width', width || timer / Game.goldenCookie.maxTime * 100);
 	}
 
-	$('#cmt_'+color).css('width', width);
-	$('#cmt_time_'+color).text(Math.round(count));
-	$bar.fadeIn(250);
+	// Check if we applied transitions
+	if ($container.hasClass('active')) {
+		return;
+	}
+
+	// Add transition
+	setTimeout(function() {
+		$container.css('transition', 'width linear ' +count+ 's').addClass('active');
+	}, 100);
 };
 
 /**
@@ -1745,42 +1771,47 @@ CookieMonster.updateBar = function (name, color, timer, width) {
  * @return {void}
  */
 CookieMonster.createBar = function (name, color) {
-	var secondBar  = '';
+	var secondBars = {'Next Cookie': 'purple', 'Next Reindeer': 'orange'};
+	var secondBar  = secondBars[name] || '';
+	var identifier = name.replace(' ', '');
 
 	// Add second bar for golden cookies
-	if (name === 'Next Cookie') {
-		secondBar = '<div class="cm-buff-bar__bar background-purple" id="cmt2_'+this.color('purple')+'"></div>';
+	if (secondBar) {
+		secondBar = '<div class="cm-buff-bar__bar cm-buff-bar__bar--second background-' +secondBar+ '" id="cmt2_'+secondBar+'"></div>';
 	}
 
 	this.$timerBars.append(
-		'<div class="cm-buff-bar" id="cookie-monster__timer-' + color + '">'+
+		'<div class="cm-buff-bar" id="cookie-monster__timer-' + identifier + '">'+
 			'<table cellpadding="0" cellspacing="0">'+
 				'<tr>' +
-					'<td>' + name + "<td>" +
+					'<td>' + name + "</td>" +
 					'<td>'+
-						'<div class="cm-buff-bar__container background-' +color+ '" id="cmt_' + color + '">'+
+						'<div class="cm-buff-bar__container background-' +color+ '" id="cmt_' + identifier + '">'+
 							secondBar +
-							'<div class="cm-buff-bar__timer" id="cmt_time_' + color + '">0</div>'+
+							'<div class="cm-buff-bar__timer" id="cmt_time_' + identifier + '">0</div>'+
 						'</div>'+
 					'</td>'+
 					'<td style="width:55px;"></td>'+
 				'</tr>' +
 			'</table>'+
 		'</div>');
+
+	return $('#cmt_'+identifier);
 };
 
 /**
- * Fade out a bar of a certain color
+ * Fade out a bar of a certain effect
  *
- * @param {string} color
+ * @param {string} identifier
  *
  * @return {void}
  */
-CookieMonster.fadeOutBar = function(color, match) {
-	var $bar = $("#cookie-monster__timer-" + color);
+CookieMonster.fadeOutBar = function(identifier) {
+	var $bar = $("#cookie-monster__timer-" + identifier);
 
-	if ($bar.length === 1 && $bar.css("opacity") === "1" && color !== match) {
+	if ($bar.length === 1 && $bar.css('opacity') === '1') {
 		$bar.stop(true, true).fadeOut(250);
+		$bar.find('.cm-buff-bar__container').removeClass('active').attr('style', '');
 	}
 };
 /**
@@ -2235,8 +2266,8 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, informations
 		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2], true) + "</div>"
 	);
 
-	$(identifier+'warning_amount').text('Deficit: ' + this.formatNumber(deficits[0]));
-	$(identifier+'caution_amount').text('Deficit: ' + this.formatNumber(deficits[1]));
+	$(identifier+'warning_amount').html('Deficit: ' + this.formatNumber(deficits[0]));
+	$(identifier+'caution_amount').html('Deficit: ' + this.formatNumber(deficits[1]));
 
 	if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
 		$(identifier+'lucky_div_warning').toggle(deficits[0] > 0);
