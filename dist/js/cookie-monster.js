@@ -895,7 +895,7 @@ CookieMonster.getFrenzyMultiplier = function() {
  * @return {void}
  */
 CookieMonster.emphasizeGolden = function() {
-	$golden = this.whileOnScreen(this.$goldenCookie,
+	var onScreen = this.whileOnScreen('goldenCookie',
 		function() {
 			this.$goldenOverlay.hide();
 			this.titleModifier = '';
@@ -908,7 +908,7 @@ CookieMonster.emphasizeGolden = function() {
 			this.Emphasizers.flashScreen();
 		});
 
-	if (this.onScreen.goldenCookie) {
+	if (onScreen) {
 		this.Emphasizers.displayGoldenTimer();
 	}
 };
@@ -1100,7 +1100,7 @@ CookieMonster.getFrenzyRate = function(context) {
  * @return {void}
  */
 CookieMonster.emphasizeSeason = function() {
-	this.whileOnScreen(this.$reindeer,
+	this.whileOnScreen('seasonPopup',
 		function() {
 			this.$flashOverlay.hide();
 		},
@@ -1493,8 +1493,7 @@ CookieMonster.Emphasizers = {};
  *
  * @return {DOMElement}
  */
-CookieMonster.whileOnScreen = function($selector, offScreen, onScreen) {
-	var identifier = $selector.attr('id');
+CookieMonster.whileOnScreen = function(identifier, offScreen, onScreen) {
 
 	// Set key in array if it doesn't exist
 	if (typeof this.onScreen[identifier] === 'undefined') {
@@ -1502,15 +1501,15 @@ CookieMonster.whileOnScreen = function($selector, offScreen, onScreen) {
 	}
 
 	// Execute the two callbacks
-	if ($selector.css('display') === 'none' && this.onScreen[identifier]) {
+	if (Game[identifier].life <= 0 && this.onScreen[identifier]) {
 		this.onScreen[identifier] = false;
-		offScreen.call(this, $selector);
-	} else if ($selector.css('display') !== 'none' && !this.onScreen[identifier]) {
+		offScreen.call(this);
+	} else if (Game[identifier].life && !this.onScreen[identifier]) {
 		this.onScreen[identifier] = true;
-		onScreen.call(this, $selector);
+		onScreen.call(this);
 	}
 
-	return $selector;
+	return this.onScreen[identifier];
 };
 
 /**
@@ -2276,6 +2275,8 @@ CookieMonster.toggleOption = function(option) {
 	}
 
 	this.saveSettings();
+
+	return $option;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -2332,20 +2333,7 @@ CookieMonster.getShortNumbersState = function() {
  * @return {string}
  */
 CookieMonster.getRefreshState = function() {
-	switch (this.getSetting('Refresh') * 1) {
-		case 1e3:
-			return '1 fps';
-		case 500:
-			return '2 fps';
-		case 250:
-			return '4 fps';
-		case 100:
-			return '10 fps';
-		case 33:
-			return '30 fps';
-		default:
-			return '1 fps';
-	}
+	return Math.round(1000 / this.getSetting('Refresh') * 1)+ ' fps';
 };
 
 /**
