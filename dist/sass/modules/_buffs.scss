@@ -19,35 +19,40 @@
 // Bars
 //////////////////////////////////////////////////////////////////////
 
+$bar-name-width: 17%;
+
 .cm-buff-bar {
-	padding : 0.25rem 0 0.5rem 0;
-
-	table {
-		width : 100%;
-
-		td:first-child {
-			width      : 12rem;
-			text-align : right;
-		}
-	}
+	@include pie-clearfix;
+	width: 100%;
+	margin: 0.5rem 0;
 }
 
-.cm-buff-bar__bar,
+.cm-buff-bar__name {
+	float: left;
+	width: $bar-name-width;
+	text-align: right;
+}
+
 .cm-buff-bar__container {
-	position : relative;
-	height   : 10px;
-	width    : 100%;
+	float: left;
+	width: (100% - $bar-name-width) * 0.9;
 }
 
 .cm-buff-bar__bar {
+	margin-left : 0.25rem;
+	border      : 1px solid black;
+	position    : relative;
+	height      : 0.7rem;
+	width       : 100%;
+}
+
+.cm-buff-bar__inner {
+	@extend .cm-buff-bar__bar;
+
+	border      : none;
 	margin-left : 0;
 	max-width   : 0;
 	float       : right;
-}
-
-.cm-buff-bar__container {
-	margin-left : 0.25rem;
-	border      : 1px solid black;
 }
 
 .cm-buff-bar__timer {

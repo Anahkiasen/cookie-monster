@@ -141,11 +141,12 @@ module.exports = function(grunt) {
 		csslint: {
 			dist: {
 				options: {
-					'box-model'       : false,
-					'gradients'       : false,
-					'ids'             : false,
-					'important'       : false,
-					'fallback-colors' : false,
+					'box-model'          : false,
+					'gradients'          : false,
+					'ids'                : false,
+					'important'          : false,
+					'fallback-colors'    : false,
+					'star-property-hack' : false,
 				},
 				src: ['<%= paths.original.css %>/*']
 			},

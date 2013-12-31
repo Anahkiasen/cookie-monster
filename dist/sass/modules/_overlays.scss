@@ -1,0 +1,31 @@
+// Overlays
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+%overlay {
+	pointer-events : none;
+	position       : fixed;
+	display        : none;
+	z-index        : 1000002;
+}
+
+#cookie-monster__golden-overlay {
+	@extend %overlay;
+
+	font-family : $font-headings;
+	font-size   : 2rem;
+	height      : $golden-cookie-size;
+	opacity     : 0;
+	text-align  : center;
+	text-shadow : -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+	width       : $golden-cookie-size;
+	padding-top : 2rem;
+}
+
+#cookie-monster__overlay {
+	@extend %overlay;
+
+	background : white;
+	height     : 100%;
+	width      : 100%;
+}
