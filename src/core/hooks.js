@@ -18,7 +18,7 @@ CookieMonster.hookIntoNative = function() {
 	// Add additional settings and statistics to main menu
 	this.replaceNative('UpdateMenu', function (native) {
 		return native
-			.replace("Statistics</div>'+", CookieMonster.getStatistics())
+			.replace("Statistics</div>'+", "Statistics</div>'+"+CookieMonster.getStatistics())
 			.replace("OFF')+'</div>'+", "OFF')+'</div>'+" + CookieMonster.getSettingsText())
 			.replace("startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);", "startDate = CookieMonster.formatTime(((new Date).getTime() - Game.startDate) / 1000, '');");
 	});
@@ -67,8 +67,7 @@ CookieMonster.hookIntoNative = function() {
  * @return {String}
  */
 CookieMonster.getStatistics = function() {
-	var statisticsHtml = "Statistics</div>'+\n\n'<div class=\"subsection\"><div class=\"title\"><span class=\"text-blue\">Cookie Monster Goodies</span></div>";
-	var statistics = {
+	return this.buildList('Goodies', {
 		'Lucky Cookies': {
 			'"Lucky!" Cookies Required'          : "CookieMonster.luckyReward('regular', true)",
 			'"Lucky!" Cookies Required (Frenzy)' : "CookieMonster.luckyReward('frenzy', true)",
@@ -86,17 +85,9 @@ CookieMonster.getStatistics = function() {
 			'Cookies sucked'       : 'CookieMonster.getWrinklersSucked()',
 			'Reward after popping' : 'CookieMonster.getWrinklersReward()',
 		},
-	};
-
-	// Loop over statistics and add them one by one
-	for (var section in statistics) {
-		statisticsHtml += '<div class="subtitle">'+section+'</div>';
-		for (var statistic in statistics[section]) {
-			statisticsHtml += "<div class=\"listing\"><b>" +statistic+ " :</b> ' +" +statistics[section][statistic]+ "+ '</div>";
-		}
-	}
-
-	return statisticsHtml + "</div>'+";
+	}, function(statistic, method) {
+		return "<b>" +statistic+ " :</b> ' +" +method+ "+ '";
+	});
 };
 
 /**
@@ -105,18 +96,55 @@ CookieMonster.getStatistics = function() {
  * @return {String}
  */
 CookieMonster.getSettingsText = function() {
-	var settings = "\n'<div class=\"subsection\"><div class=\"title\"><span class=\"text-blue\">Cookie Monster Settings</span></div>";
+	return this.buildList('Settings', {
+		'Additional sections': [
+			'BottomBar',
+			'UpgradeDisplay',
+		],
+		'Color coding': [
+			'Colorblind',
+			'ColoredPrices',
+			'UpgradeIcons',
+		],
+		'Emphasizers': [
+			'BuffBars',
+			'CookieBar',
+			'CookieTimer',
+			'FlashScreen',
+			'Sounds',
+			'UpdateTitle',
+		],
+		'Display': [
+			'LuckyAlert',
+			'Refresh',
+			'ShortNumbers',
+		],
+	}, function(key, setting) {
+		return "<a class=\"option\" data-option=\"" +setting+ "\" onclick=\"CookieMonster.toggleOption(this);\">' + CookieMonster.getLabel('" +setting+ "') + '</a><label>' + CookieMonster.getDescription('" +setting+ "') + '</label>";
+	});
+};
+
+/**
+ * Build a list
+ *
+ * @param {String}   title
+ * @param {Object}   list
+ * @param {Function} callback
+ *
+ * @return {String}
+ */
+CookieMonster.buildList = function(title, list, callback) {
+	var output = "\n'<div class=\"subsection\"><div class=\"title\"><span class=\"text-blue\">Cookie Monster " +title+ "</span></div>";
 
 	// Loop over the settings and add they one by one
-	for (var setting in this.settings) {
-		settings +=
-			'<div class="listing">'+
-				"<a class=\"option\" data-option=\"" +setting+ "\" onclick=\"CookieMonster.toggleOption(this);\">' + CookieMonster.getLabel('" +setting+ "') + '</a>"+
-				"<label>' + CookieMonster.getDescription('" +setting+ "') + '</label>"+
-			'</div>';
+	for (var section in list) {
+		output += "<div class=\"subtitle\">"+section+"</div>";
+		for (var item in list[section]) {
+			output += "<div class=\"listing\">" +callback(item, list[section][item])+ "</div>";
+		}
 	}
 
-	return settings + "</div>'+";
+	return output + "</div>'+";
 };
 
 //////////////////////////////////////////////////////////////////////

@@ -59,13 +59,13 @@ var CookieMonster = {
 	settings: {
 
 		// Sections
-		'BottomBar'      : {type: 'boolean', value: 1,   label: 'Bottom Bar',        desc: 'Displays a bar at the bottom of the screen that shows all Building information'},
-		'UpgradeDisplay' : {type: 'switch',  value: 1,   label: 'Upgrade Display',   desc: 'Changes how the store displays Upgrades'},
+		'BottomBar'      : {type: 'boolean', value: 1,   label: 'Bottom Bar',        desc: 'Displays a bar at the bottom of the screen that shows all buildings information'},
+		'UpgradeDisplay' : {type: 'switch',  value: 1,   label: 'Upgrade Display',   desc: 'Changes how the store displays upgrades'},
 
 		// Colors
 		'Colorblind'     : {type: 'boolean', value: 0,   label: 'Colorblind',        desc: 'Use colorblind safe colors'},
 		'ColoredPrices'  : {type: 'boolean', value: 1,   label: 'Colored Prices',    desc: 'Changes the colors of all Building prices to correspond with their Cost Per Income'},
-		'UpgradeIcons'   : {type: 'boolean', value: 1,   label: 'Upgrade Icons',     desc: 'Displays a small square icon on the Upgrade to better display the Cost Per Income color value'},
+		'UpgradeIcons'   : {type: 'boolean', value: 1,   label: 'Upgrade Icons',     desc: 'Displays a small colored icon on the upgrades to better display the Cost Per Income'},
 
 		// Emphasizers
 		'BuffBars'       : {type: 'boolean', value: 1,   label: 'Buff Bars',         desc: 'Displays a countdown bar for each effect currently active'},
@@ -76,7 +76,7 @@ var CookieMonster = {
 		'UpdateTitle'    : {type: 'boolean', value: 1,   label: 'Update Title',      desc: 'Updates the Title to display if a Cookie is waiting to be clicked'},
 
 		// Display
-		'LuckyAlert'     : {type: 'switch',  value: 1,   label: 'Lucky Alert',       desc: 'Changes the tooltip to display if you would be under the number of cookies required for \"Lucky\"!'},
+		'LuckyAlert'     : {type: 'switch',  value: 1,   label: 'Lucky Alert',       desc: 'Changes the tooltip to display if you would be under the number of cookies required for "Lucky"!'},
 		'Refresh'        : {type: 'switch',  value: 1e3, label: 'Refresh Rate',      desc: 'The rate at which Cookie Monster updates data (higher rates may slow the game)'},
 		'ShortNumbers'   : {type: 'switch',  value: 1,   label: 'Short Numbers',     desc: 'Formats all numbers to be shorter when displayed'},
 
