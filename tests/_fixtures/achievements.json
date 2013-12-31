@@ -1,0 +1,1612 @@
+[
+  {
+    "id": 0,
+    "name": "Wake and bake",
+    "desc": "Bake <b>1</b> cookie.",
+    "icon": [
+      0,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100,
+    "category": "none"
+  },
+  {
+    "id": 1,
+    "name": "Making some dough",
+    "desc": "Bake <b>100</b> cookies.",
+    "icon": [
+      1,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.001,
+    "category": "none"
+  },
+  {
+    "id": 2,
+    "name": "So baked right now",
+    "desc": "Bake <b>1,000</b> cookies.",
+    "icon": [
+      2,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.002,
+    "category": "none"
+  },
+  {
+    "id": 3,
+    "name": "Fledgling bakery",
+    "desc": "Bake <b>10,000</b> cookies.",
+    "icon": [
+      3,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.003,
+    "category": "none"
+  },
+  {
+    "id": 4,
+    "name": "Affluent bakery",
+    "desc": "Bake <b>100,000</b> cookies.",
+    "icon": [
+      4,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.004,
+    "category": "none"
+  },
+  {
+    "id": 5,
+    "name": "World-famous bakery",
+    "desc": "Bake <b>1,000,000</b> cookies.",
+    "icon": [
+      5,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.005,
+    "category": "none"
+  },
+  {
+    "id": 6,
+    "name": "Cosmic bakery",
+    "desc": "Bake <b>10,000,000</b> cookies.",
+    "icon": [
+      6,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.006,
+    "category": "none"
+  },
+  {
+    "id": 7,
+    "name": "Galactic bakery",
+    "desc": "Bake <b>100,000,000</b> cookies.",
+    "icon": [
+      7,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.007,
+    "category": "none"
+  },
+  {
+    "id": 8,
+    "name": "Universal bakery",
+    "desc": "Bake <b>1,000,000,000</b> cookies.",
+    "icon": [
+      8,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.008,
+    "category": "none"
+  },
+  {
+    "id": 9,
+    "name": "Timeless bakery",
+    "desc": "Bake <b>10,000,000,000</b> cookies.",
+    "icon": [
+      9,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.009,
+    "category": "none"
+  },
+  {
+    "id": 10,
+    "name": "Infinite bakery",
+    "desc": "Bake <b>100,000,000,000</b> cookies.",
+    "icon": [
+      10,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.01,
+    "category": "none"
+  },
+  {
+    "id": 11,
+    "name": "Immortal bakery",
+    "desc": "Bake <b>1,000,000,000,000</b> cookies.",
+    "icon": [
+      10,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.011,
+    "category": "none"
+  },
+  {
+    "id": 12,
+    "name": "You can stop now",
+    "desc": "Bake <b>10,000,000,000,000</b> cookies.",
+    "icon": [
+      10,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.012,
+    "category": "none"
+  },
+  {
+    "id": 13,
+    "name": "Cookies all the way down",
+    "desc": "Bake <b>100,000,000,000,000</b> cookies.",
+    "icon": [
+      10,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.013,
+    "category": "none"
+  },
+  {
+    "id": 14,
+    "name": "Overdose",
+    "desc": "Bake <b>1,000,000,000,000,000</b> cookies.",
+    "icon": [
+      10,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.014,
+    "category": "none"
+  },
+  {
+    "id": 15,
+    "name": "How?",
+    "desc": "Bake <b>10,000,000,000,000,000</b> cookies.",
+    "icon": [
+      11,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 100.015,
+    "category": "none"
+  },
+  {
+    "id": 16,
+    "name": "Casual baking",
+    "desc": "Bake <b>1</b> cookie per second.",
+    "icon": [
+      0,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 200.016,
+    "category": "none"
+  },
+  {
+    "id": 17,
+    "name": "Hardcore baking",
+    "desc": "Bake <b>10</b> cookies per second.",
+    "icon": [
+      1,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 200.017,
+    "category": "none"
+  },
+  {
+    "id": 18,
+    "name": "Steady tasty stream",
+    "desc": "Bake <b>100</b> cookies per second.",
+    "icon": [
+      2,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 200.018,
+    "category": "none"
+  },
+  {
+    "id": 19,
+    "name": "Cookie monster",
+    "desc": "Bake <b>1,000</b> cookies per second.",
+    "icon": [
+      3,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 200.019,
+    "category": "none"
+  },
+  {
+    "id": 20,
+    "name": "Mass producer",
+    "desc": "Bake <b>10,000</b> cookies per second.",
+    "icon": [
+      4,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 200.02,
+    "category": "none"
+  },
+  {
+    "id": 21,
+    "name": "Cookie vortex",
+    "desc": "Bake <b>1,000,000</b> cookies per second.",
+    "icon": [
+      5,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 200.021,
+    "category": "none"
+  },
+  {
+    "id": 22,
+    "name": "Cookie pulsar",
+    "desc": "Bake <b>10,000,000</b> cookies per second.",
+    "icon": [
+      6,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 200.022,
+    "category": "none"
+  },
+  {
+    "id": 23,
+    "name": "Cookie quasar",
+    "desc": "Bake <b>100,000,000</b> cookies per second.",
+    "icon": [
+      7,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 200.023,
+    "category": "none"
+  },
+  {
+    "id": 24,
+    "name": "A world filled with cookies",
+    "desc": "Bake <b>10,000,000,000</b> cookies per second.",
+    "icon": [
+      8,
+      5
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 200.024,
+    "category": "none"
+  },
+  {
+    "id": 25,
+    "name": "Let's never bake again",
+    "desc": "Bake <b>1,000,000,000,000</b> cookies per second.",
+    "icon": [
+      9,
+      5
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 2,
+    "order": 200.025,
+    "category": "none"
+  },
+  {
+    "id": 26,
+    "name": "Sacrifice",
+    "desc": "Reset your game with <b>1 million</b> cookies baked.<q>Easy come, easy go.</q>",
+    "icon": [
+      11,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 30000.026,
+    "category": "none"
+  },
+  {
+    "id": 27,
+    "name": "Oblivion",
+    "desc": "Reset your game with <b>1 billion</b> cookies baked.<q>Back to square one.</q>",
+    "icon": [
+      11,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 30000.027,
+    "category": "none"
+  },
+  {
+    "id": 28,
+    "name": "From scratch",
+    "desc": "Reset your game with <b>1 trillion</b> cookies baked.<q>It's been fun.</q>",
+    "icon": [
+      11,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 30000.028,
+    "category": "none"
+  },
+  {
+    "id": 29,
+    "name": "Neverclick",
+    "desc": "Make <b>1 million</b> cookies by only having clicked <b>15 times</b>.",
+    "icon": [
+      12,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 31000.029,
+    "category": "none"
+  },
+  {
+    "id": 30,
+    "name": "Clicktastic",
+    "desc": "Make <b>1,000</b> cookies from clicking.",
+    "icon": [
+      11,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1000.03,
+    "category": "none"
+  },
+  {
+    "id": 31,
+    "name": "Clickathlon",
+    "desc": "Make <b>100,000</b> cookies from clicking.",
+    "icon": [
+      11,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1000.031,
+    "category": "none"
+  },
+  {
+    "id": 32,
+    "name": "Clickolympics",
+    "desc": "Make <b>10,000,000</b> cookies from clicking.",
+    "icon": [
+      11,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1000.032,
+    "category": "none"
+  },
+  {
+    "id": 33,
+    "name": "Clickorama",
+    "desc": "Make <b>1,000,000,000</b> cookies from clicking.",
+    "icon": [
+      11,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1000.033,
+    "category": "none"
+  },
+  {
+    "id": 34,
+    "name": "Click",
+    "desc": "Have <b>1</b> cursor.",
+    "icon": [
+      0,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1050.034,
+    "category": "none"
+  },
+  {
+    "id": 35,
+    "name": "Double-click",
+    "desc": "Have <b>2</b> cursors.",
+    "icon": [
+      0,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1050.035,
+    "category": "none"
+  },
+  {
+    "id": 36,
+    "name": "Mouse wheel",
+    "desc": "Have <b>50</b> cursors.",
+    "icon": [
+      1,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1050.036,
+    "category": "none"
+  },
+  {
+    "id": 37,
+    "name": "Of Mice and Men",
+    "desc": "Have <b>100</b> cursors.",
+    "icon": [
+      2,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1050.037,
+    "category": "none"
+  },
+  {
+    "id": 38,
+    "name": "The Digital",
+    "desc": "Have <b>200</b> cursors.",
+    "icon": [
+      3,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1050.038,
+    "category": "none"
+  },
+  {
+    "id": 39,
+    "name": "Just wrong",
+    "desc": "Sell a grandma.<q>I thought you loved me.</q>",
+    "icon": [
+      10,
+      9
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 1100.039,
+    "category": "none"
+  },
+  {
+    "id": 40,
+    "name": "Grandma's cookies",
+    "desc": "Have <b>1</b> grandma.",
+    "icon": [
+      1,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1100.04,
+    "category": "none"
+  },
+  {
+    "id": 41,
+    "name": "Sloppy kisses",
+    "desc": "Have <b>50</b> grandmas.",
+    "icon": [
+      1,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1100.041,
+    "category": "none"
+  },
+  {
+    "id": 42,
+    "name": "Retirement home",
+    "desc": "Have <b>100</b> grandmas.",
+    "icon": [
+      1,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1100.042,
+    "category": "none"
+  },
+  {
+    "id": 43,
+    "name": "My first farm",
+    "desc": "Have <b>1</b> farm.",
+    "icon": [
+      2,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1200.043,
+    "category": "none"
+  },
+  {
+    "id": 44,
+    "name": "Reap what you sow",
+    "desc": "Have <b>50</b> farms.",
+    "icon": [
+      2,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1200.044,
+    "category": "none"
+  },
+  {
+    "id": 45,
+    "name": "Farm ill",
+    "desc": "Have <b>100</b> farms.",
+    "icon": [
+      2,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1200.045,
+    "category": "none"
+  },
+  {
+    "id": 46,
+    "name": "Production chain",
+    "desc": "Have <b>1</b> factory.",
+    "icon": [
+      4,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1300.046,
+    "category": "none"
+  },
+  {
+    "id": 47,
+    "name": "Industrial revolution",
+    "desc": "Have <b>50</b> factories.",
+    "icon": [
+      4,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1300.047,
+    "category": "none"
+  },
+  {
+    "id": 48,
+    "name": "Global warming",
+    "desc": "Have <b>100</b> factories.",
+    "icon": [
+      4,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1300.048,
+    "category": "none"
+  },
+  {
+    "id": 49,
+    "name": "You know the drill",
+    "desc": "Have <b>1</b> mine.",
+    "icon": [
+      3,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1400.049,
+    "category": "none"
+  },
+  {
+    "id": 50,
+    "name": "Excavation site",
+    "desc": "Have <b>50</b> mines.",
+    "icon": [
+      3,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1400.05,
+    "category": "none"
+  },
+  {
+    "id": 51,
+    "name": "Hollow the planet",
+    "desc": "Have <b>100</b> mines.",
+    "icon": [
+      3,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1400.051,
+    "category": "none"
+  },
+  {
+    "id": 52,
+    "name": "Expedition",
+    "desc": "Have <b>1</b> shipment.",
+    "icon": [
+      5,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1500.052,
+    "category": "none"
+  },
+  {
+    "id": 53,
+    "name": "Galactic highway",
+    "desc": "Have <b>50</b> shipments.",
+    "icon": [
+      5,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1500.053,
+    "category": "none"
+  },
+  {
+    "id": 54,
+    "name": "Far far away",
+    "desc": "Have <b>100</b> shipments.",
+    "icon": [
+      5,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1500.054,
+    "category": "none"
+  },
+  {
+    "id": 55,
+    "name": "Transmutation",
+    "desc": "Have <b>1</b> alchemy lab.",
+    "icon": [
+      6,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1600.055,
+    "category": "none"
+  },
+  {
+    "id": 56,
+    "name": "Transmogrification",
+    "desc": "Have <b>50</b> alchemy labs.",
+    "icon": [
+      6,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1600.056,
+    "category": "none"
+  },
+  {
+    "id": 57,
+    "name": "Gold member",
+    "desc": "Have <b>100</b> alchemy labs.",
+    "icon": [
+      6,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1600.057,
+    "category": "none"
+  },
+  {
+    "id": 58,
+    "name": "A whole new world",
+    "desc": "Have <b>1</b> portal.",
+    "icon": [
+      7,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1700.058,
+    "category": "none"
+  },
+  {
+    "id": 59,
+    "name": "Now you're thinking",
+    "desc": "Have <b>50</b> portals.",
+    "icon": [
+      7,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1700.059,
+    "category": "none"
+  },
+  {
+    "id": 60,
+    "name": "Dimensional shift",
+    "desc": "Have <b>100</b> portals.",
+    "icon": [
+      7,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1700.06,
+    "category": "none"
+  },
+  {
+    "id": 61,
+    "name": "Time warp",
+    "desc": "Have <b>1</b> time machine.",
+    "icon": [
+      8,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1800.061,
+    "category": "none"
+  },
+  {
+    "id": 62,
+    "name": "Alternate timeline",
+    "desc": "Have <b>50</b> time machines.",
+    "icon": [
+      8,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1800.062,
+    "category": "none"
+  },
+  {
+    "id": 63,
+    "name": "Rewriting history",
+    "desc": "Have <b>100</b> time machines.",
+    "icon": [
+      8,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1800.063,
+    "category": "none"
+  },
+  {
+    "id": 64,
+    "name": "One with everything",
+    "desc": "Have <b>at least 1</b> of every building.",
+    "icon": [
+      4,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 7000.064,
+    "category": "none"
+  },
+  {
+    "id": 65,
+    "name": "Mathematician",
+    "desc": "Have at least <b>1 of the most expensive object, 2 of the second-most expensive, 4 of the next</b> and so on (capped at 128).",
+    "icon": [
+      7,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 7000.065,
+    "category": "none"
+  },
+  {
+    "id": 66,
+    "name": "Base 10",
+    "desc": "Have at least <b>10 of the most expensive object, 20 of the second-most expensive, 30 of the next</b> and so on.",
+    "icon": [
+      8,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 7000.066,
+    "category": "none"
+  },
+  {
+    "id": 67,
+    "name": "Golden cookie",
+    "desc": "Click a <b>golden cookie</b>.",
+    "icon": [
+      10,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 10000.067,
+    "category": "none"
+  },
+  {
+    "id": 68,
+    "name": "Lucky cookie",
+    "desc": "Click <b>7 golden cookies</b>.",
+    "icon": [
+      10,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 10000.068,
+    "category": "none"
+  },
+  {
+    "id": 69,
+    "name": "A stroke of luck",
+    "desc": "Click <b>27 golden cookies</b>.",
+    "icon": [
+      10,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 10000.069,
+    "category": "none"
+  },
+  {
+    "id": 70,
+    "name": "Cheated cookies taste awful",
+    "desc": "Hack in some cookies.",
+    "icon": [
+      10,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 3,
+    "order": 30200.07,
+    "category": "none"
+  },
+  {
+    "id": 71,
+    "name": "Uncanny clicker",
+    "desc": "Click really, really fast.<q>Well I'll be!</q>",
+    "icon": [
+      12,
+      0
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 2,
+    "order": 30001.071,
+    "category": "none"
+  },
+  {
+    "id": 72,
+    "name": "Builder",
+    "desc": "Own <b>100</b> buildings.",
+    "icon": [
+      4,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 5000.072,
+    "category": "none"
+  },
+  {
+    "id": 73,
+    "name": "Architect",
+    "desc": "Own <b>400</b> buildings.",
+    "icon": [
+      5,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 5000.073,
+    "category": "none"
+  },
+  {
+    "id": 74,
+    "name": "Enhancer",
+    "desc": "Purchase <b>20</b> upgrades.",
+    "icon": [
+      9,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 6000.074,
+    "category": "none"
+  },
+  {
+    "id": 75,
+    "name": "Augmenter",
+    "desc": "Purchase <b>50</b> upgrades.",
+    "icon": [
+      9,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 6000.075,
+    "category": "none"
+  },
+  {
+    "id": 76,
+    "name": "Cookie-dunker",
+    "desc": "Dunk the cookie.<q>You did it!</q>",
+    "icon": [
+      4,
+      7
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 11000.076,
+    "category": "none"
+  },
+  {
+    "id": 77,
+    "name": "Fortune",
+    "desc": "Click <b>77 golden cookies</b>.<q>You should really go to bed.</q>",
+    "icon": [
+      10,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 10000.077,
+    "category": "none"
+  },
+  {
+    "id": 78,
+    "name": "True Neverclick",
+    "desc": "Make <b>1 million</b> cookies with <b>no</b> cookie clicks.<q>This kinda defeats the whole purpose, doesn't it?</q>",
+    "icon": [
+      12,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 3,
+    "order": 31000.078,
+    "category": "none"
+  },
+  {
+    "id": 79,
+    "name": "Elder nap",
+    "desc": "Appease the grandmatriarchs at least <b>once</b>.<q>we<br>are<br>eternal</q>",
+    "icon": [
+      8,
+      9
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 20000.079,
+    "category": "none"
+  },
+  {
+    "id": 80,
+    "name": "Elder slumber",
+    "desc": "Appease the grandmatriarchs at least <b>5 times</b>.<q>our mind<br>outlives<br>the universe</q>",
+    "icon": [
+      8,
+      9
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 20000.08,
+    "category": "none"
+  },
+  {
+    "id": 81,
+    "name": "Elder",
+    "desc": "Own at least <b>7</b> grandma types.",
+    "icon": [
+      10,
+      9
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 1150.081,
+    "category": "none"
+  },
+  {
+    "id": 82,
+    "name": "Elder calm",
+    "desc": "Declare a covenant with the grandmatriarchs.<q>we<br>have<br>fed</q>",
+    "icon": [
+      8,
+      9
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 20000.082,
+    "category": "none"
+  },
+  {
+    "id": 83,
+    "name": "Engineer",
+    "desc": "Own <b>800</b> buildings.",
+    "icon": [
+      6,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 5000.083,
+    "category": "none"
+  },
+  {
+    "id": 84,
+    "name": "Leprechaun",
+    "desc": "Click <b>777 golden cookies</b>.",
+    "icon": [
+      10,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 10000.084,
+    "category": "none"
+  },
+  {
+    "id": 85,
+    "name": "Black cat's paw",
+    "desc": "Click <b>7777 golden cookies</b>.",
+    "icon": [
+      10,
+      1
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 3,
+    "order": 10000.085,
+    "category": "none"
+  },
+  {
+    "id": 86,
+    "name": "Nihilism",
+    "desc": "Reset your game with <b>1 quadrillion</b> cookies baked.<q>There are many things<br>that need to be erased</q>",
+    "icon": [
+      11,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 30000.086,
+    "category": "none"
+  },
+  {
+    "id": 87,
+    "name": "Antibatter",
+    "desc": "Have <b>1</b> antimatter condenser.",
+    "icon": [
+      13,
+      0
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1900.087,
+    "category": "none"
+  },
+  {
+    "id": 88,
+    "name": "Quirky quarks",
+    "desc": "Have <b>50</b> antimatter condensers.",
+    "icon": [
+      13,
+      1
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1900.088,
+    "category": "none"
+  },
+  {
+    "id": 89,
+    "name": "It does matter!",
+    "desc": "Have <b>100</b> antimatter condensers.",
+    "icon": [
+      13,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1900.089,
+    "category": "none"
+  },
+  {
+    "id": 90,
+    "name": "Upgrader",
+    "desc": "Purchase <b>100</b> upgrades.",
+    "icon": [
+      9,
+      2
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 1,
+    "order": 6000.09,
+    "category": "none"
+  },
+  {
+    "id": 91,
+    "name": "Centennial",
+    "desc": "Have at least <b>100 of everything</b>.",
+    "icon": [
+      9,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 7000.091,
+    "category": "none"
+  },
+  {
+    "id": 92,
+    "name": "Hardcore",
+    "desc": "Get to <b>1 billion</b> cookies baked with <b>no upgrades purchased</b>.",
+    "icon": [
+      12,
+      6
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 3,
+    "order": 30500.092,
+    "category": "none"
+  },
+  {
+    "id": 93,
+    "name": "Speed baking I",
+    "desc": "Get to <b>1 million</b> cookies baked in <b>35 minutes</b> (with no heavenly upgrades).",
+    "icon": [
+      12,
+      5
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 3,
+    "order": 30600.093,
+    "category": "none"
+  },
+  {
+    "id": 94,
+    "name": "Speed baking II",
+    "desc": "Get to <b>1 million</b> cookies baked in <b>25 minutes</b> (with no heavenly upgrades).",
+    "icon": [
+      13,
+      5
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 3,
+    "order": 30600.094,
+    "category": "none"
+  },
+  {
+    "id": 95,
+    "name": "Speed baking III",
+    "desc": "Get to <b>1 million</b> cookies baked in <b>15 minutes</b> (with no heavenly upgrades).",
+    "icon": [
+      14,
+      5
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 3,
+    "order": 30600.095,
+    "category": "none"
+  },
+  {
+    "id": 96,
+    "name": "Getting even with the oven",
+    "desc": "Defeat the <b>Sentient Furnace</b> in the factory dungeons.",
+    "icon": [
+      12,
+      7
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 3,
+    "order": 61000.096,
+    "category": "dungeon"
+  },
+  {
+    "id": 97,
+    "name": "Now this is pod-smashing",
+    "desc": "Defeat the <b>Ascended Baking Pod</b> in the factory dungeons.",
+    "icon": [
+      12,
+      7
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 3,
+    "order": 61000.097,
+    "category": "dungeon"
+  },
+  {
+    "id": 98,
+    "name": "Chirped out",
+    "desc": "Find and defeat <b>Chirpy</b>, the dysfunctionning alarm bot.",
+    "icon": [
+      13,
+      7
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 3,
+    "order": 61000.098,
+    "category": "dungeon"
+  },
+  {
+    "id": 99,
+    "name": "Follow the white rabbit",
+    "desc": "Find and defeat the elusive <b>sugar bunny</b>.",
+    "icon": [
+      14,
+      7
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 3,
+    "order": 61000.099,
+    "category": "dungeon"
+  },
+  {
+    "id": 100,
+    "name": "Clickasmic",
+    "desc": "Make <b>100,000,000,000</b> cookies from clicking.",
+    "icon": [
+      11,
+      13
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1000.1,
+    "category": "none"
+  },
+  {
+    "id": 101,
+    "name": "Friend of the ancients",
+    "desc": "Have <b>150</b> grandmas.",
+    "icon": [
+      1,
+      13
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1100.101,
+    "category": "none"
+  },
+  {
+    "id": 102,
+    "name": "Ruler of the ancients",
+    "desc": "Have <b>200</b> grandmas.",
+    "icon": [
+      1,
+      13
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 0,
+    "order": 1100.102,
+    "category": "none"
+  },
+  {
+    "id": 103,
+    "name": "Wholesome",
+    "desc": "Unlock <b>100%</b> of your heavenly chips power.",
+    "icon": [
+      15,
+      7
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 32000.103,
+    "category": "none"
+  },
+  {
+    "id": 104,
+    "name": "Just plain lucky",
+    "desc": "You have <b>1 chance in 500,000</b> every second of earning this achievement.",
+    "icon": [
+      15,
+      6
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 3,
+    "order": 33000.104,
+    "category": "none"
+  },
+  {
+    "id": 105,
+    "name": "Itchscratcher",
+    "desc": "Burst <b>1 wrinkler</b>.",
+    "icon": [
+      19,
+      8
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 21000.105,
+    "category": "none"
+  },
+  {
+    "id": 106,
+    "name": "Wrinklesquisher",
+    "desc": "Burst <b>50 wrinklers</b>.",
+    "icon": [
+      19,
+      8
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 21000.106,
+    "category": "none"
+  },
+  {
+    "id": 107,
+    "name": "Moistburster",
+    "desc": "Burst <b>200 wrinklers</b>.",
+    "icon": [
+      19,
+      8
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 21000.107,
+    "category": "none"
+  },
+  {
+    "id": 108,
+    "name": "Spooky cookies",
+    "desc": "Unlock <b>every Halloween-themed cookie</b>.<br>Owning this achievement makes Halloween-themed cookies drop more frequently in future playthroughs.",
+    "icon": [
+      12,
+      8
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 22000.108,
+    "category": "none"
+  },
+  {
+    "id": 109,
+    "name": "Coming to town",
+    "desc": "Reach <b>Santa's 7th form</b>.",
+    "icon": [
+      18,
+      9
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 22100.109,
+    "category": "none"
+  },
+  {
+    "id": 110,
+    "name": "All hail Santa",
+    "desc": "Reach <b>Santa's final form</b>.",
+    "icon": [
+      19,
+      10
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 22100.11,
+    "category": "none"
+  },
+  {
+    "id": 111,
+    "name": "Let it snow",
+    "desc": "Unlock <b>every Christmas-themed cookie</b>.",
+    "icon": [
+      19,
+      9
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 2,
+    "order": 22100.111,
+    "category": "none"
+  },
+  {
+    "id": 112,
+    "name": "Oh deer",
+    "desc": "Pop <b>1 reindeer</b>.",
+    "icon": [
+      12,
+      9
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 22100.112,
+    "category": "none"
+  },
+  {
+    "id": 113,
+    "name": "Sleigh of hand",
+    "desc": "Pop <b>50 reindeer</b>.",
+    "icon": [
+      12,
+      9
+    ],
+    "won": 1,
+    "disabled": 0,
+    "hide": 2,
+    "order": 22100.113,
+    "category": "none"
+  },
+  {
+    "id": 114,
+    "name": "Reindeer sleigher",
+    "desc": "Pop <b>200 reindeer</b>.",
+    "icon": [
+      12,
+      9
+    ],
+    "won": 0,
+    "disabled": 0,
+    "hide": 2,
+    "order": 22100.114,
+    "category": "none"
+  }
+]

@@ -24,10 +24,8 @@ module.exports = {
 	 * @return {Void}
 	 */
 	achievements: function(achievements) {
-		Game.Achievements = {};
-
 		for (var key in achievements) {
-			Game.Achievements[key] = {name: key, won: achievements[key]};
+			Game.Achievements[key].won = achievements[key];
 		}
 	},
 
@@ -41,19 +39,28 @@ module.exports = {
 	 * @return {Array}
 	 */
 	game: function() {
-		return {
+		var Game = {
 			cookies     : 20,
 			cookiesPs   : 10,
 			frenzyPower : 1,
 
+			AchievementsById : require('./_fixtures/achievements.json'),
+			UpgradesById     : require('./_fixtures/upgrades.json'),
+			ObjectsById      : require('./_fixtures/objects.json'),
+
+			Achievements : {},
 			prestige     : {},
-			Upgrades     : [{}],
-			UpgradesById : [{}],
-			ObjectsById  : [{name: 'Cursor', price: 15}],
+			Upgrades     : [],
 
 			RebuildStore : function() {},
 			Has          : function() {},
 		};
+
+		Game.AchievementsById.forEach(function(achievement) {
+			Game.Achievements[achievement.name] = achievement;
+		});
+
+		return Game;
 	},
 
 };

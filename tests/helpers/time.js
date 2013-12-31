@@ -2,14 +2,13 @@ module.exports = {
 
 	'#secondsLeft': {
 		'Can get time left to a building': function() {
-			Game.ObjectsById[0].price = 100;
-			CookieMonster.secondsLeft(0, 'object').should.equal(8);
+			CookieMonster.secondsLeft(0, 'object').should.equal(2.6);
 		},
 		'Can return 0 if buyable': function() {
+			Game.cookies = 200;
 			CookieMonster.secondsLeft(0, 'object').should.equal(0);
 		},
 		'Can get time left to an upgrade': function() {
-			Game.UpgradesById[0].basePrice = 100;
 			CookieMonster.secondsLeft(0, 'upgrade').should.equal(8);
 		},
 	},
@@ -23,6 +22,7 @@ module.exports = {
 		'Can format time': function() {
 			CookieMonster.formatTime(366666).should.equal('4 days, 5 hours, 51 minutes, 6 seconds');
 			CookieMonster.formatTime(3666).should.equal('1 hour, 1 minute, 6 seconds');
+			CookieMonster.formatTime(166621).should.equal('1 day, 22 hours, 17 minutes, 1 second');
 		},
 		'Can format time to minified format': function() {
 			CookieMonster.formatTime(366666, true).should.equal('4d, 5h, 51m, 6s');

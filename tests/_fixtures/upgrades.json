@@ -1,0 +1,2712 @@
+[
+  {
+    "id": 0,
+    "name": "Reinforced index finger",
+    "desc": "The mouse gains <b>+1</b> cookie per click.<br>Cursors gain <b>+0.1</b> base CpS.<q>prod prod</q>",
+    "basePrice": 100,
+    "icon": [
+      0,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 1,
+    "hide": 0,
+    "order": 100,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 1,
+    "name": "Carpal tunnel prevention cream",
+    "desc": "The mouse and cursors are <b>twice</b> as efficient.<q>it... it hurts to click...</q>",
+    "basePrice": 400,
+    "icon": [
+      0,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 1,
+    "hide": 0,
+    "order": 100.001,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 2,
+    "name": "Ambidextrous",
+    "desc": "The mouse and cursors are <b>twice</b> as efficient.<q>Look ma, both hands!</q>",
+    "basePrice": 10000,
+    "icon": [
+      0,
+      6
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 100.002,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 3,
+    "name": "Thousand fingers",
+    "desc": "The mouse and cursors gain <b>+0.1</b> cookies for each non-cursor object owned.<q>clickity</q>",
+    "basePrice": 500000,
+    "icon": [
+      0,
+      6
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 100.003,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 4,
+    "name": "Million fingers",
+    "desc": "The mouse and cursors gain <b>+0.5</b> cookies for each non-cursor object owned.<q>clickityclickity</q>",
+    "basePrice": 50000000,
+    "icon": [
+      1,
+      6
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 100.004,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 5,
+    "name": "Billion fingers",
+    "desc": "The mouse and cursors gain <b>+2</b> cookies for each non-cursor object owned.<q>clickityclickityclickity</q>",
+    "basePrice": 500000000,
+    "icon": [
+      2,
+      6
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 100.005,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 6,
+    "name": "Trillion fingers",
+    "desc": "The mouse and cursors gain <b>+10</b> cookies for each non-cursor object owned.<q>clickityclickityclickityclickity</q>",
+    "basePrice": 5000000000,
+    "icon": [
+      3,
+      6
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 100.006,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 7,
+    "name": "Forwards from grandma",
+    "desc": "Grandmas gain <b>+0.3</b> base CpS.<q>RE:RE:thought you'd get a kick out of this ;))</q>",
+    "basePrice": 1000,
+    "icon": [
+      1,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 200.007,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 8,
+    "name": "Steel-plated rolling pins",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>Just what you kneaded.</q>",
+    "basePrice": 10000,
+    "icon": [
+      1,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 200.008,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 9,
+    "name": "Lubricated dentures",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>squish</q>",
+    "basePrice": 100000,
+    "icon": [
+      1,
+      1
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 200.009,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 10,
+    "name": "Cheap hoes",
+    "desc": "Farms gain <b>+1</b> base CpS.<q>Rake in the dough!</q>",
+    "basePrice": 5000,
+    "icon": [
+      2,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 300.01,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 11,
+    "name": "Fertilizer",
+    "desc": "Farms are <b>twice</b> as efficient.<q>It's chocolate, I swear.</q>",
+    "basePrice": 50000,
+    "icon": [
+      2,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 300.011,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 12,
+    "name": "Cookie trees",
+    "desc": "Farms are <b>twice</b> as efficient.<q>A relative of the breadfruit.</q>",
+    "basePrice": 500000,
+    "icon": [
+      2,
+      1
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 300.012,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 13,
+    "name": "Sturdier conveyor belts",
+    "desc": "Factories gain <b>+4</b> base CpS.<q>You're going places.</q>",
+    "basePrice": 30000,
+    "icon": [
+      4,
+      0
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 400.013,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 14,
+    "name": "Child labor",
+    "desc": "Factories are <b>twice</b> as efficient.<q>Cheaper, healthier workforce.</q>",
+    "basePrice": 300000,
+    "icon": [
+      4,
+      0
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 400.014,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 15,
+    "name": "Sweatshop",
+    "desc": "Factories are <b>twice</b> as efficient.<q>Slackers will be terminated.</q>",
+    "basePrice": 3000000,
+    "icon": [
+      4,
+      1
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 400.015,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 16,
+    "name": "Sugar gas",
+    "desc": "Mines gain <b>+10</b> base CpS.<q>A pink, volatile gas, found in the depths of some chocolate caves.</q>",
+    "basePrice": 100000,
+    "icon": [
+      3,
+      0
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 500.016,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 17,
+    "name": "Megadrill",
+    "desc": "Mines are <b>twice</b> as efficient.<q>You're in deep.</q>",
+    "basePrice": 1000000,
+    "icon": [
+      3,
+      0
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 500.017,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 18,
+    "name": "Ultradrill",
+    "desc": "Mines are <b>twice</b> as efficient.<q>Finally caved in?</q>",
+    "basePrice": 10000000,
+    "icon": [
+      3,
+      1
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 500.018,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 19,
+    "name": "Vanilla nebulae",
+    "desc": "Shipments gain <b>+30</b> base CpS.<q>If you removed your space helmet, you could probably smell it!<br>(Note : don't do that.)</q>",
+    "basePrice": 400000,
+    "icon": [
+      5,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 600.019,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 20,
+    "name": "Wormholes",
+    "desc": "Shipments are <b>twice</b> as efficient.<q>By using these as shortcuts, your ships can travel much faster.</q>",
+    "basePrice": 4000000,
+    "icon": [
+      5,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 600.02,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 21,
+    "name": "Frequent flyer",
+    "desc": "Shipments are <b>twice</b> as efficient.<q>Come back soon!</q>",
+    "basePrice": 40000000,
+    "icon": [
+      5,
+      1
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 600.021,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 22,
+    "name": "Antimony",
+    "desc": "Alchemy labs gain <b>+100</b> base CpS.<q>Actually worth a lot of mony.</q>",
+    "basePrice": 2000000,
+    "icon": [
+      6,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 700.022,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 23,
+    "name": "Essence of dough",
+    "desc": "Alchemy labs are <b>twice</b> as efficient.<q>Extracted through the 5 ancient steps of alchemical baking.</q>",
+    "basePrice": 20000000,
+    "icon": [
+      6,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 700.023,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 24,
+    "name": "True chocolate",
+    "desc": "Alchemy labs are <b>twice</b> as efficient.<q>The purest form of cacao.</q>",
+    "basePrice": 200000000,
+    "icon": [
+      6,
+      1
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 700.024,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 25,
+    "name": "Ancient tablet",
+    "desc": "Portals gain <b>+1,666</b> base CpS.<q>A strange slab of peanut brittle, holding an ancient cookie recipe. Neat!</q>",
+    "basePrice": 16666660,
+    "icon": [
+      7,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 800.025,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 26,
+    "name": "Insane oatling workers",
+    "desc": "Portals are <b>twice</b> as efficient.<q>ARISE, MY MINIONS!</q>",
+    "basePrice": 166666600,
+    "icon": [
+      7,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 800.026,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 27,
+    "name": "Soul bond",
+    "desc": "Portals are <b>twice</b> as efficient.<q>So I just sign up and get more cookies? Sure, whatever!</q>",
+    "basePrice": 1666666000,
+    "icon": [
+      7,
+      1
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 800.027,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 28,
+    "name": "Flux capacitors",
+    "desc": "Time machines gain <b>+9,876</b> base CpS.<q>Bake to the future.</q>",
+    "basePrice": 1234567890,
+    "icon": [
+      8,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 900.028,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 29,
+    "name": "Time paradox resolver",
+    "desc": "Time machines are <b>twice</b> as efficient.<q>No more fooling around with your own grandmother!</q>",
+    "basePrice": 9876543210,
+    "icon": [
+      8,
+      0
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 900.029,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 30,
+    "name": "Quantum conundrum",
+    "desc": "Time machines are <b>twice</b> as efficient.<q>There is only one constant, and that is universal uncertainty.<br>Or is it?</q>",
+    "basePrice": 98765456789,
+    "icon": [
+      8,
+      1
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 900.03,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 31,
+    "name": "Kitten helpers",
+    "desc": "You gain <b>more CpS</b> the more milk you have.<q>meow may I help you</q>",
+    "basePrice": 9000000,
+    "icon": [
+      1,
+      7
+    ],
+    "unlocked": 1,
+    "bought": 1,
+    "hide": 0,
+    "order": 20000.031,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 32,
+    "name": "Kitten workers",
+    "desc": "You gain <b>more CpS</b> the more milk you have.<q>meow meow meow meow</q>",
+    "basePrice": 9000000000,
+    "icon": [
+      2,
+      7
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 20000.032,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 33,
+    "name": "Oatmeal raisin cookies",
+    "desc": "Cookie production multiplier <b>+5%</b>.<q>No raisin to hate these.</q>",
+    "basePrice": 99999999,
+    "icon": [
+      0,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.033,
+    "type": "cookie",
+    "power": 5
+  },
+  {
+    "id": 34,
+    "name": "Peanut butter cookies",
+    "desc": "Cookie production multiplier <b>+5%</b>.<q>Get yourself some jam cookies!</q>",
+    "basePrice": 99999999,
+    "icon": [
+      1,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.034,
+    "type": "cookie",
+    "power": 5
+  },
+  {
+    "id": 35,
+    "name": "Plain cookies",
+    "desc": "Cookie production multiplier <b>+5%</b>.<q>Meh.</q>",
+    "basePrice": 99999999,
+    "icon": [
+      2,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.035,
+    "type": "cookie",
+    "power": 5
+  },
+  {
+    "id": 36,
+    "name": "Coconut cookies",
+    "desc": "Cookie production multiplier <b>+5%</b>.<q>These are *way* flaky.</q>",
+    "basePrice": 999999999,
+    "icon": [
+      3,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.036,
+    "type": "cookie",
+    "power": 5
+  },
+  {
+    "id": 37,
+    "name": "White chocolate cookies",
+    "desc": "Cookie production multiplier <b>+5%</b>.<q>I know what you'll say. It's just cocoa butter! It's not real chocolate!<br>Oh please.</q>",
+    "basePrice": 999999999,
+    "icon": [
+      4,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.037,
+    "type": "cookie",
+    "power": 5
+  },
+  {
+    "id": 38,
+    "name": "Macadamia nut cookies",
+    "desc": "Cookie production multiplier <b>+5%</b>.<q>They're macadamn delicious!</q>",
+    "basePrice": 999999999,
+    "icon": [
+      5,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.038,
+    "type": "cookie",
+    "power": 5
+  },
+  {
+    "id": 39,
+    "name": "Double-chip cookies",
+    "desc": "Cookie production multiplier <b>+10%</b>.<q>DOUBLE THE CHIPS<br>DOUBLE THE TASTY<br>(double the calories)</q>",
+    "basePrice": 99999999999,
+    "icon": [
+      6,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.039,
+    "type": "cookie",
+    "power": 10
+  },
+  {
+    "id": 40,
+    "name": "Sugar cookies",
+    "desc": "Cookie production multiplier <b>+5%</b>.<q>Tasty, if a little unimaginative.</q>",
+    "basePrice": 99999999,
+    "icon": [
+      7,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.04,
+    "type": "cookie",
+    "power": 5
+  },
+  {
+    "id": 41,
+    "name": "White chocolate macadamia nut cookies",
+    "desc": "Cookie production multiplier <b>+10%</b>.<q>Orteil's favorite.</q>",
+    "basePrice": 99999999999,
+    "icon": [
+      8,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.041,
+    "type": "cookie",
+    "power": 10
+  },
+  {
+    "id": 42,
+    "name": "All-chocolate cookies",
+    "desc": "Cookie production multiplier <b>+10%</b>.<q>CHOCOVERDOSE.</q>",
+    "basePrice": 99999999999,
+    "icon": [
+      9,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.042,
+    "type": "cookie",
+    "power": 10
+  },
+  {
+    "id": 43,
+    "name": "Quadrillion fingers",
+    "desc": "The mouse and cursors gain <b>+20</b> cookies for each non-cursor object owned.<q>clickityclickityclickityclickityclick</q>",
+    "basePrice": 50000000000,
+    "icon": [
+      3,
+      6
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 100.043,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 44,
+    "name": "Prune juice",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>Gets me going.</q>",
+    "basePrice": 5000000,
+    "icon": [
+      1,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 200.044,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 45,
+    "name": "Genetically-modified cookies",
+    "desc": "Farms are <b>twice</b> as efficient.<q>All-natural mutations.</q>",
+    "basePrice": 25000000,
+    "icon": [
+      2,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 300.045,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 46,
+    "name": "Radium reactors",
+    "desc": "Factories are <b>twice</b> as efficient.<q>Gives your cookies a healthy glow.</q>",
+    "basePrice": 150000000,
+    "icon": [
+      4,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 400.046,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 47,
+    "name": "Ultimadrill",
+    "desc": "Mines are <b>twice</b> as efficient.<q>Pierce the heavens, etc.</q>",
+    "basePrice": 500000000,
+    "icon": [
+      3,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 500.047,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 48,
+    "name": "Warp drive",
+    "desc": "Shipments are <b>twice</b> as efficient.<q>To boldly bake.</q>",
+    "basePrice": 2000000000,
+    "icon": [
+      5,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 600.048,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 49,
+    "name": "Ambrosia",
+    "desc": "Alchemy labs are <b>twice</b> as efficient.<q>Adding this to the cookie mix is sure to make them even more addictive!<br>Perhaps dangerously so.<br>Let's hope you can keep selling these legally.</q>",
+    "basePrice": 10000000000,
+    "icon": [
+      6,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 700.049,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 50,
+    "name": "Sanity dance",
+    "desc": "Portals are <b>twice</b> as efficient.<q>We can change if we want to.<br>We can leave our brains behind.</q>",
+    "basePrice": 83333300000,
+    "icon": [
+      7,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 800.05,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 51,
+    "name": "Causality enforcer",
+    "desc": "Time machines are <b>twice</b> as efficient.<q>What happened, happened.</q>",
+    "basePrice": 1234567890000,
+    "icon": [
+      8,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 900.051,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 52,
+    "name": "Lucky day",
+    "desc": "Golden cookies appear <b>twice as often</b> and stay <b>twice as long</b>.<q>Oh hey, a four-leaf penny!</q>",
+    "basePrice": 777777777,
+    "icon": [
+      10,
+      1
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 5000.052,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 53,
+    "name": "Serendipity",
+    "desc": "Golden cookies appear <b>twice as often</b> and stay <b>twice as long</b>.<q>What joy! Seven horseshoes!</q>",
+    "basePrice": 77777777777,
+    "icon": [
+      10,
+      1
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 5000.053,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 54,
+    "name": "Kitten engineers",
+    "desc": "You gain <b>more CpS</b> the more milk you have.<q>meow meow meow meow, sir</q>",
+    "basePrice": 9000000000000,
+    "icon": [
+      3,
+      7
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 20000.054,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 55,
+    "name": "Dark chocolate-coated cookies",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>These absorb light so well you almost need to squint to see them.</q>",
+    "basePrice": 999999999999,
+    "icon": [
+      10,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.055,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 56,
+    "name": "White chocolate-coated cookies",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>These dazzling cookies absolutely glisten with flavor.</q>",
+    "basePrice": 999999999999,
+    "icon": [
+      11,
+      3
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.056,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 57,
+    "name": "Farmer grandmas",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>A nice farmer to grow more cookies.</q>",
+    "basePrice": 50000,
+    "icon": [
+      10,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 250.057,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 58,
+    "name": "Worker grandmas",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>A nice worker to manufacture more cookies.</q>",
+    "basePrice": 300000,
+    "icon": [
+      10,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 250.058,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 59,
+    "name": "Miner grandmas",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>A nice miner to dig more cookies.</q>",
+    "basePrice": 1000000,
+    "icon": [
+      10,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 250.059,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 60,
+    "name": "Cosmic grandmas",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>A nice thing to... uh... cookies.</q>",
+    "basePrice": 4000000,
+    "icon": [
+      10,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 250.06,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 61,
+    "name": "Transmuted grandmas",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>A nice golden grandma to convert into more cookies.</q>",
+    "basePrice": 20000000,
+    "icon": [
+      10,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 250.061,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 62,
+    "name": "Altered grandmas",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>a NiCe GrAnDmA tO bA##########</q>",
+    "basePrice": 166666600,
+    "icon": [
+      10,
+      9
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 250.062,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 63,
+    "name": "Grandmas' grandmas",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>A nice grandma's nice grandma to bake double the cookies.</q>",
+    "basePrice": 12345678900,
+    "icon": [
+      10,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 250.063,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 64,
+    "name": "Bingo center/Research facility",
+    "desc": "Grandma-operated science lab and leisure club.<br>Grandmas are <b>4 times</b> as efficient.<br><b>Regularly unlocks new upgrades</b>.<q>What could possibly keep those grandmothers in check?...<br>Bingo.</q>",
+    "basePrice": 100000000000,
+    "icon": [
+      11,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 14000.064,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 65,
+    "name": "Specialized chocolate chips",
+    "desc": "[Research]<br>Cookie production multiplier <b>+1%</b>.<q>Computer-designed chocolate chips. Computer chips, if you will.</q>",
+    "basePrice": 10000000000,
+    "icon": [
+      0,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 15000.065,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 66,
+    "name": "Designer cocoa beans",
+    "desc": "[Research]<br>Cookie production multiplier <b>+2%</b>.<q>Now more aerodynamic than ever!</q>",
+    "basePrice": 20000000000,
+    "icon": [
+      1,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 15000.066,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 67,
+    "name": "Ritual rolling pins",
+    "desc": "[Research]<br>Grandmas are <b>twice</b> as efficient.<q>The result of years of scientific research!</q>",
+    "basePrice": 40000000000,
+    "icon": [
+      2,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 15000.067,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 68,
+    "name": "Underworld ovens",
+    "desc": "[Research]<br>Cookie production multiplier <b>+3%</b>.<q>Powered by science, of course!</q>",
+    "basePrice": 80000000000,
+    "icon": [
+      3,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 15000.068,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 69,
+    "name": "One mind",
+    "desc": "[Research]<br>Each grandma gains <b>+1 base CpS for every 50 grandmas</b>.<div class=\"warning\">Note : the grandmothers are growing restless. Do not encourage them.</div><q>We are one. We are many.</q>",
+    "basePrice": 160000000000,
+    "icon": [
+      4,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 15000.069,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 70,
+    "name": "Exotic nuts",
+    "desc": "[Research]<br>Cookie production multiplier <b>+4%</b>.<q>You'll go crazy over these!</q>",
+    "basePrice": 320000000000,
+    "icon": [
+      5,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 15000.07,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 71,
+    "name": "Communal brainsweep",
+    "desc": "[Research]<br>Each grandma gains another <b>+1 base CpS for every 50 grandmas</b>.<div class=\"warning\">Note : proceeding any further in scientific research may have unexpected results. You have been warned.</div><q>We fuse. We merge. We grow.</q>",
+    "basePrice": 640000000000,
+    "icon": [
+      6,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 15000.071,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 72,
+    "name": "Arcane sugar",
+    "desc": "[Research]<br>Cookie production multiplier <b>+5%</b>.<q>Tastes like insects, ligaments, and molasses.</q>",
+    "basePrice": 1280000000000,
+    "icon": [
+      7,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 15000.072,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 73,
+    "name": "Elder Pact",
+    "desc": "[Research]<br>Each grandma gains <b>+1 base CpS for every 20 portals</b>.<div class=\"warning\">Note : this is a bad idea.</div><q>squirm crawl slither writhe<br>today we rise</q>",
+    "basePrice": 2560000000000,
+    "icon": [
+      8,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 15000.073,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 74,
+    "name": "Elder Pledge",
+    "desc": "[Repeatable]<br>Contains the wrath of the elders, at least for a while.<q>This is a simple ritual involving anti-aging cream, cookie batter mixed in the moonlight, and a live chicken.</q>",
+    "basePrice": 64,
+    "icon": [
+      9,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 3,
+    "order": 15000.074,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 75,
+    "name": "Plastic mouse",
+    "desc": "Clicking gains <b>+1% of your CpS</b>.<q>Slightly squeaky.</q>",
+    "basePrice": 50000,
+    "icon": [
+      11,
+      0
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 150.075,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 76,
+    "name": "Iron mouse",
+    "desc": "Clicking gains <b>+1% of your CpS</b>.<q>Click like it's 1349!</q>",
+    "basePrice": 5000000,
+    "icon": [
+      11,
+      0
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 150.076,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 77,
+    "name": "Titanium mouse",
+    "desc": "Clicking gains <b>+1% of your CpS</b>.<q>Heavy, but powerful.</q>",
+    "basePrice": 500000000,
+    "icon": [
+      11,
+      1
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 150.077,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 78,
+    "name": "Adamantium mouse",
+    "desc": "Clicking gains <b>+1% of your CpS</b>.<q>You could cut diamond with these.</q>",
+    "basePrice": 50000000000,
+    "icon": [
+      11,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 150.078,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 79,
+    "name": "Ultrascience",
+    "desc": "Research takes only <b>5 seconds</b>.<q>YEAH, SCIENCE!</q>",
+    "basePrice": 7,
+    "icon": [
+      9,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 3,
+    "order": 40000.079,
+    "type": "",
+    "power": 0,
+    "debug": 1
+  },
+  {
+    "id": 80,
+    "name": "Eclipse cookies",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>Look to the cookie.</q>",
+    "basePrice": 9999999999999,
+    "icon": [
+      0,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.08,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 81,
+    "name": "Zebra cookies",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>...</q>",
+    "basePrice": 9999999999999,
+    "icon": [
+      1,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.081,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 82,
+    "name": "Quintillion fingers",
+    "desc": "The mouse and cursors gain <b>+100</b> cookies for each non-cursor object owned.<q>man, just go click click click click click, it's real easy, man.</q>",
+    "basePrice": 50000000000000,
+    "icon": [
+      3,
+      6
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 100.082,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 83,
+    "name": "Gold hoard",
+    "desc": "Golden cookies appear <b>really often</b>.<q>That's entirely too many.</q>",
+    "basePrice": 7,
+    "icon": [
+      10,
+      1
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 3,
+    "order": 40000.083,
+    "type": "",
+    "power": 0,
+    "debug": 1
+  },
+  {
+    "id": 84,
+    "name": "Elder Covenant",
+    "desc": "[Switch]<br>Puts a permanent end to the elders' wrath, at the price of 5% of your CpS.<q>This is a complicated ritual involving silly, inconsequential trivialities such as cursed laxatives, century-old cacao, and an infant.<br>Don't question it.</q>",
+    "basePrice": 66666666666666,
+    "icon": [
+      8,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 3,
+    "order": 15000.084,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 85,
+    "name": "Revoke Elder Covenant",
+    "desc": "[Switch]<br>You will get 5% of your CpS back, but the grandmatriarchs will return.<q>we<br>rise<br>again</q>",
+    "basePrice": 6666666666,
+    "icon": [
+      8,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 3,
+    "order": 15000.085,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 86,
+    "name": "Get lucky",
+    "desc": "Golden cookie effects last <b>twice as long</b>.<q>You've been up all night, haven't you?</q>",
+    "basePrice": 77777777777777,
+    "icon": [
+      10,
+      1
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 5000.086,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 87,
+    "name": "Sacrificial rolling pins",
+    "desc": "Elder pledge last <b>twice</b> as long.<q>These are mostly for spreading the anti-aging cream.<br>(and accessorily, shortening the chicken's suffering.)</q>",
+    "basePrice": 2888888888888,
+    "icon": [
+      2,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 15000.087,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 88,
+    "name": "Snickerdoodles",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>True to their name.</q>",
+    "basePrice": 99999999999999,
+    "icon": [
+      2,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.088,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 89,
+    "name": "Stroopwafels",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>If it ain't dutch, it ain't much.</q>",
+    "basePrice": 99999999999999,
+    "icon": [
+      3,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.089,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 90,
+    "name": "Macaroons",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>Not to be confused with macarons.<br>These have coconut, okay?</q>",
+    "basePrice": 99999999999999,
+    "icon": [
+      4,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.09,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 91,
+    "name": "Neuromancy",
+    "desc": "Can toggle upgrades on and off at will in the stats menu.<q>Can also come in handy to unsee things that can't be unseen.</q>",
+    "basePrice": 7,
+    "icon": [
+      4,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 3,
+    "order": 40000.091,
+    "type": "",
+    "power": 0,
+    "debug": 1
+  },
+  {
+    "id": 92,
+    "name": "Empire biscuits",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>For your growing cookie empire, of course!</q>",
+    "basePrice": 99999999999999,
+    "icon": [
+      5,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.092,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 93,
+    "name": "British tea biscuits",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>Quite.</q>",
+    "basePrice": 99999999999999,
+    "icon": [
+      6,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.093,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 94,
+    "name": "Chocolate british tea biscuits",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>Yes, quite.</q>",
+    "basePrice": 99999999999999,
+    "icon": [
+      7,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.094,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 95,
+    "name": "Round british tea biscuits",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>Yes, quite riveting.</q>",
+    "basePrice": 99999999999999,
+    "icon": [
+      8,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.095,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 96,
+    "name": "Round chocolate british tea biscuits",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>Yes, quite riveting indeed.</q>",
+    "basePrice": 99999999999999,
+    "icon": [
+      9,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.096,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 97,
+    "name": "Round british tea biscuits with heart motif",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>Yes, quite riveting indeed, old chap.</q>",
+    "basePrice": 99999999999999,
+    "icon": [
+      10,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.097,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 98,
+    "name": "Round chocolate british tea biscuits with heart motif",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>I like cookies.</q>",
+    "basePrice": 99999999999999,
+    "icon": [
+      11,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.098,
+    "type": "cookie",
+    "power": 15
+  },
+  {
+    "id": 99,
+    "name": "Sugar bosons",
+    "desc": "Antimatter condensers gain <b>+99,999</b> base CpS.<q>Sweet firm bosons.</q>",
+    "basePrice": 39999999990,
+    "icon": [
+      13,
+      0
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 1000.099,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 100,
+    "name": "String theory",
+    "desc": "Antimatter condensers are <b>twice</b> as efficient.<q>Reveals new insight about the true meaning of baking cookies (and, as a bonus, the structure of the universe).</q>",
+    "basePrice": 399999999900,
+    "icon": [
+      13,
+      0
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 1000.1,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 101,
+    "name": "Large macaron collider",
+    "desc": "Antimatter condensers are <b>twice</b> as efficient.<q>How singular!</q>",
+    "basePrice": 3999999999000,
+    "icon": [
+      13,
+      1
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 1000.101,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 102,
+    "name": "Big bang bake",
+    "desc": "Antimatter condensers are <b>twice</b> as efficient.<q>And that's how it all began.</q>",
+    "basePrice": 199999999950000,
+    "icon": [
+      13,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 1000.102,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 103,
+    "name": "Antigrandmas",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>A mean antigrandma to vomit more cookies.<br>(Do not put in contact with normal grandmas; loss of matter may occur.)</q>",
+    "basePrice": 399999999900,
+    "icon": [
+      10,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 250.103,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 104,
+    "name": "Madeleines",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>Unforgettable!</q>",
+    "basePrice": 199999999999999,
+    "icon": [
+      12,
+      3
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.104,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 105,
+    "name": "Palmiers",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>Palmier than you!<br>Yes, I just said that.</q>",
+    "basePrice": 199999999999999,
+    "icon": [
+      13,
+      3
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.105,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 106,
+    "name": "Palets",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>You could probably play hockey with these.<br>I mean, you're welcome to try.</q>",
+    "basePrice": 199999999999999,
+    "icon": [
+      12,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.106,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 107,
+    "name": "Sabl&eacute;s",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>The name implies they're made of sand. But you know better, don't you?</q>",
+    "basePrice": 199999999999999,
+    "icon": [
+      13,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.107,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 108,
+    "name": "Kitten overseers",
+    "desc": "You gain <b>more CpS</b> the more milk you have.<q>my purrpose is to serve you, sir</q>",
+    "basePrice": 900000000000000,
+    "icon": [
+      8,
+      7
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 20000.108,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 109,
+    "name": "Sextillion fingers",
+    "desc": "The mouse and cursors gain <b>+200</b> cookies for each non-cursor object owned.<q>sometimes<br>things just<br>click</q>",
+    "basePrice": 500000000000000,
+    "icon": [
+      12,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 100.109,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 110,
+    "name": "Double-thick glasses",
+    "desc": "Grandmas are <b>twice</b> as efficient.<q>Oh... so THAT's what I've been baking.</q>",
+    "basePrice": 100000000,
+    "icon": [
+      1,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 200.11,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 111,
+    "name": "Gingerbread scarecrows",
+    "desc": "Farms are <b>twice</b> as efficient.<q>Staring at your crops with mischievous glee.</q>",
+    "basePrice": 500000000,
+    "icon": [
+      2,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 300.111,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 112,
+    "name": "Recombobulators",
+    "desc": "Factories are <b>twice</b> as efficient.<q>A major part of cookie recombobulation.</q>",
+    "basePrice": 3000000000,
+    "icon": [
+      4,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 400.112,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 113,
+    "name": "H-bomb mining",
+    "desc": "Mines are <b>twice</b> as efficient.<q>Questionable efficiency, but spectacular nonetheless.</q>",
+    "basePrice": 10000000000,
+    "icon": [
+      3,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 500.113,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 114,
+    "name": "Chocolate monoliths",
+    "desc": "Shipments are <b>twice</b> as efficient.<q>My god. It's full of chocolate bars.</q>",
+    "basePrice": 40000000000,
+    "icon": [
+      5,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 600.114,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 115,
+    "name": "Aqua crustulae",
+    "desc": "Alchemy labs are <b>twice</b> as efficient.<q>Careful with the dosing - one drop too much and you get muffins.<br>And nobody likes muffins.</q>",
+    "basePrice": 200000000000,
+    "icon": [
+      6,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 700.115,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 116,
+    "name": "Brane transplant",
+    "desc": "Portals are <b>twice</b> as efficient.<q>This refers to the practice of merging higher dimensional universes, or \"branes\", with our own, in order to facilitate transit (and harvesting of precious cookie dough).</q>",
+    "basePrice": 1666666000000,
+    "icon": [
+      7,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 800.116,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 117,
+    "name": "Yestermorrow comparators",
+    "desc": "Time machines are <b>twice</b> as efficient.<q>Fortnights into milleniums.</q>",
+    "basePrice": 123456789000000,
+    "icon": [
+      8,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 900.117,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 118,
+    "name": "Reverse cyclotrons",
+    "desc": "Antimatter condensers are <b>twice</b> as efficient.<q>These can uncollision particles and unspin atoms. For... uh... better flavor, and stuff.</q>",
+    "basePrice": 3999999999000000,
+    "icon": [
+      13,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 1000.118,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 119,
+    "name": "Unobtainium mouse",
+    "desc": "Clicking gains <b>+1% of your CpS</b>.<q>These nice mice should suffice.</q>",
+    "basePrice": 5000000000000,
+    "icon": [
+      11,
+      13
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 150.119,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 120,
+    "name": "Caramoas",
+    "desc": "Cookie production multiplier <b>+25%</b>.<q>Yeah. That's got a nice ring to it.</q>",
+    "basePrice": 999999999999999,
+    "icon": [
+      14,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.12,
+    "type": "cookie",
+    "power": 25
+  },
+  {
+    "id": 121,
+    "name": "Sagalongs",
+    "desc": "Cookie production multiplier <b>+25%</b>.<q>Grandma's favorite?</q>",
+    "basePrice": 999999999999999,
+    "icon": [
+      15,
+      3
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.121,
+    "type": "cookie",
+    "power": 25
+  },
+  {
+    "id": 122,
+    "name": "Shortfoils",
+    "desc": "Cookie production multiplier <b>+25%</b>.<q>Foiled again!</q>",
+    "basePrice": 999999999999999,
+    "icon": [
+      15,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.122,
+    "type": "cookie",
+    "power": 25
+  },
+  {
+    "id": 123,
+    "name": "Win mints",
+    "desc": "Cookie production multiplier <b>+25%</b>.<q>They're the luckiest cookies you've ever tasted!</q>",
+    "basePrice": 999999999999999,
+    "icon": [
+      14,
+      3
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.123,
+    "type": "cookie",
+    "power": 25
+  },
+  {
+    "id": 124,
+    "name": "Perfect idling",
+    "desc": "You keep producing cookies even while the game is closed.<q>It's the most beautiful thing I've ever seen.</q>",
+    "basePrice": 7,
+    "icon": [
+      10,
+      0
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 3,
+    "order": 40000.124,
+    "type": "",
+    "power": 0,
+    "debug": 1
+  },
+  {
+    "id": 125,
+    "name": "Fig gluttons",
+    "desc": "Cookie production multiplier <b>+25%</b>.<q>Got it all figured out.</q>",
+    "basePrice": 999999999999999,
+    "icon": [
+      17,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.125,
+    "type": "cookie",
+    "power": 25
+  },
+  {
+    "id": 126,
+    "name": "Loreols",
+    "desc": "Cookie production multiplier <b>+25%</b>.<q>Because, uh... they're worth it?</q>",
+    "basePrice": 999999999999999,
+    "icon": [
+      16,
+      3
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.126,
+    "type": "cookie",
+    "power": 25
+  },
+  {
+    "id": 127,
+    "name": "Jaffa cakes",
+    "desc": "Cookie production multiplier <b>+25%</b>.<q>If you want to bake a cookie from scratch, you must first build a factory.</q>",
+    "basePrice": 999999999999999,
+    "icon": [
+      17,
+      3
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.127,
+    "type": "cookie",
+    "power": 25
+  },
+  {
+    "id": 128,
+    "name": "Grease's cups",
+    "desc": "Cookie production multiplier <b>+25%</b>.<q>Extra-greasy peanut butter.</q>",
+    "basePrice": 999999999999999,
+    "icon": [
+      16,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.128,
+    "type": "cookie",
+    "power": 25
+  },
+  {
+    "id": 129,
+    "name": "Heavenly chip secret",
+    "desc": "Unlocks <b>5%</b> of the potential of your heavenly chips.<q>Grants the knowledge of heavenly chips, and how to use them to make baking more efficient.<br>It's a secret to everyone.</q>",
+    "basePrice": 11,
+    "icon": [
+      19,
+      7
+    ],
+    "unlocked": 1,
+    "bought": 1,
+    "hide": 0,
+    "order": 30000.129,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 130,
+    "name": "Heavenly cookie stand",
+    "desc": "Unlocks <b>25%</b> of the potential of your heavenly chips.<q>Don't forget to visit the heavenly lemonade stand afterwards.</q>",
+    "basePrice": 1111,
+    "icon": [
+      18,
+      7
+    ],
+    "unlocked": 1,
+    "bought": 1,
+    "hide": 0,
+    "order": 30000.13,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 131,
+    "name": "Heavenly bakery",
+    "desc": "Unlocks <b>50%</b> of the potential of your heavenly chips.<q>Also sells godly cakes and divine pastries.</q>",
+    "basePrice": 111111,
+    "icon": [
+      17,
+      7
+    ],
+    "unlocked": 1,
+    "bought": 1,
+    "hide": 0,
+    "order": 30000.131,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 132,
+    "name": "Heavenly confectionery",
+    "desc": "Unlocks <b>75%</b> of the potential of your heavenly chips.<q>They say angel bakers work there. They take angel lunch breaks and sometimes go on angel strikes.</q>",
+    "basePrice": 11111111,
+    "icon": [
+      16,
+      7
+    ],
+    "unlocked": 1,
+    "bought": 1,
+    "hide": 0,
+    "order": 30000.132,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 133,
+    "name": "Heavenly key",
+    "desc": "Unlocks <b>100%</b> of the potential of your heavenly chips.<q>This is the key to the pearly (and tasty) gates of pastry heaven, granting you access to your entire stockpile of heavenly chips.<br>May you use them wisely.</q>",
+    "basePrice": 1111111111,
+    "icon": [
+      15,
+      7
+    ],
+    "unlocked": 1,
+    "bought": 0,
+    "hide": 0,
+    "order": 30000.133,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 134,
+    "name": "Skull cookies",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>Wanna know something spooky? You've got one of these inside your head RIGHT NOW.</q>",
+    "basePrice": 444444444444,
+    "icon": [
+      12,
+      8
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10100.134,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 135,
+    "name": "Ghost cookies",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>They're something strange, but they look pretty good!</q>",
+    "basePrice": 444444444444,
+    "icon": [
+      13,
+      8
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10100.135,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 136,
+    "name": "Bat cookies",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>The cookies this town deserves.</q>",
+    "basePrice": 444444444444,
+    "icon": [
+      14,
+      8
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10100.136,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 137,
+    "name": "Slime cookies",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>The incredible melting cookies!</q>",
+    "basePrice": 444444444444,
+    "icon": [
+      15,
+      8
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10100.137,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 138,
+    "name": "Pumpkin cookies",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>Not even pumpkin-flavored. Tastes like glazing. Yeugh.</q>",
+    "basePrice": 444444444444,
+    "icon": [
+      16,
+      8
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10100.138,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 139,
+    "name": "Eyeball cookies",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>When you stare into the cookie, the cookie stares back at you.</q>",
+    "basePrice": 444444444444,
+    "icon": [
+      17,
+      8
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10100.139,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 140,
+    "name": "Spider cookies",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>You found the recipe on the web. They do whatever a cookie can.</q>",
+    "basePrice": 444444444444,
+    "icon": [
+      18,
+      8
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10100.14,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 141,
+    "name": "Persistent memory",
+    "desc": "Subsequent research will be <b>10 times</b> as fast.<q>It's all making sense!<br>Again!</q>",
+    "basePrice": 100000000000,
+    "icon": [
+      9,
+      2
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 14000.141,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 142,
+    "name": "Wrinkler doormat",
+    "desc": "Wrinklers spawn much more frequently.<q>You're such a pushover.</q>",
+    "basePrice": 7,
+    "icon": [
+      19,
+      8
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 3,
+    "order": 40000.142,
+    "type": "",
+    "power": 0,
+    "debug": 1
+  },
+  {
+    "id": 143,
+    "name": "Christmas tree biscuits",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>Whose pine is it anyway?</q>",
+    "basePrice": 252525252525,
+    "icon": [
+      12,
+      10
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10200.143,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 144,
+    "name": "Snowflake biscuits",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>Mass-produced to be unique in every way.</q>",
+    "basePrice": 252525252525,
+    "icon": [
+      13,
+      10
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10200.144,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 145,
+    "name": "Snowman biscuits",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>It's frosted. Doubly so.</q>",
+    "basePrice": 252525252525,
+    "icon": [
+      14,
+      10
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10200.145,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 146,
+    "name": "Mistletoe biscuits",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>An acceptable smooching catalyst. Botanically, this is a smellier variant of the mistlefinger.</q>",
+    "basePrice": 252525252525,
+    "icon": [
+      15,
+      10
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10200.146,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 147,
+    "name": "Candy cane biscuits",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>It's two treats in one!<br>(Further inspection reveals the frosting does not actually taste like peppermint, but like mundane sugary frosting.)</q>",
+    "basePrice": 252525252525,
+    "icon": [
+      16,
+      10
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10200.147,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 148,
+    "name": "Bell biscuits",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>What do these even have to do with christmas? Who cares, ring them in!</q>",
+    "basePrice": 252525252525,
+    "icon": [
+      17,
+      10
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10200.148,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 149,
+    "name": "Present biscuits",
+    "desc": "Cookie production multiplier <b>+20%</b>.<q>The prequel to future biscuits. Watch out!</q>",
+    "basePrice": 252525252525,
+    "icon": [
+      18,
+      10
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10200.149,
+    "type": "cookie",
+    "power": 20
+  },
+  {
+    "id": 150,
+    "name": "Gingerbread men",
+    "desc": "Cookie production multiplier <b>+25%</b>.<q>You like to bite the legs off first, right? How about tearing off the arms? You sick monster.</q>",
+    "basePrice": 10000000000000000,
+    "icon": [
+      18,
+      4
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.15,
+    "type": "cookie",
+    "power": 25
+  },
+  {
+    "id": 151,
+    "name": "Gingerbread trees",
+    "desc": "Cookie production multiplier <b>+25%</b>.<q>Evergreens in pastry form. Yule be surprised what you can come up with.</q>",
+    "basePrice": 10000000000000000,
+    "icon": [
+      18,
+      3
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 10000.151,
+    "type": "cookie",
+    "power": 25
+  },
+  {
+    "id": 152,
+    "name": "A festive hat",
+    "desc": "<b>Unlocks... something.</b><q>Not a creature was stirring, not even a mouse.</q>",
+    "basePrice": 25,
+    "icon": [
+      19,
+      9
+    ],
+    "unlocked": 1,
+    "bought": 1,
+    "hide": 0,
+    "order": 25000.152,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 153,
+    "name": "Increased merriness",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>It turns out that the key to increased merriness, strangely enough, happens to be a good campfire and some s'mores.<br>You know what they say, after all; the s'more, the merrier.</q>",
+    "basePrice": 2525,
+    "icon": [
+      17,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.153,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 154,
+    "name": "Improved jolliness",
+    "desc": "Cookie production multiplier <b>+15%</b>.<q>A nice wobbly belly goes a long way.<br>You jolly?</q>",
+    "basePrice": 2525,
+    "icon": [
+      17,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.154,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 155,
+    "name": "A lump of coal",
+    "desc": "Cookie production multiplier <b>+1%</b>.<q>Some of the world's worst stocking stuffing.<br>I guess you could try starting your own little industrial revolution, or something?...</q>",
+    "basePrice": 2525,
+    "icon": [
+      13,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.155,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 156,
+    "name": "An itchy sweater",
+    "desc": "Cookie production multiplier <b>+1%</b>.<q>You don't know what's worse : the embarrassingly quaint \"elf on reindeer\" motif, or the fact that wearing it makes you feel like you're wrapped in a dead sasquatch.</q>",
+    "basePrice": 2525,
+    "icon": [
+      14,
+      9
+    ],
+    "unlocked": 1,
+    "bought": 1,
+    "hide": 0,
+    "order": 25000.156,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 157,
+    "name": "Reindeer baking grounds",
+    "desc": "Reindeer appear <b>twice as frequently</b>.<q>Male reindeer are from Mars; female reindeer are from venison.</q>",
+    "basePrice": 2525,
+    "icon": [
+      12,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.157,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 158,
+    "name": "Weighted sleighs",
+    "desc": "Reindeer are <b>twice as slow</b>.<q>Hope it was worth the weight.<br>(Something something forced into cervidude)</q>",
+    "basePrice": 2525,
+    "icon": [
+      12,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.158,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 159,
+    "name": "Ho ho ho-flavored frosting",
+    "desc": "Reindeer give <b>twice as much</b>.<q>It's time to up the antler.</q>",
+    "basePrice": 2525,
+    "icon": [
+      12,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.159,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 160,
+    "name": "Season savings",
+    "desc": "All buildings are <b>1% cheaper</b>.<q>By Santa's beard, what savings!<br>But who will save us?</q>",
+    "basePrice": 2525,
+    "icon": [
+      16,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.16,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 161,
+    "name": "Toy workshop",
+    "desc": "All upgrades are <b>5% cheaper</b>.<q>Watch yours-elf around elvesdroppers who might steal our production secrets.<br>Or elven worse!</q>",
+    "basePrice": 2525,
+    "icon": [
+      16,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.161,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 162,
+    "name": "Naughty list",
+    "desc": "Grandmas are <b>twice</b> as productive.<q>This list contains every unholy deed perpetuated by grandmakind.<br>He won't be checking this one twice.<br>Once. Once is enough.</q>",
+    "basePrice": 2525,
+    "icon": [
+      15,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.162,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 163,
+    "name": "Santa's bottomless bag",
+    "desc": "Random drops are <b>10% more common</b>.<q>This is one bottom you can't check out.</q>",
+    "basePrice": 2525,
+    "icon": [
+      19,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.163,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 164,
+    "name": "Santa's helpers",
+    "desc": "Clicking is <b>10% more powerful</b>.<q>Some choose to help hamburger; some choose to help you.<br>To each their own, I guess.</q>",
+    "basePrice": 2525,
+    "icon": [
+      19,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.164,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 165,
+    "name": "Santa's legacy",
+    "desc": "Cookie production multiplier <b>+10% per Santa's levels</b>.<q>In the north pole, you gotta get the gnomes first. Then when you get the gnomes, you start making the toys. Then when you get the toys... then you get the cookies.</q>",
+    "basePrice": 2525,
+    "icon": [
+      19,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.165,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 166,
+    "name": "Santa's milk and cookies",
+    "desc": "Milk is <b>5% more powerful</b>.<q>Part of Santa's dreadfully unbalanced diet.</q>",
+    "basePrice": 2525,
+    "icon": [
+      19,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.166,
+    "type": "",
+    "power": 0
+  },
+  {
+    "id": 167,
+    "name": "Reindeer season",
+    "desc": "Reindeer spawn much more frequently.<q>Go, Cheater! Go, Hacker and Faker!</q>",
+    "basePrice": 7,
+    "icon": [
+      12,
+      9
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 3,
+    "order": 40000.167,
+    "type": "",
+    "power": 0,
+    "debug": 1
+  },
+  {
+    "id": 168,
+    "name": "Santa's dominion",
+    "desc": "Cookie production multiplier <b>+50%</b>.<br>All buildings are <b>1% cheaper</b>.<br>All upgrades are <b>2% cheaper</b>.<q>My name is Claus, king of kings;<br>Look on my toys, ye Mighty, and despair!</q>",
+    "basePrice": 2525252525252525,
+    "icon": [
+      19,
+      10
+    ],
+    "unlocked": 0,
+    "bought": 0,
+    "hide": 0,
+    "order": 25000.168,
+    "type": "",
+    "power": 0
+  }
+]
