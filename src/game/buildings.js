@@ -80,96 +80,14 @@ CookieMonster.updateBuildingsInformations = function() {
  * @return {Integer}
  */
 CookieMonster.getBuildingWorth = function(building) {
-	var income     = 0;
+	var multiplier = Game.globalCpsMult;
+	var income     = building.storedCps * multiplier;
 	var unlocked   = 0;
-	var production = building.storedCps * Game.globalCpsMult;
 
-	var upgrades = {
-		'Cursor': {
-			0   : 'Click',
-			1   : 'Double-click',
-			49  : 'Mouse wheel',
-			99  : 'Of Mice and Men',
-			199 : 'The Digital',
-		},
-		'Grandma': {
-			0   : 'Grandma\'s Cookies',
-			49  : 'Sloppy kisses',
-			99  : 'Retirement home',
-			149 : 'Friend of the ancients',
-			199 : 'Ruler of the ancients',
-		},
-		'Farm': {
-			0  : 'My first farm',
-			49 : 'Reap what you sow',
-			99 : 'Farm ill',
-		},
-		'Factory': {
-			0  : 'Production chain',
-			49 : 'Industrial revolution',
-			99 : 'Global warming',
-		},
-		'Mine': {
-			0  : 'You know the drill',
-			49 : 'Excavation site',
-			99 : 'Hollow the planet',
-		},
-		'Shipment': {
-			0  : 'Expedition',
-			49 : 'Galactic highway',
-			99 : 'Far far away',
-		},
-		'Alchemy lab': {
-			0  : 'Transmutation',
-			49 : 'Transmogrification',
-			99 : 'Gold member',
-		},
-		'Portal': {
-			0  : 'A whole new world',
-			49 : 'Now you\'re thinking',
-			99 : 'Dimensional shift',
-		},
-		'Time machine': {
-			0  : 'Time warp',
-			49 : 'Alternate timeline',
-			99 : 'Rewriting history',
-		},
-		'Antimatter condenser': {
-			0  : 'Antibatter',
-			49 : 'Quirky quarks',
-			99 : 'It does matter!',
-		}
-	};
+	// Get unlocked achievements by amount of buildings (50, 100, ...)
+	unlocked += this.buildingAmount(building);
 
-	// Get unlocked achievements by amount of that building
-	var achievement = upgrades[building.name][building.amount];
-	if (achievement) {
-		unlocked += this.hasntAchievement(achievement);
-	}
-
-	// Add cursor modifiers
-	switch (building.name) {
-		case 'Grandma':
-		case 'Farm':
-		case 'Factory':
-		case 'Mine':
-		case 'Shipment':
-		case 'Alchemy lab':
-		case 'Portal':
-		case 'Time machine':
-		case 'Antimatter condenser':
-		case 'Grandma':
-			income += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case 'Grandma':
-			income += this.getTotalGrandmaModifiers(building.amount) * Game.globalCpsMult;
-			break;
-		case 'Portal':
-			income += this.getTotalPortalModifiers() * Game.globalCpsMult;
-			break;
-	}
-
-	// Get unlocked achievements by number of buildings
+	// Get unlocked achievements by global number of buildings
 	if (Game.BuildingsOwned === 99) {
 		unlocked += this.hasntAchievement('Builder');
 	}
@@ -194,8 +112,27 @@ CookieMonster.getBuildingWorth = function(building) {
 		unlocked++;
 	}
 
-	// Compute final income
-	income += production;
+	// Add cursor modifiers
+	switch (building.name) {
+		case 'Grandma':
+		case 'Farm':
+		case 'Factory':
+		case 'Mine':
+		case 'Shipment':
+		case 'Alchemy lab':
+		case 'Portal':
+		case 'Time machine':
+		case 'Antimatter condenser':
+		case 'Grandma':
+			income += this.getTotalCursorModifiers() * multiplier;
+			break;
+		case 'Grandma':
+			income += this.getTotalGrandmaModifiers(building.amount) * multiplier;
+			break;
+		case 'Portal':
+			income += this.getTotalPortalModifiers() * multiplier;
+			break;
+	}
 
 	return income + this.callCached('getAchievementWorth', [unlocked, 0, income]);
 };
