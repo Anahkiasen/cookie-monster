@@ -155,8 +155,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 	}
 
 	// Gather comparative informations
-	var income       = this.callCached('getUpgradeWorth', [upgrade]);
-	var informations = [this.roundDecimal(upgrade.getPrice() / income), this.secondsLeft(upgrade)];
+	var informations = [upgrade.getBaseCostPerIncome(), upgrade.getTimeLeft()];
 	var colors       = this.computeColorCoding(informations);
 
 	// Update store counters
@@ -169,7 +168,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 	}
 
 	return this.updateTooltip(upgrade, colors, [
-		this.roundDecimal(income),
+		upgrade.getWorth(true),
 		informations[0],
 		informations[1]
 	]);

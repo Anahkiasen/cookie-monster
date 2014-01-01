@@ -46,26 +46,16 @@ CookieMonster.setBuildingInformations = function (building, informations) {
  * @return {void}
  */
 CookieMonster.updateBuildingsInformations = function() {
-	var that = this;
-
-	// Here we loop over the information we have, and building a multidimensionnal
-	// array of it, by building key
 	Game.ObjectsById.forEach(function (building, key) {
-
-		// Compute informations
-		var bonus    = that.roundDecimal(that.getBuildingWorth(building));
-		var bci      = that.roundDecimal(building.price / bonus);
-		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
-		var profit   = building.price * (bonus + Game.cookiesPs) / bonus;
-		var timeLeft = that.secondsLeft(building);
+		var count = '(<span class="text-blue">' +building.amount+ '</span>)';
 
 		// Save building informations
-		that.setBuildingInformations(key, {
+		CookieMonster.setBuildingInformations(key, {
 			items    : building.name.split(' ')[0] + ' ' + count,
-			bonus    : bonus,
-			bci      : bci,
-			roi      : profit,
-			timeLeft : timeLeft,
+			bonus    : building.getWorth(true),
+			bci      : building.getBaseCostPerIncome(true),
+			roi      : building.getReturnInvestment(),
+			timeLeft : building.getTimeLeft(),
 		});
 	});
 };
