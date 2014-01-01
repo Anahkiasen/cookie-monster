@@ -26,6 +26,8 @@ Both these indexes are computed for buildings and upgrades. If the relevant opti
 - Red        : This item has the worst BCI
 - Purple     : (upgrades) This item has not been calculated and/or cannot be calculated due to no definitive worth.
 
+Note : for both these indexes, **lower is better**, meaning a building with a BCI of 1 is more interesting that one with a BCI of 3.
+
 ### What it doesn't do
 
 Most likely you'll find items in purple like Golden Cookie upgrades, clicking upgrades – everything that doesn't earn you a direct bonus to your income will display as purple.
