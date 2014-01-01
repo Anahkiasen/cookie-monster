@@ -140,5 +140,6 @@ git push origin master
 
 ## Contributors
 
-- **Original author : [Raving_Kumquat](http://cookieclicker.wikia.com/wiki/User:Raving_Kumquat)**
-- **Maintainer : [Maxime Fabre](https://github.com/Anahkiasen)**
+- **[Raving_Kumquat](http://cookieclicker.wikia.com/wiki/User:Raving_Kumquat)** : Original author
+- **[Maxime Fabre](https://github.com/Anahkiasen)** : Current maintainer
+- **Alderi Tokori** : ROI calculations
