@@ -68,7 +68,7 @@ var CookieMonster = {
 		'Colorblind'       : {type: 'boolean', value: 0,   label: 'Colorblind',        desc: 'Use colorblind safe colors'},
 		'ColoredPrices'    : {type: 'boolean', value: 1,   label: 'Colored Prices',    desc: 'Changes the colors of all Building prices to correspond with their Cost Per Income'},
 		'UpgradeIcons'     : {type: 'boolean', value: 1,   label: 'Upgrade Icons',     desc: 'Displays a small colored icon on the upgrades to better display the Cost Per Income'},
-		'ReturnInvestment' : {type: 'boolean', value: 1,   label: 'ROI/BCI',           desc: 'Uses ROI to compute the best building to buy (buildings only)'},
+		'ReturnInvestment' : {type: 'boolean', value: 0,   label: 'ROI/BCI',           desc: 'Uses ROI to compute the best building to buy (buildings only)'},
 
 		// Emphasizers
 		'BuffBars'         : {type: 'boolean', value: 1,   label: 'Buff Bars',         desc: 'Displays a countdown bar for each effect currently active'},
