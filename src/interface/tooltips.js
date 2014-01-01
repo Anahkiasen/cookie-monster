@@ -56,7 +56,7 @@ CookieMonster.makeTooltip = function(object, type) {
  * @return {void}
  */
 CookieMonster.updateTooltip = function(object, colors, informations) {
-	var type       = object instanceof Game.Upgrade ? 'up' : 'ob';
+	var type       = object.getType();
 	var deficits   = this.getLuckyAlerts(object);
 	var identifier = '#'+this.identifier(type, object.id);
 	var $object    = $(identifier);
@@ -225,9 +225,10 @@ CookieMonster.manageBuildingTooltip = function(building) {
  * @return {Array}
  */
 CookieMonster.getLuckyAlerts = function(object) {
-	var price    = object.getPrice();
-	var rewards  = [this.getLuckyTreshold(), this.getLuckyTreshold('frenzy')];
-	var deficits = [0, 0];
+	var price     = object.getPrice();
+	var newIncome = Game.cookiesPs + object.getWorth();
+	var rewards   = [this.getLuckyTreshold(false, newIncome), this.getLuckyTreshold('frenzy', newIncome)];
+	var deficits  = [0, 0];
 
 	// Check Lucky alert
 	if (Game.cookies - price < rewards[0]) {
