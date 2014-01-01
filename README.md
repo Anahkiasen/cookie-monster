@@ -1,6 +1,6 @@
 # Cookie Monster [![Build Status](https://travis-ci.org/Anahkiasen/cookie-monster.png?branch=master)](https://travis-ci.org/Anahkiasen/cookie-monster)
 
-Cookie Monster is a plugin that can be loaded into Cookie Clicker, that offers a wide range of tools and statistics to enhance the game.
+Cookie Monster is a plugin you can load into Cookie Clicker, that offers a wide range of tools and statistics to enhance the game.
 It is **not** a cheat interface – although it does offer helpers for golden cookies and such, everything can be toggled off at will to only leave how much information you want.
 
 This is an helper, and it is here to help you at _whichever_ degree you want, if you only need some help shortening long numbers, it does that. If you need to be accompanied
@@ -111,10 +111,10 @@ To contribute to the project, you'll find the files you want to edit in `src/`, 
 
 ### Setup the repository
 
-If you do are familiar with git, simply clone the repository and install the dependencies :
+If you do are familiar with git, simply click the **"Fork"** button at the top of the page. You'll be redirected to your fork of the repository, copy its address in the right side bar. Then clone the repository and install the dependencies :
 
 ```bash
-git clone https://github.com/Anahkiasen/cookie-monster.git
+git clone https://github.com/YOURNAME/cookie-monster.git
 cd cookie-monster
 npm install
 ```
@@ -133,12 +133,14 @@ Then rebuild the assets by running Grunt :
 ./node_modules/.bin/grunt
 ```
 
-Then commit your changes and push :
+Next you can commit your changes and push :
 
 ```bash
 git commit -am "Edited some stuff"
 git push origin master
 ```
+
+Once that is done, go back on Github where your fork is, and create a pull request from there.
 
 ## Contributors
 
