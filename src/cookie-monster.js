@@ -31,13 +31,13 @@ var CookieMonster = {
 	bottomBar    : {
 		items    : [],
 		bonus    : [],
-		cpi      : [],
+		bci      : [],
 		timeLeft : [],
 	},
 	informations : {
 		items    : [],
 		bonus    : [],
-		cpi      : [],
+		bci      : [],
 		roi      : [],
 		timeLeft : [],
 	},

@@ -42,7 +42,7 @@ CookieMonster.makeTable = function() {
 		'<table>'+
 			'<tr>'+thead+'<th>' +this.bottomBar.items.join('</th><th>')+ '</th></tr>'+
 			'<tr>'+bonus+'<td>' +this.bottomBar.bonus.join('</td><td>')+ '</td></tr>'+
-			'<tr>'+baseCost+'<td>' +this.bottomBar.cpi.join('</td><td>')+ '</td></tr>'+
+			'<tr>'+baseCost+'<td>' +this.bottomBar.bci.join('</td><td>')+ '</td></tr>'+
 			'<tr>'+timeLeft+'<td>' +this.bottomBar.timeLeft.join('</td><td>')+ '</td></tr>'+
 		'</table>');
 };
