@@ -3,27 +3,14 @@
 //////////////////////////////////////////////////////////////////////
 
 /**
- * Get the tooltip handle for a type/key
- *
- * @param {String}  type
- * @param {Integer} key
- *
- * @return {String}
- */
-CookieMonster.identifier = function(type, key) {
-	return 'cm_'+type+'_'+key+'_';
-};
-
-/**
  * Create a tooltip for a type of object
  *
  * @param {Object} object
- * @param {String} type
  *
  * @return {Void}
  */
-CookieMonster.makeTooltip = function(object, type) {
-	var identifier = this.identifier(type, object.id);
+CookieMonster.makeTooltip = function(object) {
+	var identifier = object.identifier();
 
 	object.desc += ''+
 		'<div class="cm-tooltip__images">'+
@@ -56,14 +43,13 @@ CookieMonster.makeTooltip = function(object, type) {
  * @return {void}
  */
 CookieMonster.updateTooltip = function(object, colors, informations) {
-	var type       = object.getType();
 	var deficits   = this.getLuckyAlerts(object);
-	var identifier = '#'+this.identifier(type, object.id);
+	var identifier = '#'+object.identifier();
 	var $object    = $(identifier);
 
 	// Create tooltip if it doesn't exist
-	if (object.matches(this.identifier(type, object.id))) {
-		this.makeTooltip(object, type);
+	if (!object.matches(object.identifier())) {
+		this.makeTooltip(object);
 	}
 
 	// Cancel if we're not in this particular tooltip at the moment

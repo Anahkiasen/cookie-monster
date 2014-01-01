@@ -30,6 +30,15 @@ CookieMonster.getWorthOf = function() {
 };
 
 /**
+ * Get the identifier of an object
+ *
+ * @return {Integer}
+ */
+CookieMonster.identifier = function() {
+	return 'cookie-monster__'+this.getType()+'--'+this.id;
+};
+
+/**
  * Check if an object matches against a piece of text
  *
  * @param {String} matcher
@@ -47,12 +56,14 @@ CookieMonster.matches = function(matcher) {
 // Hook into the game
 //////////////////////////////////////////////////////////////////////
 
-Game.Object.prototype.getPrice = CookieMonster.getPriceOf;
-Game.Object.prototype.getType  = CookieMonster.getTypeOf;
-Game.Object.prototype.getWorth = CookieMonster.getWorthOf;
-Game.Object.prototype.matches  = CookieMonster.matches;
+Game.Object.prototype.getPrice    = CookieMonster.getPriceOf;
+Game.Object.prototype.getType     = CookieMonster.getTypeOf;
+Game.Object.prototype.getWorth    = CookieMonster.getWorthOf;
+Game.Object.prototype.identifier  = CookieMonster.identifier;
+Game.Object.prototype.matches     = CookieMonster.matches;
 
-Game.Upgrade.prototype.getPrice = CookieMonster.getPriceOf;
-Game.Upgrade.prototype.getType  = CookieMonster.getTypeOf;
-Game.Upgrade.prototype.getWorth = CookieMonster.getWorthOf;
-Game.Upgrade.prototype.matches  = CookieMonster.matches;
+Game.Upgrade.prototype.getPrice   = CookieMonster.getPriceOf;
+Game.Upgrade.prototype.getType    = CookieMonster.getTypeOf;
+Game.Upgrade.prototype.getWorth   = CookieMonster.getWorthOf;
+Game.Upgrade.prototype.identifier = CookieMonster.identifier;
+Game.Upgrade.prototype.matches    = CookieMonster.matches;
