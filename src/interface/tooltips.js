@@ -38,14 +38,14 @@ CookieMonster.makeTooltip = function(object) {
  *
  * @param {Object} object
  * @param {Array}  colors
- * @param {Array}  informations
  *
  * @return {void}
  */
-CookieMonster.updateTooltip = function(object, colors, informations) {
-	var deficits   = this.getLuckyAlerts(object);
-	var identifier = '#'+object.identifier();
-	var $object    = $(identifier);
+CookieMonster.updateTooltip = function(object, colors) {
+	var informations = [object.getWorth(true), object.getBaseCostPerIncome(), object.getTimeLeft()];
+	var deficits     = this.getLuckyAlerts(object);
+	var identifier   = '#'+object.identifier();
+	var $object      = $(identifier);
 
 	// Create tooltip if it doesn't exist
 	if (!object.matches(object.identifier())) {
@@ -154,11 +154,8 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 		return;
 	}
 
-	// Gather comparative informations
-	var informations = [upgrade.getBaseCostPerIncome(), upgrade.getTimeLeft()];
-	var colors       = this.computeColorCoding(informations);
-
 	// Update store counters
+	var colors   = upgrade.getColors();
 	var colorKey = ['blue', 'green', 'yellow', 'orange', 'red', 'purple'].indexOf(colors[0]);
 	this.upgradeCounts[colorKey]++;
 
@@ -167,11 +164,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div class="cookie-monster__upgrade background-' +colors[0]+ '"></div>');
 	}
 
-	return this.updateTooltip(upgrade, colors, [
-		upgrade.getWorth(true),
-		informations[0],
-		informations[1]
-	]);
+	return this.updateTooltip(upgrade, colors);
 };
 
 /**
@@ -182,8 +175,8 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
  * @return {void}
  */
 CookieMonster.manageBuildingTooltip = function(building) {
-	var informations = [this.informations.bci[building.id], this.informations.timeLeft[building.id], this.informations.roi[building.id]];
-	var colors       = this.computeColorCoding(informations);
+	var informations = building.getComparativeInfos();
+	var colors       = building.getColors();
 
 	// Colorize building price
 	if (this.getBooleanSetting('ColoredPrices')) {
@@ -191,11 +184,7 @@ CookieMonster.manageBuildingTooltip = function(building) {
 		$('.price', '#product'+building.id).attr('class', 'price text-'+color);
 	}
 
-	return this.updateTooltip(building, colors, [
-		this.informations.bonus[building.id],
-		informations[0],
-		informations[1]
-	]);
+	return this.updateTooltip(building, colors);
 };
 
 //////////////////////////////////////////////////////////////////////

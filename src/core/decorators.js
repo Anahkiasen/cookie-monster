@@ -80,6 +80,28 @@ CookieObject.getTimeLeft = function() {
 	return CookieMonster.secondsLeft(this);
 };
 
+/**
+ * Get the core statistics for comparaisons
+ *
+ * @return {Array}
+ */
+CookieObject.getComparativeInfos = function() {
+	return [
+		this.getBaseCostPerIncome(),
+		this.getTimeLeft(),
+		this.getReturnInvestment(),
+	];
+};
+
+/**
+ * Get the colors assigned to this object
+ *
+ * @return {Array}
+ */
+CookieObject.getColors = function() {
+	return CookieMonster.computeColorCoding(this.getComparativeInfos());
+};
+
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////// HELPERS /////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -112,6 +134,8 @@ CookieObject.matches = function(matcher) {
 //////////////////////////////////////////////////////////////////////
 
 Game.Object.prototype.getBaseCostPerIncome  = CookieObject.getBaseCostPerIncome;
+Game.Object.prototype.getColors             = CookieObject.getColors;
+Game.Object.prototype.getComparativeInfos   = CookieObject.getComparativeInfos;
 Game.Object.prototype.getPrice              = CookieObject.getPriceOf;
 Game.Object.prototype.getReturnInvestment   = CookieObject.getReturnInvestment;
 Game.Object.prototype.getTimeLeft           = CookieObject.getTimeLeft;
@@ -121,6 +145,8 @@ Game.Object.prototype.identifier            = CookieObject.identifier;
 Game.Object.prototype.matches               = CookieObject.matches;
 
 Game.Upgrade.prototype.getBaseCostPerIncome = CookieObject.getBaseCostPerIncome;
+Game.Upgrade.prototype.getColors            = CookieObject.getColors;
+Game.Upgrade.prototype.getComparativeInfos  = CookieObject.getComparativeInfos;
 Game.Upgrade.prototype.getPrice             = CookieObject.getPriceOf;
 Game.Upgrade.prototype.getReturnInvestment  = CookieObject.getReturnInvestment;
 Game.Upgrade.prototype.getTimeLeft          = CookieObject.getTimeLeft;
