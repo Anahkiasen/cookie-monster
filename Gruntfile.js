@@ -147,6 +147,8 @@ module.exports = function(grunt) {
 					'important'          : false,
 					'fallback-colors'    : false,
 					'star-property-hack' : false,
+					'qualified-headings' : false,
+					'unique-headings'    : false,
 				},
 				src: ['<%= paths.original.css %>/*']
 			},

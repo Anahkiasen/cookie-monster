@@ -24,29 +24,21 @@ CookieMonster.identifier = function(type, key) {
  */
 CookieMonster.makeTooltip = function(object, type) {
 	var identifier = this.identifier(type, object.id);
-	var warning    = this.getImage('warning');
-	var caution    = this.getImage('caution');
 
 	object.desc += ''+
-		'<div id="' +identifier+ 'lucky_" style="position:absolute; top:-25px; left:-12px; height:32px;">'+
-			'<div class="cm-tooltip__image" id="' +identifier+ 'lucky_div_warning" style="background:url(' +warning+ ');"></div>'+
-			'<div class="cm-tooltip__image" id="' +identifier+ 'lucky_div_caution" style="background:url(' +caution+ ');"></div>'+
+		'<div class="cm-tooltip__images">'+
+			'<div class="cm-tooltip__image" id="' +identifier+ 'lucky_div_warning" style="background:url(' +this.getImage('warning')+ ');"></div>'+
+			'<div class="cm-tooltip__image" id="' +identifier+ 'lucky_div_caution" style="background:url(' +this.getImage('caution')+ ');"></div>'+
 		'</div>'+
-		'<div class="cm-tooltip" id="' +identifier+ '"></div>'+
-		'<div id="' +identifier+ 'note_div" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
+		'<div class="cm-tooltip__contents" id="' +identifier+ '"></div>'+
+		'<div class="cm-tooltip__warnings" id="' +identifier+ 'note_div">'+
 			'<div id="' +identifier+ 'note_div_warning" class="cm-tooltip__warning border-red">'+
 				'<strong class="text-red">Warning:</strong> ' +this.texts.warning+ '<br>'+
 				'<span id="' +identifier+ 'warning_amount"></span>'+
-				'<div id="' +identifier+ 'lucky_div_warning">'+
-					'<img src="' +warning+ '">'+
-				'</div>'+
 			'</div>'+
 			'<div id="' +identifier+ 'note_div_caution" class="cm-tooltip__warning border-yellow">'+
 				'<strong class="text-yellow">Caution:</strong> ' +this.texts.warning+ ' (Frenzy)<br>'+
 				'<span id="' +identifier+ 'caution_amount"></span>'+
-				'<div id="' +identifier+ 'lucky_div_warning">'+
-					'<img src="' +caution+ '">'+
-				'</div>'+
 			'</div>'+
 		'</div>';
 
@@ -81,16 +73,16 @@ CookieMonster.updateTooltip = function(object, colors, informations) {
 
 	// Update informations
 	$object
-	.attr('class', 'cm-tooltip border-'+colors[0])
+	.attr('class', 'cm-tooltip__contents border-'+colors[0])
 	.html(
-		'<div class="text-blue" style="position:absolute; top:4px; left:4px; font-weight:bold;">Bonus Income</div>'+
-		'<div align=right style="position:absolute; top:18px; left:4px; color:white;">' + this.formatNumber(informations[0]) + '</div>'+
+		'<h4 class="text-blue">Bonus Income</h4>'+
+		'<p>' + this.formatNumber(informations[0]) + '</p>'+
 
-		'<div class="text-blue" style="position:absolute; top:34px; left:4px; font-weight:bold;">Base Cost Per Income</div>'+
-		'<div align=right class="text-' +colors[0]+ '" style="position:absolute; top:48px; left:4px;">' + this.formatNumber(informations[1]) + '</div>'+
+		'<h4 class="text-blue">Base Cost Per Income</h4>'+
+		'<p class="text-' +colors[0]+ '">' + this.formatNumber(informations[1]) + '</p>'+
 
-		'<div class="text-blue" style="position:absolute; top:64px; left:4px; font-weight:bold;">Time Left</div>'+
-		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2], true) + '</div>'
+		'<h4 class="text-blue">Time Left</h4>'+
+		'<p class="text-' +colors[1]+ '">' + this.formatTime(informations[2], true) + '</p>'
 	);
 
 	$(identifier+'warning_amount').html('Deficit: ' + this.formatNumber(deficits[0]));
