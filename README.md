@@ -2,8 +2,9 @@
 
 Cookie Monster is a plugin that can be loaded into Cookie Clicker, that offers a wide range of tools and statistics to enhance the game.
 It is **not** a cheat interface – although it does offer helpers for golden cookies and such, everything can be toggled off at will to only leave how much information you want.
+
 This is an helper, and it is here to help you at _whichever_ degree you want, if you only need some help shortening long numbers, it does that. If you need to be accompanied
-by hand to pick the best buildigns to buy, it does that, but **everything is an option**.
+by hand to pick the best buildings to buy, it does that, but **everything is an option**.
 
 ### Current version
 
