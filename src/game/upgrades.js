@@ -13,7 +13,7 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 	// Standard bulding upgrades
 	var buildingUpgrades = ['Cursors', 'Grandmas', 'Farms', 'Factories', 'Mines', 'Shipments', 'Alchemy labs', 'Portals', 'Time machines', 'Antimatter condensers'];
 	buildingUpgrades.forEach(function(building, key) {
-		if (CookieMonster.matches(upgrade, building+' are <b>')) {
+		if (upgrade.matches(building+' are <b>')) {
 			income = CookieMonster.getBuildingUpgradeOutcome(key);
 		}
 	});
@@ -32,12 +32,12 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		{building: 'Antimatter condensers', modifier: 99999},
 	];
 	gainsUpgrades.forEach(function(gainUpgrade, key) {
-		if (CookieMonster.matches(upgrade, gainUpgrade.building+' gain <b>')) {
+		if (upgrade.matches(gainUpgrade.building+' gain <b>')) {
 			income = CookieMonster.getMultiplierOutcome(gainUpgrade.building, gainUpgrade.modifier, key);
 		}
 	});
 
-	if (upgrade.matches('Grandmas are <b>twice</b> as efficient')) {
+	if (upgrade.matches('Grandmas are <b>twice</b>')) {
 		unlocked += this.lgt(upgrade);
 	}
 
@@ -116,10 +116,10 @@ CookieMonster.getMultiplierOutcome = function(building, baseMultiplier, building
 
 	// Gather current multipliers
 	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.toLowerCase().indexOf(building + ' are <b>twice</b>') !== -1) {
+		if (upgrade.bought && upgrade.matches(building + ' are <b>twice</b>')) {
 			multiplier = multiplier * 2;
 		}
-		if (upgrade.bought && upgrade.desc.toLowerCase().indexOf(building + ' are <b>4 times</b>') !== -1) {
+		if (upgrade.bought && upgrade.matches(building + ' are <b>4 times</b>')) {
 			multiplier = multiplier * 4;
 		}
 	});
@@ -157,7 +157,7 @@ CookieMonster.getGrandmasPerPortalOutcome = function() {
 		if (upgrade.bought && upgrade.matches('Grandmas are <b>twice</b>.')) {
 			multiplier = multiplier * 2;
 		}
-		if (upgrade.bought && upgrade.matches('Grandmas are <b>4 times</b> as efficient.')) {
+		if (upgrade.bought && upgrade.matches('Grandmas are <b>4 times</b>')) {
 			multiplier = multiplier * 4;
 		}
 	});
@@ -177,7 +177,7 @@ CookieMonster.getGrandmasPerGrandmaOutcome = function() {
 		if (upgrade.bought && upgrade.matches('Grandmas are <b>twice</b>')) {
 			multiplier = multiplier * 2;
 		}
-		if (upgrade.bought && upgrade.matches('Grandmas are <b>4 times</b> as efficient.')) {
+		if (upgrade.bought && upgrade.matches('Grandmas are <b>4 times</b>')) {
 			multiplier = multiplier * 4;
 		}
 	});
