@@ -32,8 +32,24 @@ CookieMonster.getWrinklersSucked = function(raw) {
 /**
  * Get the reward for popping all wrinklers
  *
- * @return {Integer}
+ * @param {String} context
+ *
+ * @return {String}
  */
-CookieMonster.getWrinklersReward = function() {
-	return this.formatNumber(this.getWrinklersSucked(true) * 1.1);
+CookieMonster.getWrinklersReward = function(context) {
+	var sucked   = this.getWrinklersSucked(true);
+	var modifier = 1.1;
+	var result   = 0;
+
+	switch (context) {
+		case 'reward':
+			result = (sucked * modifier) - sucked;
+			break;
+
+		default:
+			result = sucked * modifier;
+			break;
+	}
+
+	return this.formatNumber(result);
 };

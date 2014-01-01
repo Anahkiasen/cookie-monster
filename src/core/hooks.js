@@ -82,8 +82,9 @@ CookieMonster.getStatistics = function() {
 			'Time To Next Chip'    : "CookieMonster.getHeavenlyChip('time')",
 		},
 		'Wrinklers': {
-			'Cookies sucked'       : 'CookieMonster.getWrinklersSucked()',
-			'Reward after popping' : 'CookieMonster.getWrinklersReward()',
+			'Cookies sucked'         : 'CookieMonster.getWrinklersSucked()',
+			'Cookies won by popping' : 'CookieMonster.getWrinklersReward()',
+			'Rewards of popping'     : "CookieMonster.getWrinklersReward('reward')",
 		},
 	}, function(statistic, method) {
 		return "<b>" +statistic+ " :</b> ' +" +method+ "+ '";
