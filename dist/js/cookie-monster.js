@@ -32,6 +32,7 @@ var CookieMonster = {
 		items    : [],
 		bonus    : [],
 		bci      : [],
+		roi      : [],
 		timeLeft : [],
 	},
 	informations : {
@@ -137,50 +138,30 @@ CookieMonster.Events.onGoldenClick = function() {
 CookieMonster.hookIntoNative = function() {
 
 	// Add Cookie Monster modifiers in title
-	this.replaceNative('Logic', function (native) {
-		return native.replace('.title=', '.title=CookieMonster.titleModifier+');
+	this.replaceNative('Logic', {
+		'.title=': '.title=CookieMonster.titleModifier+',
 	});
 
 	// Add additional settings and statistics to main menu
-	this.replaceNative('UpdateMenu', function (native) {
-		return native
-			.replace("Statistics</div>'+", "Statistics</div>'+"+CookieMonster.getStatistics())
-			.replace("OFF')+'</div>'+", "OFF')+'</div>'+" + CookieMonster.getSettingsText())
-			.replace("startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);", "startDate = CookieMonster.formatTime(((new Date).getTime() - Game.startDate) / 1000, '');");
+	this.replaceNative('UpdateMenu', {
+		"Statistics</div>'+": "Statistics</div>'+"+ CookieMonster.getStatistics(),
+		"OFF')+'</div>'+"   : "OFF')+'</div>'+"   + CookieMonster.getSettingsText(),
+		"startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);": "startDate = CookieMonster.formatTime((+new Date - Game.startDate) / 1000);",
 	});
 
-	var n = "\n" +
-		"var cm_id = from.id;" +
-		'\nif(cm_id === "") { cm_id = $(from).parents(".product").prop("id"); }' +
-		'\nif(cm_id === "product5" || cm_id === "product6" || cm_id === "product7" || cm_id === "product8" || cm_id === "product9") { y -= 100; }' +
-		'\nif(cm_id === "product8" || cm_id === "product9") { y -= 13; }' +
-		'\nif(cm_id === "product9" && !CookieMonster.getBooleanSetting("ShortNumbers")) { y -= 13; }' + "\n";
+	// Rebuild Cookie Monster on game changing events
+	Game.Reset    = this.appendToNative(Game.Reset, CookieMonster.tearDown);
+	Game.LoadSave = this.appendToNative(Game.LoadSave, CookieMonster.tearDown);
 
-	Game.tooltip.draw = new Function('from,text,x,y,origin', this.replaceCode(Game.tooltip.draw, function (native) {
-		return native
-			.replace("implemented');}", "implemented');}" + n)
-			.replace("this.on=1;", "this.on=1;\nCookieMonster.updateTooltips();");
-	}));
+	// Refresh tooltips on store rebuild
+	Game.tooltip.draw = this.appendToNative(Game.tooltip.draw, CookieMonster.updateTooltips);
+	Game.RebuildStore = this.appendToNative(Game.RebuildStore, CookieMonster.updateTooltips);
 
-	this.replaceNative('Reset', function (native) {
-		return native.replace("Game.researchT=0;", "Game.researchT=0;\nCookieMonster.$monsterBar.text('');");
-	}, 'bypass');
-
-	this.replaceNative('LoadSave', function (native) {
-		return native.replace("Game.Popup('Game loaded');", "Game.Popup('Game loaded');\nCookieMonster.$timerBars.text('');");
-	}, 'data');
-
-	this.replaceNative('RebuildStore', function (native) {
-		return native.replace("l('products').innerHTML=str;", "l('products').innerHTML=str;\nCookieMonster.updateTooltips('objects');");
+	// Swap out the original Beautify for ours
+	Beautify = this.formatNumber;
+	this.replaceNative('Draw', {
+		'Beautify(Math.round(Game.cookiesd))': 'CookieMonster.formatNumberRounded(Game.cookiesd)',
 	});
-
-	this.replaceNative('Draw', function (native) {
-		return native.replace("Beautify(Math.round(Game.cookiesd))", "CookieMonster.formatNumberRounded(Game.cookiesd)");
-	});
-
-	Beautify = new Function('what,floats', this.replaceCode(Beautify, function (native) {
-		return native.replace("var str='';", "return CookieMonster.formatNumber(what);" + "\nvar str='';");
-	}));
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -208,8 +189,9 @@ CookieMonster.getStatistics = function() {
 			'Time To Next Chip'    : "CookieMonster.getHeavenlyChip('time')",
 		},
 		'Wrinklers': {
-			'Cookies sucked'       : 'CookieMonster.getWrinklersSucked()',
-			'Reward after popping' : 'CookieMonster.getWrinklersReward()',
+			'Cookies sucked'      : 'CookieMonster.getWrinklersSucked(true)',
+			'Rewards of popping'  : 'CookieMonster.getWrinklersReward()',
+			'Benefits of popping' : "CookieMonster.getWrinklersReward('reward')",
 		},
 	}, function(statistic, method) {
 		return "<b>" +statistic+ " :</b> ' +" +method+ "+ '";
@@ -261,13 +243,13 @@ CookieMonster.getSettingsText = function() {
  * @return {String}
  */
 CookieMonster.buildList = function(title, list, callback) {
-	var output = "\n'<div class=\"subsection\"><div class=\"title\"><span class=\"text-blue\">Cookie Monster " +title+ "</span></div>";
+	var output = "\n'" + '<div class="subsection"><div class="title"><span class="text-blue">Cookie Monster ' +title+ '</span></div>';
 
 	// Loop over the settings and add they one by one
 	for (var section in list) {
-		output += "<div class=\"subtitle\">"+section+"</div>";
+		output += '<div class="subtitle">' +section+ '</div>';
 		for (var item in list[section]) {
-			output += "<div class=\"listing\">" +callback(item, list[section][item])+ "</div>";
+			output += '<div class="listing">' +callback(item, list[section][item])+ '</div>';
 		}
 	}
 
@@ -279,6 +261,21 @@ CookieMonster.buildList = function(title, list, callback) {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Append a piece of code to native code
+ *
+ * @param {String}  native
+ * @param {Closure} append
+ *
+ * @return {Void}
+ */
+CookieMonster.appendToNative = function(native, append) {
+	return function() {
+		native.apply(null, arguments);
+		append.apply(CookieMonster);
+	};
+};
+
+/**
  * Execute replacements on a method's code
  *
  * @param {String}  code
@@ -287,7 +284,14 @@ CookieMonster.buildList = function(title, list, callback) {
  * @return {String}
  */
 CookieMonster.replaceCode = function(code, replaces) {
-	return replaces(code.toString())
+	code = code.toString();
+
+	// Apply the various replaces
+	for (var replace in replaces) {
+		code = code.replace(replace, replaces[replace]);
+	}
+
+	return code
 		.replace(/^function[^{]+{/i, "")
 		.replace(/}[^}]*$/i, "");
 };
@@ -365,12 +369,11 @@ CookieMonster.start = function() {
 		return;
 	}
 
+	// Setup Cookie Monster
+	this.hookIntoNative();
+
 	// Add Cookie Monster elements
-	this.createBottomBar();
-	this.createGoldenOverlay();
-	this.createFlashOverlay();
-	this.createBarsContainer();
-	this.createStoreCounters();
+	this.setupElements();
 
 	// Load stylesheet
 	this.loadSettings();
@@ -379,10 +382,6 @@ CookieMonster.start = function() {
 	// Add ID to favicon
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
 
-	// Setup Cookie Monster
-	this.hookIntoNative();
-	this.setupTooltips();
-
 	// Events
 	this.Events.onGoldenClick();
 
@@ -390,6 +389,20 @@ CookieMonster.start = function() {
 	this.mainLoop();
 
 	Game.Popup('<span class="cm-popup">Cookie Monster ' + this.version + ' Loaded!</span>');
+};
+
+/**
+ * Set up the DOM elements of Cookie Monster
+ *
+ * @return {void}
+ */
+CookieMonster.setupElements = function() {
+	this.createBottomBar();
+	this.createGoldenOverlay();
+	this.createFlashOverlay();
+	this.createBarsContainer();
+	this.createStoreCounters();
+	this.setupTooltips();
 };
 
 /**
@@ -438,6 +451,24 @@ CookieMonster.mainLoop = function() {
 	setTimeout(function() {
 		CookieMonster.mainLoop();
 	}, CookieMonster.getSetting('Refresh'));
+};
+
+/**
+ * Tear down Cookie Monster completely and rebuild it
+ *
+ * @return {void}
+ */
+CookieMonster.tearDown = function() {
+	// Destroy current elements
+	this.destroyBars();
+	this.$goldenOverlay.remove();
+	this.$monsterBar.remove();
+	this.$flashOverlay.remove();
+	this.$timerBars.remove();
+	$('#cookie-monster__store').remove();
+
+	// Redo a setup
+	this.setupElements();
 };
 /**
  * Compute how much buying an upgrade/building would earn in
@@ -575,6 +606,80 @@ CookieMonster.hasntAchievement = function(checkedAchievement) {
 //////////////////////////////////////////////////////////////////////
 //////////////////////////// BUILDING SCHEMAS ////////////////////////
 //////////////////////////////////////////////////////////////////////
+
+/**
+ * Check if a given building would unlock an amount-related achievement when bought
+ *
+ * @param {Object} building
+ *
+ * @return {Boolean}
+ */
+CookieMonster.buildingAmount = function(building) {
+	var upgrades = {
+		'Cursor': {
+			0   : 'Click',
+			1   : 'Double-click',
+			49  : 'Mouse wheel',
+			99  : 'Of Mice and Men',
+			199 : 'The Digital',
+		},
+		'Grandma': {
+			0   : 'Grandma\'s Cookies',
+			49  : 'Sloppy kisses',
+			99  : 'Retirement home',
+			149 : 'Friend of the ancients',
+			199 : 'Ruler of the ancients',
+		},
+		'Farm': {
+			0  : 'My first farm',
+			49 : 'Reap what you sow',
+			99 : 'Farm ill',
+		},
+		'Factory': {
+			0  : 'Production chain',
+			49 : 'Industrial revolution',
+			99 : 'Global warming',
+		},
+		'Mine': {
+			0  : 'You know the drill',
+			49 : 'Excavation site',
+			99 : 'Hollow the planet',
+		},
+		'Shipment': {
+			0  : 'Expedition',
+			49 : 'Galactic highway',
+			99 : 'Far far away',
+		},
+		'Alchemy lab': {
+			0  : 'Transmutation',
+			49 : 'Transmogrification',
+			99 : 'Gold member',
+		},
+		'Portal': {
+			0  : 'A whole new world',
+			49 : 'Now you\'re thinking',
+			99 : 'Dimensional shift',
+		},
+		'Time machine': {
+			0  : 'Time warp',
+			49 : 'Alternate timeline',
+			99 : 'Rewriting history',
+		},
+		'Antimatter condenser': {
+			0  : 'Antibatter',
+			49 : 'Quirky quarks',
+			99 : 'It does matter!',
+		}
+	};
+
+	// Get unlocked achievements by amount of that building
+	var achievement = upgrades[building.name][building.amount];
+	if (achievement) {
+		return this.hasntAchievement(achievement);
+	}
+
+	return false;
+};
 
 /**
  * Check if a given building would unlock Base 10 when bought
@@ -727,6 +832,8 @@ CookieMonster.getBestValue = function(minOrMax) {
  * @param {Array}   informations
  */
 CookieMonster.setBuildingInformations = function (building, informations) {
+	var colors = this.computeColorCoding([informations.bci, informations.timeLeft, informations.roi]);
+
 	this.informations.items[building]    = informations.items;
 	this.informations.bonus[building]    = informations.bonus;
 	this.informations.bci[building]      = informations.bci;
@@ -734,10 +841,10 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 	this.informations.timeLeft[building] = informations.timeLeft;
 
 	// Compute formatted informations
-	var colors = this.computeColorCoding([informations.bci, informations.timeLeft]);
 	this.bottomBar.items[building]    = informations.items;
 	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
 	this.bottomBar.bci[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.bci)+ '</span>';
+	this.bottomBar.roi[building]      = '<span class="text-' +colors[2]+ '">' +this.formatNumber(informations.roi)+ '</span>';
 	this.bottomBar.timeLeft[building] = '<span class="text-' +colors[1]+ '">' +this.formatTime(informations.timeLeft, true)+ '</span>';
 };
 
@@ -758,7 +865,7 @@ CookieMonster.updateBuildingsInformations = function() {
 		var bci      = that.roundDecimal(building.price / bonus);
 		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
 		var profit   = building.price * (bonus + Game.cookiesPs) / bonus;
-		var timeLeft = Math.round(that.secondsLeft(key, 'object'));
+		var timeLeft = that.secondsLeft(building);
 
 		// Save building informations
 		that.setBuildingInformations(key, {
@@ -783,96 +890,14 @@ CookieMonster.updateBuildingsInformations = function() {
  * @return {Integer}
  */
 CookieMonster.getBuildingWorth = function(building) {
-	var income     = 0;
+	var multiplier = Game.globalCpsMult / this.getFrenzyMultiplier();
+	var income     = building.storedCps * multiplier;
 	var unlocked   = 0;
-	var production = building.storedCps * Game.globalCpsMult;
 
-	var upgrades = {
-		'Cursor': {
-			0   : 'Click',
-			1   : 'Double-click',
-			49  : 'Mouse wheel',
-			99  : 'Of Mice and Men',
-			199 : 'The Digital',
-		},
-		'Grandma': {
-			0   : 'Grandma\'s Cookies',
-			49  : 'Sloppy kisses',
-			99  : 'Retirement home',
-			149 : 'Friend of the ancients',
-			199 : 'Ruler of the ancients',
-		},
-		'Farm': {
-			0  : 'My first farm',
-			49 : 'Reap what you sow',
-			99 : 'Farm ill',
-		},
-		'Factory': {
-			0  : 'Production chain',
-			49 : 'Industrial revolution',
-			99 : 'Global warming',
-		},
-		'Mine': {
-			0  : 'You know the drill',
-			49 : 'Excavation site',
-			99 : 'Hollow the planet',
-		},
-		'Shipment': {
-			0  : 'Expedition',
-			49 : 'Galactic highway',
-			99 : 'Far far away',
-		},
-		'Alchemy lab': {
-			0  : 'Transmutation',
-			49 : 'Transmogrification',
-			99 : 'Gold member',
-		},
-		'Portal': {
-			0  : 'A whole new world',
-			49 : 'Now you\'re thinking',
-			99 : 'Dimensional shift',
-		},
-		'Time machine': {
-			0  : 'Time warp',
-			49 : 'Alternate timeline',
-			99 : 'Rewriting history',
-		},
-		'Antimatter condenser': {
-			0  : 'Antibatter',
-			49 : 'Quirky quarks',
-			99 : 'It does matter!',
-		}
-	};
+	// Get unlocked achievements by amount of buildings (50, 100, ...)
+	unlocked += this.buildingAmount(building);
 
-	// Get unlocked achievements by amount of that building
-	var achievement = upgrades[building.name][building.amount];
-	if (achievement) {
-		unlocked += this.hasntAchievement(achievement);
-	}
-
-	// Add cursor modifiers
-	switch (building.name) {
-		case 'Grandma':
-		case 'Farm':
-		case 'Factory':
-		case 'Mine':
-		case 'Shipment':
-		case 'Alchemy lab':
-		case 'Portal':
-		case 'Time machine':
-		case 'Antimatter condenser':
-		case 'Grandma':
-			income += this.getTotalCursorModifiers() * Game.globalCpsMult;
-			break;
-		case 'Grandma':
-			income += this.getTotalGrandmaModifiers(building.amount) * Game.globalCpsMult;
-			break;
-		case 'Portal':
-			income += this.getTotalPortalModifiers() * Game.globalCpsMult;
-			break;
-	}
-
-	// Get unlocked achievements by number of buildings
+	// Get unlocked achievements by global number of buildings
 	if (Game.BuildingsOwned === 99) {
 		unlocked += this.hasntAchievement('Builder');
 	}
@@ -897,8 +922,27 @@ CookieMonster.getBuildingWorth = function(building) {
 		unlocked++;
 	}
 
-	// Compute final income
-	income += production;
+	// Add cursor modifiers
+	switch (building.name) {
+		case 'Grandma':
+		case 'Farm':
+		case 'Factory':
+		case 'Mine':
+		case 'Shipment':
+		case 'Alchemy lab':
+		case 'Portal':
+		case 'Time machine':
+		case 'Antimatter condenser':
+		case 'Grandma':
+			income += this.getTotalCursorModifiers() * multiplier;
+			break;
+		case 'Grandma':
+			income += this.getTotalGrandmaModifiers(building.amount) * multiplier;
+			break;
+		case 'Portal':
+			income += this.getTotalPortalModifiers() * multiplier;
+			break;
+	}
 
 	return income + this.callCached('getAchievementWorth', [unlocked, 0, income]);
 };
@@ -1073,20 +1117,19 @@ CookieMonster.getHeavenlyMultiplier = function() {
 	var chips     = Game.prestige['Heavenly chips'] * 2;
 	var potential = 0;
 
-	if (Game.Has('Heavenly chip secret')) {
-		potential += 0.05;
-	}
-	if (Game.Has('Heavenly cookie stand')) {
-		potential += 0.2;
-	}
-	if (Game.Has('Heavenly bakery')) {
-		potential += 0.25;
-	}
-	if (Game.Has('Heavenly confectionery')) {
-		potential += 0.25;
-	}
-	if (Game.Has('Heavenly key')) {
-		potential += 0.25;
+	var upgrades = {
+		'Heavenly chip secret'   : 0.05,
+		'Heavenly cookie stand'  : 0.2,
+		'Heavenly bakery'        : 0.25,
+		'Heavenly confectionery' : 0.25,
+		'Heavenly key'           : 0.25,
+	};
+
+	// Apply the various potentials
+	for (var upgrade in upgrades) {
+		if (Game.Has(upgrade)) {
+			potential += upgrades[upgrade];
+		}
 	}
 
 	return chips * potential;
@@ -1217,25 +1260,41 @@ CookieMonster.emphasizeSeason = function() {
 /**
  * Get the amount of cookies sucked by wrinklers
  *
+ * @param {Integer} modifier
+ * @param {Boolean} formatted
+ *
  * @return {Integer}
  */
-CookieMonster.getWrinklersSucked = function(raw) {
+CookieMonster.getWrinklersSucked = function(formatted, modifier) {
 	var sucked = 0;
+	modifier = modifier || 1;
 
+	// Here we loop over the wrinklers and
+	// compute how muck cookies they sucked * the modifier
 	Game.wrinklers.forEach(function(wrinkler) {
-		sucked += wrinkler.sucked;
+		sucked += wrinkler.sucked * modifier;
 	});
 
-	return raw ? sucked : this.formatNumber(sucked);
+	return formatted ? this.formatNumber(sucked) : sucked;
 };
 
 /**
  * Get the reward for popping all wrinklers
  *
- * @return {Integer}
+ * @param {String} context
+ *
+ * @return {String}
  */
-CookieMonster.getWrinklersReward = function() {
-	return this.formatNumber(this.getWrinklersSucked(true) * 1.1);
+CookieMonster.getWrinklersReward = function(context) {
+	var sucked = this.getWrinklersSucked(false, 1.1);
+
+	// If we only want the actual benefit from the wrinklers
+	// We substract how much they sucked without the modifier
+	if (context === 'reward') {
+		sucked -= this.getWrinklersSucked();
+	}
+
+	return this.formatNumber(sucked);
 };
 /**
  * Get how much buying an upgrade would earn
@@ -1451,6 +1510,13 @@ CookieMonster.getMouseAndCursorGainOutcome = function(upgradeKey) {
 	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
 };
 
+/**
+ * Compute the production of a building once 4 times as efficient
+ *
+ * @param {Integer} buildingKey
+ *
+ * @return {Integer}
+ */
 CookieMonster.getFourTimesEfficientOutcome = function(buildingKey) {
 	return Game.ObjectsById[buildingKey].storedTotalCps * 3 * Game.globalCpsMult;
 };
@@ -1702,7 +1768,7 @@ CookieMonster.Emphasizers.flashScreen = function() {
  * @return {String}
  */
 CookieMonster.formatNumber = function(number) {
-	return this.toHumanNumber(number);
+	return CookieMonster.toHumanNumber(number);
 };
 
 /**
@@ -1758,22 +1824,14 @@ CookieMonster.roundDecimal = function(number) {
 /**
  * Computes the time (s) required to buy a building/upgrade
  *
- * @param {Integer} object
- * @param {String}  type
+ * @param {Object} object
  *
  * @return {Integer}
  */
-CookieMonster.secondsLeft = function(object, type) {
-	// Get the price of the object we want
-	var basePrice = 0;
-	if (type === 'object') {
-		basePrice = Game.ObjectsById[object].price;
-	} else if (type === 'upgrade') {
-		basePrice = Game.UpgradesById[object].basePrice;
-	}
-
-	// Get the amount of cookies needed
-	var realPrice = Game.cookies - basePrice;
+CookieMonster.secondsLeft = function(object) {
+	// Get the price of the object we want and how much we need
+	var price = object instanceof Game.Upgrade ? object.basePrice : object.price;
+	var realPrice = Game.cookies - price;
 
 	// If we're not making any cookies, or have
 	// enough already, return 0
@@ -1781,7 +1839,7 @@ CookieMonster.secondsLeft = function(object, type) {
 		return 0;
 	}
 
-	return Math.abs(realPrice) / Game.cookiesPs;
+	return Math.round(Math.abs(realPrice) / Game.cookiesPs);
 };
 
 /**
@@ -1917,6 +1975,18 @@ CookieMonster.manageBuffs = function() {
 	this.manageClickingFrenzy();
 	this.manageTimersBar('seasonPopup', 'Next Reindeer');
 	this.manageTimersBar('goldenCookie', 'Next Cookie');
+};
+
+/**
+ * Destroy all bars in the game
+ *
+ * @return {void}
+ */
+CookieMonster.destroyBars = function() {
+	var bars = ['Frenzy', 'BloodFrenzy', 'Clot', 'Clickfrenzy', 'goldenCookie', 'seasonPopup'];
+	for (var bar in bars) {
+		this.fadeOutBar(bar);
+	}
 };
 
 /**
@@ -2433,7 +2503,7 @@ CookieMonster.getLuckyAlertState = function () {
 CookieMonster.createStoreCounters = function() {
 
 	$('#storeTitle').after(
-	'<table cellpadding="0" cellspacing="0">'+
+	'<table id="cookie-monster__store" cellpadding="0" cellspacing="0">'+
 		'<tr>'+
 			'<td align="center" class="text-blue"   id="cm_up_q0">0</td>' +
 			'<td align="center" class="text-green"  id="cm_up_q1">0</td>' +
@@ -2671,7 +2741,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 
 	// Gather comparative informations
 	var income       = this.callCached('getUpgradeWorth', [upgrade]);
-	var informations = [this.roundDecimal(upgrade.basePrice / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
+	var informations = [this.roundDecimal(upgrade.basePrice / income), this.secondsLeft(upgrade)];
 	var colors       = this.computeColorCoding(informations);
 
 	// Update store counters
