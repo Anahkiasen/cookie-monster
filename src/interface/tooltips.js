@@ -35,14 +35,14 @@ CookieMonster.makeTooltip = function(object, type) {
 		'<div class="cm-tooltip" id="' +identifier+ '"></div>'+
 		'<div id="' +identifier+ 'note_div" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
 			'<div id="' +identifier+ 'note_div_warning" class="cm-tooltip__warning border-red">'+
-				'<strong class="text-red">Warning:</strong>' +this.texts.warning+ '<br>'+
+				'<strong class="text-red">Warning:</strong> ' +this.texts.warning+ '<br>'+
 				'<span id="' +identifier+ 'warning_amount"></span>'+
 				'<div id="' +identifier+ 'lucky_div_warning">'+
 					'<img src="' +warning+ '">'+
 				'</div>'+
 			'</div>'+
 			'<div id="' +identifier+ 'note_div_caution" class="cm-tooltip__warning border-yellow">'+
-				'<strong class="text-yellow">Caution:</strong>' +this.texts.warning+ ' (Frenzy)<br>'+
+				'<strong class="text-yellow">Caution:</strong> ' +this.texts.warning+ ' (Frenzy)<br>'+
 				'<span id="' +identifier+ 'caution_amount"></span>'+
 				'<div id="' +identifier+ 'lucky_div_warning">'+
 					'<img src="' +caution+ '">'+
