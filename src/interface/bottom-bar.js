@@ -10,7 +10,10 @@
  * @return {Array}
  */
 CookieMonster.getBestValue = function(minOrMax) {
-	return [Math[minOrMax].apply(Math, this.informations.cpi), Math[minOrMax].apply(Math, this.informations.timeLeft)];
+	return [
+		Math[minOrMax].apply(Math, this.informations.cpi),
+		Math[minOrMax].apply(Math, this.informations.timeLeft)
+	];
 };
 
 /**
@@ -26,7 +29,7 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 	this.informations.timeLeft[building] = informations.timeLeft;
 
 	// Compute formatted informations
-	var colors = this.getLuckyColors([informations.cpi, informations.timeLeft]);
+	var colors = this.computeColorCoding([informations.cpi, informations.timeLeft]);
 	this.bottomBar.items[building]    = informations.items;
 	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
 	this.bottomBar.cpi[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.cpi)+ '</span>';

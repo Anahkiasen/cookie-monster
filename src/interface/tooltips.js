@@ -179,7 +179,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 	// Gather comparative informations
 	var income       = this.callCached('getUpgradeWorth', [upgrade]);
 	var informations = [this.roundDecimal(upgrade.basePrice / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
-	var colors       = this.getLuckyColors(informations);
+	var colors       = this.computeColorCoding(informations);
 
 	// Update store counters
 	var colorKey = ['blue', 'green', 'yellow', 'orange', 'red', 'purple'].indexOf(colors[0]);
@@ -206,7 +206,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
  */
 CookieMonster.manageBuildingTooltip = function(building) {
 	var informations = [this.informations.cpi[building.id], this.informations.timeLeft[building.id]];
-	var colors       = this.getLuckyColors(informations);
+	var colors       = this.computeColorCoding(informations);
 
 	// Colorize building price
 	if (this.getBooleanSetting('ColoredPrices')) {
@@ -223,8 +223,6 @@ CookieMonster.manageBuildingTooltip = function(building) {
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////// HELPERS /////////////////////////////
 //////////////////////////////////////////////////////////////////////
-
-
 
 /**
  * Get the lucky alerts for a price
@@ -251,19 +249,19 @@ CookieMonster.getLuckyAlerts = function(price) {
 };
 
 /**
- * Get the colors for the lucky alerts
+ * Get the color coding for a set of informations
  *
  * @param {Array} informations
  *
  * @return {Array}
  */
-CookieMonster.getLuckyColors = function(informations) {
+CookieMonster.computeColorCoding = function(informations) {
 	var colors    = ['yellow', 'yellow'];
 	var maxValues = this.getBestValue('max');
 	var minValues = this.getBestValue('min');
 
 	// Compute color
-	for (var i = 0; i < colors.length; i++) {
+	for (var i = 0; i < informations.length; i++) {
 		if (informations[i] < minValues[i]) {
 			colors[i] = 'blue';
 		} else if (informations[i] === minValues[i]) {
