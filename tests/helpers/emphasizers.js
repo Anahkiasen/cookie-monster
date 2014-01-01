@@ -6,7 +6,7 @@ module.exports = {
 			CookieMonster.Emphasizers.playSound().should.equal(false);
 
 			CookieMonster.setSetting('Sounds', 1);
-			CookieMonster.Emphasizers.playSound().source.should.equal('http://autopergamene.eu/cookie-monster/mp3/bell.mp3');
+			CookieMonster.Emphasizers.playSound().source.should.equal('http://cookie-monster.autopergamene.eu/mp3/bell.mp3');
 		},
 	},
 

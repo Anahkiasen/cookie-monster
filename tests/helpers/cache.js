@@ -39,16 +39,16 @@ module.exports = {
 	'#callCached': {
 		'Can call CM method and cache it': function() {
 			CookieMonster.callCached('formatTime', [123456]).should.equal('1 day, 10 hours, 17 minutes, 36 seconds');
-			CookieMonster.cacheStore['--']['["formatTime",123456]'].should.exists;
+			CookieMonster.cacheStore['--']['formatTime-123456'].should.exists;
 		},
 	},
 
 	'#computeSalts': {
 		'Can compute basic salts': function() {
-			CookieMonster.computeSalts(['foo'], ['bar']).should.equal('["foo","bar"]');
+			CookieMonster.computeSalts(['foo'], ['bar']).should.equal('foo-bar');
 		},
 		'Can compute deep objects': function() {
-			CookieMonster.computeSalts(['foo'], [{name: 'foobar'}]).should.equal('["foo",{"name":"foobar"}]');
+			CookieMonster.computeSalts(['foo'], [{identifier: function() { return 'foobar'; }}]).should.equal('foo-foobar');
 		},
 	}
 
