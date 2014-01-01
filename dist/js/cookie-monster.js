@@ -38,6 +38,7 @@ var CookieMonster = {
 		items    : [],
 		bonus    : [],
 		cpi      : [],
+		roi      : [],
 		timeLeft : [],
 	},
 
@@ -59,26 +60,27 @@ var CookieMonster = {
 	settings: {
 
 		// Sections
-		'BottomBar'      : {type: 'boolean', value: 1,   label: 'Bottom Bar',        desc: 'Displays a bar at the bottom of the screen that shows all Building information'},
-		'UpgradeDisplay' : {type: 'switch',  value: 1,   label: 'Upgrade Display',   desc: 'Changes how the store displays Upgrades'},
+		'BottomBar'        : {type: 'boolean', value: 1,   label: 'Bottom Bar',        desc: 'Displays a bar at the bottom of the screen that shows all buildings information'},
+		'UpgradeDisplay'   : {type: 'switch',  value: 1,   label: 'Upgrade Display',   desc: 'Changes how the store displays upgrades'},
 
 		// Colors
-		'Colorblind'     : {type: 'boolean', value: 0,   label: 'Colorblind',        desc: 'Use colorblind safe colors'},
-		'ColoredPrices'  : {type: 'boolean', value: 1,   label: 'Colored Prices',    desc: 'Changes the colors of all Building prices to correspond with their Cost Per Income'},
-		'UpgradeIcons'   : {type: 'boolean', value: 1,   label: 'Upgrade Icons',     desc: 'Displays a small square icon on the Upgrade to better display the Cost Per Income color value'},
+		'Colorblind'       : {type: 'boolean', value: 0,   label: 'Colorblind',        desc: 'Use colorblind safe colors'},
+		'ColoredPrices'    : {type: 'boolean', value: 1,   label: 'Colored Prices',    desc: 'Changes the colors of all Building prices to correspond with their Cost Per Income'},
+		'UpgradeIcons'     : {type: 'boolean', value: 1,   label: 'Upgrade Icons',     desc: 'Displays a small colored icon on the upgrades to better display the Cost Per Income'},
+		'ReturnInvestment' : {type: 'boolean', value: 1,   label: 'ROI/BCI',           desc: 'Uses ROI to compute the best building to buy (buildings only)'},
 
 		// Emphasizers
-		'BuffBars'       : {type: 'boolean', value: 1,   label: 'Buff Bars',         desc: 'Displays a countdown bar for each effect currently active'},
-		'CookieBar'      : {type: 'boolean', value: 1,   label: 'Next Cookie Timer', desc: 'Displays a countdown bar and updates the Title for when the next Cookie will appear'},
-		'CookieTimer'    : {type: 'boolean', value: 1,   label: 'Cookie Timer',      desc: 'Displays a timer on Golden Cookies and Red Cookies'},
-		'FlashScreen'    : {type: 'boolean', value: 1,   label: 'Flash Screen',      desc: 'Flashes the screen when a Golden Cookie or Red Cookie appears'},
-		'Sounds'         : {type: 'boolean', value: 0,   label: 'Sounds',            desc: 'Plays a sound when a Red/Golden Cookie or a Reindeer appears'},
-		'UpdateTitle'    : {type: 'boolean', value: 1,   label: 'Update Title',      desc: 'Updates the Title to display if a Cookie is waiting to be clicked'},
+		'BuffBars'         : {type: 'boolean', value: 1,   label: 'Buff Bars',         desc: 'Displays a countdown bar for each effect currently active'},
+		'CookieBar'        : {type: 'boolean', value: 1,   label: 'Next Cookie Timer', desc: 'Displays a countdown bar and updates the Title for when the next Cookie will appear'},
+		'CookieTimer'      : {type: 'boolean', value: 1,   label: 'Cookie Timer',      desc: 'Displays a timer on Golden Cookies and Red Cookies'},
+		'FlashScreen'      : {type: 'boolean', value: 1,   label: 'Flash Screen',      desc: 'Flashes the screen when a Golden Cookie or Red Cookie appears'},
+		'Sounds'           : {type: 'boolean', value: 0,   label: 'Sounds',            desc: 'Plays a sound when a Red/Golden Cookie or a Reindeer appears'},
+		'UpdateTitle'      : {type: 'boolean', value: 1,   label: 'Update Title',      desc: 'Updates the Title to display if a Cookie is waiting to be clicked'},
 
 		// Display
-		'LuckyAlert'     : {type: 'switch',  value: 1,   label: 'Lucky Alert',       desc: 'Changes the tooltip to display if you would be under the number of cookies required for \"Lucky\"!'},
-		'Refresh'        : {type: 'switch',  value: 1e3, label: 'Refresh Rate',      desc: 'The rate at which Cookie Monster updates data (higher rates may slow the game)'},
-		'ShortNumbers'   : {type: 'switch',  value: 1,   label: 'Short Numbers',     desc: 'Formats all numbers to be shorter when displayed'},
+		'LuckyAlert'       : {type: 'switch',  value: 1,   label: 'Lucky Alert',       desc: 'Changes the tooltip to display if you would be under the number of cookies required for "Lucky"!'},
+		'Refresh'          : {type: 'switch',  value: 1e3, label: 'Refresh Rate',      desc: 'The rate at which Cookie Monster updates data (higher rates may slow the game)'},
+		'ShortNumbers'     : {type: 'switch',  value: 1,   label: 'Short Numbers',     desc: 'Formats all numbers to be shorter when displayed'},
 
 	},
 
@@ -142,7 +144,7 @@ CookieMonster.hookIntoNative = function() {
 	// Add additional settings and statistics to main menu
 	this.replaceNative('UpdateMenu', function (native) {
 		return native
-			.replace("Statistics</div>'+", CookieMonster.getStatistics())
+			.replace("Statistics</div>'+", "Statistics</div>'+"+CookieMonster.getStatistics())
 			.replace("OFF')+'</div>'+", "OFF')+'</div>'+" + CookieMonster.getSettingsText())
 			.replace("startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);", "startDate = CookieMonster.formatTime(((new Date).getTime() - Game.startDate) / 1000, '');");
 	});
@@ -191,8 +193,7 @@ CookieMonster.hookIntoNative = function() {
  * @return {String}
  */
 CookieMonster.getStatistics = function() {
-	var statisticsHtml = "Statistics</div>'+\n\n'<div class=\"subsection\"><div class=\"title\"><span class=\"text-blue\">Cookie Monster Goodies</span></div>";
-	var statistics = {
+	return this.buildList('Goodies', {
 		'Lucky Cookies': {
 			'"Lucky!" Cookies Required'          : "CookieMonster.luckyReward('regular', true)",
 			'"Lucky!" Cookies Required (Frenzy)' : "CookieMonster.luckyReward('frenzy', true)",
@@ -210,17 +211,9 @@ CookieMonster.getStatistics = function() {
 			'Cookies sucked'       : 'CookieMonster.getWrinklersSucked()',
 			'Reward after popping' : 'CookieMonster.getWrinklersReward()',
 		},
-	};
-
-	// Loop over statistics and add them one by one
-	for (var section in statistics) {
-		statisticsHtml += '<div class="subtitle">'+section+'</div>';
-		for (var statistic in statistics[section]) {
-			statisticsHtml += "<div class=\"listing\"><b>" +statistic+ " :</b> ' +" +statistics[section][statistic]+ "+ '</div>";
-		}
-	}
-
-	return statisticsHtml + "</div>'+";
+	}, function(statistic, method) {
+		return "<b>" +statistic+ " :</b> ' +" +method+ "+ '";
+	});
 };
 
 /**
@@ -229,18 +222,56 @@ CookieMonster.getStatistics = function() {
  * @return {String}
  */
 CookieMonster.getSettingsText = function() {
-	var settings = "\n'<div class=\"subsection\"><div class=\"title\"><span class=\"text-blue\">Cookie Monster Settings</span></div>";
+	return this.buildList('Settings', {
+		'Additional sections': [
+			'BottomBar',
+			'UpgradeDisplay',
+		],
+		'Color coding': [
+			'Colorblind',
+			'ColoredPrices',
+			'UpgradeIcons',
+			'ReturnInvestment',
+		],
+		'Emphasizers': [
+			'BuffBars',
+			'CookieBar',
+			'CookieTimer',
+			'FlashScreen',
+			'Sounds',
+			'UpdateTitle',
+		],
+		'Display': [
+			'LuckyAlert',
+			'Refresh',
+			'ShortNumbers',
+		],
+	}, function(key, setting) {
+		return "<a class=\"option\" data-option=\"" +setting+ "\" onclick=\"CookieMonster.toggleOption(this);\">' + CookieMonster.getLabel('" +setting+ "') + '</a><label>' + CookieMonster.getDescription('" +setting+ "') + '</label>";
+	});
+};
+
+/**
+ * Build a list
+ *
+ * @param {String}   title
+ * @param {Object}   list
+ * @param {Function} callback
+ *
+ * @return {String}
+ */
+CookieMonster.buildList = function(title, list, callback) {
+	var output = "\n'<div class=\"subsection\"><div class=\"title\"><span class=\"text-blue\">Cookie Monster " +title+ "</span></div>";
 
 	// Loop over the settings and add they one by one
-	for (var setting in this.settings) {
-		settings +=
-			'<div class="listing">'+
-				"<a class=\"option\" data-option=\"" +setting+ "\" onclick=\"CookieMonster.toggleOption(this);\">' + CookieMonster.getLabel('" +setting+ "') + '</a>"+
-				"<label>' + CookieMonster.getDescription('" +setting+ "') + '</label>"+
-			'</div>';
+	for (var section in list) {
+		output += "<div class=\"subtitle\">"+section+"</div>";
+		for (var item in list[section]) {
+			output += "<div class=\"listing\">" +callback(item, list[section][item])+ "</div>";
+		}
 	}
 
-	return settings + "</div>'+";
+	return output + "</div>'+";
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -299,7 +330,7 @@ CookieMonster.runningInLocal = function() {
 CookieMonster.shouldRun = function() {
 	// Check if we're in Cookie Clicker
 	if (document.title.indexOf('Cookie Clicker') === -1 || this.$game.length === 0) {
-		return this.displayError("These aren't the droids you're looking for.");
+		return this.displayError('These aren\'t the droids you\'re looking for.');
 	}
 
 	// Cancel if already loaded
@@ -358,7 +389,7 @@ CookieMonster.start = function() {
 	// Start the loop
 	this.mainLoop();
 
-	Game.Popup('<span class="cm-popup">Cookie Monster ' + this.version + " Loaded!</span>");
+	Game.Popup('<span class="cm-popup">Cookie Monster ' + this.version + ' Loaded!</span>');
 };
 
 /**
@@ -425,7 +456,6 @@ CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncom
 	var income             = 0;
 	var heavenlyMultiplier = this.getHeavenlyMultiplier();
 	var futureMultiplier   = 0;
-	var milkModifiers      = [];
 	var milkProgress       = Game.milkProgress;
 	var frenzyMultiplier   = this.getFrenzyMultiplier();
 	var number;
@@ -670,7 +700,81 @@ CookieMonster.checkBuildingUnifiesAmounts = function(amount, checkedBuilding) {
 	}
 
 	return false;
-}
+};
+//////////////////////////////////////////////////////////////////////
+///////////////////////////// INFORMATIONS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Get an array with the min/max CPI/timeLeft
+ *
+ * @param {String} minOrMax
+ *
+ * @return {Array}
+ */
+CookieMonster.getBestValue = function(minOrMax) {
+	return [
+		Math[minOrMax].apply(Math, this.informations.cpi),
+		Math[minOrMax].apply(Math, this.informations.timeLeft),
+		Math[minOrMax].apply(Math, this.informations.roi)
+	];
+};
+
+/**
+ * Update the stored informations about a building
+ *
+ * @param {Integer} building
+ * @param {Array}   informations
+ */
+CookieMonster.setBuildingInformations = function (building, informations) {
+	this.informations.items[building]    = informations.items;
+	this.informations.bonus[building]    = informations.bonus;
+	this.informations.cpi[building]      = informations.cpi;
+	this.informations.roi[building]      = informations.roi;
+	this.informations.timeLeft[building] = informations.timeLeft;
+
+	// Compute formatted informations
+	var colors = this.computeColorCoding([informations.cpi, informations.timeLeft]);
+	this.bottomBar.items[building]    = informations.items;
+	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
+	this.bottomBar.cpi[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.cpi)+ '</span>';
+	this.bottomBar.timeLeft[building] = '<span class="text-' +colors[1]+ '">' +this.formatTime(informations.timeLeft, true)+ '</span>';
+};
+
+/**
+ * Update all of the building's informations in memory
+ *
+ * @return {void}
+ */
+CookieMonster.updateBuildingsInformations = function() {
+	var that = this;
+
+	// Here we loop over the information we have, and building a multidimensionnal
+	// array of it, by building key
+	Game.ObjectsById.forEach(function (building, key) {
+
+		// Compute informations
+		var bonus    = that.roundDecimal(that.getBuildingWorth(building));
+		var cpi      = that.roundDecimal(building.price / bonus);
+		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
+		var profit   = building.price * (bonus + Game.cookiesPs) / bonus;
+		var timeLeft = Math.round(that.secondsLeft(key, 'object'));
+
+		// Save building informations
+		that.setBuildingInformations(key, {
+			items    : building.name.split(' ')[0] + ' ' + count,
+			bonus    : bonus,
+			cpi      : cpi,
+			roi      : profit,
+			timeLeft : timeLeft,
+		});
+	});
+};
+
+//////////////////////////////////////////////////////////////////////
+/////////////////////////////// TRUE WORTH ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 /**
  * Get how much buying one of a building would earn
  *
@@ -1002,10 +1106,10 @@ CookieMonster.getHeavenlyChip = function(context) {
 
 	switch (context) {
 		case 'max':
-			return this.formatNumber(nextReset) + " <small>(" + this.formatNumber(nextReset * 2) + "%)</small>";
+			return this.formatNumber(nextReset) + ' <small>(' + this.formatNumber(nextReset * 2) + '%)</small>';
 
 		case 'cur':
-			return this.formatNumber(currentAmount) + " <small>(" + this.formatNumber(currentAmount * 2) + "%)</small>";
+			return this.formatNumber(currentAmount) + ' <small>(' + this.formatNumber(currentAmount * 2) + '%)</small>';
 
 		case 'next':
 			return this.formatNumber(Math.round(nextChip));
@@ -1023,9 +1127,9 @@ CookieMonster.inc = function(e) {
 	var t = 0;
 
 	Game.AchievementsById.forEach(function (achievement) {
-		var i = achievement.desc.replace(/,/g, "");
-		if (!achievement.won && i.indexOf(" per second.") !== -1) {
-			if (e >= i.substr(8, i.indexOf("</b>", 8) - 8) * 1) {
+		var i = achievement.desc.replace(/,/g, '');
+		if (!achievement.won && i.indexOf(' per second.') !== -1) {
+			if (e >= i.substr(8, i.indexOf('</b>', 8) - 8) * 1) {
 				t++;
 			}
 		}
@@ -1046,7 +1150,7 @@ CookieMonster.luckyReward = function(context, formatted) {
 
 	if (formatted) {
 		if (reward <= Game.cookies) {
-			reward = '<strong class="text-green">' + this.formatNumber(reward) + "</strong>";
+			reward = '<strong class="text-green">' + this.formatNumber(reward) + '</strong>';
 		} else {
 			reward = this.formatNumber(reward);
 		}
@@ -1340,10 +1444,10 @@ CookieMonster.lgt = function(upgrade) {
 CookieMonster.getMouseAndCursorGainOutcome = function(upgradeKey) {
 	var t = Game.UpgradesById[upgradeKey].desc;
 	var n = 31;
-	if (t.indexOf(" another ") !== -1) {
+	if (t.indexOf(' another ') !== -1) {
 		n += 8;
 	}
-	var r = t.substr(n, t.indexOf("<", n) - n) * 1;
+	var r = t.substr(n, t.indexOf('<', n) - n) * 1;
 	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
 };
 
@@ -1624,13 +1728,13 @@ CookieMonster.toHumanNumber = function(number, round) {
 	var shortNumbers = this.getSetting('ShortNumbers') - 1;
 
 	if (shortNumbers > -1) {
-		var r = 1e33;
+		var divider = 1e33;
 		for (var i = this.humanNumbers[shortNumbers].length - 1; i >= 0; i--) {
-			var s = (number / r % 999).toFixed(3);
-			if (s >= 1) {
-				return s + this.humanNumbers[shortNumbers][i];
+			var formattedNumber = (number / divider % 999).toFixed(3);
+			if (formattedNumber >= 1) {
+				return formattedNumber + this.humanNumbers[shortNumbers][i];
 			}
-			r /= 1e3;
+			divider /= 1e3;
 		}
 	}
 
@@ -1690,7 +1794,9 @@ CookieMonster.secondsLeft = function(object, type) {
  */
 CookieMonster.formatTime = function(time, compressed) {
 	time = Math.round(time);
-	if (typeof compressed === 'undefined') compressed = false;
+	if (typeof compressed === 'undefined') {
+		compressed = false;
+	}
 
 	// Take care of special cases
 	if (time === Infinity) {
@@ -1744,41 +1850,6 @@ CookieMonster.formatTime = function(time, compressed) {
 	return formated;
 };
 //////////////////////////////////////////////////////////////////////
-///////////////////////////// INFORMATIONS ///////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-/**
- * Get an array with the min/max CPI/timeLeft
- *
- * @param {String} minOrMax
- *
- * @return {Array}
- */
-CookieMonster.getBestValue = function(minOrMax) {
-	return [Math[minOrMax].apply(Math, this.informations.cpi), Math[minOrMax].apply(Math, this.informations.timeLeft)];
-};
-
-/**
- * Update the stored informations about a building
- *
- * @param {Integer} building
- * @param {Array}   informations
- */
-CookieMonster.setBuildingInformations = function (building, informations) {
-	this.informations.items[building]    = informations.items;
-	this.informations.bonus[building]    = informations.bonus;
-	this.informations.cpi[building]      = informations.cpi;
-	this.informations.timeLeft[building] = informations.timeLeft;
-
-	// Compute formatted informations
-	var colors = this.getLuckyColors([informations.cpi, informations.timeLeft]);
-	this.bottomBar.items[building]    = informations.items;
-	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
-	this.bottomBar.cpi[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.cpi)+ '</span>';
-	this.bottomBar.timeLeft[building] = '<span class="text-' +colors[1]+ '">' +this.formatTime(informations.timeLeft, true)+ '</span>';
-};
-
-//////////////////////////////////////////////////////////////////////
 ///////////////////////////// DOM MODIFIERS //////////////////////////
 //////////////////////////////////////////////////////////////////////
 
@@ -1813,7 +1884,7 @@ CookieMonster.createBottomBar = function() {
  * @return {void}
  */
 CookieMonster.makeTable = function() {
-	var thead    = '<th class="text-yellow"> ' + this.version + "</th>";
+	var thead    = '<th class="text-yellow"> ' + this.version + '</th>';
 	var bonus    = '<th class="text-blue">Bonus Income</th>';
 	var baseCost = '<th class="text-blue">Base Cost Per Income</th>';
 	var timeLeft = '<th class="text-blue">Time Left</th>';
@@ -1833,27 +1904,7 @@ CookieMonster.makeTable = function() {
  * @return {void}
  */
 CookieMonster.updateTable = function() {
-	var that = this;
-
-	// Here we loop over the information we have, and building a multidimensionnal
-	// array of it, by building key
-	Game.ObjectsById.forEach(function (building, key) {
-
-		// Compute informations
-		var bonus    = that.roundDecimal(that.getBuildingWorth(building));
-		var cpi      = that.roundDecimal(building.price / bonus);
-		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
-		var timeLeft = Math.round(that.secondsLeft(key, 'object'));
-
-		// Save building informations
-		that.setBuildingInformations(key, {
-			items    : building.name.split(' ')[0] + ' ' + count,
-			bonus    : bonus,
-			cpi      : cpi,
-			timeLeft : timeLeft,
-		});
-	});
-
+	this.updateBuildingsInformations();
 	this.makeTable();
 };
 /**
@@ -2084,7 +2135,7 @@ CookieMonster.createBar = function (name, color) {
  */
 CookieMonster.fadeOutBar = function(identifier) {
 	identifier = identifier.replace(' ', '');
-	var $bar = $("#cookie-monster__timer-" + identifier);
+	var $bar = $('#cookie-monster__timer-' + identifier);
 
 	if ($bar.length === 1 && $bar.css('opacity') === '1') {
 		$bar.fadeOut(500, function() {
@@ -2260,6 +2311,7 @@ CookieMonster.toggleOption = function(option) {
 			break;
 		case 'ColoredPrices':
 			this.updateTooltips('objects');
+			$('.product .price').attr('class', 'price');
 			break;
 		case 'UpgradeIcons':
 			Game.RebuildUpgrades();
@@ -2476,40 +2528,42 @@ CookieMonster.makeTooltip = function(object, type) {
 		'<div class="cm-tooltip" id="' +identifier+ '"></div>'+
 		'<div id="' +identifier+ 'note_div" style="position:absolute; left:0px; margin-top:10px; color:white;">'+
 			'<div id="' +identifier+ 'note_div_warning" class="cm-tooltip__warning border-red">'+
-				'<strong class="text-red">Warning:</strong>' +this.texts.warning+ '<br>'+
+				'<strong class="text-red">Warning:</strong> ' +this.texts.warning+ '<br>'+
 				'<span id="' +identifier+ 'warning_amount"></span>'+
 				'<div id="' +identifier+ 'lucky_div_warning">'+
 					'<img src="' +warning+ '">'+
 				'</div>'+
 			'</div>'+
 			'<div id="' +identifier+ 'note_div_caution" class="cm-tooltip__warning border-yellow">'+
-				'<strong class="text-yellow">Caution:</strong>' +this.texts.warning+ ' (Frenzy)<br>'+
+				'<strong class="text-yellow">Caution:</strong> ' +this.texts.warning+ ' (Frenzy)<br>'+
 				'<span id="' +identifier+ 'caution_amount"></span>'+
 				'<div id="' +identifier+ 'lucky_div_warning">'+
 					'<img src="' +caution+ '">'+
 				'</div>'+
 			'</div>'+
 		'</div>';
+
+	// Update store
+	Game.RebuildUpgrades();
 };
 
 /**
  * Update a Building/Upgrade tooltip
  *
- * @param {String}  type
- * @param {Integer} key
- * @param {Array}   colors
- * @param {Array}   deficits
- * @param {Array}   informations
+ * @param {Object} object
+ * @param {Array}  colors
+ * @param {Array}  informations
  *
- * @return {Void}
+ * @return {void}
  */
-CookieMonster.updateTooltip = function(type, key, colors, deficits, informations) {
-	var identifier = '#'+this.identifier(type, key);
+CookieMonster.updateTooltip = function(object, colors, informations) {
+	var type       = object instanceof Game.Upgrade ? 'up' : 'ob';
+	var deficits   = type === 'ob' ? this.getLuckyAlerts(object.price) : this.getLuckyAlerts(object.basePrice);
+	var identifier = '#'+this.identifier(type, object.id);
 	var $object    = $(identifier);
 
 	// Create tooltip if it doesn't exist
-	var object = type === 'up' ? Game.UpgradesById[key] : Game.ObjectsById[key];
-	if (object.desc.indexOf(this.identifier(type, key)) === -1) {
+	if (object.desc.indexOf(this.identifier(type, object.id)) === -1) {
 		this.makeTooltip(object, type);
 	}
 
@@ -2529,7 +2583,7 @@ CookieMonster.updateTooltip = function(type, key, colors, deficits, informations
 		'<div align=right class="text-' +colors[0]+ '" style="position:absolute; top:48px; left:4px;">' + this.formatNumber(informations[1]) + '</div>'+
 
 		'<div class="text-blue" style="position:absolute; top:64px; left:4px; font-weight:bold;">Time Left</div>'+
-		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2], true) + "</div>"
+		'<div align=right class="text-' +colors[1]+ '" style="position:absolute; top:78px; left:4px;">' + this.formatTime(informations[2], true) + '</div>'
 	);
 
 	$(identifier+'warning_amount').html('Deficit: ' + this.formatNumber(deficits[0]));
@@ -2618,7 +2672,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 	// Gather comparative informations
 	var income       = this.callCached('getUpgradeWorth', [upgrade]);
 	var informations = [this.roundDecimal(upgrade.basePrice / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
-	var colors       = this.getLuckyColors(informations);
+	var colors       = this.computeColorCoding(informations);
 
 	// Update store counters
 	var colorKey = ['blue', 'green', 'yellow', 'orange', 'red', 'purple'].indexOf(colors[0]);
@@ -2629,10 +2683,10 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div class="cookie-monster__upgrade background-' +colors[0]+ '"></div>');
 	}
 
-	return this.updateTooltip('up', upgrade.id, colors, this.getLuckyAlerts(upgrade.basePrice), [
+	return this.updateTooltip(upgrade, colors, [
 		this.roundDecimal(income),
 		informations[0],
-		informations[1],
+		informations[1]
 	]);
 };
 
@@ -2644,26 +2698,25 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
  * @return {void}
  */
 CookieMonster.manageBuildingTooltip = function(building) {
-	var informations = [this.informations.cpi[building.id], this.informations.timeLeft[building.id]];
-	var colors       = this.getLuckyColors(informations);
+	var informations = [this.informations.cpi[building.id], this.informations.timeLeft[building.id], this.informations.roi[building.id]];
+	var colors       = this.computeColorCoding(informations);
 
 	// Colorize building price
 	if (this.getBooleanSetting('ColoredPrices')) {
-		$('.price', '#product'+building.id).attr('class', 'price text-'+colors[0]);
+		var color = this.getBooleanSetting('ReturnInvestment') ? colors[2] : colors[0];
+		$('.price', '#product'+building.id).attr('class', 'price text-'+color);
 	}
 
-	return this.updateTooltip('ob', building.id, colors, this.getLuckyAlerts(building.price), [
+	return this.updateTooltip(building, colors, [
 		this.informations.bonus[building.id],
 		informations[0],
-		informations[1],
+		informations[1]
 	]);
 };
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////// HELPERS /////////////////////////////
 //////////////////////////////////////////////////////////////////////
-
-
 
 /**
  * Get the lucky alerts for a price
@@ -2690,19 +2743,19 @@ CookieMonster.getLuckyAlerts = function(price) {
 };
 
 /**
- * Get the colors for the lucky alerts
+ * Get the color coding for a set of informations
  *
  * @param {Array} informations
  *
  * @return {Array}
  */
-CookieMonster.getLuckyColors = function(informations) {
-	var colors    = ['yellow', 'yellow'];
+CookieMonster.computeColorCoding = function(informations) {
+	var colors    = ['yellow', 'yellow', 'yellow'];
 	var maxValues = this.getBestValue('max');
 	var minValues = this.getBestValue('min');
 
 	// Compute color
-	for (var i = 0; i < colors.length; i++) {
+	for (var i = 0; i < informations.length; i++) {
 		if (informations[i] < minValues[i]) {
 			colors[i] = 'blue';
 		} else if (informations[i] === minValues[i]) {
@@ -2714,6 +2767,11 @@ CookieMonster.getLuckyColors = function(informations) {
 		} else if (maxValues[i] - informations[i] < informations[i] - minValues[i]) {
 			colors[i] = 'orange';
 		}
+	}
+
+	// As ROI only has one color, use that one
+	if (informations[2] === minValues[2]) {
+		colors[2] = 'cyan';
 	}
 
 	return colors;

@@ -50,6 +50,15 @@
 strong {
   font-weight: bold; }
 
+.background-cyan {
+  background: cyan !important; }
+
+.text-cyan {
+  color: cyan !important; }
+
+.border-cyan {
+  border-color: cyan !important; }
+
 .background-blue {
   background: #4bb8f0 !important; }
 
