@@ -4,6 +4,9 @@
 
 * Fixed a bug where some tooltips weren't being displayed on newly unlocked upgrades
 * Added **ROI** (Return on Investment) option as an alternative to **BCI** (Base Cose per Income) for buildings
+* Loading a save or resetting the game now properly refreshes Cookie Monster
+* Fixed BCI going crazy during frenzies
+* Small tweak to the wrinklers revenues formula
 
 ### 1.040.06 _(2013-12-31)_
 
