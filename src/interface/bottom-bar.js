@@ -1,44 +1,4 @@
 //////////////////////////////////////////////////////////////////////
-///////////////////////////// INFORMATIONS ///////////////////////////
-//////////////////////////////////////////////////////////////////////
-
-/**
- * Get an array with the min/max CPI/timeLeft
- *
- * @param {String} minOrMax
- *
- * @return {Array}
- */
-CookieMonster.getBestValue = function(minOrMax) {
-	return [
-		Math[minOrMax].apply(Math, this.informations.cpi),
-		Math[minOrMax].apply(Math, this.informations.timeLeft),
-		Math[minOrMax].apply(Math, this.informations.roi)
-	];
-};
-
-/**
- * Update the stored informations about a building
- *
- * @param {Integer} building
- * @param {Array}   informations
- */
-CookieMonster.setBuildingInformations = function (building, informations) {
-	this.informations.items[building]    = informations.items;
-	this.informations.bonus[building]    = informations.bonus;
-	this.informations.cpi[building]      = informations.cpi;
-	this.informations.roi[building]      = informations.roi;
-	this.informations.timeLeft[building] = informations.timeLeft;
-
-	// Compute formatted informations
-	var colors = this.computeColorCoding([informations.cpi, informations.timeLeft]);
-	this.bottomBar.items[building]    = informations.items;
-	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
-	this.bottomBar.cpi[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.cpi)+ '</span>';
-	this.bottomBar.timeLeft[building] = '<span class="text-' +colors[1]+ '">' +this.formatTime(informations.timeLeft, true)+ '</span>';
-};
-
-//////////////////////////////////////////////////////////////////////
 ///////////////////////////// DOM MODIFIERS //////////////////////////
 //////////////////////////////////////////////////////////////////////
 
@@ -93,28 +53,6 @@ CookieMonster.makeTable = function() {
  * @return {void}
  */
 CookieMonster.updateTable = function() {
-	var that = this;
-
-	// Here we loop over the information we have, and building a multidimensionnal
-	// array of it, by building key
-	Game.ObjectsById.forEach(function (building, key) {
-
-		// Compute informations
-		var bonus    = that.roundDecimal(that.getBuildingWorth(building));
-		var cpi      = that.roundDecimal(building.price / bonus);
-		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
-		var profit   = building.price * (bonus + Game.cookiesPs) / bonus;
-		var timeLeft = Math.round(that.secondsLeft(key, 'object'));
-
-		// Save building informations
-		that.setBuildingInformations(key, {
-			items    : building.name.split(' ')[0] + ' ' + count,
-			bonus    : bonus,
-			cpi      : cpi,
-			roi      : profit,
-			timeLeft : timeLeft,
-		});
-	});
-
+	this.updateBuildingsInformations();
 	this.makeTable();
 };
