@@ -1,3 +1,5 @@
+/*jshint -W014*/
+
 /**
  * Get the price of an object
  *
