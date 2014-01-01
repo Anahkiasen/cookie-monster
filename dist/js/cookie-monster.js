@@ -10,7 +10,7 @@ var CookieMonster = {
 	// Runtime variables
 	////////////////////////////////////////////////////////////////////
 
-	version : '1.040.05',
+	version : '1.040.07',
 	loops   : 0,
 
 	humanNumbers : new Array(
@@ -31,13 +31,13 @@ var CookieMonster = {
 	bottomBar    : {
 		items    : [],
 		bonus    : [],
-		cpi      : [],
+		bci      : [],
 		timeLeft : [],
 	},
 	informations : {
 		items    : [],
 		bonus    : [],
-		cpi      : [],
+		bci      : [],
 		roi      : [],
 		timeLeft : [],
 	},
@@ -714,7 +714,7 @@ CookieMonster.checkBuildingUnifiesAmounts = function(amount, checkedBuilding) {
  */
 CookieMonster.getBestValue = function(minOrMax) {
 	return [
-		Math[minOrMax].apply(Math, this.informations.cpi),
+		Math[minOrMax].apply(Math, this.informations.bci),
 		Math[minOrMax].apply(Math, this.informations.timeLeft),
 		Math[minOrMax].apply(Math, this.informations.roi)
 	];
@@ -729,15 +729,15 @@ CookieMonster.getBestValue = function(minOrMax) {
 CookieMonster.setBuildingInformations = function (building, informations) {
 	this.informations.items[building]    = informations.items;
 	this.informations.bonus[building]    = informations.bonus;
-	this.informations.cpi[building]      = informations.cpi;
+	this.informations.bci[building]      = informations.bci;
 	this.informations.roi[building]      = informations.roi;
 	this.informations.timeLeft[building] = informations.timeLeft;
 
 	// Compute formatted informations
-	var colors = this.computeColorCoding([informations.cpi, informations.timeLeft]);
+	var colors = this.computeColorCoding([informations.bci, informations.timeLeft]);
 	this.bottomBar.items[building]    = informations.items;
 	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
-	this.bottomBar.cpi[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.cpi)+ '</span>';
+	this.bottomBar.bci[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.bci)+ '</span>';
 	this.bottomBar.timeLeft[building] = '<span class="text-' +colors[1]+ '">' +this.formatTime(informations.timeLeft, true)+ '</span>';
 };
 
@@ -1893,7 +1893,7 @@ CookieMonster.makeTable = function() {
 		'<table>'+
 			'<tr>'+thead+'<th>' +this.bottomBar.items.join('</th><th>')+ '</th></tr>'+
 			'<tr>'+bonus+'<td>' +this.bottomBar.bonus.join('</td><td>')+ '</td></tr>'+
-			'<tr>'+baseCost+'<td>' +this.bottomBar.cpi.join('</td><td>')+ '</td></tr>'+
+			'<tr>'+baseCost+'<td>' +this.bottomBar.bci.join('</td><td>')+ '</td></tr>'+
 			'<tr>'+timeLeft+'<td>' +this.bottomBar.timeLeft.join('</td><td>')+ '</td></tr>'+
 		'</table>');
 };
@@ -2698,7 +2698,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
  * @return {void}
  */
 CookieMonster.manageBuildingTooltip = function(building) {
-	var informations = [this.informations.cpi[building.id], this.informations.timeLeft[building.id], this.informations.roi[building.id]];
+	var informations = [this.informations.bci[building.id], this.informations.timeLeft[building.id], this.informations.roi[building.id]];
 	var colors       = this.computeColorCoding(informations);
 
 	// Colorize building price

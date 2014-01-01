@@ -3,6 +3,7 @@
 ### 1.040.07 _(2014-01-01)_
 
 * Fixed a bug where some tooltips weren't being displayed on newly unlocked upgrades
+* Added **ROI** (Return on Investment) option as an alternative to **BCI** (Base Cose per Income) for buildings
 
 ### 1.040.06 _(2013-12-31)_
 
