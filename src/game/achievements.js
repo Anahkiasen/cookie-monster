@@ -136,7 +136,7 @@ CookieMonster.hasntAchievement = function(checkedAchievement) {
 //////////////////////////////////////////////////////////////////////
 
 /**
- * Check if a buying a building would unlock an amount-related achievement
+ * Check if a given building would unlock an amount-related achievement when bought
  *
  * @param {Object} building
  *
