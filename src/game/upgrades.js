@@ -41,6 +41,10 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		unlocked += this.lgt(upgrade);
 	}
 
+	else if (this.matches(upgrade, 'for each non-cursor object')) {
+		income = this.getNonObjectsGainOutcome(upgrade);
+	}
+
 	// Grandmas per grandmas
 	else if (this.matches(upgrade, 'for every 50 grandmas')) {
 		income = this.getGrandmasPerGrandmaOutcome();
@@ -210,14 +214,17 @@ CookieMonster.lgt = function(upgrade) {
 	return (todo.length === 1 && todo[0] === upgrade.id);
 };
 
-CookieMonster.getMouseAndCursorGainOutcome = function(upgradeKey) {
-	var t = Game.UpgradesById[upgradeKey].desc;
-	var n = 31;
-	if (t.indexOf(' another ') !== -1) {
-		n += 8;
-	}
-	var r = t.substr(n, t.indexOf('<', n) - n) * 1;
-	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount;
+/**
+ * Computes the production of cursors per non-cursor objects
+ *
+ * @param {Object} upgrade
+ *
+ * @return {Integer}
+ */
+CookieMonster.getNonObjectsGainOutcome = function(upgrade) {
+	var modifier = upgrade.desc.match(/<b>\+(.+)<\/b>/)[1] * 1;
+
+	return modifier * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount;
 };
 
 /**
