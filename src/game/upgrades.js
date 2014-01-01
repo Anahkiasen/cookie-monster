@@ -37,26 +37,26 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		}
 	});
 
-	if (this.matches(upgrade, 'Grandmas are <b>twice</b> as efficient')) {
+	if (upgrade.matches('Grandmas are <b>twice</b> as efficient')) {
 		unlocked += this.lgt(upgrade);
 	}
 
-	else if (this.matches(upgrade, 'for each non-cursor object')) {
+	else if (upgrade.matches('for each non-cursor object')) {
 		income = this.getNonObjectsGainOutcome(upgrade);
 	}
 
 	// Grandmas per grandmas
-	else if (this.matches(upgrade, 'for every 50 grandmas')) {
+	else if (upgrade.matches('for every 50 grandmas')) {
 		income = this.getGrandmasPerGrandmaOutcome();
 	}
 
 	// Grandmas per portals
-	else if (this.matches(upgrade, 'for every 20 portals')) {
+	else if (upgrade.matches('for every 20 portals')) {
 		income = this.getGrandmasPerPortalOutcome();
 	}
 
 	// Heavenly upgrades
-	else if (this.matches(upgrade, 'potential of your heavenly')) {
+	else if (upgrade.matches('potential of your heavenly')) {
 		income = this.getHeavenlyUpgradeOutcome(unlocked, upgrade) / multiplier;
 		if (upgrade.name === 'Heavenly key') {
 			unlocked += this.hasntAchievement('Wholesome');
@@ -82,20 +82,6 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 	}
 
 	return (income * multiplier) + this.callCached('getAchievementWorth', [unlocked, upgrade.id, income]);
-};
-
-/**
- * Check if an upgrade matches against a piece of text
- *
- * @param {Object} upgrade
- * @param {String} matcher
- *
- * @return {Boolean}
- */
-CookieMonster.matches = function(upgrade, matcher) {
-	matcher = matcher.toLowerCase();
-
-	return upgrade.desc.toLowerCase().indexOf(matcher) !== -1;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -168,10 +154,10 @@ CookieMonster.getGrandmasPerPortalOutcome = function() {
 	var multiplier = 1;
 
 	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>.') !== -1) {
+		if (upgrade.bought && upgrade.matches('Grandmas are <b>twice</b>.')) {
 			multiplier = multiplier * 2;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+		if (upgrade.bought && upgrade.matches('Grandmas are <b>4 times</b> as efficient.')) {
 			multiplier = multiplier * 4;
 		}
 	});
@@ -188,10 +174,10 @@ CookieMonster.getGrandmasPerGrandmaOutcome = function() {
 	var multiplier = 1;
 
 	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>') !== -1) {
+		if (upgrade.bought && upgrade.matches('Grandmas are <b>twice</b>')) {
 			multiplier = multiplier * 2;
 		}
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+		if (upgrade.bought && upgrade.matches('Grandmas are <b>4 times</b> as efficient.')) {
 			multiplier = multiplier * 4;
 		}
 	});

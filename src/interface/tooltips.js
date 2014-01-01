@@ -62,7 +62,7 @@ CookieMonster.updateTooltip = function(object, colors, informations) {
 	var $object    = $(identifier);
 
 	// Create tooltip if it doesn't exist
-	if (object.desc.indexOf(this.identifier(type, object.id)) === -1) {
+	if (object.matches(this.identifier(type, object.id))) {
 		this.makeTooltip(object, type);
 	}
 

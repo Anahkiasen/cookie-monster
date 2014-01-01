@@ -152,9 +152,9 @@ CookieMonster.getTotalCursorModifiers = function() {
 	var modifier = 0;
 
 	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf('The mouse and cursors gain') !== -1) {
+		if (upgrade.bought && upgrade.matches('The mouse and cursors gain')) {
 			var r = 31;
-			if (upgrade.desc.indexOf(' another ') !== -1) {
+			if (upgrade.matches(' another ')) {
 				r += 8;
 			}
 			modifier += upgrade.desc.substr(r, upgrade.desc.indexOf('<', r) - r) * 1;
@@ -180,16 +180,16 @@ CookieMonster.getTotalGrandmaModifiers = function(currentNumber) {
 		if (upgrade.bought && upgrade.name === 'Forwards from grandma') {
 			cookiesPs += 0.3;
 		}
-		else if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b>.') !== -1) {
+		else if (upgrade.bought && upgrade.matches('Grandmas are <b>twice</b>.')) {
 			modifiers *= 2;
 		}
-		else if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+		else if (upgrade.bought && upgrade.matches('Grandmas are <b>4 times</b> as efficient.')) {
 			modifiers *= 4;
 		}
-		else if (upgrade.bought && upgrade.desc.indexOf('for every 50 grandmas') !== -1) {
+		else if (upgrade.bought && upgrade.matches('for every 50 grandmas')) {
 			amount += (currentNumber + 1) * 0.02 * (currentNumber + 1) - currentNumber * 0.02 * currentNumber;
 		}
-		else if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
+		else if (upgrade.bought && upgrade.matches('for every 20 portals')) {
 			amount += Game.ObjectsById[7].amount * 0.05;
 		}
 	});
@@ -207,13 +207,13 @@ CookieMonster.getTotalPortalModifiers = function() {
 	var modifiers = 1;
 
 	Game.UpgradesById.forEach(function (upgrade) {
-		if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>twice</b> as efficient.') !== -1) {
+		if (upgrade.bought && upgrade.matches('Grandmas are <b>twice</b> as efficient.')) {
 			modifiers *= 2;
 		}
-		else if (upgrade.bought && upgrade.desc.indexOf('Grandmas are <b>4 times</b> as efficient.') !== -1) {
+		else if (upgrade.bought && upgrade.matches('Grandmas are <b>4 times</b> as efficient.')) {
 			modifiers *= 4;
 		}
-		else if (upgrade.bought && upgrade.desc.indexOf('for every 20 portals') !== -1) {
+		else if (upgrade.bought && upgrade.matches('for every 20 portals')) {
 			amount += Game.ObjectsById[1].amount * 0.05;
 		}
 	});
