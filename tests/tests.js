@@ -23,6 +23,7 @@ $      = jQuery(window);
 // Modules
 Game          = '';
 CookieMonster = require('../src/cookie-monster.js');
+require('../src/core/events.js');
 require('../src/core/runtime.js');
 require('../src/core/setup.js');
 require('../src/core/hooks.js');
@@ -30,7 +31,6 @@ require('../src/game/achievements.js');
 require('../src/game/buildings.js');
 require('../src/game/golden-cookie.js');
 require('../src/game/heavenly.js');
-require('../src/game/lucky.js');
 require('../src/game/special.js');
 require('../src/game/upgrades.js');
 require('../src/helpers/browser.js');
@@ -80,7 +80,6 @@ module.exports = {
 		'Buildings'     : require('./game/buildings.js'),
 		'Golden Cookie' : require('./game/golden-cookie.js'),
 		'Heavenly'      : require('./game/heavenly.js'),
-		'Lucky'         : require('./game/lucky.js'),
 		'Upgrades'      : require('./game/upgrades.js'),
 	},
 	'Interface': {
