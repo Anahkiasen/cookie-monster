@@ -12,7 +12,8 @@
 CookieMonster.getBestValue = function(minOrMax) {
 	return [
 		Math[minOrMax].apply(Math, this.informations.cpi),
-		Math[minOrMax].apply(Math, this.informations.timeLeft)
+		Math[minOrMax].apply(Math, this.informations.timeLeft),
+		Math[minOrMax].apply(Math, this.informations.roi)
 	];
 };
 
@@ -26,6 +27,7 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 	this.informations.items[building]    = informations.items;
 	this.informations.bonus[building]    = informations.bonus;
 	this.informations.cpi[building]      = informations.cpi;
+	this.informations.roi[building]      = informations.roi;
 	this.informations.timeLeft[building] = informations.timeLeft;
 
 	// Compute formatted informations
@@ -101,6 +103,7 @@ CookieMonster.updateTable = function() {
 		var bonus    = that.roundDecimal(that.getBuildingWorth(building));
 		var cpi      = that.roundDecimal(building.price / bonus);
 		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
+		var profit   = building.price * (bonus + Game.cookiesPs) / bonus;
 		var timeLeft = Math.round(that.secondsLeft(key, 'object'));
 
 		// Save building informations
@@ -108,6 +111,7 @@ CookieMonster.updateTable = function() {
 			items    : building.name.split(' ')[0] + ' ' + count,
 			bonus    : bonus,
 			cpi      : cpi,
+			roi      : profit,
 			timeLeft : timeLeft,
 		});
 	});

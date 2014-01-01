@@ -105,6 +105,7 @@ CookieMonster.getSettingsText = function() {
 			'Colorblind',
 			'ColoredPrices',
 			'UpgradeIcons',
+			'ReturnInvestment',
 		],
 		'Emphasizers': [
 			'BuffBars',

@@ -13,6 +13,7 @@ $color-orange    : #FF7F00;
 $color-purple    : #FF00FF;
 $color-red       : #FF0000;
 $color-yellow    : #FFFF00;
+$color-cyan      : #00FFFF;
 $color-greyTen   : grey(10);
 $color-greyLight : grey(70);
 
@@ -21,6 +22,7 @@ $color-greyLight : grey(70);
 }
 
 $swatch: (
+	cyan      : $color-cyan,
 	blue      : $color-blue,
 	green     : $color-green,
 	orange    : $color-orange,

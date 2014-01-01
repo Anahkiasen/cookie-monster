@@ -166,6 +166,7 @@ CookieMonster.toggleOption = function(option) {
 			break;
 		case 'ColoredPrices':
 			this.updateTooltips('objects');
+			$('.product .price').attr('class', 'price');
 			break;
 		case 'UpgradeIcons':
 			Game.RebuildUpgrades();

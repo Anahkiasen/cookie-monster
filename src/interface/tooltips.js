@@ -205,12 +205,13 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
  * @return {void}
  */
 CookieMonster.manageBuildingTooltip = function(building) {
-	var informations = [this.informations.cpi[building.id], this.informations.timeLeft[building.id]];
+	var informations = [this.informations.cpi[building.id], this.informations.timeLeft[building.id], this.informations.roi[building.id]];
 	var colors       = this.computeColorCoding(informations);
 
 	// Colorize building price
 	if (this.getBooleanSetting('ColoredPrices')) {
-		$('.price', '#product'+building.id).attr('class', 'price text-'+colors[0]);
+		var color = this.getBooleanSetting('ReturnInvestment') ? colors[2] : colors[0];
+		$('.price', '#product'+building.id).attr('class', 'price text-'+color);
 	}
 
 	return this.updateTooltip(building, colors, [
@@ -256,7 +257,7 @@ CookieMonster.getLuckyAlerts = function(price) {
  * @return {Array}
  */
 CookieMonster.computeColorCoding = function(informations) {
-	var colors    = ['yellow', 'yellow'];
+	var colors    = ['yellow', 'yellow', 'yellow'];
 	var maxValues = this.getBestValue('max');
 	var minValues = this.getBestValue('min');
 
@@ -273,6 +274,11 @@ CookieMonster.computeColorCoding = function(informations) {
 		} else if (maxValues[i] - informations[i] < informations[i] - minValues[i]) {
 			colors[i] = 'orange';
 		}
+	}
+
+	// As ROI only has one color, use that one
+	if (informations[2] === maxValues[2]) {
+		colors[2] = 'cyan';
 	}
 
 	return colors;
