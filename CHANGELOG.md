@@ -1,6 +1,6 @@
 ## 1.040 Versions
 
-### 1.040.08 _(2014-01-02)_
+### 1.040.08 _(2014-01-01)_
 
 * Take into account how an object/upgrade will affect the income to compute the Lucky Cookies deficit alerts
 * Fix frenzies not affecting BCI

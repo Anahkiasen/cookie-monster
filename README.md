@@ -61,7 +61,7 @@ Simply use like the previous plugin, create a bookmark and set this as the URL. 
 javascript: (function () {
   var jA = document.createElement('script');
   jA.setAttribute('type', 'text/javascript');
-  jA.setAttribute('src', 'https://rawgithub.com/Anahkiasen/cookie-monster/master/dist/cookie-monster.min.js?' + new Date().getTime());
+  jA.setAttribute('src', 'http://cookie-monster.autopergamene.eu/cookie-monster.min.js?' + new Date().getTime());
 
   document.body.appendChild(jA);
 }());
@@ -89,7 +89,7 @@ Game.Init = function() {
   (function () {
     var jA = document.createElement('script');
     jA.setAttribute('type', 'text/javascript');
-    jA.setAttribute('src', 'https://rawgithub.com/Anahkiasen/cookie-monster/master/dist/cookie-monster.min.js?' + new Date().getTime());
+    jA.setAttribute('src', 'http://cookie-monster.autopergamene.eu/cookie-monster.min.js?' + new Date().getTime());
 
     document.body.appendChild(jA);
   }());

@@ -10,7 +10,9 @@ var CookieMonster = {
 	// Runtime variables
 	////////////////////////////////////////////////////////////////////
 
-	version : '1.040.07',
+	version : '1.040.08',
+
+	domain  : 'http://cookie-monster.autopergamene.eu',
 	loops   : 0,
 
 	humanNumbers : new Array(
@@ -118,12 +120,18 @@ if (typeof module !== 'undefined') {
 }
 /*jshint -W014*/
 
+var CookieObject = {};
+
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// REFLECTIONS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 /**
  * Get the price of an object
  *
  * @return {Integer}
  */
-CookieMonster.getPriceOf = function() {
+CookieObject.getPriceOf = function() {
 	return this instanceof Game.Upgrade ? this.basePrice : this.price;
 };
 
@@ -132,27 +140,98 @@ CookieMonster.getPriceOf = function() {
  *
  * @return {String}
  */
-CookieMonster.getTypeOf = function() {
+CookieObject.getTypeOf = function() {
 	return this instanceof Game.Upgrade ? 'upgrade' : 'object';
 };
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////////// INFORMATIONS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 /**
  * Get the true worth of an object
  *
+ * @param {Boolean} rounded
+ *
  * @return {Integer}
  */
-CookieMonster.getWorthOf = function() {
-	return this.getType() === 'upgrade'
+CookieObject.getWorthOf = function(rounded) {
+	var worth = this.getType() === 'upgrade'
 		? CookieMonster.callCached('getUpgradeWorth', [this])
-		: CookieMonster.informations.bonus[this.id];
+		: CookieMonster.callCached('getBuildingWorth', [this]);
+
+	return rounded ? CookieMonster.roundDecimal(worth) : worth;
 };
+
+/**
+ * Get the Best Cost per Income
+ *
+ * @param {Boolean} rounded
+ *
+ * @return {Integer}
+ */
+CookieObject.getBaseCostPerIncome = function(rounded) {
+	var worth = this.getWorth();
+	var bci   = CookieMonster.roundDecimal(this.getPrice() / worth);
+	if (worth < 0) {
+		return Infinity;
+	}
+
+	return rounded ? CookieMonster.roundDecimal(bci) : bci;
+};
+
+/**
+ * Get the Return On Investment
+ *
+ * @return {Integer}
+ */
+CookieObject.getReturnInvestment = function() {
+	var worth = this.getWorth();
+
+	return this.price * (worth + Game.cookiesPs) / worth;
+};
+
+/**
+ * Get the time left for this Object
+ *
+ * @return {String}
+ */
+CookieObject.getTimeLeft = function() {
+	return CookieMonster.secondsLeft(this);
+};
+
+/**
+ * Get the core statistics for comparaisons
+ *
+ * @return {Array}
+ */
+CookieObject.getComparativeInfos = function() {
+	return [
+		this.getBaseCostPerIncome(),
+		this.getTimeLeft(),
+		this.getReturnInvestment(),
+	];
+};
+
+/**
+ * Get the colors assigned to this object
+ *
+ * @return {Array}
+ */
+CookieObject.getColors = function() {
+	return CookieMonster.computeColorCoding(this.getComparativeInfos());
+};
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////// HELPERS /////////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 /**
  * Get the identifier of an object
  *
  * @return {Integer}
  */
-CookieMonster.identifier = function() {
+CookieObject.identifier = function() {
 	return 'cookie-monster__'+this.getType()+'--'+this.id;
 };
 
@@ -163,7 +242,7 @@ CookieMonster.identifier = function() {
  *
  * @return {Boolean}
  */
-CookieMonster.matches = function(matcher) {
+CookieObject.matches = function(matcher) {
 	if (!this.desc) {
 		return false;
 	}
@@ -174,17 +253,27 @@ CookieMonster.matches = function(matcher) {
 // Hook into the game
 //////////////////////////////////////////////////////////////////////
 
-Game.Object.prototype.getPrice    = CookieMonster.getPriceOf;
-Game.Object.prototype.getType     = CookieMonster.getTypeOf;
-Game.Object.prototype.getWorth    = CookieMonster.getWorthOf;
-Game.Object.prototype.identifier  = CookieMonster.identifier;
-Game.Object.prototype.matches     = CookieMonster.matches;
+Game.Object.prototype.getBaseCostPerIncome  = CookieObject.getBaseCostPerIncome;
+Game.Object.prototype.getColors             = CookieObject.getColors;
+Game.Object.prototype.getComparativeInfos   = CookieObject.getComparativeInfos;
+Game.Object.prototype.getPrice              = CookieObject.getPriceOf;
+Game.Object.prototype.getReturnInvestment   = CookieObject.getReturnInvestment;
+Game.Object.prototype.getTimeLeft           = CookieObject.getTimeLeft;
+Game.Object.prototype.getType               = CookieObject.getTypeOf;
+Game.Object.prototype.getWorth              = CookieObject.getWorthOf;
+Game.Object.prototype.identifier            = CookieObject.identifier;
+Game.Object.prototype.matches               = CookieObject.matches;
 
-Game.Upgrade.prototype.getPrice   = CookieMonster.getPriceOf;
-Game.Upgrade.prototype.getType    = CookieMonster.getTypeOf;
-Game.Upgrade.prototype.getWorth   = CookieMonster.getWorthOf;
-Game.Upgrade.prototype.identifier = CookieMonster.identifier;
-Game.Upgrade.prototype.matches    = CookieMonster.matches;
+Game.Upgrade.prototype.getBaseCostPerIncome = CookieObject.getBaseCostPerIncome;
+Game.Upgrade.prototype.getColors            = CookieObject.getColors;
+Game.Upgrade.prototype.getComparativeInfos  = CookieObject.getComparativeInfos;
+Game.Upgrade.prototype.getPrice             = CookieObject.getPriceOf;
+Game.Upgrade.prototype.getReturnInvestment  = CookieObject.getReturnInvestment;
+Game.Upgrade.prototype.getTimeLeft          = CookieObject.getTimeLeft;
+Game.Upgrade.prototype.getType              = CookieObject.getTypeOf;
+Game.Upgrade.prototype.getWorth             = CookieObject.getWorthOf;
+Game.Upgrade.prototype.identifier           = CookieObject.identifier;
+Game.Upgrade.prototype.matches              = CookieObject.matches;
 CookieMonster.Events = {};
 
 /**
@@ -488,7 +577,7 @@ CookieMonster.setupElements = function() {
  * @return {void}
  */
 CookieMonster.loadStyles = function() {
-	var stylesheet = this.runningInLocal() ? 'http://localhost/_github/cookie-monster/dist/cookie-monster' : 'https://rawgithub.com/Anahkiasen/cookie-monster/master/dist/cookie-monster';
+	var stylesheet = this.runningInLocal() ? 'http://localhost/_github/cookie-monster/dist/cookie-monster' : this.domain+'/cookie-monster';
 	var $styles    = $('#cookie-monster__styles');
 
 	// Create link if undefined
@@ -928,26 +1017,16 @@ CookieMonster.setBuildingInformations = function (building, informations) {
  * @return {void}
  */
 CookieMonster.updateBuildingsInformations = function() {
-	var that = this;
-
-	// Here we loop over the information we have, and building a multidimensionnal
-	// array of it, by building key
 	Game.ObjectsById.forEach(function (building, key) {
-
-		// Compute informations
-		var bonus    = that.roundDecimal(that.getBuildingWorth(building));
-		var bci      = that.roundDecimal(building.price / bonus);
-		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
-		var profit   = building.price * (bonus + Game.cookiesPs) / bonus;
-		var timeLeft = that.secondsLeft(building);
+		var count = '(<span class="text-blue">' +building.amount+ '</span>)';
 
 		// Save building informations
-		that.setBuildingInformations(key, {
+		CookieMonster.setBuildingInformations(key, {
 			items    : building.name.split(' ')[0] + ' ' + count,
-			bonus    : bonus,
-			bci      : bci,
-			roi      : profit,
-			timeLeft : timeLeft,
+			bonus    : building.getWorth(true),
+			bci      : building.getBaseCostPerIncome(true),
+			roi      : building.getReturnInvestment(),
+			timeLeft : building.getTimeLeft(),
 		});
 	});
 };
@@ -1625,7 +1704,7 @@ CookieMonster.playSound = function(sound) {
  * @return {void}
  */
 CookieMonster.playBell = function() {
-	return this.playSound('http://autopergamene.eu/cookie-monster/mp3/bell.mp3');
+	return this.playSound(this.domain+'/mp3/bell.mp3');
 };
 
 /**
@@ -1637,7 +1716,7 @@ CookieMonster.playBell = function() {
  */
 CookieMonster.getImage = function(image) {
 	if (image.indexOf('http') === -1) {
-		image = 'http://autopergamene.eu/cookie-monster/img/'+image+'.png';
+		image = this.domain+'/img/'+image+'.png';
 	}
 
 	return image;
@@ -1727,7 +1806,16 @@ CookieMonster.refreshCache = function() {
  * @return {String}
  */
 CookieMonster.computeSalts = function(salts, args) {
-	return JSON.stringify(salts.concat(args));
+	salts = salts.concat(args);
+
+	// Get the objects identifiers as salt
+	for (var i = 0; i < salts.length; i++) {
+		if (typeof salts[i].identifier !== 'undefined') {
+			salts[i] = salts[i].identifier();
+		}
+	}
+
+	return salts.join('-');
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -2669,14 +2757,14 @@ CookieMonster.makeTooltip = function(object) {
  *
  * @param {Object} object
  * @param {Array}  colors
- * @param {Array}  informations
  *
  * @return {void}
  */
-CookieMonster.updateTooltip = function(object, colors, informations) {
-	var deficits   = this.getLuckyAlerts(object);
-	var identifier = '#'+object.identifier();
-	var $object    = $(identifier);
+CookieMonster.updateTooltip = function(object, colors) {
+	var informations = [object.getWorth(true), object.getBaseCostPerIncome(), object.getTimeLeft()];
+	var deficits     = this.getLuckyAlerts(object);
+	var identifier   = '#'+object.identifier();
+	var $object      = $(identifier);
 
 	// Create tooltip if it doesn't exist
 	if (!object.matches(object.identifier())) {
@@ -2785,12 +2873,8 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 		return;
 	}
 
-	// Gather comparative informations
-	var income       = this.callCached('getUpgradeWorth', [upgrade]);
-	var informations = [this.roundDecimal(upgrade.getPrice() / income), this.secondsLeft(upgrade)];
-	var colors       = this.computeColorCoding(informations);
-
 	// Update store counters
+	var colors   = upgrade.getColors();
 	var colorKey = ['blue', 'green', 'yellow', 'orange', 'red', 'purple'].indexOf(colors[0]);
 	this.upgradeCounts[colorKey]++;
 
@@ -2799,11 +2883,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 		$('#upgrade' + Game.UpgradesInStore.indexOf(upgrade)).html('<div class="cookie-monster__upgrade background-' +colors[0]+ '"></div>');
 	}
 
-	return this.updateTooltip(upgrade, colors, [
-		this.roundDecimal(income),
-		informations[0],
-		informations[1]
-	]);
+	return this.updateTooltip(upgrade, colors);
 };
 
 /**
@@ -2814,8 +2894,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
  * @return {void}
  */
 CookieMonster.manageBuildingTooltip = function(building) {
-	var informations = [this.informations.bci[building.id], this.informations.timeLeft[building.id], this.informations.roi[building.id]];
-	var colors       = this.computeColorCoding(informations);
+	var colors = building.getColors();
 
 	// Colorize building price
 	if (this.getBooleanSetting('ColoredPrices')) {
@@ -2823,11 +2902,7 @@ CookieMonster.manageBuildingTooltip = function(building) {
 		$('.price', '#product'+building.id).attr('class', 'price text-'+color);
 	}
 
-	return this.updateTooltip(building, colors, [
-		this.informations.bonus[building.id],
-		informations[0],
-		informations[1]
-	]);
+	return this.updateTooltip(building, colors);
 };
 
 //////////////////////////////////////////////////////////////////////
