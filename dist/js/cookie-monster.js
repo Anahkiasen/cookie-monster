@@ -755,7 +755,7 @@ CookieMonster.updateBuildingsInformations = function() {
 
 		// Compute informations
 		var bonus    = that.roundDecimal(that.getBuildingWorth(building));
-		var cpi      = that.roundDecimal(building.price / bonus);
+		var bci      = that.roundDecimal(building.price / bonus);
 		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
 		var profit   = building.price * (bonus + Game.cookiesPs) / bonus;
 		var timeLeft = Math.round(that.secondsLeft(key, 'object'));
@@ -764,7 +764,7 @@ CookieMonster.updateBuildingsInformations = function() {
 		that.setBuildingInformations(key, {
 			items    : building.name.split(' ')[0] + ' ' + count,
 			bonus    : bonus,
-			cpi      : cpi,
+			bci      : bci,
 			roi      : profit,
 			timeLeft : timeLeft,
 		});
