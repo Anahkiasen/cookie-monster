@@ -59,6 +59,13 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		}
 	}
 
+	// Elder pacts
+	if (upgrade.name === 'Elder Covenant') {
+		return Game.cookiesPs * -0.05;
+	} else if (upgrade.name === 'Revoke Elder Covenant') {
+		return (Game.cookiesPs / multiplier) * (multiplier * 1.05) - Game.cookiesPs;
+	}
+
 	// Building counts
 	if (Game.UpgradesOwned === 19) {
 		unlocked += this.hasntAchievement('Enhancer');

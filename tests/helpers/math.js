@@ -18,6 +18,13 @@ module.exports = {
 			CookieMonster.toHumanNumber(10.066, true).should.equal('10');
 			CookieMonster.toHumanNumber(10.066, false).should.equal('10.07');
 		},
+		'Can format negative numbers': function() {
+			CookieMonster.toHumanNumber(-123.456).should.equal('-123.46');
+			CookieMonster.toHumanNumber(-123456789).should.equal('-123.457 M');
+			CookieMonster.toHumanNumber(-12345678987654).should.equal('-12.346 T');
+			CookieMonster.toHumanNumber(-12345678987654321).should.equal('-12.346 Qa');
+			CookieMonster.toHumanNumber(-12345678987654321234).should.equal('-12.346 Qi');
+		},
 	},
 
 	'#formatNumber': {
