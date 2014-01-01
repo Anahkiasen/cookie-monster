@@ -8,12 +8,11 @@ CookieMonster.start = function() {
 		return;
 	}
 
+	// Setup Cookie Monster
+	this.hookIntoNative();
+
 	// Add Cookie Monster elements
-	this.createBottomBar();
-	this.createGoldenOverlay();
-	this.createFlashOverlay();
-	this.createBarsContainer();
-	this.createStoreCounters();
+	this.setupElements();
 
 	// Load stylesheet
 	this.loadSettings();
@@ -22,10 +21,6 @@ CookieMonster.start = function() {
 	// Add ID to favicon
 	$('link[href="favicon.ico"]').attr('id', 'cm_favicon');
 
-	// Setup Cookie Monster
-	this.hookIntoNative();
-	this.setupTooltips();
-
 	// Events
 	this.Events.onGoldenClick();
 
@@ -33,6 +28,20 @@ CookieMonster.start = function() {
 	this.mainLoop();
 
 	Game.Popup('<span class="cm-popup">Cookie Monster ' + this.version + ' Loaded!</span>');
+};
+
+/**
+ * Set up the DOM elements of Cookie Monster
+ *
+ * @return {void}
+ */
+CookieMonster.setupElements = function() {
+	this.createBottomBar();
+	this.createGoldenOverlay();
+	this.createFlashOverlay();
+	this.createBarsContainer();
+	this.createStoreCounters();
+	this.setupTooltips();
 };
 
 /**
@@ -81,4 +90,21 @@ CookieMonster.mainLoop = function() {
 	setTimeout(function() {
 		CookieMonster.mainLoop();
 	}, CookieMonster.getSetting('Refresh'));
+};
+
+/**
+ * Tear down Cookie Monster completely and rebuild it
+ *
+ * @return {void}
+ */
+CookieMonster.tearDown = function() {
+	// Destroy current elements
+	this.destroyBars();
+	this.$goldenOverlay.remove();
+	this.$monsterBar.remove();
+	this.$flashOverlay.remove();
+	this.$timerBars.remove();
+	$('#cookie-monster__store').remove();
+
+	this.setupElements();
 };

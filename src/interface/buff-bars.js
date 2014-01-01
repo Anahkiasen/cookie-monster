@@ -11,6 +11,18 @@ CookieMonster.manageBuffs = function() {
 };
 
 /**
+ * Destroy all bars in the game
+ *
+ * @return {void}
+ */
+CookieMonster.destroyBars = function() {
+	var bars = ['Frenzy', 'BloodFrenzy', 'Clot', 'Clickfrenzy', 'goldenCookie', 'seasonPopup'];
+	for (var bar in bars) {
+		this.fadeOutBar(bar);
+	}
+};
+
+/**
  * Get the width of the timers container
  *
  * @return {Integer}

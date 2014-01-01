@@ -34,13 +34,9 @@ CookieMonster.hookIntoNative = function() {
 		"this.on=1;"      : "this.on=1;\nCookieMonster.updateTooltips();",
 	}));
 
-	this.replaceNative('Reset', {
-		"Game.researchT=0;": "Game.researchT=0;\nCookieMonster.$monsterBar.text('');",
-	}, 'bypass');
-
-	this.replaceNative('LoadSave', {
-		"Game.Popup('Game loaded');": "Game.Popup('Game loaded');\nCookieMonster.$timerBars.text('');",
-	}, 'data');
+	// Rebuild Cookie Monster on game changing events
+	this.appendToNative('Reset', CookieMonster.tearDown);
+	this.appendToNative('LoadSave', CookieMonster.tearDown);
 
 	// Refresh tooltips on store rebuild
 	this.appendToNative('RebuildStore', CookieMonster.updateTooltips);
