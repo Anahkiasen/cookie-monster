@@ -3,15 +3,17 @@ module.exports = {
 	'#getBestValue': {
 		'Can get max value': function() {
 			CookieMonster.informations.cpi      = [0, 1, 2, 3, 4, 5];
+			CookieMonster.informations.roi      = [0, 1, 2, 3, 4, 5];
 			CookieMonster.informations.timeLeft = [0, 1, 2, 3, 4, 5];
 
-			CookieMonster.getBestValue('max').should.eql([5, 5]);
+			CookieMonster.getBestValue('max').should.eql([5, 5, 5]);
 		},
 		'Can get min value': function() {
 			CookieMonster.informations.cpi      = [0, 1, 2, 3, 4, 5];
+			CookieMonster.informations.roi      = [0, 1, 2, 3, 4, 5];
 			CookieMonster.informations.timeLeft = [0, 1, 2, 3, 4, 5];
 
-			CookieMonster.getBestValue('min').should.eql([0, 0]);
+			CookieMonster.getBestValue('min').should.eql([0, 0, 0]);
 		},
 	},
 
