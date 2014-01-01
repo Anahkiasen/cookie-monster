@@ -29,20 +29,19 @@ CookieMonster.getHeavenlyMultiplier = function() {
 	var chips     = Game.prestige['Heavenly chips'] * 2;
 	var potential = 0;
 
-	if (Game.Has('Heavenly chip secret')) {
-		potential += 0.05;
-	}
-	if (Game.Has('Heavenly cookie stand')) {
-		potential += 0.2;
-	}
-	if (Game.Has('Heavenly bakery')) {
-		potential += 0.25;
-	}
-	if (Game.Has('Heavenly confectionery')) {
-		potential += 0.25;
-	}
-	if (Game.Has('Heavenly key')) {
-		potential += 0.25;
+	var upgrades = {
+		'Heavenly chip secret'   : 0.05,
+		'Heavenly cookie stand'  : 0.2,
+		'Heavenly bakery'        : 0.25,
+		'Heavenly confectionery' : 0.25,
+		'Heavenly key'           : 0.25,
+	};
+
+	// Apply the various potentials
+	for (var upgrade in upgrades) {
+		if (Game.Has(upgrade)) {
+			potential += upgrades[upgrade];
+		}
 	}
 
 	return chips * potential;

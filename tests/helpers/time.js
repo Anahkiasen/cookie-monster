@@ -2,14 +2,11 @@ module.exports = {
 
 	'#secondsLeft': {
 		'Can get time left to a building': function() {
-			CookieMonster.secondsLeft(0, 'object').should.equal(2.6);
+			CookieMonster.secondsLeft(Game.ObjectsById[0]).should.equal(3);
 		},
 		'Can return 0 if buyable': function() {
 			Game.cookies = 200;
-			CookieMonster.secondsLeft(0, 'object').should.equal(0);
-		},
-		'Can get time left to an upgrade': function() {
-			CookieMonster.secondsLeft(0, 'upgrade').should.equal(8);
+			CookieMonster.secondsLeft(Game.ObjectsById[0]).should.equal(0);
 		},
 	},
 

@@ -32,6 +32,7 @@ var CookieMonster = {
 		items    : [],
 		bonus    : [],
 		bci      : [],
+		roi      : [],
 		timeLeft : [],
 	},
 	informations : {

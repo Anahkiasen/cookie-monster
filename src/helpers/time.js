@@ -1,22 +1,14 @@
 /**
  * Computes the time (s) required to buy a building/upgrade
  *
- * @param {Integer} object
- * @param {String}  type
+ * @param {Object} object
  *
  * @return {Integer}
  */
-CookieMonster.secondsLeft = function(object, type) {
-	// Get the price of the object we want
-	var basePrice = 0;
-	if (type === 'object') {
-		basePrice = Game.ObjectsById[object].price;
-	} else if (type === 'upgrade') {
-		basePrice = Game.UpgradesById[object].basePrice;
-	}
-
-	// Get the amount of cookies needed
-	var realPrice = Game.cookies - basePrice;
+CookieMonster.secondsLeft = function(object) {
+	// Get the price of the object we want and how much we need
+	var price = object instanceof Game.Upgrade ? object.basePrice : object.price;
+	var realPrice = Game.cookies - price;
 
 	// If we're not making any cookies, or have
 	// enough already, return 0
@@ -24,7 +16,7 @@ CookieMonster.secondsLeft = function(object, type) {
 		return 0;
 	}
 
-	return Math.abs(realPrice) / Game.cookiesPs;
+	return Math.round(Math.abs(realPrice) / Game.cookiesPs);
 };
 
 /**

@@ -24,6 +24,8 @@ CookieMonster.getBestValue = function(minOrMax) {
  * @param {Array}   informations
  */
 CookieMonster.setBuildingInformations = function (building, informations) {
+	var colors = this.computeColorCoding([informations.bci, informations.timeLeft, informations.roi]);
+
 	this.informations.items[building]    = informations.items;
 	this.informations.bonus[building]    = informations.bonus;
 	this.informations.bci[building]      = informations.bci;
@@ -31,10 +33,10 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 	this.informations.timeLeft[building] = informations.timeLeft;
 
 	// Compute formatted informations
-	var colors = this.computeColorCoding([informations.bci, informations.timeLeft]);
 	this.bottomBar.items[building]    = informations.items;
 	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
 	this.bottomBar.bci[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.bci)+ '</span>';
+	this.bottomBar.roi[building]      = '<span class="text-' +colors[2]+ '">' +this.formatNumber(informations.roi)+ '</span>';
 	this.bottomBar.timeLeft[building] = '<span class="text-' +colors[1]+ '">' +this.formatTime(informations.timeLeft, true)+ '</span>';
 };
 
@@ -55,7 +57,7 @@ CookieMonster.updateBuildingsInformations = function() {
 		var bci      = that.roundDecimal(building.price / bonus);
 		var count    = '(<span class="text-blue">' +building.amount+ '</span>)';
 		var profit   = building.price * (bonus + Game.cookiesPs) / bonus;
-		var timeLeft = Math.round(that.secondsLeft(key, 'object'));
+		var timeLeft = that.secondsLeft(building);
 
 		// Save building informations
 		that.setBuildingInformations(key, {
@@ -80,7 +82,7 @@ CookieMonster.updateBuildingsInformations = function() {
  * @return {Integer}
  */
 CookieMonster.getBuildingWorth = function(building) {
-	var multiplier = Game.globalCpsMult / (Game.frenzyPower || 1);
+	var multiplier = Game.globalCpsMult / this.getFrenzyMultiplier();
 	var income     = building.storedCps * multiplier;
 	var unlocked   = 0;
 

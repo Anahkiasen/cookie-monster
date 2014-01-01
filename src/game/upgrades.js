@@ -212,6 +212,13 @@ CookieMonster.getMouseAndCursorGainOutcome = function(upgradeKey) {
 	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
 };
 
+/**
+ * Compute the production of a building once 4 times as efficient
+ *
+ * @param {Integer} buildingKey
+ *
+ * @return {Integer}
+ */
 CookieMonster.getFourTimesEfficientOutcome = function(buildingKey) {
 	return Game.ObjectsById[buildingKey].storedTotalCps * 3 * Game.globalCpsMult;
 };

@@ -178,7 +178,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 
 	// Gather comparative informations
 	var income       = this.callCached('getUpgradeWorth', [upgrade]);
-	var informations = [this.roundDecimal(upgrade.basePrice / income), Math.round(this.secondsLeft(upgrade.id, 'upgrade'))];
+	var informations = [this.roundDecimal(upgrade.basePrice / income), this.secondsLeft(upgrade)];
 	var colors       = this.computeColorCoding(informations);
 
 	// Update store counters
