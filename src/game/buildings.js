@@ -80,7 +80,7 @@ CookieMonster.updateBuildingsInformations = function() {
  * @return {Integer}
  */
 CookieMonster.getBuildingWorth = function(building) {
-	var multiplier = Game.globalCpsMult;
+	var multiplier = Game.globalCpsMult / (Game.frenzyPower || 1);
 	var income     = building.storedCps * multiplier;
 	var unlocked   = 0;
 
