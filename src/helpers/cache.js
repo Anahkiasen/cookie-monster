@@ -8,7 +8,7 @@
  * @return {Mixed}
  */
 CookieMonster.cache = function(salts, callback, args) {
-	var state = [Game.UpgradesOwned, Game.BuildingsOwned].join('-');
+	var state = [Game.UpgradesOwned, Game.BuildingsOwned, Game.globalCpsMult].join('-');
 
 	// Create entry for current state
 	if (typeof this.cacheStore[state] === 'undefined') {

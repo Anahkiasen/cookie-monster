@@ -6,8 +6,9 @@
  * @return {Integer}
  */
 CookieMonster.getUpgradeWorth = function(upgrade) {
-	var income   = 0;
-	var unlocked = 0;
+	var income     = 0;
+	var unlocked   = 0;
+	var multiplier = Game.globalCpsMult;
 
 	// Standard bulding upgrades
 	var buildingUpgrades = ['Cursors', 'Grandmas', 'Farms', 'Factories', 'Mines', 'Shipments', 'Alchemy labs', 'Portals', 'Time machines', 'Antimatter condensers'];
@@ -52,7 +53,7 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 
 	// Heavenly upgrades
 	else if (this.matches(upgrade, 'potential of your heavenly')) {
-		income = this.getHeavenlyUpgradeOutcome(unlocked, upgrade);
+		income = this.getHeavenlyUpgradeOutcome(unlocked, upgrade) / multiplier;
 		if (upgrade.name === 'Heavenly key') {
 			unlocked += this.hasntAchievement('Wholesome');
 		}
@@ -69,7 +70,7 @@ CookieMonster.getUpgradeWorth = function(upgrade) {
 		unlocked += this.hasntAchievement('Upgrader');
 	}
 
-	return income + this.callCached('getAchievementWorth', [unlocked, upgrade.id, income]);
+	return (income * multiplier) + this.callCached('getAchievementWorth', [unlocked, upgrade.id, income]);
 };
 
 /**
@@ -101,7 +102,7 @@ CookieMonster.matches = function(upgrade, matcher) {
  * @return {Integer}
  */
 CookieMonster.getBuildingUpgradeOutcome = function(buildingKey) {
-	return Game.ObjectsById[buildingKey].storedTotalCps * Game.globalCpsMult;
+	return Game.ObjectsById[buildingKey].storedTotalCps;
 };
 
 /**
@@ -126,7 +127,7 @@ CookieMonster.getMultiplierOutcome = function(building, baseMultiplier, building
 		}
 	});
 
-	return Game.ObjectsById[buildingKey].amount * multiplier * baseMultiplier * Game.globalCpsMult;
+	return Game.ObjectsById[buildingKey].amount * multiplier * baseMultiplier;
 };
 
 /**
@@ -164,7 +165,7 @@ CookieMonster.getGrandmasPerPortalOutcome = function() {
 		}
 	});
 
-	return Game.ObjectsById[7].amount * 0.05 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
+	return Game.ObjectsById[7].amount * 0.05 * multiplier * Game.ObjectsById[1].amount;
 };
 
 /**
@@ -184,7 +185,7 @@ CookieMonster.getGrandmasPerGrandmaOutcome = function() {
 		}
 	});
 
-	return Game.ObjectsById[1].amount * 0.02 * multiplier * Game.ObjectsById[1].amount * Game.globalCpsMult;
+	return Game.ObjectsById[1].amount * 0.02 * multiplier * Game.ObjectsById[1].amount;
 };
 
 CookieMonster.lgt = function(upgrade) {
@@ -209,7 +210,7 @@ CookieMonster.getMouseAndCursorGainOutcome = function(upgradeKey) {
 		n += 8;
 	}
 	var r = t.substr(n, t.indexOf('<', n) - n) * 1;
-	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount * Game.globalCpsMult;
+	return r * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount;
 };
 
 /**
@@ -220,5 +221,5 @@ CookieMonster.getMouseAndCursorGainOutcome = function(upgradeKey) {
  * @return {Integer}
  */
 CookieMonster.getFourTimesEfficientOutcome = function(buildingKey) {
-	return Game.ObjectsById[buildingKey].storedTotalCps * 3 * Game.globalCpsMult;
+	return Game.ObjectsById[buildingKey].storedTotalCps * 3;
 };
