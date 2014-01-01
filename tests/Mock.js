@@ -52,18 +52,38 @@ module.exports = {
 			prestige     : {},
 			Upgrades     : [],
 
-			Object  : function() {},
-			Upgrade : function() {},
+			Object  : this.object,
+			Upgrade : this.object,
 
 			RebuildStore : function() {},
 			Has          : function() {},
 		};
 
+		// Create instances
 		Game.AchievementsById.forEach(function(achievement) {
 			Game.Achievements[achievement.name] = achievement;
 		});
+		Game.UpgradesById.forEach(function(upgrade, key) {
+			Game.UpgradesById[key] = new Game.Upgrade(upgrade);
+		});
+		Game.ObjectsById.forEach(function(object, key) {
+			Game.ObjectsById[key] = new Game.Object(object);
+		});
 
 		return Game;
+	},
+
+	/**
+	 * A dummy model
+	 *
+	 * @param {Object} attributes
+	 *
+	 * @return {Object}
+	 */
+	object: function(attributes) {
+		for (var attribute in attributes) {
+			this[attribute] = attributes[attribute];
+		}
 	},
 
 	////////////////////////////////////////////////////////////////////
