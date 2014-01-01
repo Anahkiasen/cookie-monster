@@ -32,13 +32,13 @@ CookieMonster.toHumanNumber = function(number, round) {
 	var shortNumbers = this.getSetting('ShortNumbers') - 1;
 
 	if (shortNumbers > -1) {
-		var r = 1e33;
+		var divider = 1e33;
 		for (var i = this.humanNumbers[shortNumbers].length - 1; i >= 0; i--) {
-			var s = (number / r % 999).toFixed(3);
-			if (s >= 1) {
-				return s + this.humanNumbers[shortNumbers][i];
+			var formattedNumber = (number / divider % 999).toFixed(3);
+			if (formattedNumber >= 1) {
+				return formattedNumber + this.humanNumbers[shortNumbers][i];
 			}
-			r /= 1e3;
+			divider /= 1e3;
 		}
 	}
 

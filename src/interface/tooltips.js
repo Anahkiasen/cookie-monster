@@ -49,6 +49,9 @@ CookieMonster.makeTooltip = function(object, type) {
 				'</div>'+
 			'</div>'+
 		'</div>';
+
+	// Update store
+	Game.RebuildUpgrades();
 };
 
 /**
