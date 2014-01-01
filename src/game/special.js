@@ -17,16 +17,22 @@ CookieMonster.emphasizeSeason = function() {
 /**
  * Get the amount of cookies sucked by wrinklers
  *
+ * @param {Integer} modifier
+ * @param {Boolean} formatted
+ *
  * @return {Integer}
  */
-CookieMonster.getWrinklersSucked = function(raw) {
+CookieMonster.getWrinklersSucked = function(formatted, modifier) {
 	var sucked = 0;
+	modifier = modifier || 1;
 
+	// Here we loop over the wrinklers and
+	// compute how muck cookies they sucked * the modifier
 	Game.wrinklers.forEach(function(wrinkler) {
-		sucked += wrinkler.sucked;
+		sucked += wrinkler.sucked * modifier;
 	});
 
-	return raw ? sucked : this.formatNumber(sucked);
+	return formatted ? this.formatNumber(sucked) : sucked;
 };
 
 /**
@@ -37,19 +43,13 @@ CookieMonster.getWrinklersSucked = function(raw) {
  * @return {String}
  */
 CookieMonster.getWrinklersReward = function(context) {
-	var sucked   = this.getWrinklersSucked(true);
-	var modifier = 1.1;
-	var result   = 0;
+	var sucked = this.getWrinklersSucked(false, 1.1);
 
-	switch (context) {
-		case 'reward':
-			result = (sucked * modifier) - sucked;
-			break;
-
-		default:
-			result = sucked * modifier;
-			break;
+	// If we only want the actual benefit from the wrinklers
+	// We substract how much they sucked without the modifier
+	if (context === 'reward') {
+		sucked -= this.getWrinklersSucked();
 	}
 
-	return this.formatNumber(result);
+	return this.formatNumber(sucked);
 };
