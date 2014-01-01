@@ -57,7 +57,7 @@ CookieMonster.makeTooltip = function(object, type) {
  */
 CookieMonster.updateTooltip = function(object, colors, informations) {
 	var type       = object instanceof Game.Upgrade ? 'up' : 'ob';
-	var deficits   = type === 'ob' ? this.getLuckyAlerts(object.price) : this.getLuckyAlerts(object.basePrice);
+	var deficits   = this.getLuckyAlerts(object);
 	var identifier = '#'+this.identifier(type, object.id);
 	var $object    = $(identifier);
 
@@ -170,7 +170,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
 
 	// Gather comparative informations
 	var income       = this.callCached('getUpgradeWorth', [upgrade]);
-	var informations = [this.roundDecimal(upgrade.basePrice / income), this.secondsLeft(upgrade)];
+	var informations = [this.roundDecimal(upgrade.getPrice() / income), this.secondsLeft(upgrade)];
 	var colors       = this.computeColorCoding(informations);
 
 	// Update store counters
@@ -220,11 +220,12 @@ CookieMonster.manageBuildingTooltip = function(building) {
 /**
  * Get the lucky alerts for a price
  *
- * @param {Integer} price
+ * @param {Object} object
  *
  * @return {Array}
  */
-CookieMonster.getLuckyAlerts = function(price) {
+CookieMonster.getLuckyAlerts = function(object) {
+	var price    = object.getPrice();
 	var rewards  = [this.getLuckyTreshold(), this.getLuckyTreshold('frenzy')];
 	var deficits = [0, 0];
 

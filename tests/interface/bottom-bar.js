@@ -24,15 +24,4 @@ module.exports = {
 		},
 	},
 
-	'#updateTable': {
-		'Can update the informations in the bottom bar': function() {
-			CookieMonster.createBottomBar();
-			CookieMonster.updateTable();
-
-			var html = $('table').html();
-
-			html.should.contain('Cursor (<span class="text-blue">8</span>)');
-		},
-	}
-
 };

@@ -21,8 +21,9 @@ jQuery = require('jquery');
 $      = jQuery(window);
 
 // Modules
-Game          = '';
+Game          = Mock.game();
 CookieMonster = require('../src/cookie-monster.js');
+require('../src/core/decorators.js');
 require('../src/core/events.js');
 require('../src/core/runtime.js');
 require('../src/core/setup.js');

@@ -51,7 +51,9 @@ module.exports = {
 			Achievements : {},
 			prestige     : {},
 			Upgrades     : [],
-			Upgrade      : function() {},
+
+			Object  : function() {},
+			Upgrade : function() {},
 
 			RebuildStore : function() {},
 			Has          : function() {},

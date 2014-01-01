@@ -7,8 +7,7 @@
  */
 CookieMonster.secondsLeft = function(object) {
 	// Get the price of the object we want and how much we need
-	var price = object instanceof Game.Upgrade ? object.basePrice : object.price;
-	var realPrice = Game.cookies - price;
+	var realPrice = Game.cookies - object.getPrice();
 
 	// If we're not making any cookies, or have
 	// enough already, return 0
