@@ -175,8 +175,7 @@ CookieMonster.manageUpgradeTooltips = function(upgrade) {
  * @return {void}
  */
 CookieMonster.manageBuildingTooltip = function(building) {
-	var informations = building.getComparativeInfos();
-	var colors       = building.getColors();
+	var colors = building.getColors();
 
 	// Colorize building price
 	if (this.getBooleanSetting('ColoredPrices')) {

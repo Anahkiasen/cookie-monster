@@ -11,6 +11,8 @@ var CookieMonster = {
 	////////////////////////////////////////////////////////////////////
 
 	version : '1.040.08',
+
+	domain  : 'http://cookie-monster.autopergamene.eu',
 	loops   : 0,
 
 	humanNumbers : new Array(

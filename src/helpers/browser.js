@@ -21,7 +21,7 @@ CookieMonster.playSound = function(sound) {
  * @return {void}
  */
 CookieMonster.playBell = function() {
-	return this.playSound('http://autopergamene.eu/cookie-monster/mp3/bell.mp3');
+	return this.playSound(this.domain+'/mp3/bell.mp3');
 };
 
 /**
@@ -33,7 +33,7 @@ CookieMonster.playBell = function() {
  */
 CookieMonster.getImage = function(image) {
 	if (image.indexOf('http') === -1) {
-		image = 'http://autopergamene.eu/cookie-monster/img/'+image+'.png';
+		image = this.domain+'/img/'+image+'.png';
 	}
 
 	return image;
