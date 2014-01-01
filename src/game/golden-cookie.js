@@ -36,65 +36,67 @@ CookieMonster.emphasizeGolden = function() {
 //////////////////////////////////////////////////////////////////////
 
 /**
- * Get the lucky reward for a particular situation
+ * Get the amount of cookies required for Lucky Cookies, formatted
  *
- * @param {String}  context   [regular,max]
- * @param {Boolean} formatted Return in text form or formatted
+ * @param {String} context [current,frenzy]
  *
  * @return {String}
  */
-CookieMonster.luckyReward = function(context, formatted) {
-	var reward = Math.round(this.getFrenzyRate(context) / 0.1);
+CookieMonster.luckyRequiredFormatted = function(context) {
+	var treshold = this.getLuckyTreshold(context);
+	var color  = Game.cookies < treshold ? 'red' : 'green';
 
-	if (formatted) {
-		if (reward <= Game.cookies) {
-			reward = '<strong class="text-green">' + this.formatNumber(reward) + '</strong>';
-		} else {
-			reward = this.formatNumber(reward);
-		}
-	}
-
-	return reward;
+	return '<strong class="text-' +color+ '">' + this.formatNumber(treshold) + '</strong>';
 };
 
 /**
- * Get the (MAX) lucky reward for a particular situation
+ * Get the reward for Lucky Cookies
  *
- * @param {String} context [current,max,max_frenzy]
+ * Lowest of 10% of cookies in bank, or 20mn of production
+ *
+ * @param {String} context [current,frenzy,max]
  *
  * @return {String}
  */
-CookieMonster.maxLuckyReward = function(context) {
-	var reward = this.getFrenzyRate(context);
-	var number = [Math.round(reward), Math.round(Game.cookies * 0.1 + 13)];
+CookieMonster.luckyReward = function(context, income) {
+	var twentyMinutes = this.getLuckyTreshold(context, income) / 10;
+	var tenPercent    = Math.round(Game.cookies * 0.1 + 13);
 
+	// If we want to know how much would 20mn earn, return
+	// the simulated frenzy
 	if (context === 'max' || context === 'frenzy') {
-		if (Math.round(reward / 0.1) > Game.cookies) {
-			return this.formatNumber(number[0]);
+		if ((twentyMinutes * 10) > Game.cookies) {
+			return this.formatNumber(twentyMinutes);
 		}
 	}
 
-	return this.formatNumber(Math.min.apply(Math, number));
+	return this.formatNumber(Math.min(twentyMinutes, tenPercent));
 };
 
 /**
- * Get the frenzy Cookie/s for a context
+ * Get how much a Lucky cookie would yield for a particular context
+ * Doesn't take into account current cookies, just the "max" you
+ * could get
+ *
+ * Formula is cookiesPs * 60 * 20 + 13 (for some reason)
  *
  * @param {String} context
  *
  * @return {Integer}
  */
-CookieMonster.getFrenzyRate = function(context) {
-	var reward = Game.cookiesPs;
+CookieMonster.getLuckyTreshold = function(context, income) {
+	var reward = (income || Game.cookiesPs);
 
-	if (Game.frenzy > 0 && context !== 'current') {
-		reward = reward / Game.frenzyPower;
-	}
+	// Here we remove the effects of the current multiplier
+	// to get the real Cookies/s
+	reward /= this.getFrenzyMultiplier();
+
+	// If we want we simulate a frenzy
 	if (context === 'frenzy') {
-		reward = reward * 7;
+		reward *= 7;
 	}
 
-	return reward * 1200 + 13;
+	return Math.round((reward * 60 * 20 + 13) * 10);
 };
 
 //////////////////////////////////////////////////////////////////////

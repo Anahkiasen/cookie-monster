@@ -49,57 +49,60 @@ module.exports = {
 	// Lucky cookies
 	////////////////////////////////////////////////////////////////////
 
-	'#getFrenzyRate': {
-		'Can return current multiplier': function() {
-			Game.frenzy      = 1;
-			Game.frenzyPower = 0.5;
+	'#getLuckyTreshold': {
+		'Can return current treshold': function() {
+			Game.cookiesPs = 100;
 
-			CookieMonster.getFrenzyRate('foobar').should.equal(24013);
+			CookieMonster.getLuckyTreshold().should.equal(1200130);
 		},
-
-		'Can return frenzy multiplier': function() {
+		'Can return frenzy treshold': function() {
+			Game.cookiesPs   = 700;
 			Game.frenzy      = 1;
-			Game.frenzyPower = 2;
+			Game.frenzyPower = 7;
 
-			CookieMonster.getFrenzyRate('frenzy').should.equal(42013);
+			CookieMonster.getLuckyTreshold('frenzy').should.equal(8400130);
+			CookieMonster.getLuckyTreshold().should.equal(1200130);
+		},
+		'Can simulate treshold for a context': function() {
+			CookieMonster.getLuckyTreshold('', 1).should.equal(12130);
 		},
 	},
 
-	'#luckyRequired': {
-		'Can get cookies required': function() {
-			Game.frenzy      = 1;
-			Game.frenzyPower = 0.5;
-
-			CookieMonster.luckyRequired('frenzy').should.equal(1680130);
-			CookieMonster.luckyRequired('max').should.equal(240130);
-			CookieMonster.luckyRequired('current').should.equal(120130);
-		},
+	'#luckyRequiredFormatted': {
 		'Can get formatted required': function() {
 			Game.frenzy      = 1;
 			Game.frenzyPower = 0.5;
 
-			CookieMonster.luckyRequired('frenzy', true).should.equal('<strong class="text-red">1.680 M</strong>');
-			CookieMonster.luckyRequired('max', true).should.equal('<strong class="text-red">240,130</strong>');
-			CookieMonster.luckyRequired('current', true).should.equal('<strong class="text-red">120,130</strong>');
+			CookieMonster.luckyRequiredFormatted('frenzy').should.equal('<strong class="text-red">1.680 M</strong>');
+			CookieMonster.luckyRequiredFormatted().should.equal('<strong class="text-red">240,130</strong>');
 		},
 		'Can get formatted required if inferior to current': function() {
 			Game.cookies     = 16801301;
 			Game.frenzy      = 1;
 			Game.frenzyPower = 0.5;
 
-			CookieMonster.luckyRequired('frenzy', true).should.equal('<strong class="text-green">1.680 M</strong>');
-			CookieMonster.luckyRequired('current', true).should.equal('<strong class="text-green">120,130</strong>');
+			CookieMonster.luckyRequiredFormatted('frenzy').should.equal('<strong class="text-green">1.680 M</strong>');
+			CookieMonster.luckyRequiredFormatted().should.equal('<strong class="text-green">240,130</strong>');
 		},
 	},
 
-	'#maxluckyRequired': {
-		'Can get max lucky reward': function() {
-			Game.frenzy      = 1;
-			Game.frenzyPower = 0.5;
+	'#luckyReward': {
+		'Can get lucky reward for all contexts': function() {
+			Game.cookies     = 100;
+			Game.cookiesPs   = 5;
 
-			CookieMonster.maxLuckyReward('max').should.equal('24,013');
-			CookieMonster.maxLuckyReward('frenzy').should.equal('168,013');
-			CookieMonster.maxLuckyReward('current').should.equal('15');
+			CookieMonster.luckyReward('max').should.equal('6,013');
+			CookieMonster.luckyReward('frenzy').should.equal('42,013');
+			CookieMonster.luckyReward().should.equal('23');
+		},
+		'Can get lowest of two lucky rewards': function() {
+			Game.cookies     = 100;
+			Game.cookiesPs   = 5;
+
+			CookieMonster.luckyReward().should.equal('23');
+
+			Game.cookies = CookieMonster.getLuckyTreshold() + 200;
+			CookieMonster.luckyReward().should.equal('6,013');
 		},
 	},
 

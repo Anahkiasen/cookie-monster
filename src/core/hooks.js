@@ -49,11 +49,11 @@ CookieMonster.hookIntoNative = function() {
 CookieMonster.getStatistics = function() {
 	return this.buildList('Goodies', {
 		'Lucky Cookies': {
-			'"Lucky!" Cookies Required'          : "CookieMonster.luckyReward('regular', true)",
-			'"Lucky!" Cookies Required (Frenzy)' : "CookieMonster.luckyReward('frenzy', true)",
-			'"Lucky!" Reward (MAX)'              : "CookieMonster.maxLuckyReward('max')",
-			'"Lucky!" Reward (MAX) (Frenzy)'     : "CookieMonster.maxLuckyReward('frenzy')",
-			'"Lucky!" Reward (CUR)'              : "CookieMonster.maxLuckyReward('current')",
+			'"Lucky!" Cookies Required'          : "CookieMonster.luckyRequiredFormatted()",
+			'"Lucky!" Cookies Required (Frenzy)' : "CookieMonster.luckyRequiredFormatted('frenzy')",
+			'"Lucky!" Reward (MAX)'              : "CookieMonster.luckyReward('max')",
+			'"Lucky!" Reward (MAX) (Frenzy)'     : "CookieMonster.luckyReward('frenzy')",
+			'"Lucky!" Reward (CUR)'              : "CookieMonster.luckyReward()",
 		},
 		'Heavenly Chips': {
 			'Heavenly Chips (MAX)' : "CookieMonster.getHeavenlyChip('max')",
