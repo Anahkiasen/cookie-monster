@@ -116,13 +116,13 @@ CookieMonster.getSettingsText = function() {
  * @return {String}
  */
 CookieMonster.buildList = function(title, list, callback) {
-	var output = "\n'<div class=\"subsection\"><div class=\"title\"><span class=\"text-blue\">Cookie Monster " +title+ "</span></div>";
+	var output = "\n'" + '<div class="subsection"><div class="title"><span class="text-blue">Cookie Monster ' +title+ '</span></div>';
 
 	// Loop over the settings and add they one by one
 	for (var section in list) {
-		output += "<div class=\"subtitle\">"+section+"</div>";
+		output += '<div class="subtitle">' +section+ '</div>';
 		for (var item in list[section]) {
-			output += "<div class=\"listing\">" +callback(item, list[section][item])+ "</div>";
+			output += '<div class="listing">' +callback(item, list[section][item])+ '</div>';
 		}
 	}
 
@@ -143,7 +143,7 @@ CookieMonster.buildList = function(title, list, callback) {
  */
 CookieMonster.appendToNative = function(native, append) {
 	return function() {
-		native();
+		native.apply(null, arguments);
 		append.apply(CookieMonster);
 	};
 };
