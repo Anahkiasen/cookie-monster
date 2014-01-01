@@ -17,9 +17,9 @@ CookieMonster.hookIntoNative = function() {
 
 	// Add additional settings and statistics to main menu
 	this.replaceNative('UpdateMenu', {
-		"Statistics</div>'+": "Statistics</div>'+"+CookieMonster.getStatistics(),
-		"OFF')+'</div>'+"   : "OFF')+'</div>'+" + CookieMonster.getSettingsText(),
-		"startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);": "startDate = CookieMonster.formatTime(((new Date).getTime() - Game.startDate) / 1000, '');",
+		"Statistics</div>'+": "Statistics</div>'+"+ CookieMonster.getStatistics(),
+		"OFF')+'</div>'+"   : "OFF')+'</div>'+"   + CookieMonster.getSettingsText(),
+		"startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);": "startDate = CookieMonster.formatTime((+new Date - Game.startDate) / 1000);",
 	});
 
 	var n = "\n" +
@@ -42,15 +42,14 @@ CookieMonster.hookIntoNative = function() {
 		"Game.Popup('Game loaded');": "Game.Popup('Game loaded');\nCookieMonster.$timerBars.text('');",
 	}, 'data');
 
-	this.replaceNative('RebuildStore', {
-		"l('products').innerHTML=str;": "l('products').innerHTML=str;\nCookieMonster.updateTooltips('objects');",
-	});
+	// Refresh tooltips on store rebuild
+	this.appendToNative('RebuildStore', CookieMonster.updateTooltips);
 
+	// Swap out the original Beautify for ours
+	Beautify = this.formatNumber;
 	this.replaceNative('Draw', {
 		"Beautify(Math.round(Game.cookiesd))": "CookieMonster.formatNumberRounded(Game.cookiesd)",
 	});
-
-	Beautify = this.formatNumber;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -150,6 +149,23 @@ CookieMonster.buildList = function(title, list, callback) {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Append a piece of code to native code
+ *
+ * @param {String}  native
+ * @param {Closure} append
+ *
+ * @return {Void}
+ */
+CookieMonster.appendToNative = function(native, append) {
+	var original = Game[native];
+
+	Game[native] = function() {
+		original();
+		append.apply(CookieMonster);
+	};
+};
+
+/**
  * Execute replacements on a method's code
  *
  * @param {String}  code
@@ -162,7 +178,7 @@ CookieMonster.replaceCode = function(code, replaces) {
 
 	// Apply the various replaces
 	for (var replace in replaces) {
-		code.replace(replace, replaces[replace]);
+		code = code.replace(replace, replaces[replace]);
 	}
 
 	return code
