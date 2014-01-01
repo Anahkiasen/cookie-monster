@@ -34,13 +34,10 @@ CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncom
 		if (upgrade.bought && description.indexOf('Cookie production multiplier <b>+') !== -1) {
 			heavenlyMultiplier += description.substr(33, description.indexOf('%', 33) - 33) * 1;
 		}
+		if (upgrade.id === upgradeKey && upgrade && !upgrade.bought && description.indexOf('Cookie production multiplier <b>+') !== -1) {
+			futureMultiplier += description.substr(33, description.indexOf('%', 33) - 33) * 1;
+		}
 	});
-
-	// Future production multiplier
-	var upgrade = Game.UpgradesById[upgradeKey];
-	if (upgrade && !upgrade.bought && upgrade.desc.indexOf('Cookie production multiplier <b>+') !== -1) {
-		futureMultiplier += upgrade.desc.substr(33, upgrade.desc.indexOf('%', 33) - 33) * 1;
-	}
 
 	number = 100 + heavenlyMultiplier;
 	number = this.applyMilkPotential(number, milkProgress);
