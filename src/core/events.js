@@ -7,8 +7,9 @@ CookieMonster.Events = {};
  */
 CookieMonster.Events.onGoldenClick = function() {
 	CookieMonster.$goldenCookie.click(function() {
-		if (Game.frenzyPower === 7) {
-			CookieMonster.fadeOutBar('Frenzy');
+		var frenzy = CookieMonster.frenzies[Game.frenzyPower];
+		if (frenzy) {
+			CookieMonster.fadeOutBar(frenzy.name.replace(' ', ''));
 			CookieMonster.manageFrenzyBars();
 		}
 	});

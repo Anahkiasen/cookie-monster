@@ -62,46 +62,24 @@ CookieMonster.createBarsContainer = function() {
  * @return {void}
  */
 CookieMonster.manageFrenzyBars = function() {
-	var frenzyName = '';
-	var color      = '';
-	var multiplier = 0;
-
-	// Detect what kind of frenzy we're in
-	switch (Game.frenzyPower) {
-		case 7:
-			multiplier = 77 + 77 * Game.Has('Get lucky');
-			frenzyName = 'Frenzy';
-			color      = 'yellow';
-			break;
-
-		case 666:
-			multiplier = 6 + 6 * Game.Has('Get lucky');
-			frenzyName = 'Blood Frenzy';
-			color      = 'green';
-			break;
-
-		case 0.5:
-			multiplier = 66 + 66 * Game.Has('Get lucky');
-			frenzyName = 'Clot';
-			color      = 'red';
-			break;
+	var frenzy = this.frenzies[Game.frenzyPower];
+	if (typeof frenzy === 'undefined') {
+		return;
 	}
 
 	// Remove bars if the frenzy has ended or we disabled them
-	var identifier = frenzyName.replace(' ', '');
 	if (Game.frenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
-		return this.fadeOutBar(identifier);
+		return this.fadeOutBar(frenzy.identifier);
 	}
 
 	// Update current bar
-	this.updateBar(frenzyName, color, Game.frenzy);
+	this.updateBar(frenzy.name, frenzy.color, Game.frenzy);
 
 	// As only one effect can be active at a time, we'll fade out
 	// the other effect bars
-	var buffs = ['Frenzy', 'BloodFrenzy', 'Clot'];
-	for (var i = 0; i < 2; i++) {
-		if (buffs[i] !== identifier) {
-			this.fadeOutBar(buffs[i]);
+	for (var frenzyPower in this.frenzies) {
+		if (this.frenzies[frenzyPower].identifier !== frenzy.identifier) {
+			this.fadeOutBar(this.frenzies[frenzyPower].identifier);
 		}
 	}
 };
@@ -166,6 +144,11 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 	var $bar  = $('#cookie-monster__timer-'+identifier);
 	var count = Math.round(timer / Game.fps);
 	width = width || timer / Game.goldenCookie.maxTime * 100;
+
+	// Autocleanup
+	if (count <= 0) {
+		this.fadeOutBar(identifier);
+	}
 
 	// Check existence
 	if ($bar.length === 0) {

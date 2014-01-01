@@ -43,10 +43,6 @@ var CookieMonster = {
 		timeLeft : [],
 	},
 
-	// Upgrades
-	////////////////////////////////////////////////////////////////////
-
-	upgradeCounts  : [0, 0, 0, 0, 0, 0],
 	milkPotentials : {
 		'Kitten helpers'            : 0.05,
 		'Kitten workers'            : 0.1,
@@ -54,6 +50,17 @@ var CookieMonster = {
 		'Kitten overseers'          : 0.2,
 		'Santa\'s milk and cookies' : 0.05,
 	},
+
+	frenzies: {
+		7   : {name: 'Frenzy',       identifier: 'Frenzy',      color: 'yellow'},
+		666 : {name: 'Blood Frenzy', identifier: 'BloodFrenzy', color: 'green'},
+		0.5 : {name: 'Clot',         identifier: 'Clot',        color: 'red'},
+	},
+
+	// Upgrades
+	////////////////////////////////////////////////////////////////////
+
+	upgradeCounts  : [0, 0, 0, 0, 0, 0],
 
 	// Settings
 	////////////////////////////////////////////////////////////////////
