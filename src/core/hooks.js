@@ -11,16 +11,15 @@
 CookieMonster.hookIntoNative = function() {
 
 	// Add Cookie Monster modifiers in title
-	this.replaceNative('Logic', function (native) {
-		return native.replace('.title=', '.title=CookieMonster.titleModifier+');
+	this.replaceNative('Logic', {
+		'.title=': '.title=CookieMonster.titleModifier+',
 	});
 
 	// Add additional settings and statistics to main menu
-	this.replaceNative('UpdateMenu', function (native) {
-		return native
-			.replace("Statistics</div>'+", "Statistics</div>'+"+CookieMonster.getStatistics())
-			.replace("OFF')+'</div>'+", "OFF')+'</div>'+" + CookieMonster.getSettingsText())
-			.replace("startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);", "startDate = CookieMonster.formatTime(((new Date).getTime() - Game.startDate) / 1000, '');");
+	this.replaceNative('UpdateMenu', {
+		"Statistics</div>'+": "Statistics</div>'+"+CookieMonster.getStatistics(),
+		"OFF')+'</div>'+"   : "OFF')+'</div>'+" + CookieMonster.getSettingsText(),
+		"startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);": "startDate = CookieMonster.formatTime(((new Date).getTime() - Game.startDate) / 1000, '');",
 	});
 
 	var n = "\n" +
@@ -30,31 +29,28 @@ CookieMonster.hookIntoNative = function() {
 		'\nif(cm_id === "product8" || cm_id === "product9") { y -= 13; }' +
 		'\nif(cm_id === "product9" && !CookieMonster.getBooleanSetting("ShortNumbers")) { y -= 13; }' + "\n";
 
-	Game.tooltip.draw = new Function('from,text,x,y,origin', this.replaceCode(Game.tooltip.draw, function (native) {
-		return native
-			.replace("implemented');}", "implemented');}" + n)
-			.replace("this.on=1;", "this.on=1;\nCookieMonster.updateTooltips();");
+	Game.tooltip.draw = new Function('from,text,x,y,origin', this.replaceCode(Game.tooltip.draw, {
+		"implemented');}" : "implemented');}" + n,
+		"this.on=1;"      : "this.on=1;\nCookieMonster.updateTooltips();",
 	}));
 
-	this.replaceNative('Reset', function (native) {
-		return native.replace("Game.researchT=0;", "Game.researchT=0;\nCookieMonster.$monsterBar.text('');");
+	this.replaceNative('Reset', {
+		"Game.researchT=0;": "Game.researchT=0;\nCookieMonster.$monsterBar.text('');",
 	}, 'bypass');
 
-	this.replaceNative('LoadSave', function (native) {
-		return native.replace("Game.Popup('Game loaded');", "Game.Popup('Game loaded');\nCookieMonster.$timerBars.text('');");
+	this.replaceNative('LoadSave', {
+		"Game.Popup('Game loaded');": "Game.Popup('Game loaded');\nCookieMonster.$timerBars.text('');",
 	}, 'data');
 
-	this.replaceNative('RebuildStore', function (native) {
-		return native.replace("l('products').innerHTML=str;", "l('products').innerHTML=str;\nCookieMonster.updateTooltips('objects');");
+	this.replaceNative('RebuildStore', {
+		"l('products').innerHTML=str;": "l('products').innerHTML=str;\nCookieMonster.updateTooltips('objects');",
 	});
 
-	this.replaceNative('Draw', function (native) {
-		return native.replace("Beautify(Math.round(Game.cookiesd))", "CookieMonster.formatNumberRounded(Game.cookiesd)");
+	this.replaceNative('Draw', {
+		"Beautify(Math.round(Game.cookiesd))": "CookieMonster.formatNumberRounded(Game.cookiesd)",
 	});
 
-	Beautify = new Function('what,floats', this.replaceCode(Beautify, function (native) {
-		return native.replace("var str='';", "return CookieMonster.formatNumber(what);" + "\nvar str='';");
-	}));
+	Beautify = this.formatNumber;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -162,7 +158,14 @@ CookieMonster.buildList = function(title, list, callback) {
  * @return {String}
  */
 CookieMonster.replaceCode = function(code, replaces) {
-	return replaces(code.toString())
+	code = code.toString();
+
+	// Apply the various replaces
+	for (var replace in replaces) {
+		code.replace(replace, replaces[replace]);
+	}
+
+	return code
 		.replace(/^function[^{]+{/i, "")
 		.replace(/}[^}]*$/i, "");
 };

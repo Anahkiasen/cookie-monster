@@ -6,7 +6,7 @@
  * @return {String}
  */
 CookieMonster.formatNumber = function(number) {
-	return this.toHumanNumber(number);
+	return CookieMonster.toHumanNumber(number);
 };
 
 /**
