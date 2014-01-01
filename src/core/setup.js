@@ -106,5 +106,6 @@ CookieMonster.tearDown = function() {
 	this.$timerBars.remove();
 	$('#cookie-monster__store').remove();
 
+	// Redo a setup
 	this.setupElements();
 };

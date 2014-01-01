@@ -22,29 +22,18 @@ CookieMonster.hookIntoNative = function() {
 		"startDate=Game.sayTime(date.getTime()/1000*Game.fps,2);": "startDate = CookieMonster.formatTime((+new Date - Game.startDate) / 1000);",
 	});
 
-	var n = "\n" +
-		"var cm_id = from.id;" +
-		'\nif(cm_id === "") { cm_id = $(from).parents(".product").prop("id"); }' +
-		'\nif(cm_id === "product5" || cm_id === "product6" || cm_id === "product7" || cm_id === "product8" || cm_id === "product9") { y -= 100; }' +
-		'\nif(cm_id === "product8" || cm_id === "product9") { y -= 13; }' +
-		'\nif(cm_id === "product9" && !CookieMonster.getBooleanSetting("ShortNumbers")) { y -= 13; }' + "\n";
-
-	Game.tooltip.draw = new Function('from,text,x,y,origin', this.replaceCode(Game.tooltip.draw, {
-		"implemented');}" : "implemented');}" + n,
-		"this.on=1;"      : "this.on=1;\nCookieMonster.updateTooltips();",
-	}));
-
 	// Rebuild Cookie Monster on game changing events
-	this.appendToNative('Reset', CookieMonster.tearDown);
-	this.appendToNative('LoadSave', CookieMonster.tearDown);
+	Game.Reset    = this.appendToNative(Game.Reset, CookieMonster.tearDown);
+	Game.LoadSave = this.appendToNative(Game.LoadSave, CookieMonster.tearDown);
 
 	// Refresh tooltips on store rebuild
-	this.appendToNative('RebuildStore', CookieMonster.updateTooltips);
+	Game.tooltip.draw = this.appendToNative(Game.tooltip.draw, CookieMonster.updateTooltips);
+	Game.RebuildStore = this.appendToNative(Game.RebuildStore, CookieMonster.updateTooltips);
 
 	// Swap out the original Beautify for ours
 	Beautify = this.formatNumber;
 	this.replaceNative('Draw', {
-		"Beautify(Math.round(Game.cookiesd))": "CookieMonster.formatNumberRounded(Game.cookiesd)",
+		'Beautify(Math.round(Game.cookiesd))': 'CookieMonster.formatNumberRounded(Game.cookiesd)',
 	});
 };
 
@@ -153,10 +142,8 @@ CookieMonster.buildList = function(title, list, callback) {
  * @return {Void}
  */
 CookieMonster.appendToNative = function(native, append) {
-	var original = Game[native];
-
-	Game[native] = function() {
-		original();
+	return function() {
+		native();
 		append.apply(CookieMonster);
 	};
 };
