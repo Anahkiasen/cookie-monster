@@ -1,5 +1,12 @@
 ## 1.040 Versions
 
+### 1.040.08 _(2014-01-02)_
+
+* Take into account how an object/upgrade will affect the income to compute the Lucky Cookies deficit alerts
+* Fix frenzies not affecting BCI
+* Take into account some more upgrades like Elder Covenant
+* Also fixed the BCI of some upgrades that displayed NaN or an inferior number
+
 ### 1.040.07 _(2014-01-01)_
 
 * Fixed a bug where some tooltips weren't being displayed on newly unlocked upgrades

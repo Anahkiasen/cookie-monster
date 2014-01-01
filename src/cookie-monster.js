@@ -10,7 +10,7 @@ var CookieMonster = {
 	// Runtime variables
 	////////////////////////////////////////////////////////////////////
 
-	version : '1.040.07',
+	version : '1.040.08',
 	loops   : 0,
 
 	humanNumbers : new Array(
