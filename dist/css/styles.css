@@ -240,27 +240,41 @@ strong {
   margin: -0.3rem;
   margin-top: 0.3rem; }
 
-.cm-tooltip__image {
-  position: relative;
-  float: left;
-  height: 2rem;
-  width: 2rem; }
-
-.cm-tooltip__warning {
-  background: #1a1a1a;
-  position: relative;
-  margin-top: 0.25rem;
-  border: 1px solid black;
-  padding: 0.1rem; }
-  .cm-tooltip__warning div {
-    position: absolute;
-    left: -0.5rem;
-    top: -0.25rem;
+.cm-tooltip__images {
+  position: absolute;
+  top: -1.6rem;
+  height: 4rem; }
+  .cm-tooltip__images .cm-tooltip__image {
+    position: relative;
+    float: left;
     height: 2rem;
     width: 2rem; }
-  .cm-tooltip__warning img {
-    width: 1rem;
-    height: 1rem; }
+
+.cm-tooltip__contents {
+  padding: 0.25rem;
+  margin: -0.25rem;
+  margin-top: 0.5rem;
+  border: 1px solid black;
+  color: white; }
+  .cm-tooltip__contents h4 {
+    font-weight: bold;
+    margin-bottom: 0.1em; }
+  .cm-tooltip__contents p {
+    margin-bottom: 0.5em; }
+    .cm-tooltip__contents p:last-child {
+      margin: 0; }
+
+.cm-tooltip__warnings {
+  position: absolute;
+  left: 0;
+  margin-top: 0.75rem;
+  color: white; }
+  .cm-tooltip__warnings .cm-tooltip__warning {
+    background: #1a1a1a;
+    position: relative;
+    margin-top: 0.25rem;
+    border: 1px solid black;
+    padding: 0.1rem; }
 
 #storeTitle {
   font-size: 1.1rem;
