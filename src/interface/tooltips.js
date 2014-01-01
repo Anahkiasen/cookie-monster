@@ -277,7 +277,7 @@ CookieMonster.computeColorCoding = function(informations) {
 	}
 
 	// As ROI only has one color, use that one
-	if (informations[2] === maxValues[2]) {
+	if (informations[2] === minValues[2]) {
 		colors[2] = 'cyan';
 	}
 
