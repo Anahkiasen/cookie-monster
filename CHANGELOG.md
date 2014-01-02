@@ -1,3 +1,12 @@
+## Roadmap
+
+* Display "Bonus Click Income" on clicking upgrades instead of a 0 BCI
+* Display browser notifications on popups
+* Add a notification for Elder Pledges running out
+* Add a statistic showing whether it's more interesting to buy pledges or the covenant
+
+-----
+
 ## 1.040 Versions
 
 ### 1.040.09 _(2014-01-02)_
