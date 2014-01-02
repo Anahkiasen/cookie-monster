@@ -17,7 +17,7 @@ var CookieMonster = {
 	// Runtime variables
 	////////////////////////////////////////////////////////////////////
 
-	version : '1.040.08',
+	version : '1.040.09',
 
 	domain  : 'http://cookie-monster.autopergamene.eu',
 	loops   : 0,
@@ -211,8 +211,13 @@ CookieMonster.getStatistics = function() {
 			'Rewards of popping'  : 'CookieMonster.getWrinklersReward()',
 			'Benefits of popping' : "CookieMonster.getWrinklersReward('reward')",
 		},
+		'Season specials': {
+			'Reindeer Reward' : 'CookieMonster.getReindeerReward()',
+		}
 	}, function(statistic, method) {
 		return "<b>" +statistic+ " :</b> ' +" +method+ "+ '";
+	}, {
+		'Wrinklers': 'CookieMonster.getWrinklersSucked()',
 	});
 };
 
@@ -257,18 +262,25 @@ CookieMonster.getSettingsText = function() {
  * @param {String}   title
  * @param {Object}   list
  * @param {Function} callback
+ * @param {Object}   visibilities
  *
  * @return {String}
  */
-CookieMonster.buildList = function(title, list, callback) {
+CookieMonster.buildList = function(title, list, callback, visibilities) {
 	var output = "\n'" + '<div class="subsection"><div class="title"><span class="text-blue">Cookie Monster ' +title+ '</span></div>';
+	visibilities = visibilities || {};
 
 	// Loop over the settings and add they one by one
 	for (var section in list) {
-		output += '<div class="subtitle">' +section+ '</div>';
+		var visibility = visibilities[section] || true;
+
+		// Build the section
+		output += "<div style=\"display: ' +(" +visibility+ " ? 'block' : 'none')+ '\">";
+		output += '<h2 class="subtitle">' +section+ '</h2>';
 		for (var item in list[section]) {
 			output += '<div class="listing">' +callback(item, list[section][item])+ '</div>';
 		}
+		output += '</div>';
 	}
 
 	return output + "</div>'+";
@@ -1329,6 +1341,17 @@ CookieMonster.emphasizeSeason = function() {
 			this.Emphasizers.playSound('http://www.freesound.org/data/previews/121/121099_2193266-lq.mp3');
 			this.Emphasizers.flashScreen();
 		});
+};
+
+/**
+ * Get the reward for clicking on a Reindeer
+ *
+ * 1mn of production or 25 cookies
+ *
+ * @return {Integer}
+ */
+CookieMonster.getReindeerReward = function() {
+	return this.formatNumber(Math.max(25, Game.cookiesPs * 60));
 };
 
 /**

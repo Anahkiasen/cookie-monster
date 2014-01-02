@@ -131,10 +131,10 @@ CookieMonster.buildList = function(title, list, callback, visibilities) {
 
 		// Build the section
 		output += "<div style=\"display: ' +(" +visibility+ " ? 'block' : 'none')+ '\">";
-			output += '<h2 class="subtitle">' +section+ '</h2>';
-			for (var item in list[section]) {
-				output += '<div class="listing">' +callback(item, list[section][item])+ '</div>';
-			}
+		output += '<h2 class="subtitle">' +section+ '</h2>';
+		for (var item in list[section]) {
+			output += '<div class="listing">' +callback(item, list[section][item])+ '</div>';
+		}
 		output += '</div>';
 	}
 
