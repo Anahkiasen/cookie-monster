@@ -19,6 +19,17 @@ CookieMonster.secondsLeft = function(object) {
 };
 
 /**
+ * Compute the time left before a deficit is filled
+ *
+ * @param {Integer} deficit
+ *
+ * @return {String}
+ */
+CookieMonster.timeLeftForDeficit = function(deficit) {
+	return this.formatTime((deficit - Game.cookies) / Game.cookiesPs, true);
+};
+
+/**
  * Format a time (s) to an human-readable format
  *
  * @param {Integer} time
