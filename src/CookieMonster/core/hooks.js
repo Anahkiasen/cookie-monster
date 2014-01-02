@@ -71,6 +71,8 @@ CookieMonster.getStatistics = function() {
 		}
 	}, function(statistic, method) {
 		return "<b>" +statistic+ " :</b> ' +" +method+ "+ '";
+	}, {
+		'Wrinklers': 'CookieMonster.getWrinklersSucked()',
 	});
 };
 
@@ -115,18 +117,25 @@ CookieMonster.getSettingsText = function() {
  * @param {String}   title
  * @param {Object}   list
  * @param {Function} callback
+ * @param {Object}   visibilities
  *
  * @return {String}
  */
-CookieMonster.buildList = function(title, list, callback) {
+CookieMonster.buildList = function(title, list, callback, visibilities) {
 	var output = "\n'" + '<div class="subsection"><div class="title"><span class="text-blue">Cookie Monster ' +title+ '</span></div>';
+	visibilities = visibilities || {};
 
 	// Loop over the settings and add they one by one
 	for (var section in list) {
-		output += '<div class="subtitle">' +section+ '</div>';
-		for (var item in list[section]) {
-			output += '<div class="listing">' +callback(item, list[section][item])+ '</div>';
-		}
+		var visibility = visibilities[section] || true;
+
+		// Build the section
+		output += "<div style=\"display: ' +(" +visibility+ " ? 'block' : 'none')+ '\">";
+			output += '<h2 class="subtitle">' +section+ '</h2>';
+			for (var item in list[section]) {
+				output += '<div class="listing">' +callback(item, list[section][item])+ '</div>';
+			}
+		output += '</div>';
 	}
 
 	return output + "</div>'+";
