@@ -15,6 +15,17 @@ CookieMonster.emphasizeSeason = function() {
 };
 
 /**
+ * Get the reward for clicking on a Reindeer
+ *
+ * 1mn of production or 25 cookies
+ *
+ * @return {Integer}
+ */
+CookieMonster.getReindeerReward = function() {
+	return this.formatNumber(Math.max(25, Game.cookiesPs * 60));
+};
+
+/**
  * Get the amount of cookies sucked by wrinklers
  *
  * @param {Integer} modifier

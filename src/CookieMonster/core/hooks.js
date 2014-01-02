@@ -66,6 +66,9 @@ CookieMonster.getStatistics = function() {
 			'Rewards of popping'  : 'CookieMonster.getWrinklersReward()',
 			'Benefits of popping' : "CookieMonster.getWrinklersReward('reward')",
 		},
+		'Season specials': {
+			'Reindeer Reward' : 'CookieMonster.getReindeerReward()',
+		}
 	}, function(statistic, method) {
 		return "<b>" +statistic+ " :</b> ' +" +method+ "+ '";
 	});
