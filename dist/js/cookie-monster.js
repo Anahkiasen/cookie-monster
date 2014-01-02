@@ -90,8 +90,8 @@ var CookieMonster = {
 		'BuffBars'         : {type: 'boolean', value: 1,   label: 'Buff Bars',         desc: 'Displays a countdown bar for each effect currently active'},
 		'CookieBar'        : {type: 'boolean', value: 1,   label: 'Next Cookie Timer', desc: 'Displays a countdown bar and updates the Title for when the next Cookie will appear'},
 		'CookieTimer'      : {type: 'boolean', value: 1,   label: 'Cookie Timer',      desc: 'Displays a timer on Golden Cookies and Red Cookies'},
-		'FlashScreen'      : {type: 'boolean', value: 1,   label: 'Flash Screen',      desc: 'Flashes the screen when a Golden Cookie or Red Cookie appears'},
 		'Sounds'           : {type: 'boolean', value: 0,   label: 'Sounds',            desc: 'Plays a sound when a Red/Golden Cookie or a Reindeer appears'},
+		'FlashScreen'      : {type: 'boolean', value: 1,   label: 'Flash Screen',      desc: 'Flashes the screen when a Red/Golden Cookie or Reindeer appears'},
 		'UpdateTitle'      : {type: 'boolean', value: 1,   label: 'Update Title',      desc: 'Updates the Title to display if a Cookie is waiting to be clicked'},
 
 		// Display
@@ -210,6 +210,10 @@ CookieMonster.getStatistics = function() {
 			'Cookies sucked'      : 'CookieMonster.getWrinklersSucked(true)',
 			'Rewards of popping'  : 'CookieMonster.getWrinklersReward()',
 			'Benefits of popping' : "CookieMonster.getWrinklersReward('reward')",
+		},
+		'Grandmapocalypse': {
+			'Cost of pledges (1h)'  : 'CookieMonster.estimatePledgeCost(60)',
+			'Cost of covenant (1h)' : 'CookieMonster.estimateCovenantCost(60)',
 		},
 		'Season specials': {
 			'Reindeer Reward' : 'CookieMonster.getReindeerReward()',
@@ -451,7 +455,7 @@ CookieMonster.loadStyles = function() {
 	}
 
 	// Add colorblind modifier if necessary
-	if (this.getBooleanSetting('Colorblind')) {
+	if (this.getSetting('Colorblind')) {
 		stylesheet += '-colorblind';
 	}
 
@@ -1327,6 +1331,10 @@ CookieMonster.getHeavenlyChip = function(context) {
 			return this.formatTime(Math.round(nextChip / Game.cookiesPs));
 	}
 };
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////// SEASONS /////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 /**
  * Emphasize the apparition of a Reindeer
  *
@@ -1351,8 +1359,17 @@ CookieMonster.emphasizeSeason = function() {
  * @return {Integer}
  */
 CookieMonster.getReindeerReward = function() {
-	return this.formatNumber(Math.max(25, Game.cookiesPs * 60));
+	var multiplier = Game.Has('Ho ho ho-flavored frosting') ? 2 : 1;
+
+	return this.formatNumber(Math.max(25, Game.cookiesPs * 60) * multiplier);
 };
+
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// ELDER WRATH ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+// Wrinklers
+//////////////////////////////////////////////////////////////////////
 
 /**
  * Get the amount of cookies sucked by wrinklers
@@ -1392,6 +1409,48 @@ CookieMonster.getWrinklersReward = function(context) {
 	}
 
 	return this.formatNumber(sucked);
+};
+
+// Pledges
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Compute the cost of pledges for a given time
+ *
+ * @param {Integer} lapse (mn)
+ *
+ * @return {Integer}
+ */
+CookieMonster.estimatePledgeCost = function(lapse) {
+	var pledge   = Game.Upgrades['Elder Pledge'];
+	var duration = Game.Has('Sacrificial rolling pins') ? 60 : 30;
+	var required = lapse / duration;
+	var price    = pledge.getPrice();
+
+	var cost = 0;
+	for (var i = 0; i < required; i++) {
+		cost += price;
+
+		// Recompute pledge price
+		price = Math.pow(8, Math.min(Game.pledges + 2, 14));
+		price *= Game.Has('Toy workshop') ? 0.95 : 1;
+		price *= Game.Has('Santa\'s dominion') ? 1 : 0.98;
+	}
+
+	return this.formatNumber(cost);
+};
+
+/**
+ * Compute the cost of the covenant for a given time
+ *
+ * @param {Integer} lapse (mn)
+ *
+ * @return {Integer}
+ */
+CookieMonster.estimateCovenantCost = function(lapse) {
+	var income = Game.cookiesPs * (lapse * 60);
+
+	return this.formatNumber(income - (income * 0.95));
 };
 /**
  * Get how much buying an upgrade would earn
@@ -1616,6 +1675,29 @@ CookieMonster.getFourTimesEfficientOutcome = function(buildingKey) {
 	return Game.ObjectsById[buildingKey].storedTotalCps * 3;
 };
 /**
+ * Display a browser notification
+ *
+ * @param {String} text
+ *
+ * @return {Void}
+ */
+CookieMonster.displayNotification = function(text) {
+	if (!window.Notification) {
+		return;
+	}
+
+	// Ask for permission
+	if (Notification.permission !== 'denied') {
+		Notification.requestPermission(function (permission) {
+			Notification.permission = permission;
+		});
+	}
+
+	// Send notification
+	return new Notification('Cookie Monster', {body: text});
+};
+
+/**
  * Play a sound
  *
  * @param {String} sound
@@ -1792,7 +1874,7 @@ CookieMonster.whileOnScreen = function(identifier, offScreen, onScreen) {
  * @return {Void}
  */
 CookieMonster.Emphasizers.displayGoldenTimer = function() {
-	if (!CookieMonster.getBooleanSetting('CookieTimer')) {
+	if (!CookieMonster.getSetting('CookieTimer')) {
 		return false;
 	}
 
@@ -1807,7 +1889,7 @@ CookieMonster.Emphasizers.displayGoldenTimer = function() {
  * @return {String}
  */
 CookieMonster.Emphasizers.updateTitle = function(type) {
-	if (!CookieMonster.getBooleanSetting('UpdateTitle')) {
+	if (!CookieMonster.getSetting('UpdateTitle')) {
 		return false;
 	}
 
@@ -1844,7 +1926,7 @@ CookieMonster.Emphasizers.faviconSpinner = function(frame) {
  * @return {void}
  */
 CookieMonster.Emphasizers.playSound = function(sound) {
-	if (!CookieMonster.getBooleanSetting('Sounds')) {
+	if (!CookieMonster.getSetting('Sounds')) {
 		return false;
 	}
 
@@ -1857,7 +1939,7 @@ CookieMonster.Emphasizers.playSound = function(sound) {
  * @return {void}
  */
 CookieMonster.Emphasizers.flashScreen = function() {
-	if (!CookieMonster.getBooleanSetting('FlashScreen')) {
+	if (!CookieMonster.getSetting('FlashScreen')) {
 		return;
 	}
 
@@ -1950,6 +2032,17 @@ CookieMonster.secondsLeft = function(object) {
 };
 
 /**
+ * Compute the time left before a deficit is filled
+ *
+ * @param {Integer} deficit
+ *
+ * @return {String}
+ */
+CookieMonster.getTimeToCookies = function(cookies) {
+	return this.formatTime(cookies / Game.cookiesPs, true);
+};
+
+/**
  * Format a time (s) to an human-readable format
  *
  * @param {Integer} time
@@ -2024,7 +2117,7 @@ CookieMonster.formatTime = function(time, compressed) {
  * @return {void}
  */
 CookieMonster.toggleBar = function() {
-	var visible = this.getBooleanSetting('BottomBar');
+	var visible = this.getSetting('BottomBar');
 	var bottom  = visible ? 57 : 0;
 
 	this.$monsterBar.toggle(visible);
@@ -2142,7 +2235,7 @@ CookieMonster.manageFrenzyBars = function() {
 	}
 
 	// Remove bars if the frenzy has ended or we disabled them
-	if (Game.frenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
+	if (Game.frenzy <= 0 || !this.getSetting('BuffBars')) {
 		return this.fadeOutBar(frenzy.identifier);
 	}
 
@@ -2164,7 +2257,7 @@ CookieMonster.manageFrenzyBars = function() {
  * @return {void}
  */
 CookieMonster.manageClickingFrenzy = function() {
-	if (Game.clickFrenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
+	if (Game.clickFrenzy <= 0 || !this.getSetting('BuffBars')) {
 		return this.fadeOutBar('Clickfrenzy');
 	}
 
@@ -2185,14 +2278,14 @@ CookieMonster.manageTimersBar = function(name, label) {
 	var barWidth = width / timers[2] * 100;
 
 	// Hide if popup on screen
-	if (timers[0] <= 0 || this.onScreen[name] || !this.getBooleanSetting('CookieBar')) {
+	if (timers[0] <= 0 || this.onScreen[name] || !this.getSetting('CookieBar')) {
 		return this.fadeOutBar(label);
 	}
 
 	// Update title
 	var countdown = Math.round(width / Game.fps);
 	if (name === 'goldenCookie' && countdown > 0 && !this.onScreen.goldenCookie) {
-		this.titleModifier = this.getBooleanSetting('CookieBar') ? '(' + countdown + ') ' : '';
+		this.titleModifier = this.getSetting('CookieBar') ? '(' + countdown + ') ' : '';
 	}
 
 	var $container = this.updateBar(label, 'greyLight', width, barWidth);
@@ -2348,8 +2441,6 @@ CookieMonster.saveSettings = function() {
 			localStorage[setting] = this.getSetting(setting);
 		}
 	}
-
-	this.toggleBar();
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -2416,18 +2507,12 @@ CookieMonster.setSetting = function(setting, value) {
  * @return {Mixed}
  */
 CookieMonster.getSetting = function(setting) {
-	return this.settings[setting].value;
-};
+	var value = this.settings[setting].value;
+	if (this.settings[setting].type === 'boolean') {
+		return value ? true : false;
+	}
 
-/**
- * Alias for getSetting(setting, true)
- *
- * @param {String} setting
- *
- * @return {Mixed}
- */
-CookieMonster.getBooleanSetting = function (setting) {
-	return this.getSetting(setting) ? true : false;
+	return value;
 };
 
 /**
@@ -2443,7 +2528,7 @@ CookieMonster.getOptionState = function(name) {
 		return this[method]();
 	}
 
-	return (this.getSetting(name) === 0) ? 'OFF' : 'ON';
+	return this.getSetting(name) ? 'ON' : 'OFF';
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -2724,8 +2809,8 @@ CookieMonster.updateTooltip = function(object, colors) {
 		'<p class="text-' +colors[1]+ '">' + this.formatTime(informations[2], true) + '</p>'
 	);
 
-	$(identifier+'warning_amount').html('Deficit: ' + this.formatNumber(deficits[0]));
-	$(identifier+'caution_amount').html('Deficit: ' + this.formatNumber(deficits[1]));
+	$(identifier+'warning_amount').html('Deficit: ' + this.formatNumber(deficits[0]) + ' (' +this.getTimeToCookies(deficits[0])+ ')');
+	$(identifier+'caution_amount').html('Deficit: ' + this.formatNumber(deficits[1]) + ' (' +this.getTimeToCookies(deficits[1])+ ')');
 
 	if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
 		$(identifier+'lucky_div_warning').toggle(deficits[0] > 0);
@@ -2831,8 +2916,8 @@ CookieMonster.manageBuildingTooltip = function(building) {
 	var colors = building.getColors();
 
 	// Colorize building price
-	if (this.getBooleanSetting('ColoredPrices')) {
-		var color = this.getBooleanSetting('ReturnInvestment') ? colors[2] : colors[0];
+	if (this.getSetting('ColoredPrices')) {
+		var color = this.getSetting('ReturnInvestment') ? colors[2] : colors[0];
 		$('.price', '#product'+building.id).attr('class', 'price text-'+color);
 	}
 
@@ -2883,7 +2968,9 @@ CookieMonster.computeColorCoding = function(informations) {
 
 	// Compute color
 	for (var i = 0; i < informations.length; i++) {
-		if (informations[i] < minValues[i]) {
+		if (informations[i] === Infinity) {
+			colors[i] = 'greyLight';
+		} else if (informations[i] < minValues[i]) {
 			colors[i] = 'blue';
 		} else if (informations[i] === minValues[i]) {
 			colors[i] = 'green';
@@ -2947,15 +3034,6 @@ CookieObject.getDescribedInteger = function() {
 //////////////////////////////////////////////////////////////////////
 ////////////////////////////// REFLECTIONS ///////////////////////////
 //////////////////////////////////////////////////////////////////////
-
-/**
- * Get the price of an object
- *
- * @return {Integer}
- */
-CookieObject.getPriceOf = function() {
-	return this instanceof Game.Upgrade ? this.basePrice : this.price;
-};
 
 /**
  * Get the type of an object
@@ -3053,7 +3131,6 @@ Game.Achievement.prototype.matches             = CookieObject.matches;
 Game.Object.prototype.getBaseCostPerIncome  = CookieObject.getBaseCostPerIncome;
 Game.Object.prototype.getColors             = CookieObject.getColors;
 Game.Object.prototype.getComparativeInfos   = CookieObject.getComparativeInfos;
-Game.Object.prototype.getPrice              = CookieObject.getPriceOf;
 Game.Object.prototype.getReturnInvestment   = CookieObject.getReturnInvestment;
 Game.Object.prototype.getTimeLeft           = CookieObject.getTimeLeft;
 Game.Object.prototype.getType               = CookieObject.getTypeOf;
@@ -3065,7 +3142,6 @@ Game.Upgrade.prototype.getBaseCostPerIncome = CookieObject.getBaseCostPerIncome;
 Game.Upgrade.prototype.getColors            = CookieObject.getColors;
 Game.Upgrade.prototype.getComparativeInfos  = CookieObject.getComparativeInfos;
 Game.Upgrade.prototype.getDescribedInteger  = CookieObject.getDescribedInteger;
-Game.Upgrade.prototype.getPrice             = CookieObject.getPriceOf;
 Game.Upgrade.prototype.getReturnInvestment  = CookieObject.getReturnInvestment;
 Game.Upgrade.prototype.getTimeLeft          = CookieObject.getTimeLeft;
 Game.Upgrade.prototype.getType              = CookieObject.getTypeOf;

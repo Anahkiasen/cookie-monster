@@ -9,6 +9,13 @@
 
 ## 1.040 Versions
 
+### 1.040.10 _(2014-01-xx)_
+
+* Added timer next to the Lucky Alert deficits to show time before the deficit is filled
+* Added Reindeer value in statistics
+* Added statistics about whether it's better to buy pledge or make a covenant
+* Added a _grey_ color for upgrades, to differentiate items with low BCI/no BCI
+
 ### 1.040.09 _(2014-01-02)_
 
 * Finally fix BCI going crazy during frenzies
