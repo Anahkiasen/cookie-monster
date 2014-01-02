@@ -88,7 +88,7 @@ module.exports = {
 
 	'#getDescription': {
 		'Can get description of option': function() {
-			CookieMonster.getDescription('FlashScreen').should.equal('Flashes the screen when a Golden Cookie or Red Cookie appears');
+			CookieMonster.getDescription('FlashScreen').should.equal('Flashes the screen when a Red/Golden Cookie or Reindeer appears');
 		},
 	},
 

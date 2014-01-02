@@ -90,8 +90,8 @@ var CookieMonster = {
 		'BuffBars'         : {type: 'boolean', value: 1,   label: 'Buff Bars',         desc: 'Displays a countdown bar for each effect currently active'},
 		'CookieBar'        : {type: 'boolean', value: 1,   label: 'Next Cookie Timer', desc: 'Displays a countdown bar and updates the Title for when the next Cookie will appear'},
 		'CookieTimer'      : {type: 'boolean', value: 1,   label: 'Cookie Timer',      desc: 'Displays a timer on Golden Cookies and Red Cookies'},
-		'FlashScreen'      : {type: 'boolean', value: 1,   label: 'Flash Screen',      desc: 'Flashes the screen when a Golden Cookie or Red Cookie appears'},
 		'Sounds'           : {type: 'boolean', value: 0,   label: 'Sounds',            desc: 'Plays a sound when a Red/Golden Cookie or a Reindeer appears'},
+		'FlashScreen'      : {type: 'boolean', value: 1,   label: 'Flash Screen',      desc: 'Flashes the screen when a Red/Golden Cookie or Reindeer appears'},
 		'UpdateTitle'      : {type: 'boolean', value: 1,   label: 'Update Title',      desc: 'Updates the Title to display if a Cookie is waiting to be clicked'},
 
 		// Display
