@@ -99,7 +99,7 @@ Game.Init = function() {
 
 Any bug or suggestion should be **opened as an issue** [in the repository](https://github.com/Anahkiasen/cookie-monster/issues) for easier tracking. This allows me to close issues once they're fixed.
 
-Before submitting a bug, make to give a shot at the latest version of the plugin on the `develop` branch. For this, simply replace `master` by `develop` in the bookmarklet above.
+Before submitting a bug, make sure to give a shot at the latest version of the plugin on the `develop` branch. For this, simply replace `master` by `develop` in the bookmarklet above.
 If the bug is still here, you can submit an issue for it.
 
 All suggestions are welcome, even the smallest ones.
