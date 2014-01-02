@@ -60,7 +60,7 @@ CookieMonster.loadStyles = function() {
 	}
 
 	// Add colorblind modifier if necessary
-	if (this.getBooleanSetting('Colorblind')) {
+	if (this.getSetting('Colorblind')) {
 		stylesheet += '-colorblind';
 	}
 

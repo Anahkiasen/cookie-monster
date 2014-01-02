@@ -8,7 +8,7 @@
  * @return {void}
  */
 CookieMonster.toggleBar = function() {
-	var visible = this.getBooleanSetting('BottomBar');
+	var visible = this.getSetting('BottomBar');
 	var bottom  = visible ? 57 : 0;
 
 	this.$monsterBar.toggle(visible);

@@ -43,8 +43,6 @@ CookieMonster.saveSettings = function() {
 			localStorage[setting] = this.getSetting(setting);
 		}
 	}
-
-	this.toggleBar();
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -111,18 +109,12 @@ CookieMonster.setSetting = function(setting, value) {
  * @return {Mixed}
  */
 CookieMonster.getSetting = function(setting) {
-	return this.settings[setting].value;
-};
+	var value = this.settings[setting].value;
+	if (this.settings[setting].type === 'boolean') {
+		return value ? true : false;
+	}
 
-/**
- * Alias for getSetting(setting, true)
- *
- * @param {String} setting
- *
- * @return {Mixed}
- */
-CookieMonster.getBooleanSetting = function (setting) {
-	return this.getSetting(setting) ? true : false;
+	return value;
 };
 
 /**
@@ -138,7 +130,7 @@ CookieMonster.getOptionState = function(name) {
 		return this[method]();
 	}
 
-	return (this.getSetting(name) === 0) ? 'OFF' : 'ON';
+	return this.getSetting(name) ? 'ON' : 'OFF';
 };
 
 //////////////////////////////////////////////////////////////////////

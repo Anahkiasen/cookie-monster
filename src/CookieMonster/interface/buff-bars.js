@@ -68,7 +68,7 @@ CookieMonster.manageFrenzyBars = function() {
 	}
 
 	// Remove bars if the frenzy has ended or we disabled them
-	if (Game.frenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
+	if (Game.frenzy <= 0 || !this.getSetting('BuffBars')) {
 		return this.fadeOutBar(frenzy.identifier);
 	}
 
@@ -90,7 +90,7 @@ CookieMonster.manageFrenzyBars = function() {
  * @return {void}
  */
 CookieMonster.manageClickingFrenzy = function() {
-	if (Game.clickFrenzy <= 0 || !this.getBooleanSetting('BuffBars')) {
+	if (Game.clickFrenzy <= 0 || !this.getSetting('BuffBars')) {
 		return this.fadeOutBar('Clickfrenzy');
 	}
 
@@ -111,14 +111,14 @@ CookieMonster.manageTimersBar = function(name, label) {
 	var barWidth = width / timers[2] * 100;
 
 	// Hide if popup on screen
-	if (timers[0] <= 0 || this.onScreen[name] || !this.getBooleanSetting('CookieBar')) {
+	if (timers[0] <= 0 || this.onScreen[name] || !this.getSetting('CookieBar')) {
 		return this.fadeOutBar(label);
 	}
 
 	// Update title
 	var countdown = Math.round(width / Game.fps);
 	if (name === 'goldenCookie' && countdown > 0 && !this.onScreen.goldenCookie) {
-		this.titleModifier = this.getBooleanSetting('CookieBar') ? '(' + countdown + ') ' : '';
+		this.titleModifier = this.getSetting('CookieBar') ? '(' + countdown + ') ' : '';
 	}
 
 	var $container = this.updateBar(label, 'greyLight', width, barWidth);

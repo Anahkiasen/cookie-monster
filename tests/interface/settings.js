@@ -21,31 +21,23 @@ module.exports = {
 			CookieMonster.settings.FlashScreen.value = 0;
 			CookieMonster.saveSettings();
 
-			localStorage.FlashScreen.should.equal(0);
+			localStorage.FlashScreen.should.equal(false);
 		},
 	},
 
 	'#setSetting': {
 		'Can set a setting by name': function() {
 			CookieMonster.setSetting('FlashScreen', 0);
-			CookieMonster.getSetting('FlashScreen').should.equal(0);
+			CookieMonster.getSetting('FlashScreen').should.equal(false);
 		},
 	},
 
 	'#getSetting': {
 		'Can retrieve a setting by name': function() {
-			CookieMonster.getSetting('FlashScreen').should.equal(1);
+			CookieMonster.getSetting('FlashScreen').should.equal(true);
 			CookieMonster.setSetting('FlashScreen', 0);
 
-			CookieMonster.getSetting('FlashScreen').should.equal(0);
-		},
-	},
-
-	'#getBooleanSetting': {
-		'Can get setting in boolean form': function() {
-			CookieMonster.getBooleanSetting('FlashScreen').should.equal(true);
-			CookieMonster.settings.FlashScreen = 0;
-			CookieMonster.getBooleanSetting('FlashScreen').should.equal(false);
+			CookieMonster.getSetting('FlashScreen').should.equal(false);
 		},
 	},
 
@@ -66,9 +58,9 @@ module.exports = {
 
 	'#toggleSetting': {
 		'Can toggle boolean setting': function() {
-			CookieMonster.getSetting('FlashScreen').should.equal(1);
+			CookieMonster.getSetting('FlashScreen').should.equal(true);
 			CookieMonster.toggleSetting('FlashScreen');
-			CookieMonster.getSetting('FlashScreen').should.equal(0);
+			CookieMonster.getSetting('FlashScreen').should.equal(false);
 		},
 		'Can toggle state setting': function() {
 			CookieMonster.getSetting('Refresh').should.equal(1e3);

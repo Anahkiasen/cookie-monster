@@ -182,7 +182,7 @@ module.exports = function(grunt) {
 				unused    : true,
 
 				force   : true,
-				predef: ['Game', 'realAudio'],
+				predef: ['Game', 'realAudio', 'Notification'],
 				globals : {CookieMonster: true, CookieObject: true, Beautify: true},
 			},
 

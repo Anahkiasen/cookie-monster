@@ -178,8 +178,8 @@ CookieMonster.manageBuildingTooltip = function(building) {
 	var colors = building.getColors();
 
 	// Colorize building price
-	if (this.getBooleanSetting('ColoredPrices')) {
-		var color = this.getBooleanSetting('ReturnInvestment') ? colors[2] : colors[0];
+	if (this.getSetting('ColoredPrices')) {
+		var color = this.getSetting('ReturnInvestment') ? colors[2] : colors[0];
 		$('.price', '#product'+building.id).attr('class', 'price text-'+color);
 	}
 
