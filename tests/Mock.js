@@ -86,6 +86,10 @@ module.exports = {
 		for (var attribute in attributes) {
 			this[attribute] = attributes[attribute];
 		}
+
+		this.getPrice = function() {
+			return this.basePrice || this.price;
+		};
 	},
 
 	////////////////////////////////////////////////////////////////////

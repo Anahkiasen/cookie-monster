@@ -28,7 +28,8 @@ Both these indexes are computed for buildings and upgrades. If the relevant opti
 * Yellow     : This item is not the best, but it is closer to best than it is to worst
 * Orange     : This item is not the worst, but it is closer to worst than it is to best
 * Red        : This item has the worst BCI
-* Purple     : (upgrades) This item has not been calculated and/or cannot be calculated due to no definitive worth.
+* Purple     : (upgrades) This item has a worst BCI than any building
+* Grey       : (upgrades) This item has not been calculated and/or cannot be calculated due to no definitive worth.
 
 Note : for both these indexes, **lower is better**, meaning a building with a BCI of 1 is more interesting that one with a BCI of 3.
 

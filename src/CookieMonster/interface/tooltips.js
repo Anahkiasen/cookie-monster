@@ -230,7 +230,9 @@ CookieMonster.computeColorCoding = function(informations) {
 
 	// Compute color
 	for (var i = 0; i < informations.length; i++) {
-		if (informations[i] < minValues[i]) {
+		if (informations[i] === Infinity) {
+			colors[i] = 'greyLight';
+		} else if (informations[i] < minValues[i]) {
 			colors[i] = 'blue';
 		} else if (informations[i] === minValues[i]) {
 			colors[i] = 'green';
