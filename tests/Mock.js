@@ -52,16 +52,18 @@ module.exports = {
 			prestige     : {},
 			Upgrades     : [],
 
-			Object  : this.object,
-			Upgrade : this.object,
+			Achievement : this.object,
+			Object      : this.object,
+			Upgrade     : this.object,
 
 			RebuildStore : function() {},
 			Has          : function() {},
 		};
 
 		// Create instances
-		Game.AchievementsById.forEach(function(achievement) {
+		Game.AchievementsById.forEach(function(achievement, key) {
 			Game.Achievements[achievement.name] = achievement;
+			Game.AchievementsById[key] = new Game.Achievement(achievement);
 		});
 		Game.UpgradesById.forEach(function(upgrade, key) {
 			Game.UpgradesById[key] = new Game.Upgrade(upgrade);

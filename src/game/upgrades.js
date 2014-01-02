@@ -136,8 +136,7 @@ CookieMonster.getMultiplierOutcome = function(building, baseMultiplier, building
  * @return {Integer}
  */
 CookieMonster.getHeavenlyUpgradeOutcome = function(unlocked, upgrade) {
-	var potential  = upgrade.desc.match(/<b>(.+)%<\/b>/)[1];
-	var multiplier = Game.prestige['Heavenly chips'] * 2 * (potential / 100);
+	var multiplier = Game.prestige['Heavenly chips'] * 2 * (upgrade.getDescribedInteger() / 100);
 
 	return this.callCached('getAchievementWorth', [unlocked, upgrade.id, 0, multiplier]) - Game.cookiesPs;
 };
@@ -208,9 +207,7 @@ CookieMonster.lgt = function(upgrade) {
  * @return {Integer}
  */
 CookieMonster.getNonObjectsGainOutcome = function(upgrade) {
-	var modifier = upgrade.desc.match(/<b>\+(.+)<\/b>/)[1] * 1;
-
-	return modifier * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount;
+	return upgrade.getDescribedInteger() * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount;
 };
 
 /**

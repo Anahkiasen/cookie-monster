@@ -130,8 +130,24 @@ CookieObject.matches = function(matcher) {
 	return this.desc.toLowerCase().indexOf(matcher.toLowerCase()) !== -1;
 };
 
+/**
+ * Get the integer mentionned in a description
+ *
+ * @return {Integer}
+ */
+CookieObject.getDescribedInteger = function() {
+	if (!this.matches('<b>')) {
+		return;
+	}
+
+	return this.desc.match(/<b>\+?([0-9]+)%?/)[1].replace(/[%,]/g, '') * 1;
+};
+
 // Hook into the game
 //////////////////////////////////////////////////////////////////////
+
+Game.Achievement.prototype.getDescribedInteger = CookieObject.getDescribedInteger;
+Game.Achievement.prototype.matches             = CookieObject.matches;
 
 Game.Object.prototype.getBaseCostPerIncome  = CookieObject.getBaseCostPerIncome;
 Game.Object.prototype.getColors             = CookieObject.getColors;
@@ -147,6 +163,7 @@ Game.Object.prototype.matches               = CookieObject.matches;
 Game.Upgrade.prototype.getBaseCostPerIncome = CookieObject.getBaseCostPerIncome;
 Game.Upgrade.prototype.getColors            = CookieObject.getColors;
 Game.Upgrade.prototype.getComparativeInfos  = CookieObject.getComparativeInfos;
+Game.Upgrade.prototype.getDescribedInteger  = CookieObject.getDescribedInteger;
 Game.Upgrade.prototype.getPrice             = CookieObject.getPriceOf;
 Game.Upgrade.prototype.getReturnInvestment  = CookieObject.getReturnInvestment;
 Game.Upgrade.prototype.getTimeLeft          = CookieObject.getTimeLeft;

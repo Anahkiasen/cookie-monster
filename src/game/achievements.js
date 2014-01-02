@@ -75,7 +75,7 @@ CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncom
 	multiplier = this.applyMilkPotential(baseMultiplier, milkProgress);
 	var projectedIncome = this.computeNewIncome(originalIncome, multiplier);
 
-	// Then we check if the provided upgrade is an Heanvely Upgrade
+	// Then we check if the provided upgrade is an Heavenly Upgrade
 	var newPotential = Game.UpgradesById[upgradeKey].name;
 	baseMultiplier    += futureMultiplier;
 
@@ -98,12 +98,12 @@ CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncom
 		income       = this.computeNewIncome(originalIncome, multiplier);
 	}
 
-	// Finally deduce our original prevision frm the result
+	// Finally deduce our original prevision from the result
 	if (customMultiplier === 0) {
 		income -= projectedIncome;
 	}
 
-	// And apply the convenant deduction if necessary
+	// And apply the covenant deduction if necessary
 	if (Game.Has('Elder Covenant')) {
 		income *= 0.95;
 	}
