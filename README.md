@@ -106,6 +106,8 @@ All suggestions are welcome, even the smallest ones.
 
 ## Contributing
 
+All edits need to be make to the [develop branch](https://github.com/Anahkiasen/cookie-monster/tree/develop), that's where the latest version of the code is.
+
 To contribute to the project, you'll find the files you want to edit in `src/`, split by what the methods are related to. If you're not familiar with [Git](http://git-scm.com/), the simplest way to contribute is to go into a file, click the _Edit_ button at the top, edit the code, and click on **"Propose file change"**.
 
 ### Setup the repository
