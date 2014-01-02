@@ -2,13 +2,9 @@
 bower_components
 node_modules
 
-# Assets
-dist/js/clicker.js
+# Compiled files and third-party
+dist/js
 dist/cookie-monster.js
-
-# Third-party
-dist/js/original
-dist/js/third-party
 
 # Logs and caches
 .sass-cache
