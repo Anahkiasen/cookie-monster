@@ -25,7 +25,7 @@ CookieMonster.secondsLeft = function(object) {
  *
  * @return {String}
  */
-CookieMonster.timeToCookies = function(cookies) {
+CookieMonster.getTimeToCookies = function(cookies) {
 	return this.formatTime(cookies / Game.cookiesPs, true);
 };
 
