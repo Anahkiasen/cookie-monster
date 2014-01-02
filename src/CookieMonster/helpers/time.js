@@ -25,8 +25,8 @@ CookieMonster.secondsLeft = function(object) {
  *
  * @return {String}
  */
-CookieMonster.timeLeftForDeficit = function(deficit) {
-	return this.formatTime((deficit - Game.cookies) / Game.cookiesPs, true);
+CookieMonster.timeToCookies = function(cookies) {
+	return this.formatTime(cookies / Game.cookiesPs, true);
 };
 
 /**
