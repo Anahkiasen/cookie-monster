@@ -8,7 +8,7 @@
 
 ## 1.040 Versions
 
-### 1.040.10 _(2014-01-xx)_
+### 1.040.10 _(2014-01-02)_
 
 * Added timer next to the Lucky Alert deficits to show time before the deficit is filled
 * Fixed Reindeer value in statistics
