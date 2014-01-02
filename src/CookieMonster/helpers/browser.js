@@ -1,4 +1,27 @@
 /**
+ * Display a browser notification
+ *
+ * @param {String} text
+ *
+ * @return {Void}
+ */
+CookieMonster.displayNotification = function(text) {
+	if (!window.Notification) {
+		return;
+	}
+
+	// Ask for permission
+	if (Notification.permission !== 'denied') {
+		Notification.requestPermission(function (permission) {
+			Notification.permission = permission;
+		});
+	}
+
+	// Send notification
+	return new Notification('Cookie Monster', {body: text});
+};
+
+/**
  * Play a sound
  *
  * @param {String} sound
