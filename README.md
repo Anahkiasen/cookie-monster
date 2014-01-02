@@ -15,6 +15,7 @@ You can see a full history of all versions and what they changed by consulting t
 ### What it does
 
 It's core is computing two indexes on both buildings and upgrades :
+
 * **Base Cost per Income** : which indicates how much a building is worth by taking how much it costs compared to how much it'll earn back
 * **Return on investment** : which indicates how much a building is "interesting" to buy, per example if it reduces the time to buy a more advanced building
 
@@ -61,7 +62,6 @@ javascript: (function () {
   var jA = document.createElement('script');
   jA.setAttribute('type', 'text/javascript');
   jA.setAttribute('src', 'http://cookie-monster.autopergamene.eu/cookie-monster.min.js?' + new Date().getTime());
-
   document.body.appendChild(jA);
 }());
 ```
@@ -112,9 +112,9 @@ To contribute to the project, you'll find the files you want to edit in `src/`, 
 
 If you do are familiar with git, simply click the **"Fork"** button at the top of the page. You'll be redirected to your fork of the repository, copy its address in the right side bar. Then clone the repository and install the dependencies :
 
-  git clone https://github.com/YOURNAME/cookie-monster.git
-  cd cookie-monster
-  npm install
+    git clone https://github.com/YOURNAME/cookie-monster.git
+    cd cookie-monster
+    npm install
 
 You'll need NPM for that, if you don't have it, you can find a one-click installer on [NodeJS's website](http://nodejs.org/) or if you're more familiar with development and have per example Homebrew, you can just do `brew install node`.
 
@@ -126,12 +126,12 @@ Make the edits you want in the `src/` folder.
 
 Then rebuild the assets by running Grunt :
 
-  ./node_modules/.bin/grunt
+    ./node_modules/.bin/grunt
 
 Next you can commit your changes and push :
 
-  git commit -am "Edited some stuff"
-  git push origin master
+    git commit -am "Edited some stuff"
+    git push origin master
 
 Once that is done, go back on Github where your fork is, and create a pull request from there.
 
