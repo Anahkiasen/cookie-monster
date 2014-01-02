@@ -22,7 +22,9 @@ CookieMonster.emphasizeSeason = function() {
  * @return {Integer}
  */
 CookieMonster.getReindeerReward = function() {
-	return this.formatNumber(Math.max(25, Game.cookiesPs * 60));
+	var multiplier = Game.Has('Ho ho ho-flavored frosting') ? 2 : 1;
+
+	return this.formatNumber(Math.max(25, Game.cookiesPs * 60) * multiplier);
 };
 
 /**
