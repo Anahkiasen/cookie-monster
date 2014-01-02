@@ -66,6 +66,10 @@ CookieMonster.getStatistics = function() {
 			'Rewards of popping'  : 'CookieMonster.getWrinklersReward()',
 			'Benefits of popping' : "CookieMonster.getWrinklersReward('reward')",
 		},
+		'Grandmapocalypse': {
+			'Cost of pledges (1h)'  : 'CookieMonster.estimatePledgeCost(60)',
+			'Cost of covenant (1h)' : 'CookieMonster.estimateCovenantCost(60)',
+		},
 		'Season specials': {
 			'Reindeer Reward' : 'CookieMonster.getReindeerReward()',
 		}

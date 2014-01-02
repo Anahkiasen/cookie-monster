@@ -1,3 +1,7 @@
+//////////////////////////////////////////////////////////////////////
+//////////////////////////////// SEASONS /////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 /**
  * Emphasize the apparition of a Reindeer
  *
@@ -26,6 +30,13 @@ CookieMonster.getReindeerReward = function() {
 
 	return this.formatNumber(Math.max(25, Game.cookiesPs * 60) * multiplier);
 };
+
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// ELDER WRATH ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+// Wrinklers
+//////////////////////////////////////////////////////////////////////
 
 /**
  * Get the amount of cookies sucked by wrinklers
@@ -65,4 +76,46 @@ CookieMonster.getWrinklersReward = function(context) {
 	}
 
 	return this.formatNumber(sucked);
+};
+
+// Pledges
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Compute the cost of pledges for a given time
+ *
+ * @param {Integer} lapse (mn)
+ *
+ * @return {Integer}
+ */
+CookieMonster.estimatePledgeCost = function(lapse) {
+	var pledge   = Game.Upgrades['Elder Pledge'];
+	var duration = Game.Has('Sacrificial rolling pins') ? 60 : 30;
+	var required = lapse / duration;
+	var price    = pledge.getPrice();
+
+	var cost = 0;
+	for (var i = 0; i < required; i++) {
+		cost += price;
+
+		// Recompute pledge price
+		price = Math.pow(8, Math.min(Game.pledges + 2, 14));
+		price *= Game.Has('Toy workshop') ? 0.95 : 1;
+		price *= Game.Has('Santa\'s dominion') ? 1 : 0.98;
+	}
+
+	return this.formatNumber(cost);
+};
+
+/**
+ * Compute the cost of the covenant for a given time
+ *
+ * @param {Integer} lapse (mn)
+ *
+ * @return {Integer}
+ */
+CookieMonster.estimateCovenantCost = function(lapse) {
+	var income = Game.cookiesPs * (lapse * 60);
+
+	return this.formatNumber(income - (income * 0.95));
 };
