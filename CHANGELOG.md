@@ -1,5 +1,13 @@
 ## 1.040 Versions
 
+### 1.040.09 _(2014-01-02)_
+
+* Finally fix BCI going crazy during frenzies
+* Moved all assets to private server (you need to update your bookmarklet)
+* Upgrades that impact negatively the income (eg. Elder Covenant) now appear in purple
+* Fixed some bars-related bugs
+* Wrinklers statistics are now hidden if no Wrinklers active
+
 ### 1.040.08 _(2014-01-01)_
 
 * Take into account how an object/upgrade will affect the income to compute the Lucky Cookies deficit alerts
