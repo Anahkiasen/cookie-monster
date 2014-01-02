@@ -1,4 +1,11 @@
-/* exported CookieMonster */
+/* exported CookieMonster,CookieObject */
+
+/**
+ * An object in Cookie Clicker
+ *
+ * @type {Object}
+ */
+var CookieObject = {};
 
 /**
  * The CookieMonster plugin
@@ -116,5 +123,6 @@ var CookieMonster = {
 
 // Export module
 if (typeof module !== 'undefined') {
-	module.exports = CookieMonster;
+	module.exports.CookieObject  = CookieObject;
+	module.exports.CookieMonster = CookieMonster;
 }

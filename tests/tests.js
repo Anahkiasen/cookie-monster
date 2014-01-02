@@ -22,28 +22,34 @@ $      = jQuery(window);
 
 // Modules
 Game          = Mock.game();
-CookieMonster = require('../src/cookie-monster.js');
-require('../src/core/decorators.js');
-require('../src/core/events.js');
-require('../src/core/runtime.js');
-require('../src/core/setup.js');
-require('../src/core/hooks.js');
-require('../src/game/achievements.js');
-require('../src/game/buildings.js');
-require('../src/game/golden-cookie.js');
-require('../src/game/heavenly.js');
-require('../src/game/special.js');
-require('../src/game/upgrades.js');
-require('../src/helpers/browser.js');
-require('../src/helpers/cache.js');
-require('../src/helpers/emphasizers.js');
-require('../src/helpers/math.js');
-require('../src/helpers/time.js');
-require('../src/interface/bottom-bar.js');
-require('../src/interface/buff-bars.js');
-require('../src/interface/settings.js');
-require('../src/interface/store.js');
-require('../src/interface/tooltips.js');
+CookieMonster = require('../src/CookieMonster/cookie-monster.js').CookieMonster;
+CookieObject  = require('../src/CookieMonster/cookie-monster.js').CookieObject;
+
+require('../src/CookieMonster/core/events.js');
+require('../src/CookieMonster/core/runtime.js');
+require('../src/CookieMonster/core/setup.js');
+require('../src/CookieMonster/core/hooks.js');
+require('../src/CookieMonster/game/achievements.js');
+require('../src/CookieMonster/game/buildings.js');
+require('../src/CookieMonster/game/golden-cookie.js');
+require('../src/CookieMonster/game/heavenly.js');
+require('../src/CookieMonster/game/special.js');
+require('../src/CookieMonster/game/upgrades.js');
+require('../src/CookieMonster/helpers/browser.js');
+require('../src/CookieMonster/helpers/cache.js');
+require('../src/CookieMonster/helpers/emphasizers.js');
+require('../src/CookieMonster/helpers/math.js');
+require('../src/CookieMonster/helpers/time.js');
+require('../src/CookieMonster/interface/bottom-bar.js');
+require('../src/CookieMonster/interface/buff-bars.js');
+require('../src/CookieMonster/interface/settings.js');
+require('../src/CookieMonster/interface/store.js');
+require('../src/CookieMonster/interface/tooltips.js');
+
+require('../src/CookieObject/helpers.js');
+require('../src/CookieObject/reflection.js');
+require('../src/CookieObject/statistics.js');
+
 require('../src/main.js');
 
 // Cache settings

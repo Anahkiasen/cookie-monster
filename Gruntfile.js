@@ -101,7 +101,7 @@ module.exports = function(grunt) {
 			js: {
 				files: {
 					'<%= paths.compiled.js %>/js/cookie-monster.js': [
-						'<%= paths.original.js %>/cookie-monster.js',
+						'<%= paths.original.js %>/CookieMonster/cookie-monster.js',
 						'<%= paths.original.js %>/**/*.js',
 						'<%= paths.original.js %>/main.js',
 					],
@@ -183,7 +183,7 @@ module.exports = function(grunt) {
 
 				force   : true,
 				predef: ['Game', 'realAudio'],
-				globals : {CookieMonster: true, Beautify: true},
+				globals : {CookieMonster: true, CookieObject: true, Beautify: true},
 			},
 
 			all: ['<%= paths.original.js %>/**/*.js'],
