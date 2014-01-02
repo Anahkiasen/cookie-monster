@@ -73,22 +73,3 @@ CookieMonster.getHeavenlyChip = function(context) {
 			return this.formatTime(Math.round(nextChip / Game.cookiesPs));
 	}
 };
-
-//////////////////////////////////////////////////////////////////////
-//////////// THE "I HAVE NO FUCKING IDEA WHAT THESE DO" LAND /////////
-//////////////////////////////////////////////////////////////////////
-
-CookieMonster.inc = function(e) {
-	var t = 0;
-
-	Game.AchievementsById.forEach(function (achievement) {
-		var i = achievement.desc.replace(/,/g, '');
-		if (!achievement.won && i.indexOf(' per second.') !== -1) {
-			if (e >= i.substr(8, i.indexOf('</b>', 8) - 8) * 1) {
-				t++;
-			}
-		}
-	});
-
-	return t;
-};

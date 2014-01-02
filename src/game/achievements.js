@@ -1,71 +1,109 @@
+//////////////////////////////////////////////////////////////////////
+/////////////////////////////// TRUE WORTH ///////////////////////////
+//////////////////////////////////////////////////////////////////////
+
 /**
  * Compute how much buying an upgrade/building would earn in
  * additional achievements and bonus
  *
- * This is probably the worst method of all of CM so, you know, behold
+ * This is probably the *worst* method of all of CM so, you know,
+ * HERE BE MOTHERFUCKING DRAGONS
+ *
+ *                                                  /===-_---~~~~~~~~~------____
+ *                                                 |===-~___                _,-'
+ *                  -==\\                         `//~\\   ~~~~`---.___.-~~
+ *              ______-==|                         | |  \\           _-~`
+ *        __--~~~  ,-/-==\\                        | |   `\        ,'
+ *     _-~       /'    |  \\                      / /      \      /
+ *   .'        /       |   \\                   /' /        \   /'
+ *  /  ____  /         |    \`\.__/-~~ ~ \ _ _/'  /          \/'
+ * /-'~    ~~~~~---__  |     ~-/~         ( )   /'        _--~`
+ *                   \_|      /        _)   ;  ),   __--~~
+ *                     '~~--_/      _-~/-  / \   '-~ \
+ *                    {\__--_/}    / \\_>- )<__\      \
+ *                    /'   (_/  _-~  | |__>--<__|      |
+ *                   |0  0 _/) )-~     | |__>--<__|     |
+ *                   / /~ ,_/       / /__>---<__/      |
+ *                  o o _ *        /-~_>---<__-~      /
+ *                  (^(~          /~_>---<__-      _-~
+ *                 ,/|           /__>--<__/     _-~
+ *              ,//('(          |__>--<__|     /                  .----_
+ *             ( ( '))          |__>--<__|    |                 /' _---_~\
+ *          `-)) )) (           |__>--<__|    |               /'  /     ~\`\
+ *         ,/,'//( (             \__>--<__\    \            /'   *        ||
+ *       ,( ( ((, ))              ~-__>--<_~-_  ~--____---~' _/'/        /'
+ *     `~/  )` ) ,/|                 ~-_~>--<_/-__       __-~ _/
+ *   ._-~//( )/ )) `                    ~~-'_/_/ /~~~~~~~__--~
+ *    ;'( ')/ ,)(                              ~~~~~~~~~~
+ *   ' ') '( (/
+ *     '   '  `
  *
  * @param {Integer} unlocked
  * @param {Integer} upgradeKey
  * @param {Integer} originalIncome
- * @param {Nope}    customHeavenlyMultiplier
+ * @param {Nope}    customMultiplier
  *
  * @return {Integer}
  */
-CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncome, customHeavenlyMultiplier) {
-	var income             = 0;
-	var heavenlyMultiplier = this.getHeavenlyMultiplier();
-	var futureMultiplier   = 0;
-	var milkProgress       = Game.milkProgress;
-	var frenzyMultiplier   = this.getFrenzyMultiplier();
-	var number;
+CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncome, customMultiplier) {
+	var income           = 0;
+	var baseMultiplier   = this.getHeavenlyMultiplier();
+	var futureMultiplier = 0;
+	var milkProgress     = Game.milkProgress;
+	var multiplier;
 
 	// Swap out heavenly multiplier
-	if (typeof customHeavenlyMultiplier === 'undefined') {
-		customHeavenlyMultiplier = 0;
+	if (typeof customMultiplier === 'undefined') {
+		customMultiplier = 0;
 	}
-	if (customHeavenlyMultiplier !== 0) {
-		heavenlyMultiplier = customHeavenlyMultiplier;
+	if (customMultiplier !== 0) {
+		baseMultiplier = customMultiplier;
 	}
 
 	// Loop over the available upgrades and compute the available
-	// production multipliers
+	// production multipliers, plus a potential new one unlocked
 	Game.UpgradesById.forEach(function (upgrade) {
-		var description = upgrade.desc.replace('[Research]<br>', '');
-		if (upgrade.bought && description.indexOf('Cookie production multiplier <b>+') !== -1) {
-			heavenlyMultiplier += description.substr(33, description.indexOf('%', 33) - 33) * 1;
+		if (upgrade.bought && upgrade.matches('Cookie production multiplier <b>+')) {
+			baseMultiplier += upgrade.getDescribedInteger();
 		}
-		if (upgrade.id === upgradeKey && upgrade && !upgrade.bought && description.indexOf('Cookie production multiplier <b>+') !== -1) {
-			futureMultiplier += description.substr(33, description.indexOf('%', 33) - 33) * 1;
+		if (upgrade.id === upgradeKey && upgrade && !upgrade.bought && upgrade.matches('Cookie production multiplier <b>+')) {
+			futureMultiplier += upgrade.getDescribedInteger();
 		}
 	});
 
-	number = 100 + heavenlyMultiplier;
-	number = this.applyMilkPotential(number, milkProgress);
-	var h = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (number / 100) * frenzyMultiplier;
+	// Compute a first project income, applying all multipliers to it
+	multiplier = this.applyMilkPotential(baseMultiplier, milkProgress);
+	var projectedIncome = this.computeNewIncome(originalIncome, multiplier);
 
+	// Then we check if the provided upgrade is an Heanvely Upgrade
+	var newPotential = Game.UpgradesById[upgradeKey].name;
+	baseMultiplier    += futureMultiplier;
+
+	// First we increment the milk with the newly unlocked achievements
+	// Then we apply all potentials, plus new one, to the multiplier
+	// And from there we redo an income projection
 	milkProgress += unlocked * 0.04;
-	number = 100 + heavenlyMultiplier + futureMultiplier;
-	number = this.applyMilkPotential(number, milkProgress);
-	var thisPotential = this.milkPotentials[Game.UpgradesById[upgradeKey].name] || 0;
-	number = number * (1 + thisPotential * milkProgress);
-	income = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (number / 100) * frenzyMultiplier - h;
-	var d = this.inc(income + h);
+	multiplier   = this.applyMilkPotential(baseMultiplier, milkProgress, newPotential);
+	income       = this.computeNewIncome(originalIncome, multiplier);
 
-	if (d > 0) {
-		milkProgress += d * 0.04;
-		number = 100 + heavenlyMultiplier + futureMultiplier;
-		number = this.applyMilkPotential(number, milkProgress);
-		number = number * (1 + thisPotential * milkProgress);
+	// Now we check if this new projected income would unlock
+	// any "Bake X cookies/s achievements"
+	unlocked = this.getUnlockedIncomeAchievements(income);
 
-		income = (Game.cookiesPs + originalIncome) / Game.globalCpsMult * (number / 100) * frenzyMultiplier - h;
+	// If our new income would unlock achievements, compute their milk bonus
+	// And redo the whole routine to do a THIRD projected income (yes)
+	if (unlocked > 0) {
+		milkProgress += unlocked * 0.04;
+		multiplier   = this.applyMilkPotential(baseMultiplier, milkProgress, newPotential);
+		income       = this.computeNewIncome(originalIncome, multiplier);
 	}
 
-	// If custom multiplier, reapply... something
-	if (customHeavenlyMultiplier !== 0) {
-		income += h;
+	// Finally deduce our original prevision frm the result
+	if (customMultiplier === 0) {
+		income -= projectedIncome;
 	}
 
-	// Add Elder Covenant modifier
+	// And apply the convenant deduction if necessary
 	if (Game.Has('Elder Covenant')) {
 		income *= 0.95;
 	}
@@ -74,14 +112,55 @@ CookieMonster.getAchievementWorth = function(unlocked, upgradeKey, originalIncom
 };
 
 /**
- * Apply milk potential to a number
+ * Apply a differential of multiplier to an income
  *
- * @param {Integer} number
- * @param {Integer} milkProgress
+ * @param {Integer} income
+ * @param {Integer} multiplier
  *
  * @return {Integer}
  */
-CookieMonster.applyMilkPotential = function(number, milkProgress) {
+CookieMonster.computeNewIncome = function(income, multiplier) {
+	return (Game.cookiesPs + income) / Game.globalCpsMult * (multiplier / 100) * this.getFrenzyMultiplier();
+};
+
+/**
+ * Returns how many cookies/s-related achievements would be unlocked for a given income
+ *
+ * @param {Integer} cookiesPs
+ *
+ * @return {Integer}
+ */
+CookieMonster.getUnlockedIncomeAchievements = function(cookiesPs) {
+	var unlocked = 0;
+
+	// Cancel if we're during a frenzy
+	if (Game.frenzyPower) {
+		return 0;
+	}
+
+	// Gather the number of achievements that would be unlocked
+	Game.AchievementsById.forEach(function (achievement) {
+		if (!achievement.won && achievement.matches(' per second.')) {
+			if (cookiesPs >= achievement.getDescribedInteger()) {
+				unlocked++;
+			}
+		}
+	});
+
+	return unlocked;
+};
+
+/**
+ * Apply milk potential to a multiplier, optionally specifying
+ * a future potential to be unlocked
+ *
+ * @param {Integer} multiplier
+ * @param {Integer} milkProgress
+ * @param {String}  futurePotential
+ *
+ * @return {Integer}
+ */
+CookieMonster.applyMilkPotential = function(multiplier, milkProgress, futurePotential) {
 	if (typeof milkProgress === 'undefined') {
 		milkProgress = Game.milkProgress;
 	}
@@ -89,15 +168,17 @@ CookieMonster.applyMilkPotential = function(number, milkProgress) {
 	// Compute current potentials
 	var milkUpgrades = [];
 	for (var potential in this.milkPotentials) {
-		milkUpgrades.push(Game.Has(potential) * this.milkPotentials[potential]);
+		var hasPotential = Game.Has(potential) || potential === futurePotential;
+		milkUpgrades.push(hasPotential * this.milkPotentials[potential]);
 	}
 
 	// Apply potentials
+	multiplier += 100;
 	milkUpgrades.forEach(function(modifier) {
-		number = number * (1 + modifier * milkProgress);
+		multiplier = multiplier * (1 + modifier * milkProgress);
 	});
 
-	return number;
+	return multiplier;
 };
 
 //////////////////////////////////////////////////////////////////////
