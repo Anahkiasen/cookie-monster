@@ -30,8 +30,8 @@ var CookieMonster = {
 	// Emphasizers
 	////////////////////////////////////////////////////////////////////
 
-	titleModifier : '',
-	onScreen      : {},
+	titleModifiers : {},
+	onScreen       : {},
 
 	// Stored informations
 	////////////////////////////////////////////////////////////////////
@@ -157,7 +157,7 @@ CookieMonster.hookIntoNative = function() {
 
 	// Add Cookie Monster modifiers in title
 	this.replaceNative('Logic', {
-		'.title=': '.title=CookieMonster.titleModifier+',
+		'.title=': '.title=CookieMonster.getTitleModifiers()+',
 	});
 
 	// Add additional settings and statistics to main menu
@@ -1148,12 +1148,11 @@ CookieMonster.emphasizeGolden = function() {
 	var onScreen = this.whileOnScreen('goldenCookie',
 		function() {
 			this.$goldenOverlay.hide();
-			this.titleModifier = '';
 		},
 		function() {
 			this.$goldenOverlay.show();
 
-			this.Emphasizers.updateTitle('G');
+			this.Emphasizers.faviconSpinner(1);
 			this.Emphasizers.playSound();
 			this.Emphasizers.flashScreen();
 		});
@@ -1834,10 +1833,6 @@ CookieMonster.computeSalts = function(salts, args) {
 	return salts.join('-');
 };
 
-//////////////////////////////////////////////////////////////////////
-////////////////////////////// EMPHASIZERS ///////////////////////////
-//////////////////////////////////////////////////////////////////////
-
 CookieMonster.Emphasizers = {};
 
 /**
@@ -1859,14 +1854,66 @@ CookieMonster.whileOnScreen = function(identifier, offScreen, onScreen) {
 	// Execute the two callbacks
 	if (Game[identifier].life <= 0 && this.onScreen[identifier]) {
 		this.onScreen[identifier] = false;
+		this.removeTitleModifier(identifier);
+
 		offScreen.call(this);
 	} else if (Game[identifier].life && !this.onScreen[identifier]) {
 		this.onScreen[identifier] = true;
+		this.Emphasizers.updateTitle(identifier);
+
 		onScreen.call(this);
 	}
 
 	return this.onScreen[identifier];
 };
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////////////// TITLE //////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Get all the title modifiers
+ *
+ * @return {String}
+ */
+CookieMonster.getTitleModifiers = function() {
+	var modifiers = [];
+
+	// Get all modifiers
+	for (var modifier in this.titleModifiers) {
+		modifier = this.titleModifiers[modifier];
+		if (modifier) {
+			modifiers.push(modifier);
+		}
+	}
+
+	return '[' +modifiers.join('][')+ '] ';
+};
+
+/**
+ * Set a title modifier
+ *
+ * @param {String} index
+ * @param {String} value
+ */
+CookieMonster.setTitleModifier = function(index, value) {
+	this.titleModifiers[index] = value;
+};
+
+/**
+ * Remove a title modifier
+ *
+ * @param {String} index
+ *
+ * @return {Void}
+ */
+CookieMonster.removeTitleModifier = function(index) {
+	this.titleModifiers[index] = '';
+};
+
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// EMPHASIZERS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 /**
  * Display a timer in an overlay above the golden cookie
@@ -1888,13 +1935,18 @@ CookieMonster.Emphasizers.displayGoldenTimer = function() {
  *
  * @return {String}
  */
-CookieMonster.Emphasizers.updateTitle = function(type) {
+CookieMonster.Emphasizers.updateTitle = function(identifier) {
 	if (!CookieMonster.getSetting('UpdateTitle')) {
 		return false;
 	}
 
-	CookieMonster.titleModifier = '(' +type+ ') ';
-	this.faviconSpinner(1);
+	// Get the letter to respond to
+	var letters = {
+		goldenCookie : 'G',
+		seasonPopup  : 'R'
+	};
+
+	CookieMonster.setTitleModifier(identifier, letters[identifier]);
 };
 
 /**
@@ -2285,7 +2337,7 @@ CookieMonster.manageTimersBar = function(name, label) {
 	// Update title
 	var countdown = Math.round(width / Game.fps);
 	if (name === 'goldenCookie' && countdown > 0 && !this.onScreen.goldenCookie) {
-		this.titleModifier = this.getSetting('CookieBar') ? '(' + countdown + ') ' : '';
+		this.setTitleModifier('goldenCookie', this.getSetting('CookieBar') ? countdown : '');
 	}
 
 	var $container = this.updateBar(label, 'greyLight', width, barWidth);
