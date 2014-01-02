@@ -12,7 +12,7 @@ CookieMonster.hookIntoNative = function() {
 
 	// Add Cookie Monster modifiers in title
 	this.replaceNative('Logic', {
-		'.title=': '.title=CookieMonster.titleModifier+',
+		'.title=': '.title=CookieMonster.getTitleModifiers()+',
 	});
 
 	// Add additional settings and statistics to main menu

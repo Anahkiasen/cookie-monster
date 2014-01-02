@@ -118,7 +118,7 @@ CookieMonster.manageTimersBar = function(name, label) {
 	// Update title
 	var countdown = Math.round(width / Game.fps);
 	if (name === 'goldenCookie' && countdown > 0 && !this.onScreen.goldenCookie) {
-		this.titleModifier = this.getSetting('CookieBar') ? '(' + countdown + ') ' : '';
+		this.setTitleModifier('goldenCookie', this.getSetting('CookieBar') ? countdown : '');
 	}
 
 	var $container = this.updateBar(label, 'greyLight', width, barWidth);

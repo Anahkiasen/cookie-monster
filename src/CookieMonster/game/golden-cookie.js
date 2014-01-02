@@ -16,12 +16,11 @@ CookieMonster.emphasizeGolden = function() {
 	var onScreen = this.whileOnScreen('goldenCookie',
 		function() {
 			this.$goldenOverlay.hide();
-			this.titleModifier = '';
 		},
 		function() {
 			this.$goldenOverlay.show();
 
-			this.Emphasizers.updateTitle('G');
+			this.Emphasizers.faviconSpinner(1);
 			this.Emphasizers.playSound();
 			this.Emphasizers.flashScreen();
 		});

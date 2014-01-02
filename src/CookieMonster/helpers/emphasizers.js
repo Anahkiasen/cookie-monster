@@ -1,7 +1,3 @@
-//////////////////////////////////////////////////////////////////////
-////////////////////////////// EMPHASIZERS ///////////////////////////
-//////////////////////////////////////////////////////////////////////
-
 CookieMonster.Emphasizers = {};
 
 /**
@@ -23,14 +19,66 @@ CookieMonster.whileOnScreen = function(identifier, offScreen, onScreen) {
 	// Execute the two callbacks
 	if (Game[identifier].life <= 0 && this.onScreen[identifier]) {
 		this.onScreen[identifier] = false;
+		this.removeTitleModifier(identifier);
+
 		offScreen.call(this);
 	} else if (Game[identifier].life && !this.onScreen[identifier]) {
 		this.onScreen[identifier] = true;
+		this.Emphasizers.updateTitle(identifier);
+
 		onScreen.call(this);
 	}
 
 	return this.onScreen[identifier];
 };
+
+//////////////////////////////////////////////////////////////////////
+///////////////////////////////// TITLE //////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Get all the title modifiers
+ *
+ * @return {String}
+ */
+CookieMonster.getTitleModifiers = function() {
+	var modifiers = [];
+
+	// Get all modifiers
+	for (var modifier in this.titleModifiers) {
+		modifier = this.titleModifiers[modifier];
+		if (modifier) {
+			modifiers.push(modifier);
+		}
+	}
+
+	return '[' +modifiers.join('][')+ '] ';
+};
+
+/**
+ * Set a title modifier
+ *
+ * @param {String} index
+ * @param {String} value
+ */
+CookieMonster.setTitleModifier = function(index, value) {
+	this.titleModifiers[index] = value;
+};
+
+/**
+ * Remove a title modifier
+ *
+ * @param {String} index
+ *
+ * @return {Void}
+ */
+CookieMonster.removeTitleModifier = function(index) {
+	this.titleModifiers[index] = '';
+};
+
+//////////////////////////////////////////////////////////////////////
+////////////////////////////// EMPHASIZERS ///////////////////////////
+//////////////////////////////////////////////////////////////////////
 
 /**
  * Display a timer in an overlay above the golden cookie
@@ -52,13 +100,18 @@ CookieMonster.Emphasizers.displayGoldenTimer = function() {
  *
  * @return {String}
  */
-CookieMonster.Emphasizers.updateTitle = function(type) {
+CookieMonster.Emphasizers.updateTitle = function(identifier) {
 	if (!CookieMonster.getSetting('UpdateTitle')) {
 		return false;
 	}
 
-	CookieMonster.titleModifier = '(' +type+ ') ';
-	this.faviconSpinner(1);
+	// Get the letter to respond to
+	var letters = {
+		goldenCookie : 'G',
+		seasonPopup  : 'R'
+	};
+
+	CookieMonster.setTitleModifier(identifier, letters[identifier]);
 };
 
 /**

@@ -3,7 +3,6 @@
 * Display "Bonus Click Income" on clicking upgrades instead of a 0 BCI
 * Display browser notifications on popups
 * Add a notification for Elder Pledges running out
-* Add a statistic showing whether it's more interesting to buy pledges or the covenant
 
 -----
 
@@ -15,6 +14,7 @@
 * Added Reindeer value in statistics
 * Added statistics about whether it's better to buy pledge or make a covenant
 * Added a _grey_ color for upgrades, to differentiate items with low BCI/no BCI
+* Added support for multiple title modifiers (and Reindeer title modifier added with it)
 
 ### 1.040.09 _(2014-01-02)_
 
