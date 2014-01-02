@@ -6,6 +6,10 @@ node_modules
 dist/js/clicker.js
 dist/cookie-monster.js
 
+# Third-party
+dist/js/original
+dist/js/third-party
+
 # Logs and caches
 .sass-cache
 npm-debug.log
