@@ -73,9 +73,8 @@ CookieMonster.updateTooltip = function(object, colors) {
 
 	// Compute and display deficits
 	var timeLefts = deficits.map(this.getTimeForCookies, this).map(this.formatCompressedTime, this);
-	deficits = deficits.map(this.formatNumber);
-	$(identifier+'warning_amount').html('Deficit: ' + deficits[0] + ' (' +timeLefts[0]+ ')');
-	$(identifier+'caution_amount').html('Deficit: ' + deficits[1] + ' (' +timeLefts[1]+ ')');
+	$(identifier+'warning_amount').html('Deficit: ' + this.formatNumber(deficits[0]) + ' (' +timeLefts[0]+ ')');
+	$(identifier+'caution_amount').html('Deficit: ' + this.formatNumber(deficits[1]) + ' (' +timeLefts[1]+ ')');
 
 	if (this.getSetting('LuckyAlert') === 1 || this.getSetting('LuckyAlert') === 2) {
 		$(identifier+'lucky_div_warning').toggle(deficits[0] > 0);
