@@ -8,9 +8,7 @@ by hand to pick the best buildings to buy, it does that, but **everything is an 
 
 ### Current version
 
-The current version is **1.040.09**.
-
-You can see a full history of all versions and what they changed by consulting the [Releases page](https://github.com/Anahkiasen/cookie-monster/releases).
+You can see the current version, and a full history of all versions and what they changed by consulting the [Releases page](https://github.com/Anahkiasen/cookie-monster/releases).
 
 ### What it does
 
