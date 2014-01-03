@@ -35,6 +35,38 @@ CookieMonster.emphasizeGolden = function() {
 //////////////////////////////////////////////////////////////////////
 
 /**
+ * Get the lifespan of a Lucky Cookie
+ *
+ * @return {Integer}
+ */
+CookieMonster.getLuckyDuration = function() {
+	var duration = Game.goldenCookie.dur;
+
+	// Add multiplier
+	duration *= Game.Has('Lucky day') ? 2 : 1;
+	duration *= Game.Has('Serendipity') ? 2 : 1;
+
+	return duration;
+};
+
+/**
+ * Get the average amount of cookies earned by manually clicking
+ * on all lucky cookies for 60mn
+ *
+ * @param {Integer} lapse
+ *
+ * @return {Integer}
+ */
+CookieMonster.getManualLuckyReward = function(lapse) {
+	var reward    = Math.min(this.getLuckyTreshold() / 10, Game.cookies * 0.1 + 13);
+	var minReward = reward * (lapse / (Game.goldenCookie.maxTime + this.getLuckyDuration()));
+	var maxReward = reward * (lapse / (Game.goldenCookie.minTime + this.getLuckyDuration()));
+	lapse         = lapse * 60;
+
+	return this.formatNumber(minReward + maxReward / 2);
+};
+
+/**
  * Get the amount of cookies required for Lucky Cookies, formatted
  *
  * @param {String} context [current,frenzy]
