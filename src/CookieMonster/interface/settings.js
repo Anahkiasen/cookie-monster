@@ -43,6 +43,8 @@ CookieMonster.saveSettings = function() {
 			localStorage[setting] = this.getSetting(setting);
 		}
 	}
+
+	this.toggleBar();
 };
 
 //////////////////////////////////////////////////////////////////////
