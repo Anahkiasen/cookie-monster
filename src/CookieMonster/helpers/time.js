@@ -19,13 +19,24 @@ CookieMonster.secondsLeft = function(object) {
 };
 
 /**
- * Compute the time left before a deficit is filled
+ * Compute the time left to have a certain amount of cookies
  *
- * @param {Integer} deficit
+ * @param {Integer} cookies
+ *
+ * @return {Integer}
+ */
+CookieMonster.getTimeToCookies = function(cookies) {
+	return this.getTimeForCookies(cookies - Game.cookies);
+};
+
+/**
+ * Compute the time left to gain a certain amount of cookies
+ *
+ * @param {Integer} cookies
  *
  * @return {String}
  */
-CookieMonster.getTimeToCookies = function(cookies) {
+CookieMonster.getTimeForCookies = function(cookies) {
 	return this.formatTime(cookies / Game.cookiesPs, true);
 };
 

@@ -67,9 +67,9 @@ CookieMonster.getHeavenlyChip = function(context) {
 			return this.formatNumber(currentAmount) + ' <small>(' + this.formatNumber(currentAmount * 2) + '%)</small>';
 
 		case 'next':
-			return this.formatNumber(Math.round(nextChip));
+			return Math.round(nextChip);
 
 		case 'time':
-			return this.formatTime(Math.round(nextChip / Game.cookiesPs));
+			return Math.round(nextChip / Game.cookiesPs);
 	}
 };

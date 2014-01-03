@@ -49,31 +49,35 @@ CookieMonster.hookIntoNative = function() {
 CookieMonster.getStatistics = function() {
 	return this.buildList('Goodies', {
 		'Lucky Cookies': {
-			'"Lucky!" Cookies Required'          : "CookieMonster.luckyRequiredFormatted()",
+			'"Lucky!" Cookies Required'          : 'CookieMonster.luckyRequiredFormatted()',
 			'"Lucky!" Cookies Required (Frenzy)' : "CookieMonster.luckyRequiredFormatted('frenzy')",
-			'"Lucky!" Reward (MAX)'              : "CookieMonster.luckyReward('max')",
-			'"Lucky!" Reward (MAX) (Frenzy)'     : "CookieMonster.luckyReward('frenzy')",
-			'"Lucky!" Reward (CUR)'              : "CookieMonster.luckyReward()",
+			'"Lucky!" Reward (MAX)'              : ['formatNumber', "CookieMonster.luckyReward('max')"],
+			'"Lucky!" Reward (MAX) (Frenzy)'     : ['formatNumber', "CookieMonster.luckyReward('frenzy')"],
+			'"Lucky!" Reward (CUR)'              : ['formatNumber', "CookieMonster.luckyReward()"],
 		},
 		'Heavenly Chips': {
 			'Heavenly Chips (MAX)' : "CookieMonster.getHeavenlyChip('max')",
 			'Heavenly Chips (CUR)' : "CookieMonster.getHeavenlyChip('cur')",
-			'Cookies To Next Chip' : "CookieMonster.getHeavenlyChip('next')",
-			'Time To Next Chip'    : "CookieMonster.getHeavenlyChip('time')",
+			'Cookies To Next Chip' : ['formatNumber', "CookieMonster.getHeavenlyChip('next')"],
+			'Time To Next Chip'    : ['formatTime', "CookieMonster.getHeavenlyChip('time')"],
 		},
 		'Wrinklers': {
-			'Cookies sucked'      : 'CookieMonster.getWrinklersSucked(true)',
-			'Rewards of popping'  : 'CookieMonster.getWrinklersReward()',
-			'Benefits of popping' : "CookieMonster.getWrinklersReward('reward')",
+			'Cookies sucked'      : ['formatNumber', 'CookieMonster.getWrinklersSucked()'],
+			'Rewards of popping'  : ['formatNumber', 'CookieMonster.getWrinklersReward()'],
+			'Benefits of popping' : ['formatNumber', "CookieMonster.getWrinklersReward('benefits')"],
 		},
 		'Grandmapocalypse': {
-			'Cost of pledges (1h)'  : 'CookieMonster.estimatePledgeCost(60)',
-			'Cost of covenant (1h)' : 'CookieMonster.estimateCovenantCost(60)',
+			'Cost of pledges (1h)'  : ['formatNumber', 'CookieMonster.estimatePledgeCost(60)'],
+			'Cost of covenant (1h)' : ['formatNumber', 'CookieMonster.estimateCovenantCost(60)'],
 		},
 		'Season specials': {
-			'Reindeer Reward' : 'CookieMonster.getReindeerReward()',
+			'Reindeer Reward' : ['formatNumber', 'CookieMonster.getReindeerReward()'],
 		}
 	}, function(statistic, method) {
+		if (typeof method === 'object') {
+			return "<b>" +statistic+ " :</b> ' +CookieMonster." +method[0]+ "(" +method[1]+ ")+ '";
+		}
+
 		return "<b>" +statistic+ " :</b> ' +" +method+ "+ '";
 	}, {
 		'Wrinklers': 'CookieMonster.getWrinklersSucked()',

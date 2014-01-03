@@ -28,7 +28,7 @@ CookieMonster.emphasizeSeason = function() {
 CookieMonster.getReindeerReward = function() {
 	var multiplier = Game.Has('Ho ho ho-flavored frosting') ? 2 : 1;
 
-	return this.formatNumber(Math.max(25, Game.cookiesPs * 60) * multiplier);
+	return Math.max(25, Game.cookiesPs * 60) * multiplier;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -41,12 +41,11 @@ CookieMonster.getReindeerReward = function() {
 /**
  * Get the amount of cookies sucked by wrinklers
  *
- * @param {Integer} modifier
  * @param {Boolean} formatted
  *
  * @return {Integer}
  */
-CookieMonster.getWrinklersSucked = function(formatted, modifier) {
+CookieMonster.getWrinklersSucked = function(modifier) {
 	var sucked = 0;
 	modifier = modifier || 1;
 
@@ -56,7 +55,7 @@ CookieMonster.getWrinklersSucked = function(formatted, modifier) {
 		sucked += wrinkler.sucked * modifier;
 	});
 
-	return formatted ? this.formatNumber(sucked) : sucked;
+	return sucked;
 };
 
 /**
@@ -67,15 +66,15 @@ CookieMonster.getWrinklersSucked = function(formatted, modifier) {
  * @return {String}
  */
 CookieMonster.getWrinklersReward = function(context) {
-	var sucked = this.getWrinklersSucked(false, 1.1);
+	var sucked = this.getWrinklersSucked(1.1);
 
 	// If we only want the actual benefit from the wrinklers
 	// We substract how much they sucked without the modifier
-	if (context === 'reward') {
+	if (context === 'benefits') {
 		sucked -= this.getWrinklersSucked();
 	}
 
-	return this.formatNumber(sucked);
+	return sucked;
 };
 
 // Pledges
@@ -104,7 +103,7 @@ CookieMonster.estimatePledgeCost = function(lapse) {
 		price *= Game.Has('Santa\'s dominion') ? 1 : 0.98;
 	}
 
-	return this.formatNumber(cost);
+	return cost;
 };
 
 /**
@@ -117,5 +116,5 @@ CookieMonster.estimatePledgeCost = function(lapse) {
 CookieMonster.estimateCovenantCost = function(lapse) {
 	var income = Game.cookiesPs * (lapse * 60);
 
-	return this.formatNumber(income - (income * 0.95));
+	return income - (income * 0.95);
 };

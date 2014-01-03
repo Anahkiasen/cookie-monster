@@ -58,12 +58,12 @@ CookieMonster.getLuckyDuration = function() {
  * @return {Integer}
  */
 CookieMonster.getManualLuckyReward = function(lapse) {
-	var reward    = Math.min(this.getLuckyTreshold() / 10, Game.cookies * 0.1 + 13);
+	var reward    = this.luckyReward();
 	var minReward = reward * (lapse / (Game.goldenCookie.maxTime + this.getLuckyDuration()));
 	var maxReward = reward * (lapse / (Game.goldenCookie.minTime + this.getLuckyDuration()));
 	lapse         = lapse * 60;
 
-	return this.formatNumber(minReward + maxReward / 2);
+	return minReward + maxReward / 2;
 };
 
 /**
@@ -97,11 +97,11 @@ CookieMonster.luckyReward = function(context, income) {
 	// the simulated frenzy
 	if (context === 'max' || context === 'frenzy') {
 		if ((twentyMinutes * 10) > Game.cookies) {
-			return this.formatNumber(twentyMinutes);
+			return twentyMinutes;
 		}
 	}
 
-	return this.formatNumber(Math.min(twentyMinutes, tenPercent));
+	return Math.min(twentyMinutes, tenPercent);
 };
 
 /**
