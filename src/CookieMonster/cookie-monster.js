@@ -119,6 +119,64 @@ var CookieMonster = {
 		warning: 'Purchase of this item will put you under the number of Cookies required for "Lucky!"',
 	},
 
+	// Menus
+	////////////////////////////////////////////////////////////////////
+
+	menus: {
+		statistics: {
+			'Lucky Cookies': {
+				'"Lucky!" Cookies Required'          : 'CookieMonster.luckyRequiredFormatted()',
+				'"Lucky!" Cookies Required (Frenzy)' : "CookieMonster.luckyRequiredFormatted('frenzy')",
+				'"Lucky!" Reward (MAX)'              : ['formatNumber', "CookieMonster.luckyReward('max')"],
+				'"Lucky!" Reward (MAX) (Frenzy)'     : ['formatNumber', "CookieMonster.luckyReward('frenzy')"],
+				'"Lucky!" Reward (CUR)'              : ['formatNumber', "CookieMonster.luckyReward()"],
+			},
+			'Heavenly Chips': {
+				'Heavenly Chips (MAX)' : "CookieMonster.getHeavenlyChip('max')",
+				'Heavenly Chips (CUR)' : "CookieMonster.getHeavenlyChip('cur')",
+				'Cookies To Next Chip' : ['formatNumber', "CookieMonster.getHeavenlyChip('next')"],
+				'Time To Next Chip'    : ['formatTime', "CookieMonster.getHeavenlyChip('time')"],
+			},
+			'Wrinklers': {
+				'Cookies sucked'      : ['formatNumber', 'CookieMonster.getWrinklersSucked()'],
+				'Rewards of popping'  : ['formatNumber', 'CookieMonster.getWrinklersReward()'],
+				'Benefits of popping' : ['formatNumber', "CookieMonster.getWrinklersReward('benefits')"],
+			},
+			'Grandmapocalypse': {
+				'Cost of pledges (1h)'  : ['formatNumber', 'CookieMonster.estimatePledgeCost(60)'],
+				'Cost of covenant (1h)' : ['formatNumber', 'CookieMonster.estimateCovenantCost(60)'],
+			},
+			'Season specials': {
+				'Reindeer Reward' : ['formatNumber', 'CookieMonster.getReindeerReward()'],
+			}
+		},
+		settings: {
+			'Additional sections': [
+				'BottomBar',
+				'UpgradeDisplay',
+			],
+			'Color coding': [
+				'Colorblind',
+				'ColoredPrices',
+				'UpgradeIcons',
+				'ReturnInvestment',
+			],
+			'Emphasizers': [
+				'BuffBars',
+				'CookieBar',
+				'CookieTimer',
+				'FlashScreen',
+				'Sounds',
+				'UpdateTitle',
+			],
+			'Display': [
+				'LuckyAlert',
+				'Refresh',
+				'ShortNumbers',
+			],
+		},
+	},
+
 };
 
 // Export module
