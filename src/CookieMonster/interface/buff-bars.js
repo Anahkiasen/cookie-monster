@@ -121,8 +121,12 @@ CookieMonster.manageTimersBar = function(name, label) {
 		this.setTitleModifier('goldenCookie', this.getSetting('CookieBar') ? countdown : '');
 	}
 
+	// Compute the max size of a single bar, and the size of grey bar
+	var greyedOut   = (Game[name].maxTime - Game[name].minTime) / Game[name].maxTime;
+	var maxBarWidth = this.getBarsWidth() * 0.75;
+
 	var $container = this.updateBar(label, 'greyLight', width, barWidth);
-	$('.cm-buff-bar__inner', $container).css('max-width', (this.getBarsWidth() - 189) * 0.67 + 'px');
+	$('.cm-buff-bar__inner', $container).css('max-width', (maxBarWidth * greyedOut) + 'px');
 };
 
 //////////////////////////////////////////////////////////////////////
