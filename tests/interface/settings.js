@@ -21,7 +21,7 @@ module.exports = {
 			CookieMonster.settings.FlashScreen.value = 0;
 			CookieMonster.saveSettings();
 
-			localStorage.FlashScreen.should.equal(false);
+			localStorage.FlashScreen.should.equal(0);
 		},
 	},
 

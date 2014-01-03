@@ -15,7 +15,7 @@ CookieMonster.loadSetting = function(name) {
 
 	// Else save default
 	else {
-		localStorage[name] = this.getSetting(name);
+		localStorage[name] = this.getSetting(name, true);
 	}
 };
 
@@ -40,7 +40,7 @@ CookieMonster.loadSettings = function() {
 CookieMonster.saveSettings = function() {
 	if (typeof Storage !== 'undefined' || typeof localStorage !== 'undefined') {
 		for (var setting in this.settings) {
-			localStorage[setting] = this.getSetting(setting);
+			localStorage[setting] = this.getSetting(setting, true);
 		}
 	}
 
@@ -110,9 +110,9 @@ CookieMonster.setSetting = function(setting, value) {
  *
  * @return {Mixed}
  */
-CookieMonster.getSetting = function(setting) {
+CookieMonster.getSetting = function(setting, raw) {
 	var value = this.settings[setting].value;
-	if (this.settings[setting].type === 'boolean') {
+	if (this.settings[setting].type === 'boolean' && !raw) {
 		return value ? true : false;
 	}
 
