@@ -37,7 +37,7 @@ CookieMonster.setBuildingInformations = function (building, informations) {
 	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
 	this.bottomBar.bci[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.bci)+ '</span>';
 	this.bottomBar.roi[building]      = '<span class="text-' +colors[2]+ '">' +this.formatNumber(informations.roi)+ '</span>';
-	this.bottomBar.timeLeft[building] = '<span class="text-' +colors[1]+ '">' +this.formatTime(informations.timeLeft, true)+ '</span>';
+	this.bottomBar.timeLeft[building] = '<span class="text-' +colors[1]+ '">' +this.formatCompressedTime(informations.timeLeft)+ '</span>';
 };
 
 /**

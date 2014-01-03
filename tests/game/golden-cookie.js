@@ -73,8 +73,8 @@ module.exports = {
 			Game.frenzy      = 1;
 			Game.frenzyPower = 0.5;
 
-			CookieMonster.luckyRequiredFormatted('frenzy').should.equal('<strong class="text-red">1.680 M</strong>');
-			CookieMonster.luckyRequiredFormatted().should.equal('<strong class="text-red">240,130</strong>');
+			CookieMonster.luckyRequiredFormatted('frenzy').should.equal('<strong class="text-red">1.680 M</strong> (1d, 22h, 40m, 11s)');
+			CookieMonster.luckyRequiredFormatted().should.equal('<strong class="text-red">240,130</strong> (6h, 40m, 11s)');
 		},
 		'Can get formatted required if inferior to current': function() {
 			Game.cookies     = 16801301;

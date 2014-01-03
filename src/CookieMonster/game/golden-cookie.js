@@ -75,9 +75,11 @@ CookieMonster.getManualLuckyReward = function(lapse) {
  */
 CookieMonster.luckyRequiredFormatted = function(context) {
 	var treshold = this.getLuckyTreshold(context);
-	var color  = Game.cookies < treshold ? 'red' : 'green';
+	var unmet    = Game.cookies < treshold;
+	var color    = unmet ? 'red' : 'green';
+	var timeLeft = unmet ? ' (' +this.formatCompressedTime(this.getTimeToCookies(treshold))+ ')' : '';
 
-	return '<strong class="text-' +color+ '">' + this.formatNumber(treshold) + '</strong>';
+	return '<strong class="text-' +color+ '">' + this.formatNumber(treshold) + '</strong>' +timeLeft;
 };
 
 /**

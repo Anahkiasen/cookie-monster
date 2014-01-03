@@ -37,7 +37,18 @@ CookieMonster.getTimeToCookies = function(cookies) {
  * @return {String}
  */
 CookieMonster.getTimeForCookies = function(cookies) {
-	return this.formatTime(cookies / Game.cookiesPs, true);
+	return cookies / Game.cookiesPs;
+};
+
+/**
+ * Formats a time to compressed format
+ *
+ * @param {Integer} time
+ *
+ * @return {String}
+ */
+CookieMonster.formatCompressedTime = function(time) {
+	return this.formatTime(time, true);
 };
 
 /**
