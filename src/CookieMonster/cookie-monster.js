@@ -128,9 +128,9 @@ var CookieMonster = {
 			'Lucky Cookies': {
 				'"Lucky!" Cookies Required'          : 'CookieMonster.luckyRequiredFormatted()',
 				'"Lucky!" Cookies Required (Frenzy)' : "CookieMonster.luckyRequiredFormatted('frenzy')",
-				'"Lucky!" Reward (MAX)'              : ['formatNumber', "CookieMonster.luckyReward('max')"],
-				'"Lucky!" Reward (MAX) (Frenzy)'     : ['formatNumber', "CookieMonster.luckyReward('frenzy')"],
-				'"Lucky!" Reward (CUR)'              : ['formatNumber', "CookieMonster.luckyReward()"],
+				'"Lucky!" Reward (MAX)'              : ['formatNumber', "CookieMonster.getLuckyReward('max')"],
+				'"Lucky!" Reward (MAX) (Frenzy)'     : ['formatNumber', "CookieMonster.getLuckyReward('frenzy')"],
+				'"Lucky!" Reward (CUR)'              : ['formatNumber', "CookieMonster.getLuckyReward()"],
 			},
 			'Heavenly Chips': {
 				'Heavenly Chips (MAX)' : "CookieMonster.getHeavenlyChip('max')",

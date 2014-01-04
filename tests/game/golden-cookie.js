@@ -86,23 +86,23 @@ module.exports = {
 		},
 	},
 
-	'#luckyReward': {
+	'#getLuckyReward': {
 		'Can get lucky reward for all contexts': function() {
 			Game.cookies     = 100;
 			Game.cookiesPs   = 5;
 
-			CookieMonster.luckyReward('max').should.equal(6013);
-			CookieMonster.luckyReward('frenzy').should.equal(42013);
-			CookieMonster.luckyReward().should.equal(23);
+			CookieMonster.getLuckyReward('max').should.equal(6013);
+			CookieMonster.getLuckyReward('frenzy').should.equal(42013);
+			CookieMonster.getLuckyReward().should.equal(23);
 		},
 		'Can get lowest of two lucky rewards': function() {
 			Game.cookies     = 100;
 			Game.cookiesPs   = 5;
 
-			CookieMonster.luckyReward().should.equal(23);
+			CookieMonster.getLuckyReward().should.equal(23);
 
 			Game.cookies = CookieMonster.getLuckyTreshold() + 200;
-			CookieMonster.luckyReward().should.equal(6013);
+			CookieMonster.getLuckyReward().should.equal(6013);
 		},
 	},
 

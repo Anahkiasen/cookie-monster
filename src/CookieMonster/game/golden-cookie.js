@@ -74,7 +74,7 @@ CookieMonster.luckyRequiredFormatted = function(context) {
  *
  * @return {String}
  */
-CookieMonster.luckyReward = function(context, income) {
+CookieMonster.getLuckyReward = function(context, income) {
 	var twentyMinutes = this.getLuckyTreshold(context, income) / 10;
 	var tenPercent    = Math.round(Game.cookies * 0.1 + 13);
 
