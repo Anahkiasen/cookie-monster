@@ -70,5 +70,5 @@ CookieMonster.estimateLuckyRewards = function() {
 	var minReward = this.getLuckyReward() * (lapse / (Game.goldenCookie.maxTime + this.getLuckyDuration()));
 	var maxReward = this.getLuckyReward() * (lapse / (Game.goldenCookie.minTime + this.getLuckyDuration()));
 
-	return minReward + maxReward / 2;
+	return Math.average(minReward, maxReward);
 };
