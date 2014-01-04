@@ -55,7 +55,7 @@ CookieMonster.formatCompressedTime = function(time) {
  * Format a time (s) to an human-readable format
  *
  * @param {Integer} time
- * @param {String}  compressed  Compressed output (minutes => m, etc.)
+ * @param {Boolean} compressed  Compressed output (minutes => m, etc.)
  *
  * @return {String}
  */
@@ -100,19 +100,19 @@ CookieMonster.formatTime = function(time, compressed) {
 	}
 
 	// Create final string
-	var formated = '';
+	var formatted = '';
 	if (days > 0) {
-		formated += days + units[0];
+		formatted += days + units[0];
 	}
 	if (days > 0 || hours > 0) {
-		formated += hours + units[1];
+		formatted += hours + units[1];
 	}
 	if (days > 0 || hours > 0 || minutes > 0) {
-		formated += minutes + units[2];
+		formatted += minutes + units[2];
 	}
 	if (days > 0 || hours > 0 || minutes > 0 || seconds > 0) {
-		formated += seconds + units[3];
+		formatted += seconds + units[3];
 	}
 
-	return formated;
+	return formatted;
 };

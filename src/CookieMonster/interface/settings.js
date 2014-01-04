@@ -70,6 +70,10 @@ CookieMonster.toggleSetting = function(setting) {
 			states = [0, 1, 2];
 			break;
 
+		case 'EstimatesTime':
+			states = [30, 60, 120, 180, 240, 360];
+			break;
+
 		case 'Refresh':
 			states = [1e3, 500, 250, 100, 33];
 			break;
@@ -226,6 +230,24 @@ CookieMonster.getShortNumbersState = function() {
 		default:
 			return 'OFF';
 	}
+};
+
+/**
+ * Get the formatted time estimates are computed for
+ *
+ * @return {String}
+ */
+CookieMonster.getEstimatesTimeState = function() {
+	var estimates = this.getSetting('EstimatesTime');
+	var hours     = Math.ceil(estimates / 60);
+	var minutes   = estimates % 60;
+
+	// If we only have minutes
+	if (minutes) {
+		return minutes+'mn';
+	}
+
+	return hours+'h';
 };
 
 /**

@@ -19,8 +19,8 @@ var CookieMonster = {
 
 	version : '1.040.10',
 
-	domain  : 'http://cookie-monster.autopergamene.eu',
-	loops   : 0,
+	domain : 'http://cookie-monster.autopergamene.eu',
+	loops  : 0,
 
 	humanNumbers : new Array(
 		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
@@ -95,6 +95,7 @@ var CookieMonster = {
 		'UpdateTitle'      : {type: 'boolean', value: 1,   label: 'Update Title',      desc: 'Updates the Title to display if a Cookie is waiting to be clicked'},
 
 		// Display
+		'EstimatesTime'    : {type: 'switch',  value: 60,  label: 'Estimates time',    desc: 'The duration (mn) to compute estimates for (see Statistics)'},
 		'LuckyAlert'       : {type: 'switch',  value: 1,   label: 'Lucky Alert',       desc: 'Changes the tooltip to display if you would be under the number of cookies required for "Lucky"!'},
 		'Refresh'          : {type: 'switch',  value: 1e3, label: 'Refresh Rate',      desc: 'The rate at which Cookie Monster updates data (higher rates may slow the game)'},
 		'ShortNumbers'     : {type: 'switch',  value: 1,   label: 'Short Numbers',     desc: 'Formats all numbers to be shorter when displayed'},
@@ -142,9 +143,11 @@ var CookieMonster = {
 				'Rewards of popping'  : ['formatNumber', 'CookieMonster.getWrinklersReward()'],
 				'Benefits of popping' : ['formatNumber', "CookieMonster.getWrinklersReward('benefits')"],
 			},
-			'Grandmapocalypse': {
-				'Cost of pledges (1h)'  : ['formatNumber', 'CookieMonster.estimatePledgeCost(60)'],
-				'Cost of covenant (1h)' : ['formatNumber', 'CookieMonster.estimateCovenantCost(60)'],
+			"Estimates (for ' +CookieMonster.getEstimatesTimeState()+ ')": {
+				"Cost of pledges"                   : ['formatNumber', 'CookieMonster.estimatePledgeCost()'],
+				"Cost of covenant"                  : ['formatNumber', 'CookieMonster.estimateCovenantCost()'],
+				'Average revenues of Lucky cookies' : ['formatNumber', 'CookieMonster.estimateLuckyRewards()'],
+				'Average revenues of Wrinklers'     : ['formatNumber', 'CookieMonster.estimateWrinklersRewards()'],
 			},
 			'Season specials': {
 				'Reindeer Reward' : ['formatNumber', 'CookieMonster.getReindeerReward()'],
@@ -170,6 +173,7 @@ var CookieMonster = {
 				'UpdateTitle',
 			],
 			'Display': [
+				'EstimatesTime',
 				'LuckyAlert',
 				'Refresh',
 				'ShortNumbers',

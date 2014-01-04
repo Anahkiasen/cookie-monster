@@ -50,23 +50,6 @@ CookieMonster.getLuckyDuration = function() {
 };
 
 /**
- * Get the average amount of cookies earned by manually clicking
- * on all lucky cookies for 60mn
- *
- * @param {Integer} lapse
- *
- * @return {Integer}
- */
-CookieMonster.getManualLuckyReward = function(lapse) {
-	var reward    = this.luckyReward();
-	var minReward = reward * (lapse / (Game.goldenCookie.maxTime + this.getLuckyDuration()));
-	var maxReward = reward * (lapse / (Game.goldenCookie.minTime + this.getLuckyDuration()));
-	lapse         = lapse * 60;
-
-	return minReward + maxReward / 2;
-};
-
-/**
  * Get the amount of cookies required for Lucky Cookies, formatted
  *
  * @param {String} context [current,frenzy]
