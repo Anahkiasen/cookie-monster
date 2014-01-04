@@ -13,6 +13,15 @@ CookieMonster.getEstimateTime = function(time) {
 	return time;
 };
 
+/**
+ * Estimate production for a given period
+ *
+ * @return {Integer}
+ */
+CookieMonster.estimateProduction = function() {
+	return Game.cookiesPs * 60 * this.getEstimateTime();
+};
+
 // Pledges
 //////////////////////////////////////////////////////////////////////
 
@@ -46,7 +55,7 @@ CookieMonster.estimatePledgeCost = function() {
  * @return {Integer}
  */
 CookieMonster.estimateCovenantCost = function() {
-	var production = Game.cookiesPs * 60 * this.getEstimateTime();
+	var production = this.estimateProduction();
 
 	return production - (production * 0.95);
 };
@@ -57,7 +66,7 @@ CookieMonster.estimateCovenantCost = function() {
  * @return {Integer}
  */
 CookieMonster.estimateWrinklersRewards = function() {
-	var production = Game.cookiesPs * 60 * this.getEstimateTime();
+	var production = this.estimateProduction();
 
 	return (production * 1.1) - production;
 };
