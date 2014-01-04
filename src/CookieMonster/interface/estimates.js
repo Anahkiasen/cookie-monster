@@ -73,9 +73,8 @@ CookieMonster.estimateWrinklersRewards = function() {
  */
 CookieMonster.estimateLuckyRewards = function() {
 	lapse         = this.getEstimateTime() * 60;
-	var reward    = this.luckyReward();
-	var minReward = reward * (lapse / (Game.goldenCookie.maxTime + this.getLuckyDuration()));
-	var maxReward = reward * (lapse / (Game.goldenCookie.minTime + this.getLuckyDuration()));
+	var minReward = this.luckyReward() * (lapse / (Game.goldenCookie.maxTime + this.getLuckyDuration()));
+	var maxReward = this.luckyReward() * (lapse / (Game.goldenCookie.minTime + this.getLuckyDuration()));
 
 	return minReward + maxReward / 2;
 };
