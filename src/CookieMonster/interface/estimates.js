@@ -1,25 +1,10 @@
 /**
- * Get the time to compute estimates from
- *
- * @param {Integer} time
- *
- * @return {Integer}
- */
-CookieMonster.getEstimateTime = function(time) {
-	if (typeof time === 'undefined') {
-		return this.getSetting('EstimatesTime');
-	}
-
-	return time;
-};
-
-/**
  * Estimate production for a given period
  *
  * @return {Integer}
  */
 CookieMonster.estimateProduction = function() {
-	return Game.cookiesPs * 60 * this.getEstimateTime();
+	return Game.cookiesPs * 60 * this.getSetting('EstimatesTime');
 };
 
 // Pledges
@@ -33,7 +18,7 @@ CookieMonster.estimateProduction = function() {
 CookieMonster.estimatePledgeCost = function() {
 	var pledge   = Game.Upgrades['Elder Pledge'];
 	var duration = Game.Has('Sacrificial rolling pins') ? 60 : 30;
-	var required = this.getEstimateTime() / duration;
+	var required = this.getSetting('EstimatesTime') / duration;
 	var price    = pledge.getPrice();
 
 	var cost = 0;
@@ -81,7 +66,7 @@ CookieMonster.estimateWrinklersRewards = function() {
  * @return {Integer}
  */
 CookieMonster.estimateLuckyRewards = function() {
-	var lapse     = this.getEstimateTime() * 60;
+	var lapse     = this.getSetting('EstimatesTime') * 60;
 	var minReward = this.getLuckyReward() * (lapse / (Game.goldenCookie.maxTime + this.getLuckyDuration()));
 	var maxReward = this.getLuckyReward() * (lapse / (Game.goldenCookie.minTime + this.getLuckyDuration()));
 
