@@ -8,6 +8,12 @@
 
 ## 1.040 Versions
 
+### 1.040.11 _(2014-01-04)_
+
+* Tweak formula for computing the "grey bars"'s width
+* Add time left next to unattained lucky tresholds in Statistics
+* Add a new "Estimates" section in Statistics, time estimates are computed for can be set in options
+
 ### 1.040.10 _(2014-01-02)_
 
 * Added timer next to the Lucky Alert deficits to show time before the deficit is filled
