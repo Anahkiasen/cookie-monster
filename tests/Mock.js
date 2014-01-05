@@ -12,7 +12,7 @@ module.exports = {
 		var names = ['Cursor', 'Grandma', 'Farm', 'Factory', 'Mine', 'Shipment', 'Alchemy lab', 'Portal', 'Time machine', 'Antimatter condenser'];
 
 		for (var i = 0; i < amounts.length; i++) {
-			Game.ObjectsById[i] = {name: names[i], amount: amounts[i]};
+			Game.ObjectsById[i] = new Game.Object({name: names[i], amount: amounts[i]});
 		}
 	},
 
@@ -40,9 +40,10 @@ module.exports = {
 	 */
 	game: function() {
 		var Game = {
-			cookies     : 20,
-			cookiesPs   : 10,
-			frenzyPower : 1,
+			cookies        : 20,
+			cookiesPs      : 10,
+			frenzyPower    : 1,
+			BuildingsOwned : 36,
 
 			AchievementsById : this.requireClone('achievements'),
 			UpgradesById     : this.requireClone('upgrades'),
@@ -70,6 +71,7 @@ module.exports = {
 		});
 		Game.ObjectsById.forEach(function(object, key) {
 			Game.ObjectsById[key] = new Game.Object(object);
+			Game.ObjectsById[key].getType = function() { return 'object'; };
 		});
 
 		return Game;

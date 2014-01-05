@@ -207,7 +207,7 @@ CookieMonster.lgt = function(upgrade) {
  * @return {Integer}
  */
 CookieMonster.getNonObjectsGainOutcome = function(upgrade) {
-	return upgrade.getDescribedInteger() * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount;
+	return this.roundDecimal(upgrade.getDescribedInteger() * (Game.BuildingsOwned - Game.ObjectsById[0].amount) * Game.ObjectsById[0].amount);
 };
 
 /**
@@ -218,5 +218,5 @@ CookieMonster.getNonObjectsGainOutcome = function(upgrade) {
  * @return {Integer}
  */
 CookieMonster.getFourTimesEfficientOutcome = function(buildingKey) {
-	return Game.ObjectsById[buildingKey].storedTotalCps * 3;
+	return this.roundDecimal(this.getBuildingUpgradeOutcome(buildingKey) * 3);
 };

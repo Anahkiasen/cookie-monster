@@ -39,7 +39,7 @@ module.exports = {
 	'#callCached': {
 		'Can call CM method and cache it': function() {
 			CookieMonster.callCached('formatTime', [123456]).should.equal('1 day, 10 hours, 17 minutes, 36 seconds');
-			CookieMonster.cacheStore['--']['formatTime-123456'].should.exists;
+			CookieMonster.cacheStore['-36-']['formatTime-123456'].should.exists;
 		},
 	},
 

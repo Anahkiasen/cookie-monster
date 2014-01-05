@@ -109,6 +109,10 @@ module.exports = {
 			'Time'        : require('./CookieMonster/helpers/time.js'),
 		},
 	},
+	'CookieObject': {
+		'Helpers'    : require('./CookieObject/helpers.js'),
+		'Reflection' : require('./CookieObject/reflection.js'),
+	},
 	'Native': {
 		'Math': require('./Native/math.js'),
 	},

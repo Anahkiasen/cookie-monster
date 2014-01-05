@@ -140,4 +140,20 @@ module.exports = {
 		},
 	},
 
+	'#getEstimatesTimeState': {
+		'Can get Estimates Time option value': function() {
+			CookieMonster.setSetting('EstimatesTime', 30);
+			CookieMonster.getEstimatesTimeState().should.equal('30mn');
+
+			CookieMonster.toggleSetting('EstimatesTime');
+			CookieMonster.getEstimatesTimeState().should.equal('1h');
+
+			CookieMonster.toggleSetting('EstimatesTime');
+			CookieMonster.getEstimatesTimeState().should.equal('2h');
+
+			CookieMonster.toggleSetting('EstimatesTime');
+			CookieMonster.getEstimatesTimeState().should.equal('3h');
+		},
+	},
+
 };
