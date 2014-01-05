@@ -14,12 +14,12 @@ You can see the current version, and a full history of all versions and what the
 
 At its core, Cookie Monster computes two indexes on both buildings and upgrades :
 
-* **Base Cost per Income (BCI)** : which indicates how much a building is worth by comparing how much it costs compared to how much it will earn back
-* **Return on investment (ROI)** : which indicates how "interesting" a building is, for example, if it reduces the time to buy a more advanced building
+* **Base Cost per Income (BCI)** : indicates how much a building is worth by comparing how much it costs to to how much it will earn back
+* **Return on investment (ROI)** : indicates how "interesting" a building is, for example, if it reduces the time to buy a more advanced building
 
 Cookie Monster also indicates the time left before being able to buy an upgrade or building, and takes it into consideration. It will take *everything* in consideration, meaning if buying a building also unlocks an achievement which boosts your income, which unlocks an achievement, it will know and highlight that building's value.
 
-Each of these indexes are computed for buildings and upgrades. If the relevant option is enabled, it will color-code each of them based on their value :
+Both these indexes are computed for buildings and upgrades. If the relevant option is enabled, it will color-code each of them based on their value :
 
 * Light Blue : (upgrades) This item has a better BCI than any building
 * Green      : This item has the best BCI
