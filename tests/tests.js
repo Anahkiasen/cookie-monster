@@ -50,7 +50,7 @@ require('../src/CookieObject/helpers.js');
 require('../src/CookieObject/reflection.js');
 require('../src/CookieObject/statistics.js');
 
-require('../src/Native/math.js');
+require('../src/Native/Math.js');
 
 require('../src/main.js');
 
