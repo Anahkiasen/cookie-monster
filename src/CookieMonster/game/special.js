@@ -41,7 +41,7 @@ CookieMonster.getReindeerReward = function() {
 /**
  * Get the amount of cookies sucked by wrinklers
  *
- * @param {Boolean} formatted
+ * @param {Integer} modifier
  *
  * @return {Integer}
  */

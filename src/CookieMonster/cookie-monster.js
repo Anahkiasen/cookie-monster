@@ -37,14 +37,15 @@ var CookieMonster = {
 
 	cacheStore   : {},
 	bottomBar    : {
-		items    : [],
+		names    : [],
 		bonus    : [],
 		bci      : [],
 		roi      : [],
 		timeLeft : [],
 	},
+
 	informations : {
-		items    : [],
+		names    : [],
 		bonus    : [],
 		bci      : [],
 		roi      : [],

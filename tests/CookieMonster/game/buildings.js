@@ -52,13 +52,13 @@ module.exports = {
 	'#setBuildingInformations': {
 		'Can store informations about a building': function() {
 			CookieMonster.setBuildingInformations(0, {
-				items    : 'foobar',
+				names    : 'foobar',
 				bonus    : 'foobar',
 				bci      : 'foobar',
 				timeLeft : 'foobar',
 			});
 
-			CookieMonster.informations.items[0].should.equal('foobar');
+			CookieMonster.informations.names[0].should.equal('foobar');
 			CookieMonster.informations.bonus[0].should.equal('foobar');
 			CookieMonster.informations.bci[0].should.equal('foobar');
 			CookieMonster.informations.timeLeft[0].should.equal('foobar');

@@ -26,14 +26,14 @@ CookieMonster.getBestValue = function(minOrMax) {
 CookieMonster.setBuildingInformations = function (building, informations) {
 	var colors = this.computeColorCoding([informations.bci, informations.timeLeft, informations.roi]);
 
-	this.informations.items[building]    = informations.items;
+	this.informations.names[building]    = informations.names;
 	this.informations.bonus[building]    = informations.bonus;
 	this.informations.bci[building]      = informations.bci;
 	this.informations.roi[building]      = informations.roi;
 	this.informations.timeLeft[building] = informations.timeLeft;
 
 	// Compute formatted informations
-	this.bottomBar.items[building]    = informations.items;
+	this.bottomBar.names[building]    = informations.names;
 	this.bottomBar.bonus[building]    = this.formatNumber(informations.bonus);
 	this.bottomBar.bci[building]      = '<span class="text-' +colors[0]+ '">' +this.formatNumber(informations.bci)+ '</span>';
 	this.bottomBar.roi[building]      = '<span class="text-' +colors[2]+ '">' +this.formatNumber(informations.roi)+ '</span>';
@@ -51,7 +51,7 @@ CookieMonster.updateBuildingsInformations = function() {
 
 		// Save building informations
 		CookieMonster.setBuildingInformations(key, {
-			items    : building.name.split(' ')[0] + ' ' + count,
+			names    : building.name.split(' ')[0] + ' ' + count,
 			bonus    : building.getWorth(true),
 			bci      : building.getBaseCostPerIncome(true),
 			roi      : building.getReturnInvestment(),
