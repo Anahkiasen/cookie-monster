@@ -3,7 +3,7 @@
 Cookie Monster is a plugin you can load into Cookie Clicker, that offers a wide range of tools and statistics to enhance the game.
 It is **not** a cheat interface – although it does offer helpers for golden cookies and such, everything can be toggled off at will to only leave how much information you want.
 
-This is an helper, and it is here to help you at _whichever_ degree you want, if you only need some help shortening long numbers, it does that. If you need to be accompanied
+This is a helper, and it is here to help you at _whichever_ degree you want, if you only need some help shortening long numbers, it does that. If you need to be accompanied
 by hand to pick the best buildings to buy, it does that, but **everything is an option**.
 
 ### Current version
@@ -12,14 +12,14 @@ You can see the current version, and a full history of all versions and what the
 
 ### What it does
 
-It's core is computing two indexes on both buildings and upgrades :
+At its core, Cookie Monster computes two indexes on both buildings and upgrades :
 
-* **Base Cost per Income** : which indicates how much a building is worth by taking how much it costs compared to how much it'll earn back
-* **Return on investment** : which indicates how much a building is "interesting" to buy, per example if it reduces the time to buy a more advanced building
+* **Base Cost per Income (BCI)** : which indicates how much a building is worth by comparing how much it costs compared to how much it will earn back
+* **Return on investment (ROI)** : which indicates how "interesting" a building is, for example, if it reduces the time to buy a more advanced building
 
 Cookie Monster also indicates the time left before being able to buy an upgrade or building, and takes it into consideration. It will take *everything* in consideration, meaning if buying a building also unlocks an achievement which boosts your income, which unlocks an achievement, it will know and highlight that building's value.
 
-Both these indexes are computed for buildings and upgrades. If the relevant option is enabled, it will color-code each of those based on their value :
+Each of these indexes are computed for buildings and upgrades. If the relevant option is enabled, it will color-code each of them based on their value :
 
 * Light Blue : (upgrades) This item has a better BCI than any building
 * Green      : This item has the best BCI
@@ -70,7 +70,7 @@ If (for some reason) the above doesn't work, trying pasting everything after the
 ### Userscript
 
 If you'd rather use the plugin as a script via per example _Greasemonkey_ or _Tampermonkey_, you can use the following script, which will automatically load _Cookie Monster_ every time the original game loads.
-You may need to specify `http://orteil.dashnet.org/cookieclicker/` when asked for a _namespace_ or _Includes_.
+You may need to specify `http://orteil.dashnet.org/cookieclicker/` when asked for a _namespace_ or _Includes_. For how to add an userscript to your browser, refer to your browser/plugin's documentation as the method changes for each one.
 
 ```js
 // ==UserScript==
