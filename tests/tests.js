@@ -50,6 +50,8 @@ require('../src/CookieObject/helpers.js');
 require('../src/CookieObject/reflection.js');
 require('../src/CookieObject/statistics.js');
 
+require('../src/Native/math.js');
+
 require('../src/main.js');
 
 // Cache settings
@@ -81,27 +83,34 @@ module.exports = {
 	// Tests
 	////////////////////////////////////////////////////////////////////
 
-	'Main' : require('./main.js'),
-	'Game': {
-		'Achievements'  : require('./game/achievements.js'),
-		'Buildings'     : require('./game/buildings.js'),
-		'Golden Cookie' : require('./game/golden-cookie.js'),
-		'Heavenly'      : require('./game/heavenly.js'),
-		'Upgrades'      : require('./game/upgrades.js'),
+	'CookieMonster': {
+		'Core' : {
+			'Setup': require('./CookieMonster/core/setup.js'),
+		},
+		'Game': {
+			'Achievements'  : require('./CookieMonster/game/achievements.js'),
+			'Buildings'     : require('./CookieMonster/game/buildings.js'),
+			'Golden Cookie' : require('./CookieMonster/game/golden-cookie.js'),
+			'Heavenly'      : require('./CookieMonster/game/heavenly.js'),
+			'Upgrades'      : require('./CookieMonster/game/upgrades.js'),
+		},
+		'Interface': {
+			'Bottom Bar' : require('./CookieMonster/interface/bottom-bar.js'),
+			'Buff Bars'  : require('./CookieMonster/interface/buff-bars.js'),
+			'Settings'   : require('./CookieMonster/interface/settings.js'),
+			'Store'      : require('./CookieMonster/interface/store.js'),
+			'Tooltips'   : require('./CookieMonster/interface/tooltips.js'),
+		},
+		'Helpers': {
+			'Browser'     : require('./CookieMonster/helpers/browser.js'),
+			'Cache'       : require('./CookieMonster/helpers/cache.js'),
+			'Emphasizers' : require('./CookieMonster/helpers/emphasizers.js'),
+			'Math'        : require('./CookieMonster/helpers/math.js'),
+			'Time'        : require('./CookieMonster/helpers/time.js'),
+		},
 	},
-	'Interface': {
-		'Bottom Bar' : require('./interface/bottom-bar.js'),
-		'Buff Bars'  : require('./interface/buff-bars.js'),
-		'Settings'   : require('./interface/settings.js'),
-		'Store'      : require('./interface/store.js'),
-		'Tooltips'   : require('./interface/tooltips.js'),
-	},
-	'Helpers': {
-		'Browser'     : require('./helpers/browser.js'),
-		'Cache'       : require('./helpers/cache.js'),
-		'Emphasizers' : require('./helpers/emphasizers.js'),
-		'Math'        : require('./helpers/math.js'),
-		'Time'        : require('./helpers/time.js'),
+	'Native': {
+		'Math': require('./Native/math.js'),
 	},
 
 };

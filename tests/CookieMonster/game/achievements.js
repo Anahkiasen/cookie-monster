@@ -1,5 +1,5 @@
-var Mock = require('../Mock.js');
-var Test = require('../TestCase.js');
+var Mock = require('../../Mock.js');
+var Test = require('../../TestCase.js');
 
 module.exports = {
 
