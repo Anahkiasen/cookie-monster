@@ -13,6 +13,8 @@
 * Tweak formula for computing the "grey bars"'s width
 * Add time left next to unattained lucky tresholds in Statistics
 * Add a new "Estimates" section in Statistics, time estimates are computed for can be set in options
+* Slight fix to computed pledge costs
+* Fixed "Lucky Reward (CUR)" not updating during frenzies
 
 ### 1.040.10 _(2014-01-02)_
 
