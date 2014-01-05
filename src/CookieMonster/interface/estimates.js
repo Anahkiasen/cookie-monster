@@ -26,7 +26,7 @@ CookieMonster.estimatePledgeCost = function() {
 		cost += price;
 
 		// Recompute pledge price
-		price = Math.pow(8, Math.min(Game.pledges + 2, 14));
+		price  = Math.pow(8, Math.min(Game.pledges + 2, 14));
 		price *= Game.Has('Toy workshop') ? 0.95 : 1;
 		price *= Game.Has('Santa\'s dominion') ? 0.98 : 1;
 	}

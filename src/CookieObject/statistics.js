@@ -16,7 +16,7 @@ CookieObject.getWorthOf = function(rounded) {
 		? CookieMonster.callCached('getUpgradeWorth', [this])
 		: CookieMonster.callCached('getBuildingWorth', [this]);
 
-	return rounded ? CookieMonster.roundDecimal(worth) : worth;
+	return rounded ? worth.roundDecimal() : worth;
 };
 
 /**
@@ -28,12 +28,12 @@ CookieObject.getWorthOf = function(rounded) {
  */
 CookieObject.getBaseCostPerIncome = function(rounded) {
 	var worth = this.getWorth();
-	var bci   = CookieMonster.roundDecimal(this.getPrice() / worth);
+	var bci   = Math.roundDecimal(this.getPrice() / worth);
 	if (worth < 0) {
 		return Infinity;
 	}
 
-	return rounded ? CookieMonster.roundDecimal(bci) : bci;
+	return rounded ? bci.roundDecimal() : bci;
 };
 
 /**

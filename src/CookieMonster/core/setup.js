@@ -76,7 +76,7 @@ CookieMonster.loadStyles = function() {
 CookieMonster.mainLoop = function() {
 	CookieMonster.updateTable();
 	CookieMonster.updateTooltips();
-	CookieMonster.manageBuffs();
+	CookieMonster.manageBars();
 
 	CookieMonster.emphasizeGolden();
 	CookieMonster.emphasizeSeason();

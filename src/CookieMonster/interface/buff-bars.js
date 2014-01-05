@@ -3,9 +3,9 @@
  *
  * @return {void}
  */
-CookieMonster.manageBuffs = function() {
+CookieMonster.manageBars = function() {
 	this.manageFrenzyBars();
-	this.manageClickingFrenzy();
+	this.manageClickingFrenzyBars();
 	this.manageTimersBar('seasonPopup', 'Next Reindeer');
 	this.manageTimersBar('goldenCookie', 'Next Cookie');
 };
@@ -52,8 +52,59 @@ CookieMonster.createBarsContainer = function() {
 	this.$timerBars = $('#cookie-monster__buff-bars');
 };
 
+/**
+ * Append a timer bar
+ *
+ * @param {String}  color
+ * @param {Integer} count
+ *
+ * @return {void}
+ */
+CookieMonster.createBar = function (name, color) {
+	var secondBars = {'Next Cookie': 'purple', 'Next Reindeer': 'orange'};
+	var secondBar  = secondBars[name] || '';
+	var identifier = name.replace(' ', '');
+
+	// Add second bar for golden cookies
+	if (secondBar) {
+		secondBar = '<div class="cm-buff-bar__inner background-' +secondBar+ '" id="cmt2_'+secondBar+'"></div>';
+	}
+
+	this.$timerBars.append(
+		'<div class="cm-buff-bar" id="cookie-monster__timer-' + identifier + '" style="display: none">'+
+			'<p class="cm-buff-bar__name">'+name+'</p>'+
+			'<div class="cm-buff-bar__container">'+
+				'<div class="cm-buff-bar__bar background-' +color+ '" id="cmt_' + identifier + '">'+
+					secondBar +
+					'<div class="cm-buff-bar__timer" id="cmt_time_' + identifier + '">0</div>'+
+				'</div>'+
+			'</div>'+
+		'</div>'
+	);
+
+	return $('#cookie-monster__timer-'+identifier).fadeIn(500);
+};
+
+/**
+ * Fade out a bar of a certain effect
+ *
+ * @param {string} identifier
+ *
+ * @return {void}
+ */
+CookieMonster.fadeOutBar = function(identifier) {
+	identifier = identifier.replace(' ', '');
+	var $bar = $('#cookie-monster__timer-' + identifier);
+
+	if ($bar.length === 1 && $bar.css('opacity') === '1') {
+		$bar.fadeOut(500, function() {
+			$(this).remove();
+		});
+	}
+};
+
 //////////////////////////////////////////////////////////////////////
-////////////////////////////////// BARS //////////////////////////////
+////////////////////////////// MANAGERS //////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
 /**
@@ -89,7 +140,7 @@ CookieMonster.manageFrenzyBars = function() {
  *
  * @return {void}
  */
-CookieMonster.manageClickingFrenzy = function() {
+CookieMonster.manageClickingFrenzyBars = function() {
 	if (Game.clickFrenzy <= 0 || !this.getSetting('BuffBars')) {
 		return this.fadeOutBar('Clickfrenzy');
 	}
@@ -181,55 +232,4 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 			transition : 'width linear ' +count+ 's'
 		});
 	}, 100);
-};
-
-/**
- * Append a timer bar
- *
- * @param {String}  color
- * @param {Integer} count
- *
- * @return {void}
- */
-CookieMonster.createBar = function (name, color) {
-	var secondBars = {'Next Cookie': 'purple', 'Next Reindeer': 'orange'};
-	var secondBar  = secondBars[name] || '';
-	var identifier = name.replace(' ', '');
-
-	// Add second bar for golden cookies
-	if (secondBar) {
-		secondBar = '<div class="cm-buff-bar__inner background-' +secondBar+ '" id="cmt2_'+secondBar+'"></div>';
-	}
-
-	this.$timerBars.append(
-		'<div class="cm-buff-bar" id="cookie-monster__timer-' + identifier + '" style="display: none">'+
-			'<p class="cm-buff-bar__name">'+name+'</p>'+
-			'<div class="cm-buff-bar__container">'+
-				'<div class="cm-buff-bar__bar background-' +color+ '" id="cmt_' + identifier + '">'+
-					secondBar +
-					'<div class="cm-buff-bar__timer" id="cmt_time_' + identifier + '">0</div>'+
-				'</div>'+
-			'</div>'+
-		'</div>'
-	);
-
-	return $('#cookie-monster__timer-'+identifier).fadeIn(500);
-};
-
-/**
- * Fade out a bar of a certain effect
- *
- * @param {string} identifier
- *
- * @return {void}
- */
-CookieMonster.fadeOutBar = function(identifier) {
-	identifier = identifier.replace(' ', '');
-	var $bar = $('#cookie-monster__timer-' + identifier);
-
-	if ($bar.length === 1 && $bar.css('opacity') === '1') {
-		$bar.fadeOut(500, function() {
-			$(this).remove();
-		});
-	}
 };

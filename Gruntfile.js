@@ -167,7 +167,6 @@ module.exports = function(grunt) {
 				camelcase : true,
 				curly     : true,
 				eqeqeq    : true,
-				freeze    : true,
 				immed     : true,
 				indent    : true,
 				latedef   : true,

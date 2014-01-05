@@ -21,3 +21,14 @@ Math.sum = function() {
 Math.average = function() {
 	return this.sum.apply(this, arguments) / arguments.length;
 };
+
+/**
+ * Round a number to nearest decimal
+ *
+ * @param {Integer} number
+ *
+ * @return {Integer}
+ */
+Math.roundDecimal = function(number) {
+	return Math.round(number * 100) / 100;
+};

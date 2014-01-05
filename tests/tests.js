@@ -51,6 +51,7 @@ require('../src/CookieObject/reflection.js');
 require('../src/CookieObject/statistics.js');
 
 require('../src/Native/Math.js');
+require('../src/Native/Number.js');
 
 require('../src/main.js');
 

@@ -1,15 +1,4 @@
 /**
- * Format a number to a string (adds separators, convert units, etc)
- *
- * @param {String|Integer} number
- *
- * @return {String}
- */
-CookieMonster.formatNumber = function(number) {
-	return CookieMonster.toHumanNumber(number);
-};
-
-/**
  * Rounds a number and format it to string
  *
  * @param {String|Integer} number
@@ -17,7 +6,7 @@ CookieMonster.formatNumber = function(number) {
  * @return {String}
  */
 CookieMonster.formatNumberRounded = function(number) {
-	return this.toHumanNumber(number, true);
+	return this.formatNumber(number, true);
 };
 
 /**
@@ -28,7 +17,7 @@ CookieMonster.formatNumberRounded = function(number) {
  *
  * @return {Integer|String}
  */
-CookieMonster.toHumanNumber = function(number, round) {
+CookieMonster.formatNumber = function(number, round) {
 	var shortNumbers = this.getSetting('ShortNumbers') - 1;
 	var qualifier    = number < 0 ? '-' : '';
 
@@ -47,19 +36,8 @@ CookieMonster.toHumanNumber = function(number, round) {
 
 	// Round the number off
 	// Else we'll return the number rounded off to nearest decimal
-	number = round ? Math.round(number) : this.roundDecimal(number);
+	number = round ? number.round() : number.roundDecimal();
 	number = qualifier + number;
 
 	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-};
-
-/**
- * Round a number to the nearest decimal
- *
- * @param {Integer} number
- *
- * @return {Integer}
- */
-CookieMonster.roundDecimal = function(number) {
-	return Math.round(number * 100) / 100;
 };

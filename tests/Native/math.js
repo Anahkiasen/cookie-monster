@@ -12,4 +12,10 @@ module.exports = {
 		},
 	},
 
+	'#roundDecimal': {
+		'Can round a number to nearest decimal': function() {
+			Math.roundDecimal(23.066).should.equal(23.07);
+		},
+	},
+
 };
