@@ -81,7 +81,6 @@ CookieMonster.mainLoop = function() {
 	CookieMonster.emphasizeGolden();
 	CookieMonster.emphasizeSeason();
 
-	// Use animationFrame if available
 	setTimeout(function() {
 		CookieMonster.mainLoop();
 	}, CookieMonster.getSetting('Refresh'));

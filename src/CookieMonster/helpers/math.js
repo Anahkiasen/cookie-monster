@@ -18,17 +18,17 @@ CookieMonster.formatNumberRounded = function(number) {
  * @return {Integer|String}
  */
 CookieMonster.formatNumber = function(number, round) {
-	var shortNumbers = this.getSetting('ShortNumbers') - 1;
+	var shortNumbers = CookieMonster.getSetting('ShortNumbers') - 1;
 	var qualifier    = number < 0 ? '-' : '';
 
 	// Human formatting
 	number = Math.abs(number);
 	if (shortNumbers > -1) {
 		var divider = 1e33;
-		for (var i = this.humanNumbers[shortNumbers].length - 1; i >= 0; i--) {
+		for (var i = CookieMonster.humanNumbers[shortNumbers].length - 1; i >= 0; i--) {
 			var formattedNumber = (number / divider % 999).toFixed(3);
 			if (formattedNumber >= 1) {
-				return qualifier + formattedNumber + this.humanNumbers[shortNumbers][i];
+				return qualifier + formattedNumber + CookieMonster.humanNumbers[shortNumbers][i];
 			}
 			divider /= 1e3;
 		}

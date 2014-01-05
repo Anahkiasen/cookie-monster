@@ -4,6 +4,7 @@
 Game.Achievement.prototype.getDescribedInteger = CookieObject.getDescribedInteger;
 Game.Achievement.prototype.matches             = CookieObject.matches;
 
+Game.Object.prototype.buyable               = CookieObject.buyable;
 Game.Object.prototype.getBaseCostPerIncome  = CookieObject.getBaseCostPerIncome;
 Game.Object.prototype.getColors             = CookieObject.getColors;
 Game.Object.prototype.getComparativeInfos   = CookieObject.getComparativeInfos;
@@ -14,6 +15,7 @@ Game.Object.prototype.getWorth              = CookieObject.getWorthOf;
 Game.Object.prototype.identifier            = CookieObject.identifier;
 Game.Object.prototype.matches               = CookieObject.matches;
 
+Game.Upgrade.prototype.buyable               = CookieObject.buyable;
 Game.Upgrade.prototype.getBaseCostPerIncome = CookieObject.getBaseCostPerIncome;
 Game.Upgrade.prototype.getColors            = CookieObject.getColors;
 Game.Upgrade.prototype.getComparativeInfos  = CookieObject.getComparativeInfos;

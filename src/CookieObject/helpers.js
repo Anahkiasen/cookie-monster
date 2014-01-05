@@ -38,3 +38,12 @@ CookieObject.getDescribedInteger = function() {
 
 	return this.desc.match(/<b>\+?([\.0-9]+)%?/)[1].replace(/[%,]/g, '') * 1;
 };
+
+/**
+ * Checks if the object can be bought
+ *
+ * @return {Boolean}
+ */
+CookieObject.buyable = function() {
+	return this.getPrice() <= Game.cookies;
+};
