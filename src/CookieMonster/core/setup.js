@@ -26,6 +26,7 @@ CookieMonster.start = function() {
 
 	// Start the loop
 	this.mainLoop();
+	Game.RebuildStore();
 
 	Game.Popup('<span class="cm-popup">Cookie Monster ' + this.version + ' Loaded!</span>');
 };
@@ -79,12 +80,6 @@ CookieMonster.mainLoop = function() {
 
 	CookieMonster.emphasizeGolden();
 	CookieMonster.emphasizeSeason();
-
-	CookieMonster.loops++;
-
-	if (CookieMonster.loops === 1) {
-		Game.RebuildStore();
-	}
 
 	// Use animationFrame if available
 	setTimeout(function() {

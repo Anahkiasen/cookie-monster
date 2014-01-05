@@ -20,7 +20,6 @@ var CookieMonster = {
 	version : '1.040.11',
 
 	domain : 'http://cookie-monster.autopergamene.eu',
-	loops  : 0,
 
 	humanNumbers : new Array(
 		[' M', ' B', ' T', ' Qa', ' Qi', ' Sx', ' Sp', ' Oc', ' No', ' Dc'],
