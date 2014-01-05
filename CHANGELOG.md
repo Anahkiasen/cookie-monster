@@ -1,14 +1,6 @@
-## Roadmap
-
-* Display "Bonus Click Income" on clicking upgrades instead of a 0 BCI
-* Display browser notifications on popups
-* Add a notification for Elder Pledges running out
-
------
-
 ## 1.040 Versions
 
-### 1.040.11 _(2014-01-04)_
+### 1.040.11 _(2014-01-05)_
 
 * Tweak formula for computing the "grey bars"'s width
 * Add time left next to unattained lucky tresholds in Statistics
