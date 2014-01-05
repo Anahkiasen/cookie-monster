@@ -1,32 +1,19 @@
 /**
- * Load a setting from localStorage
- *
- * @param {integer} key
- * @param {string}  name
- * @param {mixed}   defaultValue
- *
- * @return {void}
- */
-CookieMonster.loadSetting = function(name) {
-	// If we have a value in memory, load it
-	if (localStorage[name] !== undefined) {
-		this.setSetting(name, parseInt(localStorage[name], 10));
-	}
-
-	// Else save default
-	else {
-		localStorage[name] = this.getSetting(name, true);
-	}
-};
-
-/**
  * Load the various settings from localStorage
  *
  * @return {void}
  */
 CookieMonster.loadSettings = function() {
 	for (var setting in this.settings) {
-		this.loadSetting(setting);
+		// If we have a value in memory, load it
+		if (localStorage[setting] !== undefined) {
+			this.setSetting(setting, parseInt(localStorage[setting], 10));
+		}
+
+		// Else save default
+		else {
+			localStorage[setting] = this.getSetting(setting, true);
+		}
 	}
 
 	this.toggleBar();

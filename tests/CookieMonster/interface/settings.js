@@ -1,13 +1,5 @@
 module.exports = {
 
-	'#loadSetting': {
-		'Can load setting from localStorage': function() {
-			localStorage.FlashScreen = 0;
-			CookieMonster.loadSetting('FlashScreen');
-			CookieMonster.settings.FlashScreen.value.should.equal(0);
-		},
-	},
-
 	'#loadSettings': {
 		'Can load all settings from localStorage': function() {
 			localStorage.FlashScreen = 0;

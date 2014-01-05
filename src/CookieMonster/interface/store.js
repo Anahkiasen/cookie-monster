@@ -4,7 +4,6 @@
  * @return {void}
  */
 CookieMonster.createStoreCounters = function() {
-
 	$('#storeTitle').after(
 	'<table id="cookie-monster__store" cellpadding="0" cellspacing="0">'+
 		'<tr>'+
