@@ -105,7 +105,9 @@ CookieMonster.getLuckyTreshold = function(context, income) {
 
 	// Here we remove the effects of the current multiplier
 	// to get the real Cookies/s
-	reward /= this.getFrenzyMultiplier();
+	if (context !== 'current') {
+		reward /= this.getFrenzyMultiplier();
+	}
 
 	// If we want we simulate a frenzy
 	if (context === 'frenzy') {
