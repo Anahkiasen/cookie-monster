@@ -66,6 +66,8 @@ CookieMonster.toggleSetting = function(setting) {
 	var states = [];
 	switch (setting) {
 		case 'ShortNumbers':
+			states = [0, 1, 2, 3];
+			break;
 		case 'UpgradeDisplay':
 			states = [0, 1, 2];
 			break;
@@ -225,6 +227,8 @@ CookieMonster.getShortNumbersState = function() {
 			return 'ON [A]';
 		case 2:
 			return 'ON [B]';
+		case 3:
+			return 'ON [Sci]';
 		case 0:
 			return 'OFF';
 		default:
