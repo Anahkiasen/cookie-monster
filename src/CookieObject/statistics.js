@@ -44,7 +44,7 @@ CookieObject.getBaseCostPerIncome = function(rounded) {
 CookieObject.getReturnInvestment = function() {
 	var worth = this.getWorth();
 
-	return this.price * (worth + Game.cookiesPs) / worth;
+	return this.getPrice() * (worth + Game.cookiesPs) / worth;
 };
 
 /**
