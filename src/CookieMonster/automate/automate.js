@@ -48,14 +48,14 @@ CookieMonster.Automate.buyPledgesOrCovenant = function() {
 	}
 
 	// Get the cost of each path
-	var covenant = CookieMonster.estimateCovenantCost();
-	var pledges  = CookieMonster.estimatePledgeCost();
+	var covenantCost = CookieMonster.estimateCovenantCost();
+	var pledgesCost  = CookieMonster.estimatePledgeCost();
 
 	// Buy correct one
-	if (pledges > covenant) {
-		pledgeUpgrade.buy();
-	} else {
+	if (pledgesCost > covenantCost) {
 		covenantUpgrade.buy();
+	} else {
+		pledgeUpgrade.buy();
 	}
 };
 
