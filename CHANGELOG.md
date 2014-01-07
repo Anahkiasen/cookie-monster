@@ -1,5 +1,10 @@
 ## 1.040 Versions
 
+### 1.040.12
+
+* Added scientific notations for numbers
+* Added "Bonus to Clicking income" stat on clicking upgrades' tooltips
+
 ### 1.040.11 _(2014-01-05)_
 
 * Tweak formula for computing the "grey bars"'s width
