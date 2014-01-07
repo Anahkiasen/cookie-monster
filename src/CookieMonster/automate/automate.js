@@ -18,7 +18,7 @@ CookieMonster.Automate = {
  */
 CookieMonster.Automate.clickOnPopups = function() {
 	for (var popup in CookieMonster.onScreen) {
-		if (CookieMonster.onScreen[popup]) {
+		if (CookieMonster.onScreen[popup] && (typeof Game[popup].wrath === 'undefined' || Game[popup].wrath === 0)) {
 			Game[popup].click();
 		}
 	}
