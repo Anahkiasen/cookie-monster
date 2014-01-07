@@ -27,7 +27,7 @@ CookieMonster.Automate.waitOrBuy = function(object) {
  * @return {Boolean}
  */
 CookieMonster.Automate.hasEnoughInBank = function(purchase) {
-	puchase = purchase || 0;
+	purchase = purchase || 0;
 
 	return (Game.cookies - purchase) >= this.getTargetBank();
 };

@@ -25,7 +25,7 @@ CookieObject.getProductionWorth = function(rounded) {
  * @return {Integer}
  */
 CookieObject.getClickingWorth = function() {
-	return CookieMonster.callCached('getClickingUpgradeWorth', [this])
+	return CookieMonster.callCached('getClickingUpgradeWorth', [this]);
 };
 
 /**

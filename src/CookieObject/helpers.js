@@ -58,6 +58,35 @@ CookieObject.isInStore = function() {
 };
 
 //////////////////////////////////////////////////////////////////////
+/////////////////////////////// BUILDINGS ////////////////////////////
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Toggle bought state of a building
+ *
+ * @param {Boolean} buyOrReverse Buy or reverse
+ *
+ * @return {void}
+ */
+CookieObject.toggle = function(buyOrReverse) {
+	if (buyOrReverse) {
+		this.amount++;
+		this.bought++;
+		Game.BuildingsOwned++;
+		if (this.buyFunction) {
+			this.buyFunction();
+		}
+	} else {
+		this.amount--;
+		this.bought--;
+		Game.BuildingsOwned--;
+		if (this.sellFunction) {
+			this.sellFunction();
+		}
+	}
+};
+
+//////////////////////////////////////////////////////////////////////
 ////////////////////////////// UPGRADES //////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
@@ -67,5 +96,5 @@ CookieObject.isInStore = function() {
  * @return {Boolean}
  */
 CookieObject.isClickingRelated = function() {
-	return this.matches('Clicking gains') || this.matches('The mouse gains');
+	return this.matches('Clicking') || this.matches('The mouse');
 };

@@ -4,16 +4,17 @@
 Game.Achievement.prototype.getDescribedInteger = CookieObject.getDescribedInteger;
 Game.Achievement.prototype.matches             = CookieObject.matches;
 
-Game.Object.prototype.buyable               = CookieObject.buyable;
-Game.Object.prototype.getBaseCostPerIncome  = CookieObject.getBaseCostPerIncome;
-Game.Object.prototype.getColors             = CookieObject.getColors;
-Game.Object.prototype.getComparativeInfos   = CookieObject.getComparativeInfos;
-Game.Object.prototype.getReturnInvestment   = CookieObject.getReturnInvestment;
-Game.Object.prototype.getTimeLeft           = CookieObject.getTimeLeft;
-Game.Object.prototype.getType               = CookieObject.getTypeOf;
-Game.Object.prototype.getWorth              = CookieObject.getProductionWorth;
-Game.Object.prototype.identifier            = CookieObject.identifier;
-Game.Object.prototype.matches               = CookieObject.matches;
+Game.Object.prototype.buyable              = CookieObject.buyable;
+Game.Object.prototype.getBaseCostPerIncome = CookieObject.getBaseCostPerIncome;
+Game.Object.prototype.getColors            = CookieObject.getColors;
+Game.Object.prototype.getComparativeInfos  = CookieObject.getComparativeInfos;
+Game.Object.prototype.getReturnInvestment  = CookieObject.getReturnInvestment;
+Game.Object.prototype.getTimeLeft          = CookieObject.getTimeLeft;
+Game.Object.prototype.getType              = CookieObject.getTypeOf;
+Game.Object.prototype.getWorth             = CookieObject.getProductionWorth;
+Game.Object.prototype.identifier           = CookieObject.identifier;
+Game.Object.prototype.matches              = CookieObject.matches;
+Game.Object.prototype.toggle               = CookieObject.toggle;
 
 Game.Upgrade.prototype.buyable              = CookieObject.buyable;
 Game.Upgrade.prototype.getBaseCostPerIncome = CookieObject.getBaseCostPerIncome;
