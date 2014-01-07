@@ -72,14 +72,12 @@ CookieObject.toggle = function(buyOrReverse) {
 	if (buyOrReverse) {
 		this.amount++;
 		this.bought++;
-		Game.BuildingsOwned++;
 		if (this.buyFunction) {
 			this.buyFunction();
 		}
 	} else {
 		this.amount--;
 		this.bought--;
-		Game.BuildingsOwned--;
 		if (this.sellFunction) {
 			this.sellFunction();
 		}

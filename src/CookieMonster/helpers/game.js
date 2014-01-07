@@ -7,6 +7,10 @@
  * @return {Integer}
  */
 CookieMonster.simulateBuy = function(object, statistic) {
+	// Disable some native methods
+	var setResearch = Game.SetResearch;
+	Game.SetResearch = function() {};
+
 	// Simulate buy and store statistic
 	object.toggle(true);
 	Game.CalculateGains();
@@ -15,6 +19,9 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	// Reverse buy
 	object.toggle(false);
 	Game.CalculateGains();
+
+	// Restore native methods
+	Game.SetResearch = setResearch;
 
 	return income - Game[statistic];
 };
