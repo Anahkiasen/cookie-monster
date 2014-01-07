@@ -6,8 +6,10 @@
 CookieMonster.Automate = {
 	index    : 'getReturnInvestment',
 	priority : [
+		'A festive hat',
 		'Lucky day',
 		'Serendipity',
+		'Get lucky',
 	],
 };
 
@@ -68,15 +70,9 @@ CookieMonster.Automate.buyItems = function() {
 	var upgrade  = this.getNextBestUpgrade();
 	var building = this.getNextBestBuilding();
 
-	// Buy next building
-	if (building.buy) {
-		building.buy();
-	}
-
-	// Buy next upgrade
-	if (upgrade.buy) {
-		upgrade.buy();
-	}
+	// Buy next item
+	this.waitOrBuy(building);
+	this.waitOrBuy(upgrade);
 };
 
 /**
