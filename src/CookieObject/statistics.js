@@ -11,12 +11,21 @@
  *
  * @return {Integer}
  */
-CookieObject.getWorthOf = function(rounded) {
+CookieObject.getProductionWorth = function(rounded) {
 	var worth = this.getType() === 'upgrade'
-		? CookieMonster.callCached('getUpgradeWorth', [this])
+		? CookieMonster.callCached('getProductionUpgradeWorth', [this])
 		: CookieMonster.callCached('getBuildingWorth', [this]);
 
 	return rounded ? worth.roundDecimal() : worth;
+};
+
+/**
+ * Get the true worth of a clicking upgrade
+ *
+ * @return {Integer}
+ */
+CookieObject.getClickingWorth = function() {
+	return CookieMonster.callCached('getClickingUpgradeWorth', [this])
 };
 
 /**

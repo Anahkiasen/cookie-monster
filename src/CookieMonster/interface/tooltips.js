@@ -57,10 +57,8 @@ CookieMonster.updateTooltip = function(object, colors) {
 		return;
 	}
 
-	// Update informations
-	$object
-	.attr('class', 'cm-tooltip__contents border-'+colors[0])
-	.html(
+	// Build base tooltip HTML
+	var tooltip =
 		'<h4 class="text-blue">Bonus Income</h4>'+
 		'<p>' + this.formatNumber(informations[0]) + '</p>'+
 
@@ -68,8 +66,18 @@ CookieMonster.updateTooltip = function(object, colors) {
 		'<p class="text-' +colors[0]+ '">' + this.formatNumber(informations[1]) + '</p>'+
 
 		'<h4 class="text-blue">Time Left</h4>'+
-		'<p class="text-' +colors[1]+ '">' + this.formatCompressedTime(informations[2]) + '</p>'
-	);
+		'<p class="text-' +colors[1]+ '">' + this.formatCompressedTime(informations[2]) + '</p>';
+
+	// Add clicking bonus informations
+	if (object.getType() === 'upgrade' && object.isClickingRelated()) {
+		tooltip =
+			'<h4 class="text-blue">Bonus click CPS</h4>'+
+			'<p>' + this.formatNumber(object.getClickingWorth()) + '</p>'+
+			tooltip;
+	}
+
+	// Update informations
+	$object.attr('class', 'cm-tooltip__contents border-'+colors[0]).html(tooltip);
 
 	// Compute and display deficits
 	var timeLefts = deficits.map(this.getTimeForCookies, this).map(this.formatCompressedTime, this);

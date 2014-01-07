@@ -1,11 +1,24 @@
 /**
+ * Get how much buying an upgrade would boost clicking CPS
+ *
+ * @param {Object} upgrade
+ *
+ * @return {Integer}
+ */
+CookieMonster.getClickingUpgradeWorth = function(upgrade) {
+	var income = this.getClickingCpsOutcome(upgrade);
+
+	return income - Game.computedMouseCps;
+};
+
+/**
  * Get how much buying an upgrade would earn
  *
  * @param {Object} upgrade
  *
  * @return {Integer}
  */
-CookieMonster.getUpgradeWorth = function(upgrade) {
+CookieMonster.getProductionUpgradeWorth = function(upgrade) {
 	var income     = 0;
 	var unlocked   = 0;
 	var multiplier = Game.globalCpsMult;
@@ -139,6 +152,24 @@ CookieMonster.getHeavenlyUpgradeOutcome = function(unlocked, upgrade) {
 	var multiplier = Game.prestige['Heavenly chips'] * 2 * (upgrade.getDescribedInteger() / 100);
 
 	return this.callCached('getAchievementWorth', [unlocked, upgrade.id, 0, multiplier]) - Game.cookiesPs;
+};
+
+// Clicking upgrades
+//////////////////////////////////////////////////////////////////////
+
+/**
+ * Compute the outcome of a clicking upgrade
+ *
+ * @param {Object} upgrade
+ *
+ * @return {Integer}
+ */
+CookieMonster.getClickingCpsOutcome = function(upgrade) {
+	upgrade.bought = 1;
+	var outcome = Game.mouseCps();
+	upgrade.bought = 0;
+
+	return outcome;
 };
 
 // Special cases
