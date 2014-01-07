@@ -1,14 +1,5 @@
 module.exports = {
 
-	'#isInStore': {
-		'Can check if upgrade is in store': function() {
-			Game.UpgradesInStore = ['foo'];
-
-			CookieMonster.isInStore('foo').should.equal(true);
-			CookieMonster.isInStore('bar').should.equal(false);
-		},
-	},
-
 	'#updateUpgradeDisplay': {
 		'Can change upgrades display height': function() {
 			CookieMonster.setSetting('UpgradeDisplay', 0);

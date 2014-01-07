@@ -47,3 +47,12 @@ CookieObject.getDescribedInteger = function() {
 CookieObject.buyable = function() {
 	return this.getPrice() <= Game.cookies;
 };
+
+/**
+ * Checks if an upgrade is in store
+ *
+ * @return {Boolean}
+ */
+CookieObject.isInStore = function() {
+	return Game.UpgradesInStore.indexOf(this) !== -1;
+};

@@ -34,6 +34,32 @@ CookieMonster.Automate.clickOnCookie = function() {
 };
 
 /**
+ * Buy Pledges or Covenant
+ *
+ * @return {void}
+ */
+CookieMonster.Automate.buyPledgesOrCovenant = function() {
+	var pledgeUpgrade   = Game.Upgrades['Elder Pledge'];
+	var covenantUpgrade = Game.Upgrades['Elder Covenant'];
+
+	// Cancel if everything is cool
+	if (!Game.elderWrath || (!pledgeUpgrade.isInStore() && !covenantUpgrade.isInStore())) {
+		return;
+	}
+
+	// Get the cost of each path
+	var covenant = CookieMonster.estimateCovenantCost();
+	var pledges  = CookieMonster.estimatePledgeCost();
+
+	// Buy correct one
+	if (pledges > covenant) {
+		pledgeUpgrade.buy();
+	} else {
+		covenantUpgrade.buy();
+	}
+};
+
+/**
  * Buy the next best item
  *
  * @return {void}
@@ -62,6 +88,7 @@ CookieMonster.Automate.mainLoop = function() {
 	this.buyItems();
 	this.clickOnPopups();
 	this.clickOnCookie();
+	this.buyPledgesOrCovenant();
 
 	setTimeout(function() {
 		CookieMonster.Automate.mainLoop();

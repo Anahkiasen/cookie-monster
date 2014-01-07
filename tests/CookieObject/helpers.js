@@ -25,4 +25,15 @@ module.exports = {
 		},
 	},
 
+	'#isInStore': {
+		'Can check if upgrade is in store': function() {
+			var upgrade = Game.UpgradesById[0];
+			Game.UpgradesInStore = [upgrade];
+			upgrade.isInStore().should.equal(true);
+
+			Game.UpgradesInStore = [];
+			upgrade.isInStore().should.equal(false);
+		},
+	},
+
 };

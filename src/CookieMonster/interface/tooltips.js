@@ -152,7 +152,7 @@ CookieMonster.updateTooltips = function(which) {
  */
 CookieMonster.manageUpgradeTooltips = function(upgrade) {
 	// Cancel if the upgrade isn't in the store
-	if (!this.isInStore(upgrade)) {
+	if (!upgrade.isInStore()) {
 		return;
 	}
 
