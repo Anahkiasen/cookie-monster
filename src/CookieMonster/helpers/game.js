@@ -8,8 +8,12 @@
  */
 CookieMonster.simulateBuy = function(object, statistic) {
 	// Disable some native methods
-	var setResearch = Game.SetResearch;
+	var swaped = {
+		setResearch : Game.SetResearch,
+		Popup       : Game.Popup,
+	};
 	Game.SetResearch = function() {};
+	Game.Popup = function() {};
 
 	// Simulate buy and store statistic
 	object.toggle(true);
@@ -21,7 +25,8 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	Game.CalculateGains();
 
 	// Restore native methods
-	Game.SetResearch = setResearch;
+	Game.SetResearch = swaped.SetResearch;
+	Game.Popup       = swaped.Popup;
 
 	return income - Game[statistic];
 };
