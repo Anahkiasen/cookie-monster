@@ -9,7 +9,7 @@
 CookieMonster.simulateBuy = function(object, statistic) {
 	// Disable some native methods
 	var swaped = {
-		setResearch : Game.SetResearch,
+		SetResearch : Game.SetResearch,
 		Popup       : Game.Popup,
 	};
 	Game.SetResearch = function() {};
