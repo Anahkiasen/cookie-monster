@@ -106,10 +106,11 @@ var CookieMonster = {
 	// Selectors
 	////////////////////////////////////////////////////////////////////
 
+	monsterBar     : document.getElementById('cookie-monster__bottom-bar'),
+
 	$game          : $('#game'),
 	$goldenCookie  : $('#goldenCookie'),
 	$goldenOverlay : $('#cookie-monster__golden-overlay'),
-	$monsterBar    : document.getElementById('cookie-monster__bottom-bar'),
 	$flashOverlay  : $('#cookie-monster__overlay'),
 	$timerBars     : $('#cookie-monster__buff-bars'),
 	$reindeer      : $('#seasonPopup'),

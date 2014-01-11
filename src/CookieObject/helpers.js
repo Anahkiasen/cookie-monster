@@ -96,13 +96,19 @@ CookieObject.simulateBuildingToggle = function(buyOrReverse) {
  * @return {void}
  */
 CookieObject.simulateUpgradeToggle = function(buyOrReverse) {
-	if (!this.bought) {
+	if (buyOrReverse) {
 		this.bought = 1;
-		if (this.buyFunction) this.buyFunction();
-		if (this.hide != 3) Game.UpgradesOwned++;
+		if (this.buyFunction) {
+			this.buyFunction();
+		}
+		if (this.hide !== 3) {
+			Game.UpgradesOwned++;
+		}
 	} else {
 		this.bought = 0;
-		if (this.hide != 3) Game.UpgradesOwned--;
+		if (this.hide !== 3) {
+			Game.UpgradesOwned--;
+		}
 	}
 };
 

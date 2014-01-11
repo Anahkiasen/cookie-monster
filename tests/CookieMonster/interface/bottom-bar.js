@@ -2,9 +2,9 @@ module.exports = {
 
 	'#createBottomBar': {
 		'Can create bottom bar': function() {
-			CookieMonster.$monsterBar.should.have.length(0);
+			$(CookieMonster.$monsterBar).should.have.length(0);
 			CookieMonster.createBottomBar();
-			CookieMonster.$monsterBar.should.have.length(1);
+			$(CookieMonster.$monsterBar).should.have.length(1);
 
 			$('table', CookieMonster.$monsterBar).should.have.length(1);
 			$('td', CookieMonster.$monsterBar).should.have.length(3);
@@ -16,11 +16,11 @@ module.exports = {
 	'#toggleBar': {
 		'Can toggle visibility of the bottom bar': function() {
 			CookieMonster.toggleBar();
-			CookieMonster.$monsterBar.css('display').should.equal('');
+			$(CookieMonster.$monsterBar).hasClass('js-hidden').should.equal(false);
 
 			CookieMonster.setSetting('BottomBar', 0);
 			CookieMonster.toggleBar();
-			CookieMonster.$monsterBar.css('display').should.equal('none');
+			$(CookieMonster.$monsterBar).hasClass('js-hidden').should.equal(true);
 		},
 	},
 
