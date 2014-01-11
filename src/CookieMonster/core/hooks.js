@@ -35,6 +35,16 @@ CookieMonster.hookIntoNative = function() {
 	this.replaceNative('Draw', {
 		'Beautify(Math.round(Game.cookiesd))': 'CookieMonster.formatNumberRounded(Game.cookiesd)',
 	});
+	
+	// Modify Santa drawing function
+	var replaceWith = "y = (CookieMonster.$timersBars ? CookieMonster.$timersBars.offset().top : $('#versionNumber').offset().top) - 48";
+
+	this.replaceNative('DrawSanta', {
+		'y=Game.LeftBackground.canvas.height-48-24' : replaceWith,
+	});
+	this.replaceNative('UpdateSanta', {
+		'y=Game.LeftBackground.canvas.height-48-24' : replaceWith,
+	});
 };
 
 //////////////////////////////////////////////////////////////////////
