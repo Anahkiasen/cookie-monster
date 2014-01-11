@@ -35,7 +35,7 @@ CookieMonster.hookIntoNative = function() {
 	this.replaceNative('Draw', {
 		'Beautify(Math.round(Game.cookiesd))': 'CookieMonster.formatNumberRounded(Game.cookiesd)',
 	});
-	
+
 	// Modify Santa drawing function
 	var replaceWith = "y = (CookieMonster.$timersBars ? CookieMonster.$timersBars.offset().top : $('#versionNumber').offset().top) - 48";
 
