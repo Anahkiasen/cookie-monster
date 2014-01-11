@@ -11,7 +11,7 @@ CookieMonster.toggleBar = function() {
 	var visible = this.getSetting('BottomBar');
 	var bottom  = visible ? 57 : 0;
 
-	this.$monsterBar.toggle(visible);
+	this.$monsterBar.classList.toggle('js-hidden');
 	this.$game.css('bottom', bottom+'px');
 };
 
@@ -22,7 +22,7 @@ CookieMonster.toggleBar = function() {
  */
 CookieMonster.createBottomBar = function() {
 	$('body').append('<div id="cookie-monster__bottom-bar"></div>');
-	this.$monsterBar = $('#cookie-monster__bottom-bar');
+	this.$monsterBar = document.getElementById('cookie-monster__bottom-bar');
 
 	this.makeTable();
 };
@@ -38,13 +38,13 @@ CookieMonster.makeTable = function() {
 	var baseCost = '<th class="text-blue">Base Cost Per Income</th>';
 	var timeLeft = '<th class="text-blue">Time Left</th>';
 
-	return this.$monsterBar.html(
+	return this.$monsterBar.innerHTML =
 		'<table>'+
 			'<tr>'+thead+'<th>'    +this.bottomBar.names.join('</th><th>')+ '</th></tr>'+
 			'<tr>'+bonus+'<td>'    +this.bottomBar.bonus.join('</td><td>')+ '</td></tr>'+
 			'<tr>'+baseCost+'<td>' +this.bottomBar.bci.join('</td><td>')+ '</td></tr>'+
 			'<tr>'+timeLeft+'<td>' +this.bottomBar.timeLeft.join('</td><td>')+ '</td></tr>'+
-		'</table>');
+		'</table>';
 };
 
 /**
