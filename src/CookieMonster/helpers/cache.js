@@ -70,14 +70,7 @@ CookieMonster.refreshCache = function() {
  * @return {String}
  */
 CookieMonster.computeSalts = function(salts, args) {
-	salts = salts.concat(args);
-
-	// Get the objects identifiers as salt
-	for (var i = 0; i < salts.length; i++) {
-		if (typeof salts[i].identifier !== 'undefined') {
-			salts[i] = salts[i].identifier();
-		}
-	}
-
-	return salts.join('-');
+	return salts.concat(args).map(function(salt) {
+		return salt.identifier ? salt.identifier() : salt;
+	}).join('-');
 };
