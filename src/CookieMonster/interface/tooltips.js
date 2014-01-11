@@ -62,7 +62,6 @@ CookieMonster.updateTooltip = function(object, colors) {
 	percentage = percentage > 0 ? ' (' +percentage+ '% of income)' : '';
 
 	// Build base tooltip HTML
-	var percentage = this.formatNumber(100 * informations[0] / Game.cookiesPs);
 	var tooltip =
 		'<h4 class="text-blue">Bonus Income</h4>'+
 		'<p>' + this.formatNumber(informations[0]) + percentage + '</p>'+

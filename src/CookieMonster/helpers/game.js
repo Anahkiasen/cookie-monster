@@ -30,7 +30,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	////////////////////////////////////////////////////////////////////
 
 	// Simulate buy and store statistic
-	object.toggle(true);
+	object.simulateToggle(true);
 	Game.CalculateGains();
 	var income = Game[statistic];
 
@@ -38,7 +38,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	////////////////////////////////////////////////////////////////////
 
 	// Reverse buy
-	object.toggle(false);
+	object.simulateToggle(false);
 	Game.cpsSucked        = stored.cpsSucked;
 	Game.globalCpsMult    = stored.globalCpsMult;
 	Game.cookiesPs        = stored.cookiesPs;

@@ -14,7 +14,7 @@ Game.Object.prototype.getType              = CookieObject.getTypeOf;
 Game.Object.prototype.getWorth             = CookieObject.getProductionWorth;
 Game.Object.prototype.identifier           = CookieObject.identifier;
 Game.Object.prototype.matches              = CookieObject.matches;
-Game.Object.prototype.toggle               = CookieObject.toggle;
+Game.Object.prototype.simulateToggle       = CookieObject.simulateBuildingToggle;
 
 Game.Upgrade.prototype.buyable              = CookieObject.buyable;
 Game.Upgrade.prototype.getBaseCostPerIncome = CookieObject.getBaseCostPerIncome;
@@ -30,6 +30,7 @@ Game.Upgrade.prototype.identifier           = CookieObject.identifier;
 Game.Upgrade.prototype.isClickingRelated    = CookieObject.isClickingRelated;
 Game.Upgrade.prototype.isInStore            = CookieObject.isInStore;
 Game.Upgrade.prototype.matches              = CookieObject.matches;
+Game.Upgrade.prototype.simulateToggle       = CookieObject.simulateUpgradeToggle;
 
 // Start Cookie Monster
 //////////////////////////////////////////////////////////////////////
