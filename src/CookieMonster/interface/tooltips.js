@@ -163,11 +163,15 @@ CookieMonster.controlTooltipPosition = function() {
 	var yMax = Game.mouseY;
 
 	if (CookieMonster.tooltipLastObjectId) {
-		var elem1 = CookieMonster.tooltipLastObjectId + 'note_div_warning';
-		var elem2 = CookieMonster.tooltipLastObjectId + 'note_div_caution';
-		var underLuckyHeight = ($(elem1).is(':visible') ? $(elem1).outerHeight(true): 0) + ($(elem2).is(':visible') ? $(elem2).outerHeight(true) + 2: 0); // 2 is a magic number
-		yMax = $(window).height() - ($(tooltip).outerHeight() + underLuckyHeight + 40 + (CookieMonster.getSetting('BottomBar') ? 57 : 0)); // 40 is not magic number
-		yMax = yMax < -40 ? -40 : yMax;
+		var $elem1 = $(CookieMonster.tooltipLastObjectId + 'note_div_warning');
+		var $elem2 = $(CookieMonster.tooltipLastObjectId + 'note_div_caution');
+		var underLuckyHeight = $elem1.is(':visible') ? $elem1.outerHeight(true): 0;
+		underLuckyHeight += $elem2.is(':visible') ? $elem2.outerHeight(true) + 2: 0; // 2 is a magic number
+		yMax = $(window).height() - $(tooltip).outerHeight(); // window size - tooltip size
+		yMax -= underLuckyHeight; // - notes about "Lucky"
+		yMax -= 40; // distance beetwen tooltip and tooltipAnchor
+		yMax -= CookieMonster.getSetting('BottomBar') ? 57 : 0;
+		yMax = yMax < -40 ? -40 : yMax; // will never be above the screen
 		yMax = Game.mouseY < yMax ? Game.mouseY : yMax;
 	}
 
