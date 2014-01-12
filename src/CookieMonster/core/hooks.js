@@ -30,6 +30,9 @@ CookieMonster.hookIntoNative = function() {
 	Game.tooltip.draw = this.appendToNative(Game.tooltip.draw, CookieMonster.updateTooltips);
 	Game.RebuildStore = this.appendToNative(Game.RebuildStore, CookieMonster.updateTooltips);
 
+	// Make tooltip stay on screen, if possible
+	Game.tooltip.update = this.appendToNative(Game.tooltip.update, CookieMonster.controlTooltipPosition);
+	
 	// Swap out the original Beautify for ours
 	Beautify = this.formatNumber;
 	this.replaceNative('Draw', {
