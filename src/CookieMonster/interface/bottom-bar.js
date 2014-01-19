@@ -11,8 +11,10 @@ CookieMonster.toggleBar = function() {
 	var visible = this.getSetting('BottomBar');
 	var bottom  = visible ? 57 : 0;
 
-	this.monsterBar.classList.toggle('js-hidden');
 	this.$game.css('bottom', bottom+'px');
+	if (this.monsterBar) {
+		this.monsterBar.classList.toggle('js-hidden');
+	}
 };
 
 /**

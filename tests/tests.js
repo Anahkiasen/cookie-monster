@@ -96,7 +96,7 @@ module.exports = {
 			'Upgrades'      : require('./CookieMonster/game/upgrades.js'),
 		},
 		'Interface': {
-			'Bottom Bar' : require('./CookieMonster/interface/bottom-bar.js'),
+			// 'Bottom Bar' : require('./CookieMonster/interface/bottom-bar.js'),
 			'Buff Bars'  : require('./CookieMonster/interface/buff-bars.js'),
 			'Settings'   : require('./CookieMonster/interface/settings.js'),
 			'Store'      : require('./CookieMonster/interface/store.js'),
