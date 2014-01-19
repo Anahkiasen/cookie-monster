@@ -4,22 +4,27 @@
     "bower": "*",
     "grunt": "*",
     "grunt-cli": "*",
+    "glob": "*"
+  },
+  "devDependencies": {
+    "blanket": "*",
+    "chai": "*",
     "grunt-bower-task": "*",
-    "grunt-contrib-compass": "*",
     "grunt-contrib-concat": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-compass": "*",
+    "grunt-contrib-copy": "*",
     "grunt-contrib-csslint": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
-    "grunt-mocha-test": "*"
-  },
-  "devDependencies": {
-    "mocha": "*",
+    "grunt-csscss": "*",
+    "grunt-mocha-test": "*",
     "jquery": "*",
     "jsdom": "*",
-    "chai": "*",
-    "blanket": "*"
+    "load-grunt-tasks": "*",
+    "mocha": "*"
   },
   "scripts": {
     "test": "./node_modules/.bin/grunt test"
