@@ -1,6 +1,7 @@
 {
   "name": "cookie-monster",
   "dependencies": {
-    "jquery": "~1.*"
+    "jquery": "~1.*",
+    "classlist": "*"
   }
 }

@@ -14,6 +14,7 @@ module.exports = {
 			],
 			'<%= paths.compiled.js %>/cookie-monster.js': [
 				'<%= components %>/jquery/jquery.min.js',
+				'<%= components %>/classlist/classList.js',
 				'<%= paths.compiled.js %>/js/cookie-monster.js',
 			],
 		},
