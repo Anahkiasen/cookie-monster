@@ -103,6 +103,8 @@ CookieMonster.updateTooltip = function(object, colors) {
 		$(identifier+'note_div_warning').hide();
 		$(identifier+'note_div_caution').hide();
 	}
+
+	this.tooltipLastObjectId = identifier;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -149,6 +151,35 @@ CookieMonster.updateTooltips = function(which) {
 			CookieMonster.manageBuildingTooltip(building);
 		});
 	}
+};
+
+/**
+ * Try to make tooltip stay on the screen
+ *
+ * @return {void}
+ */
+CookieMonster.controlTooltipPosition = function() {
+	var yMax = Game.mouseY;
+
+	if (this.tooltipLastObjectId) {
+		var $elem1 = $(this.tooltipLastObjectId + 'note_div_warning');
+		var $elem2 = $(this.tooltipLastObjectId + 'note_div_caution');
+
+		var underLuckyHeight = $elem1.is(':visible') ? $elem1.outerHeight(true): 0;
+		underLuckyHeight += $elem2.is(':visible') ? $elem2.outerHeight(true) + 2: 0; // 2 is a magic number
+
+		yMax = $(window).height() - $(tooltip).outerHeight(); // window size - tooltip size
+		yMax -= underLuckyHeight; // - notes about "Lucky"
+		yMax -= 40; // distance beetwen tooltip and tooltipAnchor
+		yMax -= this.getSetting('BottomBar') ? 57 : 0;
+		yMax = yMax < -40 ? -40 : yMax; // will never be above the screen
+		yMax = Game.mouseY < yMax ? Game.mouseY : yMax;
+	}
+
+	$(tooltipAnchor).offset({
+		top: yMax,
+		left: Game.mouseX
+	});
 };
 
 //////////////////////////////////////////////////////////////////////
