@@ -244,8 +244,7 @@ CookieMonster.manageBuildingTooltip = function(building) {
  */
 CookieMonster.getLuckyAlerts = function(object) {
 	var price     = object.getPrice();
-	var newIncome = Game.cookiesPs + object.getWorth();
-	var rewards   = [this.getLuckyTreshold(false, newIncome), this.getLuckyTreshold('frenzy', newIncome)];
+	var rewards   = [this.getLuckyTreshold(false, Game.cookiesPs), this.getLuckyTreshold('frenzy', Game.cookiesPs)];
 	var deficits  = [0, 0];
 
 	// Check Lucky alert
