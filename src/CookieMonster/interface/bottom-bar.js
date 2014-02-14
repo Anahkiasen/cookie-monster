@@ -13,7 +13,7 @@ CookieMonster.toggleBar = function() {
 
 	this.$game.css('bottom', bottom+'px');
 	if (this.monsterBar) {
-		this.monsterBar.classList.toggle('js-hidden');
+		this.monsterBar.classList.toggle('js-hidden', !visible);
 	}
 };
 
