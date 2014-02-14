@@ -70,6 +70,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('css', 'Build stylesheets', [
 		'compass:compile',
+		'autoprefixer',
 		'concat:css',
 		'csslint',
 		'cssmin',

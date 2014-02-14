@@ -7,6 +7,7 @@ module.exports = {
 		outputStyle        : 'nested',
 		noLineComments     : true,
 		relativeAssets     : true,
+		require            : ['sass-globbing'],
 	},
 
 	/**
