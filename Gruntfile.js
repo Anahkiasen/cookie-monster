@@ -71,7 +71,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('css', 'Build stylesheets', [
 		'compass:compile',
-		'autoprefixer',
+		// 'autoprefixer',
 		'concat:css',
 		'csslint',
 		'cssmin',
@@ -81,6 +81,6 @@ module.exports = function(grunt) {
 		'jshint',
 		'concat:js',
 		'uglify',
-		'test',
+		// 'test',
 	]);
 };

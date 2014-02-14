@@ -1,12 +1,14 @@
-## 1.040 Versions
+## 1.041 Versions
 
-### 1.040.12
+### 1.041.01 _(2014-02-14)_
 
 * Added scientific notations for numbers
 * Added "Bonus to Clicking income" stat on clicking upgrades' tooltips
 * Added "Percentage of current income" in tooltips
 * Fixed Santa Upgrades position on the screen
 * Prevent tooltips from going out of the screen
+
+## 1.040 Versions
 
 ### 1.040.11 _(2014-01-05)_
 
