@@ -13,7 +13,7 @@ module.exports = {
 				'<%= paths.original.js %>/main.js',
 			],
 			'<%= paths.compiled.js %>/cookie-monster.js': [
-				'<%= components %>/jquery/jquery.min.js',
+				'<%= components %>/jquery/dist/jquery.js',
 				'<%= components %>/classlist/classList.js',
 				'<%= paths.compiled.js %>/js/cookie-monster.js',
 			],
