@@ -34,6 +34,7 @@ module.exports = function(grunt) {
 		paths: {
 			original: {
 				css  : '<%= builds %>/css',
+				img  : '<%= builds %>/img',
 				js   : '<%= src %>',
 				sass : '<%= builds %>/sass',
 			},

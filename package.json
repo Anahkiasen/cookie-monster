@@ -23,6 +23,7 @@
     "grunt-contrib-watch": "*",
     "grunt-csscss": "*",
     "grunt-mocha-test": "*",
+    "grunt-tinypng": "*",
     "jquery": "*",
     "jsdom": "*",
     "load-grunt-tasks": "*",
