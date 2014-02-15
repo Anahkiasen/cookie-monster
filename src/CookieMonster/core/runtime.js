@@ -24,7 +24,7 @@ CookieMonster.shouldRun = function() {
 	}
 
 	// Cancel if already loaded
-	if (this.$monsterBar.length !== 0) {
+	if (this.monsterBar) {
 		return this.displayError('Cookie Monster is already loaded, silly!');
 	}
 

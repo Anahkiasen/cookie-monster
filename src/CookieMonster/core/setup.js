@@ -95,7 +95,7 @@ CookieMonster.tearDown = function() {
 	// Destroy current elements
 	this.destroyBars();
 	this.$goldenOverlay.remove();
-	this.$monsterBar.remove();
+	this.monsterBar.remove();
 	this.$flashOverlay.remove();
 	this.$timerBars.remove();
 	$('#cookie-monster__store').remove();

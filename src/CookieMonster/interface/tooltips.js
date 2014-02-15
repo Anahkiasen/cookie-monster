@@ -62,7 +62,6 @@ CookieMonster.updateTooltip = function(object, colors) {
 	percentage = percentage > 0 ? ' (' +percentage+ '% of income)' : '';
 
 	// Build base tooltip HTML
-	var percentage = this.formatNumber(100 * informations[0] / Game.cookiesPs);
 	var tooltip =
 		'<h4 class="text-blue">Bonus Income</h4>'+
 		'<p>' + this.formatNumber(informations[0]) + percentage + '</p>'+
@@ -104,8 +103,8 @@ CookieMonster.updateTooltip = function(object, colors) {
 		$(identifier+'note_div_warning').hide();
 		$(identifier+'note_div_caution').hide();
 	}
-	
-	CookieMonster.tooltipLastObjectId = identifier;
+
+	this.tooltipLastObjectId = identifier;
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -162,20 +161,25 @@ CookieMonster.updateTooltips = function(which) {
 CookieMonster.controlTooltipPosition = function() {
 	var yMax = Game.mouseY;
 
-	if (CookieMonster.tooltipLastObjectId) {
-		var $elem1 = $(CookieMonster.tooltipLastObjectId + 'note_div_warning');
-		var $elem2 = $(CookieMonster.tooltipLastObjectId + 'note_div_caution');
+	if (this.tooltipLastObjectId) {
+		var $elem1 = $(this.tooltipLastObjectId + 'note_div_warning');
+		var $elem2 = $(this.tooltipLastObjectId + 'note_div_caution');
+
 		var underLuckyHeight = $elem1.is(':visible') ? $elem1.outerHeight(true): 0;
 		underLuckyHeight += $elem2.is(':visible') ? $elem2.outerHeight(true) + 2: 0; // 2 is a magic number
+
 		yMax = $(window).height() - $(tooltip).outerHeight(); // window size - tooltip size
 		yMax -= underLuckyHeight; // - notes about "Lucky"
 		yMax -= 40; // distance beetwen tooltip and tooltipAnchor
-		yMax -= CookieMonster.getSetting('BottomBar') ? 57 : 0;
+		yMax -= this.getSetting('BottomBar') ? 57 : 0;
 		yMax = yMax < -40 ? -40 : yMax; // will never be above the screen
 		yMax = Game.mouseY < yMax ? Game.mouseY : yMax;
 	}
 
-	$(tooltipAnchor).offset({ top: yMax, left: Game.mouseX });
+	$(tooltipAnchor).offset({
+		top: yMax,
+		left: Game.mouseX
+	});
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -240,8 +244,7 @@ CookieMonster.manageBuildingTooltip = function(building) {
  */
 CookieMonster.getLuckyAlerts = function(object) {
 	var price     = object.getPrice();
-	var newIncome = Game.cookiesPs + object.getWorth();
-	var rewards   = [this.getLuckyTreshold(false, newIncome), this.getLuckyTreshold('frenzy', newIncome)];
+	var rewards   = [this.getLuckyTreshold(false, Game.cookiesPs), this.getLuckyTreshold('frenzy', Game.cookiesPs)];
 	var deficits  = [0, 0];
 
 	// Check Lucky alert

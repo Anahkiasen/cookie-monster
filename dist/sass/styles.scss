@@ -15,18 +15,14 @@
 // Scaffolding
 //////////////////////////////////////////////////////////////////////
 
-@import "scaffolding/scaffolding";
+@import "scaffolding/*";
 
 // Patterns
 //////////////////////////////////////////////////////////////////////
 
-@import "patterns/colors";
+@import "patterns/*";
 
 // Modules
 //////////////////////////////////////////////////////////////////////
 
-@import "modules/bottom-bar";
-@import "modules/buffs";
-@import "modules/overlays";
-@import "modules/tooltips";
-@import "modules/store";
+@import "modules/*";

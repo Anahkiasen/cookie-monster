@@ -68,7 +68,7 @@ CookieObject.isInStore = function() {
  *
  * @return {void}
  */
-CookieObject.toggle = function(buyOrReverse) {
+CookieObject.simulateBuildingToggle = function(buyOrReverse) {
 	if (buyOrReverse) {
 		this.amount++;
 		this.bought++;
@@ -87,6 +87,30 @@ CookieObject.toggle = function(buyOrReverse) {
 //////////////////////////////////////////////////////////////////////
 ////////////////////////////// UPGRADES //////////////////////////////
 //////////////////////////////////////////////////////////////////////
+
+/**
+ * Toggle bought state of an upgrade
+ *
+ * @param {Boolean} buyOrReverse Buy or reverse
+ *
+ * @return {void}
+ */
+CookieObject.simulateUpgradeToggle = function(buyOrReverse) {
+	if (buyOrReverse) {
+		this.bought = 1;
+		if (this.buyFunction) {
+			this.buyFunction();
+		}
+		if (this.hide !== 3) {
+			Game.UpgradesOwned++;
+		}
+	} else {
+		this.bought = 0;
+		if (this.hide !== 3) {
+			Game.UpgradesOwned--;
+		}
+	}
+};
 
 /**
  * Checks if an upgrade is clicking related or not

@@ -32,13 +32,13 @@ CookieMonster.hookIntoNative = function() {
 
 	// Make tooltip stay on screen, if possible
 	Game.tooltip.update = this.appendToNative(Game.tooltip.update, CookieMonster.controlTooltipPosition);
-	
+
 	// Swap out the original Beautify for ours
 	Beautify = this.formatNumber;
 	this.replaceNative('Draw', {
 		'Beautify(Math.round(Game.cookiesd))': 'CookieMonster.formatNumberRounded(Game.cookiesd)',
 	});
-	
+
 	// Modify Santa drawing function
 	var replaceWith = "y = (CookieMonster.$timersBars ? CookieMonster.$timersBars.offset().top : $('#versionNumber').offset().top) - 48";
 

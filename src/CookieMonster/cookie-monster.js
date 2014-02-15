@@ -17,7 +17,7 @@ var CookieMonster = {
 	// Runtime variables
 	////////////////////////////////////////////////////////////////////
 
-	version : '1.040.11',
+	version : '1.041.01',
 
 	domain : 'http://cookie-monster.autopergamene.eu',
 
@@ -106,10 +106,11 @@ var CookieMonster = {
 	// Selectors
 	////////////////////////////////////////////////////////////////////
 
+	monsterBar     : document.getElementById('cookie-monster__bottom-bar'),
+
 	$game          : $('#game'),
 	$goldenCookie  : $('#goldenCookie'),
 	$goldenOverlay : $('#cookie-monster__golden-overlay'),
-	$monsterBar    : $('#cookie-monster__bottom-bar'),
 	$flashOverlay  : $('#cookie-monster__overlay'),
 	$timerBars     : $('#cookie-monster__buff-bars'),
 	$reindeer      : $('#seasonPopup'),

@@ -7,22 +7,42 @@
  * @return {Integer}
  */
 CookieMonster.simulateBuy = function(object, statistic) {
+
+	// Store initial state
+	////////////////////////////////////////////////////////////////////
+
 	// Disable some native methods
 	var swaped = {
 		SetResearch : Game.SetResearch,
 		Popup       : Game.Popup,
 	};
+	var stored = {
+		cpsSucked        : Game.cpsSucked,
+		globalCpsMult    : Game.globalCpsMult,
+		cookiesPs        : Game.cookiesPs,
+		computedMouseCps : Game.computedMouseCps,
+	};
+
 	Game.SetResearch = function() {};
-	Game.Popup = function() {};
+	Game.Popup       = function() {};
+
+	// Simulate buy and store result
+	////////////////////////////////////////////////////////////////////
 
 	// Simulate buy and store statistic
-	object.toggle(true);
+	object.simulateToggle(true);
 	Game.CalculateGains();
 	var income = Game[statistic];
 
+	// Restore initial state
+	////////////////////////////////////////////////////////////////////
+
 	// Reverse buy
-	object.toggle(false);
-	Game.CalculateGains();
+	object.simulateToggle(false);
+	Game.cpsSucked        = stored.cpsSucked;
+	Game.globalCpsMult    = stored.globalCpsMult;
+	Game.cookiesPs        = stored.cookiesPs;
+	Game.computedMouseCps = stored.computedMouseCps;
 
 	// Restore native methods
 	Game.SetResearch = swaped.SetResearch;
