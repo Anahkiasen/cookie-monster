@@ -165,6 +165,12 @@ CookieMonster.manageTimersBar = function(name, label) {
 	if (timers[0] <= 0 || this.onScreen[name] || !this.getSetting('CookieBar')) {
 		return this.fadeOutBar(label);
 	}
+	
+	// Hide reindeer bar on other seasons
+	if (Game.season != "christmas" && name === 'seasonPopup') {
+		return this.fadeOutBar(label);
+	}
+	
 
 	// Update title
 	var countdown = Math.round(width / Game.fps);
@@ -205,6 +211,10 @@ CookieMonster.updateBar = function (name, color, timer, width) {
 		this.fadeOutBar(identifier);
 	}
 
+	if (Game.season != "christmas" && name === 'seasonPopup') {
+		this.fadeOutBar(identifier);
+	}
+	
 	// Check existence
 	if ($bar.length === 0) {
 		$bar = this.createBar(name, color);
