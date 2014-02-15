@@ -1,5 +1,5 @@
 # Finalize new version
-grunt rebuild
+grunt
 git commit -am "Rebuild files"
 git push origin develop
 
