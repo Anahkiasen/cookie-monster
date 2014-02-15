@@ -1,5 +1,9 @@
 ## 1.041 Versions
 
+### 1.041.02 _(2014-02-15)_
+
+* Bugfixes
+
 ### 1.041.01 _(2014-02-14)_
 
 * Added scientific notations for numbers
