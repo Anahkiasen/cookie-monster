@@ -127,6 +127,7 @@ Make the edits you want in the `src/` folder.
 
 Then rebuild the assets by running Grunt :
 
+    ./node_modules/.bin/bower install
     ./node_modules/.bin/grunt
 
 Next you can commit your changes and push :

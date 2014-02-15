@@ -54,12 +54,7 @@ module.exports = function(grunt) {
 	////////////////////////////////////////////////////////////////////
 
 	grunt.registerTask('default', 'Build assets for local', [
-		'bower',
-		'js',
-	]);
-
-	grunt.registerTask('rebuild', 'Rebuild all assets', [
-		'js', 'css',
+		'css', 'js',
 	]);
 
 	grunt.registerTask('test', 'Run the tests', [
@@ -71,7 +66,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('css', 'Build stylesheets', [
 		'compass:compile',
-		// 'autoprefixer',
 		'concat:css',
 		'csslint',
 		'cssmin',
@@ -81,6 +75,5 @@ module.exports = function(grunt) {
 		'jshint',
 		'concat:js',
 		'uglify',
-		// 'test',
 	]);
 };
