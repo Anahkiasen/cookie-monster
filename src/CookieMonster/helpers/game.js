@@ -15,11 +15,12 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	var swaped = {
 		SetResearch : Game.SetResearch,
 		Popup       : Game.Popup,
-		GrandmaDraw : Game.Objects['Grandma'].drawFunction,
+		Draw        : Game.NewDrawFunction,
 		Lock        : Game.Lock,
 		Unlock      : Game.Unlock,
 		CollectWrinklers : Game.CollectWrinklers,
 		computeSeasonPrices : Game.computeSeasonPrices,
+		UpdateMenu  : Game.UpdateMenu,
 	};
 	var stored = {
 		cpsSucked        : Game.cpsSucked,
@@ -34,6 +35,8 @@ CookieMonster.simulateBuy = function(object, statistic) {
 		seasonUses       : Game.seasonUses,
 		achievements     : Game.Achievements,
 		achievementsOwned : Game.AchievementsOwned,
+		storeToRebuild   : Game.storeToRebuild,
+		upgradesToRebuild : Game.upgradesToRebuild,
 	};
 
 	Game.SetResearch = function() {};
@@ -42,7 +45,8 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	Game.Unlock      = function() {};
 	Game.CollectWrinklers = function() {};
 	Game.computeSeasonPrices = function() {};
-	Game.Objects['Grandma'].drawFunction = function() {};
+	Game.NewDrawFunction = function() {};
+	Game.UpdateMenu  = function() {};
 
 	// Simulate buy and store result
 	////////////////////////////////////////////////////////////////////
@@ -69,6 +73,8 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	Game.seasonUses       = stored.seasonUses;
 	Game.Achievements     = stored.achievements;
 	Game.AchievementsOwned = stored.achievementsOwned;
+	Game.storeToRebuild   = stored.storeToRebuild;
+	Game.upgradesToRebuild = stored.upgradesToRebuild;
 	
 	// Restore native methods
 	Game.SetResearch = swaped.SetResearch;
@@ -77,11 +83,8 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	Game.Unlock      = swaped.Unlock;
 	Game.CollectWrinklers = swaped.CollectWrinklers;
 	Game.computeSeasonPrices = swaped.computeSeasonPrices;
-	Game.Objects['Grandma'].drawFunction = swaped.GrandmaDraw;
-	
-	// Restore correct prices
-	Game.RefreshBuildings();
-	Game.upgradesToRebuild=1
+	Game.NewDrawFunction = swaped.Draw;
+	Game.UpdateMenu  = swaped.UpdateMenu;
 	
 	return income - Game[statistic];
 };
