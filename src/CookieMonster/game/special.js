@@ -39,36 +39,6 @@ CookieMonster.getReindeerReward = function() {
 //////////////////////////////////////////////////////////////////////
 
 /**
- * Get the amount of cookies withered by wrinklers
- *
- * @return {Integer}
- */
-CookieMonster.getWrinklersWithered = function(onlyNumber) {
-	var withered = 0;
-	var isCorrect = true;
-	onlyNumber = onlyNumber || false;
-	
-	// Here we loop over the wrinklers and
-	// compute how muck cookies they withered
-	Game.wrinklers.forEach(function(wrinkler) {
-		withered += wrinkler.withered;
-		if (wrinkler.sucked > 0 && !wrinkler.witheredIsCorrect) {
-			isCorrect = false;
-		}
-	});
-
-	if (onlyNumber ) {
-		return withered;
-	}
-	else if (!isCorrect) {
-		return CookieMonster.formatNumber(withered) + " (WARNING!!! This value is incorrect. Pop all wrinklers, that already present in game on Cookie Monster load!)";
-	}
-	else {
-		return CookieMonster.formatNumber(withered);
-	}
-};
-
-/**
  * Get the amount of cookies sucked by wrinklers
  *
  * @param {Integer} modifier
@@ -104,5 +74,5 @@ CookieMonster.getWrinklersReward = function(context) {
 		sucked -= this.getWrinklersSucked();
 	}
 
-	return CookieMonster.formatNumber(sucked) + " (" + this.formatNumber(sucked/this.getWrinklersWithered(true)) + "x of withered)";
+	return sucked;
 };

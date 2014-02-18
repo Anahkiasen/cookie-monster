@@ -48,20 +48,6 @@ CookieMonster.hookIntoNative = function() {
 	this.replaceNative('UpdateSanta', {
 		'y=Game.LeftBackground.canvas.height-48-24' : replaceWith,
 	});
-	
-	// Allow wrinklers to track withered stat
-	this.replaceNative('Init', {
-		'close:0,sucked:0,phase:0,x:0,y:0,r:0,hurt:0,hp:3' : 'close:0,sucked:0,withered:0,witheredIsCorrect:0,phase:0,x:0,y:0,r:0,hurt:0,hp:3',
-	});
-	this.replaceNative('UpdateWrinklers', { // a dirty hack :(
-		'inRect' : 'CookieMonster.inRect',
-	});
-	this.replaceNative('UpdateWrinklers', {
-		'me.sucked+=' : 'if (!me.sucked) me.witheredIsCorrect = 1; if (!me.withered) me.withered = 0; me.withered += (((Game.cookiesPs/Game.fps)/20)); me.sucked+=',
-	});
-	this.replaceNative('UpdateWrinklers', {
-		'Game.Earn(me.sucked);' : 'Game.Earn(me.sucked); me.withered = 0; me.witheredIsCorrect = 0;',
-	});
 };
 
 //////////////////////////////////////////////////////////////////////
