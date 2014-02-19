@@ -1,6 +1,7 @@
 CookieMonster.Emphasizers = {};
 
-
+// A dirty hack: exact copy of original game inRect function
+// Need a better solution (see ho0ks.js -> wrinklers)
 CookieMonster.inRect = function(x,y,rect) {
 	var dx = x+Math.sin(-rect.r)*(-(rect.h/2-rect.o)),dy=y+Math.cos(-rect.r)*(-(rect.h/2-rect.o));
 	var h1 = Math.sqrt(dx*dx + dy*dy);

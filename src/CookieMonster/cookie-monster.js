@@ -142,7 +142,7 @@ var CookieMonster = {
 			},
 			'Wrinklers': {
 				'Cookies withered'     : 'CookieMonster.getWrinklersWithered()',
-				'Rewards of popping'   : 'CookieMonster.getWrinklersReward()',
+				'Rewards of popping'   : ['formatNumber', 'CookieMonster.getWrinklersReward()'],
 			},
 			"Estimates (for ' +CookieMonster.getEstimatesTimeState()+ ')": {
 				"Cost of pledges"                   : ['formatNumber', 'CookieMonster.estimatePledgeCost()'],
