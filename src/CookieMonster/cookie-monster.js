@@ -141,9 +141,8 @@ var CookieMonster = {
 				'Time To Next Chip'    : ['formatTime', "CookieMonster.getHeavenlyChip('time')"],
 			},
 			'Wrinklers': {
-				'Cookies sucked'      : ['formatNumber', 'CookieMonster.getWrinklersSucked()'],
-				'Rewards of popping'  : ['formatNumber', 'CookieMonster.getWrinklersReward()'],
-				'Benefits of popping' : ['formatNumber', "CookieMonster.getWrinklersReward('benefits')"],
+				'Cookies withered'     : 'CookieMonster.getWrinklersWithered()',
+				'Rewards of popping'   : ['formatNumber', 'CookieMonster.getWrinklersReward()'],
 			},
 			"Estimates (for ' +CookieMonster.getEstimatesTimeState()+ ')": {
 				"Cost of pledges"                   : ['formatNumber', 'CookieMonster.estimatePledgeCost()'],
