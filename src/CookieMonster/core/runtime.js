@@ -19,8 +19,8 @@ CookieMonster.runningInLocal = function() {
  */
 CookieMonster.shouldRun = function() {
 	// Check if we're in Cookie Clicker
-	if (document.title.indexOf('Cookie Clicker') === -1 || this.$game.length === 0) {
-		return this.displayError('These aren\'t the droids you\'re looking for.');
+	if ((document.title.indexOf('Cookie Clicker') === -1 && document.title.indexOf('Cookie Baker') === -1) || this.$game.length === 0) {
+		return this.displayError('These aren\'t the droids you\'re looking for.  Cookie Monster needs to be loaded into Cookie Clicker, and the page you are on doesn\'t seem to be Cookie Clicker.');
 	}
 
 	// Cancel if already loaded
