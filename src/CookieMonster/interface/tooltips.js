@@ -105,6 +105,12 @@ CookieMonster.updateTooltip = function(object, colors) {
 	}
 
 	this.tooltipLastObjectId = identifier;
+
+        //Set 'desc' to the recently updated tooltip HTML
+        //Required because getDynamicTooltip in Orteil's code will replace CookieMonster tooltip HTML
+        //when refreshing Orteil's tooltip. Orteil updates his tooltip with the 'desc' value
+        object.desc = $('#tooltipAnchor .description').html();
+
 };
 
 //////////////////////////////////////////////////////////////////////
