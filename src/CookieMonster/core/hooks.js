@@ -141,7 +141,7 @@ CookieMonster.buildList = function(title, list, callback, visibilities) {
  */
 CookieMonster.appendToNative = function(native, append) {
 	return function() {
-		native.apply(null, arguments);
+		native.apply(this, arguments);
 		append.apply(CookieMonster);
 	};
 };
