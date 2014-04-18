@@ -121,7 +121,7 @@ CookieMonster.setupTooltips = function() {
 
 	// Rebuild game elements
 	Game.RebuildUpgrades();
-	Game.RebuildStore();
+	Game.RefreshStore();
 };
 
 /**

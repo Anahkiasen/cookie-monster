@@ -28,7 +28,7 @@ CookieMonster.hookIntoNative = function() {
 
 	// Refresh tooltips on store rebuild
 	Game.tooltip.draw = this.appendToNative(Game.tooltip.draw, CookieMonster.updateTooltips);
-	Game.RebuildStore = this.appendToNative(Game.RebuildStore, CookieMonster.updateTooltips);
+	Game.RefreshStore = this.appendToNative(Game.RefreshStore, CookieMonster.updateTooltips);
 
 	// Make tooltip stay on screen, if possible
 	Game.tooltip.update = this.appendToNative(Game.tooltip.update, CookieMonster.controlTooltipPosition);
