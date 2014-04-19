@@ -33,6 +33,14 @@ CookieMonster.hookIntoNative = function() {
 	// Make tooltip stay on screen, if possible
 	Game.tooltip.update = this.appendToNative(Game.tooltip.update, CookieMonster.controlTooltipPosition);
 
+	// Loop through buildings, append code to each of their tooltip functions
+	// While we're at it, explicitly give building a cmType of "building" for easier tooltip filtering later
+	for (var i in Game.Objects)
+	{
+		Game.Objects[i].tooltip = this.appendToNativeBuildingTooltip(Game.Objects[i].tooltip, CookieMonster.modifyDynamicTooltip);
+		Game.Objects[i].cmType = "building";
+	}
+
 	// Swap out the original Beautify for ours
 	Beautify = this.formatNumber;
 	this.replaceNative('Draw', {
@@ -143,6 +151,23 @@ CookieMonster.appendToNative = function(native, append) {
 	return function() {
 		native.apply(this, arguments);
 		append.apply(CookieMonster);
+	};
+};
+
+/**
+ * Append a piece of code to native building tooltip function "Game.Object.tooltip".
+ * Grabs the dynamic tooltip string, adds it to CM object, calls CM function,  and returns modified tooltip string.
+ *
+ * @param {String}  native
+ * @param {Closure} append
+ *
+ * @return {String}
+ */
+CookieMonster.appendToNativeBuildingTooltip = function(native, append) {
+	return function() {
+		CookieMonster.nativeReturn = native.apply(this, arguments);
+		return append.apply(CookieMonster, [this]);
+
 	};
 };
 
