@@ -156,7 +156,7 @@ CookieMonster.appendToNative = function(native, append) {
 
 /**
  * Append a piece of code to native building tooltip function "Game.Object.tooltip".
- * Grabs the dynamic tooltip string, adds it to CM object, calls CM function,  and returns modified tooltip string.
+ * Grabs the dynamic tooltip string, passes this and tooltip string to CM function, and returns modified tooltip string.
  *
  * @param {String}  native
  * @param {Closure} append
@@ -165,8 +165,8 @@ CookieMonster.appendToNative = function(native, append) {
  */
 CookieMonster.appendToNativeBuildingTooltip = function(native, append) {
 	return function() {
-		CookieMonster.nativeReturn = native.apply(this, arguments);
-		return append.apply(CookieMonster, [this]);
+		var nativeReturn = native.apply(this, arguments);
+		return append.apply(CookieMonster, [this, nativeReturn]);
 
 	};
 };

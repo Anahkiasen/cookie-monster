@@ -206,10 +206,10 @@ CookieMonster.controlTooltipPosition = function() {
  *
  * @return {String}
  */
-CookieMonster.modifyDynamicTooltip = function(object) {
+CookieMonster.modifyDynamicTooltip = function(object, dynamicTooltip) {
 	var identifier    = object.identifier();
 	var deficits      = this.getLuckyAlerts(object);
-	var tooltipString = this.nativeReturn;
+	var tooltipString = dynamicTooltip;
 
 	// Compute and display deficits
 	var timeLefts = deficits.map(this.getTimeForCookies, this).map(this.formatCompressedTime, this);
