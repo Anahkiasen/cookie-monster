@@ -17,8 +17,18 @@ CookieMonster.makeTooltip = function(object) {
 			'<div class="cm-tooltip__image" id="' +identifier+ 'lucky_div_warning" style="background:url(' +this.getImage('warning')+ ');"></div>'+
 			'<div class="cm-tooltip__image" id="' +identifier+ 'lucky_div_caution" style="background:url(' +this.getImage('caution')+ ');"></div>'+
 		'</div>'+
-		'<div class="cm-tooltip__contents" id="' +identifier+ '"></div>'+
-		'<div class="cm-tooltip__warnings" id="' +identifier+ 'note_div">'+
+		'<div class="cm-tooltip__contents" id="' +identifier+ '"></div>';
+	/**
+	 * If the object is an upgrade or a cookie upgrade (basically, anything with a static tooltip), 
+	 * then add this Notes html code to the 'object.desc'
+	 *
+	 * We don't want to add this html to building objects because the Clicker code dynamically generates building tooltips
+	 * by appending dynamic tooltip stats to the object.desc value. This causes the Notes to be drawn on top of
+	 * dynamic tooltip stats instead of below them. The appending of Notes to the bottom of the 'tooltip' div is accomplished
+	 * at the time of dynamic tooltip generation in the modifyDynamicTooltip function.
+	 */
+	if(typeof object.cmType === 'undefined' || object.cmType !== 'building' ) {
+		object.desc += '<div class="cm-tooltip__warnings" id="' +identifier+ 'note_div">'+
 			'<div id="' +identifier+ 'note_div_warning" class="cm-tooltip__warning border-red">'+
 				'<strong class="text-red">Warning:</strong> ' +this.texts.warning+ '<br>'+
 				'<span id="' +identifier+ 'warning_amount"></span>'+
@@ -28,6 +38,7 @@ CookieMonster.makeTooltip = function(object) {
 				'<span id="' +identifier+ 'caution_amount"></span>'+
 			'</div>'+
 		'</div>';
+	}
 
 	// Update store
 	Game.RebuildUpgrades();
@@ -105,6 +116,12 @@ CookieMonster.updateTooltip = function(object, colors) {
 	}
 
 	this.tooltipLastObjectId = identifier;
+
+        //Set 'desc' to the recently updated tooltip HTML
+        //Required because getDynamicTooltip in Orteil's code will replace CookieMonster tooltip HTML
+        //when refreshing Orteil's tooltip. Orteil updates his tooltip with the 'desc' value
+        object.desc = $('#tooltipAnchor .description').html();
+
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -121,7 +138,7 @@ CookieMonster.setupTooltips = function() {
 
 	// Rebuild game elements
 	Game.RebuildUpgrades();
-	Game.RebuildStore();
+	Game.RefreshStore();
 };
 
 /**
@@ -180,6 +197,39 @@ CookieMonster.controlTooltipPosition = function() {
 		top: yMax,
 		left: Game.mouseX
 	});
+};
+
+/**
+ * Append Warning and Caution notes to dynamic tooltip string
+ *
+ * @param {Object} object
+ *
+ * @return {String}
+ */
+CookieMonster.modifyDynamicTooltip = function(object, dynamicTooltip) {
+	var identifier    = object.identifier();
+	var deficits      = this.getLuckyAlerts(object);
+	var tooltipString = dynamicTooltip;
+
+	// Compute and display deficits
+	var timeLefts = deficits.map(this.getTimeForCookies, this).map(this.formatCompressedTime, this);
+
+	// Show or hide Warning and Caution notes based on deficit values
+	var toggleNoteDivWarning = deficits[0] > 0 ? '' : 'style="display: none"';
+	var toggleNoteDivCaution = deficits[1] > 0 ? '' : 'style="display: none"';
+
+	tooltipString += '<div class="cm-tooltip__warnings" id="' +identifier+ 'note_div">'+
+		'<div id="' +identifier+ 'note_div_warning" class="cm-tooltip__warning border-red" ' +toggleNoteDivWarning+ '>'+
+			'<strong class="text-red">Warning:</strong> ' +this.texts.warning+ '<br>'+
+			'<span id="' +identifier+ 'warning_amount">Deficit: ' + this.formatNumber(deficits[0]) + ' (' +timeLefts[0]+ ')</span>'+
+		'</div>'+
+		'<div id="' +identifier+ 'note_div_caution" class="cm-tooltip__warning border-yellow" '+toggleNoteDivCaution+'>'+
+			'<strong class="text-yellow">Caution:</strong> ' +this.texts.warning+ ' (Frenzy)<br>'+
+			'<span id="' +identifier+ 'caution_amount">Deficit: ' + this.formatNumber(deficits[1]) + ' (' +timeLefts[1]+ ')</span>'+
+		'</div>'+
+	'</div>';
+	
+	return tooltipString;	
 };
 
 //////////////////////////////////////////////////////////////////////

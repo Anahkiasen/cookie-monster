@@ -162,7 +162,7 @@ CookieMonster.toggleOption = function(option) {
 			this.updateUpgradeDisplay();
 			break;
 		case 'ShortNumbers':
-			Game.RebuildStore();
+			Game.RefreshStore();
 			Game.RebuildUpgrades();
 			this.updateTable();
 			break;

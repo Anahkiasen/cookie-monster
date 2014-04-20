@@ -26,7 +26,7 @@ CookieMonster.start = function() {
 
 	// Start the loop
 	this.mainLoop();
-	Game.RebuildStore();
+	Game.RefreshStore();
 
 	Game.Popup('<span class="cm-popup">Cookie Monster ' + this.version + ' Loaded!</span>');
 };
