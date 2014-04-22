@@ -10,3 +10,7 @@ dist/cookie-monster.js
 .sass-cache
 npm-debug.log
 README.wiki
+
+# Vim swap/backup files
+*.*~
+*.*.swp

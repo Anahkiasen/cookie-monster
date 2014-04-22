@@ -54,7 +54,7 @@ module.exports = function(grunt) {
 	////////////////////////////////////////////////////////////////////
 
 	grunt.registerTask('default', 'Build assets for local', [
-		'css', 'js',
+		'css', 'js', 'connect', 'watch',
 	]);
 
 	grunt.registerTask('test', 'Run the tests', [
