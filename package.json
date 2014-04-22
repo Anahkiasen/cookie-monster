@@ -20,14 +20,14 @@
     "grunt-contrib-jshint": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
-    "grunt-contrib-watch": "*",
     "grunt-csscss": "*",
     "grunt-mocha-test": "*",
     "grunt-tinypng": "*",
     "jquery": "*",
     "jsdom": "*",
     "load-grunt-tasks": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "grunt-contrib-connect": "~0.7.1"
   },
   "scripts": {
     "test": "./node_modules/.bin/grunt test"

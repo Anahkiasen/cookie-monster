@@ -14,6 +14,6 @@ module.exports = {
 	},
 	scripts: {
 		files: ['<%= paths.original.js %>/**/*', '<%= tests %>/**/**/*.js'],
-		tasks: ['js', 'uglify'],
+		tasks: ['js'],
 	},
 };
