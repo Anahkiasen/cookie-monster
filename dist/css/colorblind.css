@@ -137,7 +137,6 @@ strong {
 #cookie-monster__bottom-bar {
   background-color: #262224;
   background-image: -moz-linear-gradient(top, #4d4548, #000000);
-  background-image: -o-linear-gradient(top, #4d4548, #000000);
   background-image: -webkit-linear-gradient(top, #4d4548, #000000);
   background-image: linear-gradient(to bottom, #4d4548, #000000);
   border-top: 1px solid black;
