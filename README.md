@@ -69,7 +69,7 @@ If (for some reason) the above doesn't work, trying pasting everything after the
 
 ### Userscript
 
-If you'd rather use the plugin as a script via per example _Greasemonkey_ or _Tampermonkey_, you can use the following script, which will automatically load _Cookie Monster_ every time the original game loads.
+If you'd rather use the plugin as a script via, for example, _Greasemonkey_ or _Tampermonkey_, you can use the following script, which will automatically load _Cookie Monster_ every time the original game loads.
 You may need to specify `http://orteil.dashnet.org/cookieclicker/` when asked for a _namespace_ or _Includes_. For how to add an userscript to your browser, refer to your browser/plugin's documentation as the method changes for each one.
 
 ```js
@@ -105,19 +105,19 @@ All suggestions are welcome, even the smallest ones.
 
 ## Contributing
 
-All edits need to be make to the [develop branch](https://github.com/Anahkiasen/cookie-monster/tree/develop), that's where the latest version of the code is.
+All edits must be made to the [develop branch](https://github.com/Anahkiasen/cookie-monster/tree/develop), that's where the latest version of the code is.
 
 To contribute to the project, you'll find the files you want to edit in `src/`, split by what the methods are related to. If you're not familiar with [Git](http://git-scm.com/), the simplest way to contribute is to go into a file, click the _Edit_ button at the top, edit the code, and click on **"Propose file change"**.
 
 ### Setup the repository
 
-If you do are familiar with git, simply click the **"Fork"** button at the top of the page. You'll be redirected to your fork of the repository, copy its address in the right side bar. Then clone the repository and install the dependencies :
+If you are familiar with git, simply click the **"Fork"** button at the top of the page. You'll be redirected to your fork of the repository. Copy its address in the right side bar. Then clone the repository and install the dependencies :
 
     git clone https://github.com/YOURNAME/cookie-monster.git
     cd cookie-monster
     npm install
 
-You'll need NPM for that, if you don't have it, you can find a one-click installer on [NodeJS's website](http://nodejs.org/) or if you're more familiar with development and have per example Homebrew, you can just do `brew install node`.
+You'll need NPM for that. If you don't have it, you can find a one-click installer on [NodeJS's website](http://nodejs.org/) or if you're more familiar with development and have, for example, Homebrew, you can just do `brew install node`.
 
 ### Editing
 
