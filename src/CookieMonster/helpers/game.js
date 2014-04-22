@@ -36,7 +36,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 		seasonUses       : Game.seasonUses,
 		achievements     : Game.Achievements,
 		achievementsOwned : Game.AchievementsOwned,
-		storeToRebuild   : Game.storeToRebuild,
+		storeToRefresh   : Game.storeToRefresh,
 		upgradesToRebuild : Game.upgradesToRebuild,
 	};
 
@@ -75,7 +75,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	Game.seasonUses       = stored.seasonUses;
 	Game.Achievements     = stored.achievements;
 	Game.AchievementsOwned = stored.achievementsOwned;
-	Game.storeToRebuild   = stored.storeToRebuild;
+	Game.storeToRefresh   = stored.storeToRefresh;
 	Game.upgradesToRebuild = stored.upgradesToRebuild;
 	
 	// Restore native methods
