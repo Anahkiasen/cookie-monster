@@ -4,7 +4,7 @@ git commit -am "Rebuild files"
 git push origin develop
 
 # Deploy to develop
-ssh digitalocean <<'ENDSSH'
+ssh Autopergamene/Autopergamene <<'ENDSSH'
 cd /home/www/cookie-monster-dev
 git pull
 ENDSSH
@@ -15,7 +15,7 @@ git merge develop
 git push origin master
 
 # Deploy to master
-ssh digitalocean <<'ENDSSH'
+ssh Autopergamene/Autopergamene <<'ENDSSH'
 cd /home/www/cookie-monster
 git pull
 ENDSSH
