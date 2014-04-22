@@ -21,6 +21,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 		CollectWrinklers : Game.CollectWrinklers,
 		computeSeasonPrices : Game.computeSeasonPrices,
 		UpdateMenu  : Game.UpdateMenu,
+		seasonPopupReset : Game.seasonPopup.reset,
 	};
 	var stored = {
 		cpsSucked        : Game.cpsSucked,
@@ -47,6 +48,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	Game.computeSeasonPrices = function() {};
 	Game.NewDrawFunction = function() {};
 	Game.UpdateMenu  = function() {};
+	Game.seasonPopup.reset = function() {};
 
 	// Simulate buy and store result
 	////////////////////////////////////////////////////////////////////
@@ -85,6 +87,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	Game.computeSeasonPrices = swaped.computeSeasonPrices;
 	Game.NewDrawFunction = swaped.Draw;
 	Game.UpdateMenu  = swaped.UpdateMenu;
+	Game.seasonPopup.reset = swaped.seasonPopupReset;
 	
 	return income - Game[statistic];
 };
