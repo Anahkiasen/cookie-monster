@@ -113,12 +113,17 @@ To contribute to the project, you'll find the files you want to edit in `src/`, 
 
 If you are familiar with git, simply click the **"Fork"** button at the top of the page. You'll be redirected to your fork of the repository. Copy its address in the right side bar. Then clone the repository and install the dependencies :
 
+    # Clone repository
     git clone https://github.com/YOURNAME/cookie-monster.git
     cd cookie-monster
-    npm install
 
-You'll need NPM for that, if you don't have it, you can find a one-click installer on [NodeJS's website](http://nodejs.org/) or if you're more familiar with development and have per example Homebrew, you can just do `brew install node` or on a Linux distrobution such as Ubuntu, `apt-get install npm nodejs-legacy` or equivalent. Other dependencies (as named on Ubuntu 13.10) include `ruby2.0` and `ruby2.0-dev`, and once that is installed, run `gem install compass sass-globbing --pre`.
->>>>>>> 84cf1c58c293b40b0099af11515677468c809981
+    # Install dependencies
+    npm install
+    bundle install
+
+You'll need NPM for that, if you don't have it, you can find a one-click installer on [NodeJS's website](http://nodejs.org/) or if you're more familiar with development and have per example Homebrew, you can just do `brew install node` or on a Linux distrobution such as Ubuntu, `apt-get install npm nodejs-legacy` or equivalent. Other dependencies (as named on Ubuntu 13.10) include `ruby2.0` and `ruby2.0-dev`.
+
+If you don't have `bundle` run `gem install bundler`.
 
 ### Editing
 
