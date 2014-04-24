@@ -54,6 +54,13 @@ CookieObject.buyable = function() {
  * @return {Boolean}
  */
 CookieObject.isInStore = function() {
+	// This line added to account for upgrades that trigger a storeRefresh(which is usually triggered by building purchases).
+	// Upgrades like 'Season savings' and 'Santa's dominion' reduce building costs and trigger a storeRefresh
+	// which triggers a simulateBuy before Cookie Clicker code has removed the upgrade from the store. The simulateBuy
+	// resets the upgrade's bought variable back to 0 so it stays in the store when upgrades are rebuilt.
+	// This line prevents simulateBuy from being executed for upgrades where bought=1.
+	if(this.cmType === 'upgrade' && this.bought > 0) { return false; }
+
 	return Game.UpgradesInStore.indexOf(this) !== -1;
 };
 
