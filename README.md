@@ -33,7 +33,7 @@ Note : for both these indexes, **lower is better**, meaning a building with a BC
 
 ### What it doesn't do
 
-Most likely you'll find items in purple like Golden Cookie upgrades, clicking upgrades – everything that doesn't earn you a direct bonus to your income will display as purple.
+Most likely you'll find items in grey like Golden Cookie upgrades, clicking upgrades – everything that doesn't earn you a direct bonus to your income will display as grey.
 This means the following upgrades are **not** taken into account by Cookie Monster :
 
 * Plastic mouse
@@ -98,7 +98,7 @@ Game.Init = function() {
 
 Any bug or suggestion should be **opened as an issue** [in the repository](https://github.com/Anahkiasen/cookie-monster/issues) for easier tracking. This allows me to close issues once they're fixed.
 
-Before submitting a bug, make sure to give a shot at the latest version of the plugin on the `develop` branch. For this, simply replace `master` by `develop` in the bookmarklet above.
+Before submitting a bug, make sure to give a shot at the latest version of the plugin on the `develop` branch. For this, simply replace `http://cookie-monster` by `http://dev.cookie-monster` in the bookmarklet above.
 If the bug is still here, you can submit an issue for it.
 
 All suggestions are welcome, even the smallest ones.
@@ -117,7 +117,8 @@ If you are familiar with git, simply click the **"Fork"** button at the top of t
     cd cookie-monster
     npm install
 
-You'll need NPM for that. If you don't have it, you can find a one-click installer on [NodeJS's website](http://nodejs.org/) or if you're more familiar with development and have, for example, Homebrew, you can just do `brew install node`.
+You'll need NPM for that, if you don't have it, you can find a one-click installer on [NodeJS's website](http://nodejs.org/) or if you're more familiar with development and have per example Homebrew, you can just do `brew install node` or on a Linux distrobution such as Ubuntu, `apt-get install npm nodejs-legacy` or equivalent. Other dependencies (as named on Ubuntu 13.10) include `ruby2.0` and `ruby2.0-dev`, and once that is installed, run `gem install compass sass-globbing --pre`.
+>>>>>>> 84cf1c58c293b40b0099af11515677468c809981
 
 ### Editing
 
@@ -130,9 +131,20 @@ Then rebuild the assets by running Grunt :
     ./node_modules/.bin/bower install
     ./node_modules/.bin/grunt
 
+Test your changes by hosting a local http server with the contents of the dist directory and using a modified bookmarklet such as
+
+```js
+javascript: (function () {
+  var jA = document.createElement('script');
+  jA.setAttribute('type', 'text/javascript');
+  jA.setAttribute('src', 'http://localhost:8000/cookie-monster.min.js?' + new Date().getTime());
+  document.body.appendChild(jA);
+}());
+```
+
 Next you can commit your changes and push :
 
-    git commit -am "Edited some stuff"
+    git commit -m "Edited some stuff" src
     git push origin master
 
 Once that is done, go back on Github where your fork is, and create a pull request from there.
