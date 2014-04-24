@@ -54,7 +54,11 @@ module.exports = function(grunt) {
 	////////////////////////////////////////////////////////////////////
 
 	grunt.registerTask('default', 'Build assets for local', [
-		'css', 'js', 'connect', 'watch',
+		'css', 'js',
+	]);
+
+	grunt.registerTask('work', 'Start work on Cookie Monster', [
+		'default', 'connect', 'watch',
 	]);
 
 	grunt.registerTask('test', 'Run the tests', [
