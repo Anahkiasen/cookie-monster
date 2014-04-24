@@ -41,6 +41,11 @@ CookieMonster.hookIntoNative = function() {
 		Game.Objects[i].cmType = "building";
 	}
 
+	//Add type for easier filtering later
+	for (i in Game.Upgrades) {
+		Game.Upgrades[i].cmType = "upgrade";
+	}
+
 	// Swap out the original Beautify for ours
 	Beautify = this.formatNumber;
 	this.replaceNative('Draw', {
