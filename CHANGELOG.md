@@ -1,3 +1,9 @@
+## 1.045 Versions
+
+### 1.045.01 _(2014-04-24)_
+
+* Bugfixes, bugfixes everywhere
+
 ## 1.041 Versions
 
 ### 1.041.03 _(2014-02-21)_
