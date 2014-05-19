@@ -15,6 +15,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	var swaped = {
 		SetResearch : Game.SetResearch,
 		Popup       : Game.Popup,
+		Notify      : Game.Notify,
 		Draw        : Game.NewDrawFunction,
 		Lock        : Game.Lock,
 		Unlock      : Game.Unlock,
@@ -22,6 +23,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 		computeSeasonPrices : Game.computeSeasonPrices,
 		UpdateMenu  : Game.UpdateMenu,
 		seasonPopupReset : Game.seasonPopup.reset,
+		grandmaRedraw    : Game.Objects['Grandma'].redraw,
 	};
 	var stored = {
 		cpsSucked        : Game.cpsSucked,
@@ -42,6 +44,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 
 	Game.SetResearch = function() {};
 	Game.Popup       = function() {};
+	Game.Notify      = function() {};
 	Game.Lock        = function() {};
 	Game.Unlock      = function() {};
 	Game.CollectWrinklers = function() {};
@@ -49,6 +52,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	Game.NewDrawFunction = function() {};
 	Game.UpdateMenu  = function() {};
 	Game.seasonPopup.reset = function() {};
+	Game.Objects['Grandma'].redraw = function() {};
 
 	// Simulate buy and store result
 	////////////////////////////////////////////////////////////////////
@@ -81,6 +85,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	// Restore native methods
 	Game.SetResearch = swaped.SetResearch;
 	Game.Popup       = swaped.Popup;
+	Game.Notify      = swaped.Notify;
 	Game.Lock        = swaped.Lock;
 	Game.Unlock      = swaped.Unlock;
 	Game.CollectWrinklers = swaped.CollectWrinklers;
@@ -88,6 +93,7 @@ CookieMonster.simulateBuy = function(object, statistic) {
 	Game.NewDrawFunction = swaped.Draw;
 	Game.UpdateMenu  = swaped.UpdateMenu;
 	Game.seasonPopup.reset = swaped.seasonPopupReset;
+	Game.Objects['Grandma'].redraw = swaped.grandmaRedraw;
 	
 	return income - Game[statistic];
 };
