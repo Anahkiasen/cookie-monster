@@ -17,7 +17,7 @@ var CookieMonster = {
 	// Runtime variables
 	////////////////////////////////////////////////////////////////////
 
-	version : '1.046.01',
+	version : '1.046.02',
 
 	domain : 'http://cookie-monster.autopergamene.eu',
 
