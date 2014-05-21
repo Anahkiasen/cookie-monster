@@ -8,6 +8,13 @@
  */
 CookieMonster.simulateBuy = function(object, statistic) {
 
+	// Don't simulateBuy the Chocolate egg because it doesn't add Cps, and
+	// it adds cookies to the bank during each simulation which causes the bank to increase rapidly
+	if (object.name === 'Chocolate egg'){
+		return 0; //Adds zero cookies per second
+	}
+	
+
 	// Store initial state
 	////////////////////////////////////////////////////////////////////
 
