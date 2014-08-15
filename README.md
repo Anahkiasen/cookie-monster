@@ -1,3 +1,7 @@
+# This project is not maintained anymore
+
+If you want to fork it and continue the legacy, you can, but I just recommend to switch to [CookieMaster](https://github.com/greenc/CookieMaster) which now greatly surpasses Cookie Monster in terms of UI and features.
+
 # Cookie Monster [![Build Status](https://travis-ci.org/Anahkiasen/cookie-monster.png?branch=master)](https://travis-ci.org/Anahkiasen/cookie-monster)
 
 Cookie Monster is a plugin you can load into Cookie Clicker, that offers a wide range of tools and statistics to enhance the game.
